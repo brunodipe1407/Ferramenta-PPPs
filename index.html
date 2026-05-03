@@ -1,0 +1,3197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferramentas de Análise PPP — CAGE-RS / SEFAZ-RS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   GTSEFAZ — Ferramentas de Análise PPP · CAGE-RS / SEFAZ-RS
+   Shell consolidado · v1.1
+   Paleta canônica: variáveis --cage-* (compartilhadas com módulos)
+══════════════════════════════════════════════════════════ */
+:root {
+  /* ── Paleta institucional CAGE/SEFAZ-RS (canônica) ── */
+  --cage-navy:    #0A4D44;   /* teal-darker — barras escuras    */
+  --cage-blue:    #0F6B5E;   /* teal-dark   — sub-barras        */
+  --cage-mid:     #1F8B7C;   /* teal        — botões primários  */
+  --cage-sky:     #2EB6A5;   /* teal-light  — acentos / status  */
+  --cage-light:   #D1F0EB;   /* teal-xlight — fundos suaves     */
+  --cage-azul:    #1B4F8A;   /* azul institucional (logo CAGE)  */
+
+  /* ── Neutros ── */
+  --cinza-header: #EAEAEA;
+  --cinza-suave:  #F5F5F5;
+  --bg-card:      #FFFFFF;
+  --ink:          #1A1A1A;
+  --ink-soft:     #4A4A4A;
+  --ink-muted:    #6B7280;
+  --rule:         #D9D9D9;
+  --rule-soft:    #E8E8E8;
+
+  /* ── Semafóricos (uso restrito a riscos/validações) ── */
+  --rs-vermelho:  #8B1A1A;
+  --rs-ambar:     #B45309;
+  --rs-verde:     #15803D;
+  --rs-verde-vivo:#86EFAC;   /* indicador "salvo" sobre fundo escuro */
+
+  /* ── Alturas (chrome reduzido) ── */
+  --header-h:  56px;
+  --modtab-h:  44px;
+  --subtab-h:  38px;
+  --status-h:  28px;
+
+  /* ── Tipografia ── */
+  --slab: 'Roboto Slab', Georgia, serif;
+  --sans: 'Source Sans 3', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── Tokens visuais ── */
+  --radius:     6px;
+  --radius-sm:  4px;
+  --shadow:     0 2px 8px rgba(10,77,68,.10);
+  --shadow-md:  0 4px 16px rgba(10,77,68,.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--cinza-suave);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══ HEADER ══ */
+.app-header {
+  height: var(--header-h);
+  background: var(--cinza-header);
+  border-bottom: 3px solid var(--cage-mid);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 14px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+  z-index: 200;
+}
+
+/* ── Logo CAGE (placeholder tipográfico até receber arquivo de imagem) ── */
+.logo-cage {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-shrink: 0;
+  height: 38px;
+  background: #fff;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--rule-soft);
+  box-sizing: border-box;
+}
+.logo-cage-mark {
+  font-family: var(--slab);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cage-azul);
+  letter-spacing: .5px;
+  line-height: 38px;
+}
+.logo-cage-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  color: var(--cage-mid);
+  line-height: 38px;
+}
+.logo-cage img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+/* ── Divisor entre logos ── */
+.header-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--rule);
+  flex-shrink: 0;
+}
+
+/* ── Brasão SEFAZ/RS (placeholder tipográfico até receber arquivo) ── */
+.logo-sefaz {
+  background: var(--cage-blue);
+  border-radius: var(--radius-sm);
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(15,107,94,.2);
+  height: 38px;
+  box-sizing: border-box;
+}
+.logo-sefaz-mark {
+  font-family: var(--slab);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1.2px;
+}
+.logo-sefaz img { height: 28px; width: auto; display: block; }
+.logo-sefaz .fallback {
+  font-family: var(--slab);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1.2px;
+  display: none;
+}
+
+/* ── Títulos ── */
+.header-titles {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.header-main {
+  font-family: var(--slab);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  letter-spacing: -.01em;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.header-sub {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cage-blue);
+}
+
+/* ── Ações do header ── */
+.header-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .15s;
+  height: 32px;
+}
+.hbtn svg { width: 13px; height: 13px; flex-shrink: 0; }
+.hbtn-ghost {
+  background: #fff;
+  color: var(--cage-navy);
+  border-color: var(--rule);
+}
+.hbtn-ghost:hover { background: var(--cage-light); border-color: var(--cage-mid); }
+.hbtn-primary {
+  background: var(--cage-mid);
+  color: #fff;
+  border-color: var(--cage-mid);
+}
+.hbtn-primary:hover { background: var(--cage-blue); }
+.hbtn-danger {
+  background: rgba(139,26,26,.06);
+  color: var(--rs-vermelho);
+  border-color: rgba(139,26,26,.22);
+}
+.hbtn-danger:hover { background: rgba(139,26,26,.12); }
+
+/* ══ MODULE TAB BAR ══ */
+.module-tabs {
+  height: var(--modtab-h);
+  background: var(--cage-navy);
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  z-index: 190;
+}
+.module-tabs::-webkit-scrollbar { display: none; }
+.mod-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,.6);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.mod-tab:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
+.mod-tab.active {
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  border-bottom-color: var(--cage-sky);
+}
+.mod-tab .tab-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  opacity: .6;
+}
+.mod-tab.active .tab-num { opacity: 1; color: var(--cage-sky); }
+.mod-tab svg { width: 15px; height: 15px; flex-shrink: 0; opacity: .6; }
+.mod-tab.active svg { opacity: 1; }
+
+/* ══ SUB-TAB BAR (agora no TOPO, abaixo das module tabs) ══ */
+.subtab-bar {
+  height: var(--subtab-h);
+  background: var(--cage-blue);
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  z-index: 185;
+}
+.subtab-bar::-webkit-scrollbar { display: none; }
+.subtab-bar.hidden { display: none; }
+.sub-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.6);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.sub-tab:hover { background: rgba(255,255,255,.08); color: rgba(255,255,255,.95); }
+.sub-tab.active {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border-bottom-color: var(--cage-sky);
+}
+.sub-tab .snum {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--cage-sky);
+  opacity: .7;
+}
+.sub-tab.active .snum { opacity: 1; }
+
+/* ══ IFRAME CONTENT AREA ══ */
+.content-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--cinza-suave);
+}
+.mod-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: none;
+  background: var(--cinza-suave);
+}
+.mod-frame.active { display: block; }
+
+/* ══ STATUS BAR (enriquecida) ══ */
+.status-bar {
+  height: var(--status-h);
+  background: var(--cage-navy);
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 14px;
+  flex-shrink: 0;
+  z-index: 190;
+}
+.sb-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-family: var(--mono);
+  color: rgba(255,255,255,.55);
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+.sb-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cage-sky);
+  flex-shrink: 0;
+}
+.sb-saved { color: var(--rs-verde-vivo) !important; }
+.sb-saved .sb-dot { background: var(--rs-verde-vivo); }
+.sb-progress {
+  color: rgba(255,255,255,.7);
+}
+.sb-progress strong { color: #fff; font-weight: 600; }
+.sb-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255,255,255,.12);
+  flex-shrink: 0;
+}
+.sb-right {
+  margin-left: auto;
+  font-size: 9.5px;
+  color: rgba(255,255,255,.3);
+  letter-spacing: .05em;
+  font-family: var(--mono);
+}
+.sb-link {
+  color: rgba(255,255,255,.55);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .15s;
+}
+.sb-link:hover { color: var(--cage-sky); }
+
+/* ══ LOADING OVERLAY (variáveis corrigidas) ══ */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--cinza-suave);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+.loading-overlay.hidden { opacity: 0; }
+.loading-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--rule);
+  border-top-color: var(--cage-mid);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* ══ MODULE TAB SPACER (visual gap antes da aba Relatórios) ══ */
+.mod-tab-spacer {
+  flex: 1;
+  min-width: 16px;
+  pointer-events: none;
+}
+.mod-tab-report {
+  background: rgba(255,255,255,.04);
+  border-left: 1px solid rgba(255,255,255,.08);
+}
+.mod-tab-report.active {
+  background: rgba(255,255,255,.12);
+}
+
+/* ══ PAINEL DE RELATÓRIOS (Módulo 5) ══ */
+.report-panel {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background: var(--cinza-suave);
+  overflow: hidden;
+  flex-direction: column;
+}
+.report-panel.active {
+  display: flex;
+}
+.rp-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px 48px;
+}
+.rp-container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* Cabeçalho institucional */
+.rp-header {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, var(--cage-navy) 0%, var(--cage-blue) 100%);
+  color: #fff;
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-md);
+}
+.rp-header-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rp-header-icon svg {
+  width: 26px;
+  height: 26px;
+  color: var(--cage-sky);
+}
+.rp-header-titles { flex: 1; min-width: 0; }
+.rp-header-eyebrow {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--cage-sky);
+  display: block;
+  margin-bottom: 4px;
+}
+.rp-header-title {
+  font-family: var(--slab);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  line-height: 1.2;
+  margin: 0 0 6px;
+}
+.rp-header-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.85);
+  margin: 0;
+  max-width: 70ch;
+}
+
+/* Seções (capa, seleção, exportação) */
+.rp-section {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.rp-section-header {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 22px;
+  background: var(--cinza-header);
+  border-bottom: 1px solid var(--rule);
+}
+.rp-step-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--cage-mid);
+  background: #fff;
+  border: 1.5px solid var(--cage-mid);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.rp-section-title {
+  font-family: var(--slab);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  margin: 0 0 3px;
+  line-height: 1.2;
+}
+.rp-section-sub {
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+.rp-section-body { padding: 22px; }
+
+/* Grid de campos da capa */
+.rp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 18px;
+}
+.rp-field { display: flex; flex-direction: column; gap: 5px; }
+.rp-field-full { grid-column: 1 / -1; }
+.rp-field label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.rp-field input,
+.rp-field textarea {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  transition: border-color .15s, box-shadow .15s;
+  width: 100%;
+}
+.rp-field input:focus,
+.rp-field textarea:focus {
+  outline: none;
+  border-color: var(--cage-mid);
+  box-shadow: 0 0 0 3px rgba(31,139,124,.12);
+}
+.rp-field textarea { resize: vertical; min-height: 60px; }
+
+/* Lista de módulos com checkboxes */
+.rp-modlist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rp-mod-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: #fff;
+  cursor: pointer;
+  transition: all .15s;
+}
+.rp-mod-item:hover {
+  border-color: var(--cage-mid);
+  background: var(--cage-light);
+}
+.rp-mod-item.checked {
+  border-color: var(--cage-mid);
+  background: var(--cage-light);
+}
+.rp-mod-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--rule);
+  border-radius: 4px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.rp-mod-item.checked .rp-mod-checkbox {
+  background: var(--cage-mid);
+  border-color: var(--cage-mid);
+}
+.rp-mod-checkbox svg {
+  width: 14px;
+  height: 14px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.rp-mod-item.checked .rp-mod-checkbox svg { opacity: 1; }
+.rp-mod-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--cage-mid);
+  font-weight: 600;
+  min-width: 28px;
+}
+.rp-mod-info { flex: 1; min-width: 0; }
+.rp-mod-name {
+  font-family: var(--slab);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.rp-mod-desc {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.rp-mod-status {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: var(--rule-soft);
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+.rp-mod-status.loaded {
+  background: rgba(21,128,61,.1);
+  color: var(--rs-verde);
+}
+
+/* Resumo e botão de exportação */
+.rp-summary {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--cinza-header);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--cage-mid);
+}
+.rp-summary strong { color: var(--cage-navy); }
+.rp-btn-export {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--cage-mid);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  box-shadow: 0 2px 8px rgba(31,139,124,.25);
+}
+.rp-btn-export:hover {
+  background: var(--cage-blue);
+  box-shadow: 0 4px 14px rgba(31,139,124,.35);
+}
+.rp-btn-export:disabled {
+  background: var(--rule);
+  color: var(--ink-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.rp-btn-export svg { width: 16px; height: 16px; }
+
+/* Wizard modal */
+.rp-wizard {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rp-wizard.hidden { display: none; }
+.rp-wizard-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,77,68,.5);
+  backdrop-filter: blur(2px);
+}
+.rp-wizard-card {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  width: min(540px, 92vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(10,77,68,.3);
+  overflow: hidden;
+}
+.rp-wizard-header {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  background: var(--cinza-header);
+}
+.rp-wizard-step {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cage-mid);
+  display: block;
+  margin-bottom: 4px;
+}
+.rp-wizard-title {
+  font-family: var(--slab);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  margin: 0;
+  line-height: 1.25;
+  padding-right: 30px;
+}
+.rp-wizard-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s;
+}
+.rp-wizard-close:hover { background: var(--rule); color: var(--ink); }
+.rp-wizard-body {
+  padding: 18px 22px;
+  overflow-y: auto;
+}
+.rp-wizard-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+}
+.rp-wizard-progress {
+  height: 4px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.rp-wizard-progress-fill {
+  height: 100%;
+  background: var(--cage-mid);
+  width: 0%;
+  transition: width .3s ease;
+}
+.rp-wizard-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rp-wiz-step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  background: var(--cinza-header);
+}
+.rp-wiz-step-item.current {
+  background: var(--cage-light);
+  color: var(--cage-navy);
+  font-weight: 600;
+}
+.rp-wiz-step-item.done {
+  color: var(--rs-verde);
+  background: rgba(21,128,61,.08);
+}
+.rp-wiz-step-item.done::before { content: '✓ '; font-weight: 700; }
+.rp-wiz-step-item.current::before { content: '▸ '; color: var(--cage-mid); font-weight: 700; }
+.rp-wiz-step-item.pending::before { content: '○ '; color: var(--ink-muted); }
+.rp-wizard-footer {
+  padding: 14px 22px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  background: var(--cinza-header);
+}
+.rp-wizard-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .15s;
+}
+.rp-wizard-btn-ghost {
+  background: #fff;
+  color: var(--ink-soft);
+  border-color: var(--rule);
+}
+.rp-wizard-btn-ghost:hover { background: var(--rule); }
+.rp-wizard-btn-primary {
+  background: var(--cage-mid);
+  color: #fff;
+  border-color: var(--cage-mid);
+}
+.rp-wizard-btn-primary:hover { background: var(--cage-blue); }
+
+/* Capa imprimível (oculta normalmente) */
+.rp-capa-print {
+  display: none;
+}
+@media print {
+  body.printing-capa .rp-capa-print {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: #fff !important;
+    z-index: 99999 !important;
+    padding: 25mm 22mm !important;
+  }
+  body.printing-capa .app-header,
+  body.printing-capa .module-tabs,
+  body.printing-capa .subtab-bar,
+  body.printing-capa .status-bar,
+  body.printing-capa .content-area,
+  body.printing-capa .rp-wizard {
+    display: none !important;
+  }
+}
+.rp-capa-doc {
+  font-family: var(--slab);
+  color: #1a1a1a;
+  line-height: 1.55;
+  max-width: 165mm;
+  margin: 0 auto;
+}
+.rp-capa-doc-banner {
+  border-top: 4px solid #0A4D44;
+  border-bottom: 1px solid #D9D9D9;
+  padding: 12mm 0 6mm;
+  margin-bottom: 14mm;
+  display: flex;
+  align-items: center;
+  gap: 10mm;
+}
+.rp-capa-doc-banner-meta {
+  flex: 1;
+}
+.rp-capa-doc-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #0F6B5E;
+  display: block;
+  margin-bottom: 4mm;
+}
+.rp-capa-doc-org {
+  font-family: 'Roboto Slab', serif;
+  font-size: 11pt;
+  font-weight: 600;
+  color: #0A4D44;
+}
+.rp-capa-doc-title {
+  font-family: 'Roboto Slab', serif;
+  font-size: 24pt;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: #0A4D44;
+  line-height: 1.15;
+  margin: 14mm 0 6mm;
+}
+.rp-capa-doc-subtitle {
+  font-size: 13pt;
+  font-weight: 400;
+  color: #4A4A4A;
+  margin: 0 0 18mm;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.rp-capa-doc-fields {
+  border-top: 1px solid #D9D9D9;
+  padding-top: 8mm;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6mm 12mm;
+  margin-bottom: 14mm;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.rp-capa-doc-field-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8pt;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #6B7280;
+  margin-bottom: 1mm;
+  display: block;
+}
+.rp-capa-doc-field-value {
+  font-size: 11pt;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+.rp-capa-doc-obs {
+  border-left: 3px solid #1F8B7C;
+  padding: 4mm 6mm;
+  background: #F5F5F5;
+  margin-bottom: 14mm;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 10.5pt;
+  color: #4A4A4A;
+  line-height: 1.55;
+}
+.rp-capa-doc-obs-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8pt;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #6B7280;
+  margin-bottom: 2mm;
+  display: block;
+}
+.rp-capa-doc-toc {
+  border-top: 1px solid #D9D9D9;
+  padding-top: 6mm;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.rp-capa-doc-toc-title {
+  font-family: 'Roboto Slab', serif;
+  font-size: 12pt;
+  font-weight: 600;
+  color: #0A4D44;
+  margin-bottom: 5mm;
+}
+.rp-capa-doc-toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 4mm;
+  padding: 2mm 0;
+  border-bottom: 1px dotted #D9D9D9;
+  font-size: 10.5pt;
+}
+.rp-capa-doc-toc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt;
+  color: #1F8B7C;
+  font-weight: 600;
+  min-width: 16mm;
+}
+.rp-capa-doc-toc-name { flex: 1; color: #1A1A1A; }
+.rp-capa-doc-toc-anexo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt;
+  color: #6B7280;
+}
+.rp-capa-doc-footer {
+  margin-top: 18mm;
+  padding-top: 6mm;
+  border-top: 1px solid #D9D9D9;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5pt;
+  letter-spacing: .1em;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+/* ══ MOD-TAB HOME (variante especial) ══ */
+.mod-tab-home {
+  background: rgba(46, 182, 165, 0.08);
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+.mod-tab-home.active {
+  background: rgba(46, 182, 165, 0.18);
+}
+.mod-tab-home svg {
+  color: var(--cage-sky);
+}
+
+/* ══ HOME PANEL (Módulo 0 — Hub) ══ */
+.home-panel {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background: var(--cinza-suave);
+  overflow: hidden;
+  flex-direction: column;
+}
+.home-panel.active {
+  display: flex;
+}
+.hp-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 32px 48px;
+}
+.hp-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── HERO ── */
+.hp-hero {
+  background: linear-gradient(135deg, var(--cage-navy) 0%, var(--cage-blue) 60%, var(--cage-mid) 100%);
+  border-radius: 12px;
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.hp-hero::before {
+  /* Padrão decorativo sutil */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 90% 20%, rgba(46,182,165,.18) 0%, transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(46,182,165,.10) 0%, transparent 40%);
+  pointer-events: none;
+}
+.hp-hero > * { position: relative; }
+
+/* Hero — estado vazio (CTA) */
+.hp-hero-empty {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 140px;
+}
+.hp-hero-empty-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.hp-hero-empty-icon svg {
+  width: 36px;
+  height: 36px;
+  color: var(--cage-sky);
+}
+.hp-hero-empty-content { flex: 1; }
+.hp-hero-empty-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--cage-sky);
+  display: block;
+  margin-bottom: 6px;
+}
+.hp-hero-empty-title {
+  font-family: var(--slab);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+.hp-hero-empty-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.85);
+  margin: 0 0 16px;
+  max-width: 60ch;
+}
+.hp-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  background: var(--cage-sky);
+  color: var(--cage-navy);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all .15s;
+  box-shadow: 0 2px 8px rgba(46,182,165,.3);
+}
+.hp-hero-cta:hover {
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(46,182,165,.4);
+}
+.hp-hero-cta svg { width: 14px; height: 14px; }
+
+/* Hero — estado preenchido */
+.hp-hero-filled-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--cage-sky);
+  display: block;
+  margin-bottom: 6px;
+}
+.hp-hero-filled-title {
+  font-family: var(--slab);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  margin: 0 0 14px;
+  line-height: 1.15;
+  max-width: 28ch;
+}
+.hp-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-bottom: 4px;
+}
+.hp-hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hp-hero-meta-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+}
+.hp-hero-meta-value {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: #fff;
+  font-weight: 500;
+}
+.hp-hero-edit {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hp-hero-edit:hover {
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.3);
+}
+.hp-hero-edit svg { width: 12px; height: 12px; }
+
+/* ── FORM (colapsável) ── */
+.hp-form {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.hp-form-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 22px;
+  background: var(--cinza-header);
+  border-bottom: 1px solid var(--rule);
+}
+.hp-form-eyebrow {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cage-mid);
+  display: block;
+  margin-bottom: 4px;
+}
+.hp-form-title {
+  font-family: var(--slab);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+.hp-form-desc {
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 70ch;
+}
+.hp-form-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  background: #fff;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.hp-form-toggle:hover {
+  border-color: var(--cage-mid);
+  color: var(--cage-mid);
+}
+.hp-form-toggle svg {
+  width: 14px;
+  height: 14px;
+  transition: transform .2s;
+}
+.hp-form.collapsed .hp-form-toggle svg {
+  transform: rotate(180deg);
+}
+.hp-form-body {
+  padding: 22px;
+}
+.hp-form.collapsed .hp-form-body {
+  display: none;
+}
+.hp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 18px;
+}
+.hp-field { display: flex; flex-direction: column; gap: 5px; }
+.hp-field label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.hp-field input {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  transition: border-color .15s, box-shadow .15s;
+  width: 100%;
+}
+.hp-field input:focus {
+  outline: none;
+  border-color: var(--cage-mid);
+  box-shadow: 0 0 0 3px rgba(31,139,124,.12);
+}
+
+/* ── CONTINUAR DE ONDE PAROU ── */
+.hp-continue {
+  background: var(--bg-card);
+  border: 1px solid var(--cage-mid);
+  border-left-width: 4px;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.hp-continue:hover {
+  background: var(--cage-light);
+  transform: translateX(2px);
+}
+.hp-continue-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--cage-mid);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.hp-continue-icon svg { width: 16px; height: 16px; }
+.hp-continue-info { flex: 1; min-width: 0; }
+.hp-continue-eyebrow {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--cage-mid);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+}
+.hp-continue-name {
+  font-family: var(--slab);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cage-navy);
+}
+.hp-continue-arrow {
+  color: var(--cage-mid);
+  flex-shrink: 0;
+}
+.hp-continue-arrow svg { width: 18px; height: 18px; }
+
+/* ── SEÇÃO DE MÓDULOS ── */
+.hp-section-header {
+  margin-bottom: 16px;
+}
+.hp-section-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--cage-mid);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+.hp-section-title {
+  font-family: var(--slab);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  margin: 0;
+  letter-spacing: -.01em;
+}
+
+/* ── CARDS GRANDES (2x2) ── */
+.hp-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.hp-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  position: relative;
+  overflow: hidden;
+}
+.hp-card::before {
+  /* Acento lateral teal — fica sobre a imagem também */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--cage-mid);
+  opacity: .35;
+  transition: opacity .2s;
+  z-index: 3;
+}
+.hp-card:hover {
+  border-color: var(--cage-mid);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.hp-card:hover::before { opacity: 1; }
+
+/* ── Thumbnail temático no topo do card ── */
+.hp-card-thumb {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  background-color: var(--cage-navy);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.hp-card-thumb::after {
+  /* Overlay gradiente para legibilidade do número e contraste */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 77, 68, 0.45) 0%,
+    rgba(10, 77, 68, 0.20) 50%,
+    rgba(10, 77, 68, 0.55) 100%
+  );
+  transition: background .3s;
+}
+.hp-card:hover .hp-card-thumb::after {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 77, 68, 0.30) 0%,
+    rgba(10, 77, 68, 0.10) 50%,
+    rgba(10, 77, 68, 0.50) 100%
+  );
+}
+.hp-card-thumb-num {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  color: rgba(255, 255, 255, 0.95);
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  background: rgba(46, 182, 165, 0.18);
+  border: 1px solid rgba(46, 182, 165, 0.55);
+  padding: 4px 10px;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+}
+
+/* ── Corpo textual (abaixo do thumbnail) ── */
+.hp-card-body {
+  padding: 18px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.hp-card-title {
+  font-family: var(--slab);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -.005em;
+}
+.hp-card-desc {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.hp-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule-soft);
+}
+.hp-card-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+.hp-card-status.empty {
+  background: var(--rule-soft);
+  color: var(--ink-muted);
+}
+.hp-card-status.in-progress {
+  background: rgba(180, 83, 9, .12);
+  color: var(--rs-ambar);
+}
+.hp-card-status.ready {
+  background: rgba(21, 128, 61, .12);
+  color: var(--rs-verde);
+}
+
+.hp-card-action {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--cage-mid);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: gap .2s;
+}
+.hp-card:hover .hp-card-action { gap: 9px; }
+.hp-card-action svg { width: 13px; height: 13px; }
+
+/* ── CARD DE RELATÓRIOS (destaque, full width) ── */
+.hp-report-card-wrap {
+  margin-bottom: 32px;
+}
+.hp-report-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--cage-sky);
+  border-radius: 10px;
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.hp-report-card:hover {
+  border-color: var(--cage-mid);
+  border-left-color: var(--cage-mid);
+  transform: translateX(2px);
+  box-shadow: var(--shadow);
+}
+.hp-report-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--cage-sky) 0%, var(--cage-mid) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(46,182,165,.3);
+}
+.hp-report-card-icon svg { width: 28px; height: 28px; }
+.hp-report-card-info { flex: 1; min-width: 0; }
+.hp-report-card-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cage-sky);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+.hp-report-card-title {
+  font-family: var(--slab);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cage-navy);
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+.hp-report-card-desc {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 65ch;
+}
+.hp-report-card-arrow {
+  color: var(--cage-mid);
+  flex-shrink: 0;
+}
+.hp-report-card-arrow svg { width: 22px; height: 22px; }
+
+/* ── FOOTER do hub ── */
+.hp-footer {
+  text-align: center;
+  padding: 16px 0 4px;
+}
+.hp-footer-text {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .08em;
+  color: var(--ink-muted);
+}
+.hp-footer kbd {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  padding: 1px 6px;
+  color: var(--cage-navy);
+  font-weight: 600;
+  margin: 0 2px;
+}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 720px) {
+  .rp-grid { grid-template-columns: 1fr; }
+  .rp-scroll { padding: 16px; }
+  .rp-header { flex-direction: column; gap: 12px; padding: 18px 20px; }
+  .rp-section-body { padding: 16px; }
+  /* Hub responsive */
+  .hp-cards { grid-template-columns: 1fr; }
+  .hp-grid { grid-template-columns: 1fr; }
+  .hp-scroll { padding: 18px; }
+  .hp-hero { padding: 22px 20px; }
+  .hp-hero-empty { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .hp-hero-edit { position: static; margin-top: 12px; }
+}
+@media (max-width: 1000px) {
+  .hp-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .header-sub { display: none; }
+}
+@media (max-width: 720px) {
+  .app-header { padding: 0 12px; gap: 10px; }
+  .logo-cage { padding: 3px 6px; }
+  .logo-cage img { height: 24px; }
+  .logo-sefaz img { height: 24px; }
+  .header-main { font-size: 13px; }
+  .hbtn span { display: none; }
+  .hbtn { padding: 6px 10px; }
+  .mod-tab { padding: 0 12px; font-size: 11px; gap: 6px; }
+  .mod-tab svg { display: none; }
+  .header-actions { gap: 4px; }
+  .sb-item:not(.sb-modulo) { display: none; }
+}
+
+/* ══ PRINT ══ */
+@media print {
+  .app-header,
+  .module-tabs,
+  .subtab-bar,
+  .status-bar { display: none !important; }
+  .mod-frame.active {
+    position: static;
+    height: auto;
+    display: block;
+  }
+}
+</style>
+<!-- Padrão visual unificado (sobrescreve estilos divergentes) -->
+<link rel="stylesheet" href="padrao-visual.css">
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="app-header">
+
+  <!-- Logo CAGE (placeholder tipográfico — substituir por <img src="assets/logo-cage.png" ...> quando arquivo estiver disponível) -->
+  <div class="logo-cage" title="Contadoria e Auditoria-Geral do Estado do RS">
+    <span class="logo-cage-mark">CAGE</span>
+    <span class="logo-cage-sub">RS</span>
+  </div>
+
+  <div class="header-divider"></div>
+
+  <!-- Brasão SEFAZ/RS (placeholder tipográfico — substituir por <img src="assets/logo-sefaz.svg" ...> quando arquivo estiver disponível) -->
+  <div class="logo-sefaz" title="Secretaria da Fazenda — Governo do Estado do RS">
+    <span class="logo-sefaz-mark">SEFAZ</span>
+  </div>
+
+  <div class="header-divider"></div>
+
+  <div class="header-titles">
+    <div class="header-main">Ferramentas de Análise PPP</div>
+    <div class="header-sub">GT-PPPs &nbsp;·&nbsp; CAGE/SEFAZ-RS</div>
+  </div>
+
+  <div class="header-actions">
+    <button class="hbtn hbtn-ghost" onclick="salvarAtivo()" title="Salvar rascunho do módulo ativo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      <span>Salvar</span>
+    </button>
+    <button class="hbtn hbtn-primary" onclick="imprimirAtivo()" title="Exportar PDF do módulo ativo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      <span>Exportar PDF</span>
+    </button>
+    <button class="hbtn hbtn-danger" onclick="limparAtivo()" title="Limpar dados do módulo ativo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+      <span>Limpar</span>
+    </button>
+  </div>
+</header>
+
+<!-- ══ MODULE TAB BAR ══ -->
+<nav class="module-tabs" role="tablist" aria-label="Módulos">
+  <button class="mod-tab mod-tab-home active" data-mod="0" onclick="switchModule(0)" role="tab" aria-selected="true" title="Início">
+    <!-- Casa — Hub inicial -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/></svg>
+    <span class="tab-num">00</span>
+    <span>Início</span>
+  </button>
+
+  <button class="mod-tab" data-mod="1" onclick="switchModule(1)" role="tab" aria-selected="false">
+    <!-- Calculadora — PSC/Custo Público -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="12" y1="10" x2="14" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="12" y1="14" x2="14" y2="14"/><line x1="16" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="12" y1="18" x2="16" y2="18"/></svg>
+    <span class="tab-num">01</span>
+    <span>PSC — Custo Público</span>
+  </button>
+  <button class="mod-tab" data-mod="2" onclick="switchModule(2)" role="tab">
+    <!-- Balança — Evidência Comparativa / VfM -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M5 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M19 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M8 21h8"/></svg>
+    <span class="tab-num">02</span>
+    <span>Evidência Comparativa</span>
+  </button>
+  <button class="mod-tab" data-mod="3" onclick="switchModule(3)" role="tab">
+    <!-- Escudo — Riscos -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    <span class="tab-num">03</span>
+    <span>Matriz de Riscos PPP</span>
+  </button>
+  <button class="mod-tab" data-mod="4" onclick="switchModule(4)" role="tab">
+    <!-- Régua/Construção — Precificação de Obras -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
+    <span class="tab-num">04</span>
+    <span>Precificação de Obras</span>
+  </button>
+
+  <!-- Separador visual antes da aba de relatórios -->
+  <div class="mod-tab-spacer" aria-hidden="true"></div>
+
+  <button class="mod-tab mod-tab-report" data-mod="5" onclick="switchModule(5)" role="tab">
+    <!-- Documento — Relatórios consolidados -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    <span class="tab-num">05</span>
+    <span>Relatórios</span>
+  </button>
+</nav>
+
+<!-- ══ SUB-TAB BAR (no topo, abaixo das module tabs) ══ -->
+<nav class="subtab-bar" id="subtabBar" aria-label="Seções do módulo">
+  <!-- Preenchido por JS conforme módulo ativo -->
+</nav>
+
+<!-- ══ CONTENT AREA ══ -->
+<div class="content-area" id="contentArea">
+
+  <!-- ════════════ HUB INICIAL (Módulo 0) ════════════ -->
+  <div class="home-panel active" id="homePanel" role="tabpanel" aria-label="Hub inicial">
+    <div class="hp-scroll">
+      <div class="hp-container">
+
+        <!-- HERO — identidade do projeto -->
+        <section class="hp-hero" id="hpHero">
+          <!-- Renderizado dinamicamente: estado vazio ou estado preenchido -->
+        </section>
+
+        <!-- FORMULÁRIO DE IDENTIFICAÇÃO (colapsável) -->
+        <section class="hp-form" id="hpForm" hidden>
+          <header class="hp-form-header">
+            <div>
+              <span class="hp-form-eyebrow">Identificação do projeto</span>
+              <h2 class="hp-form-title">Dados centrais do parecer</h2>
+              <p class="hp-form-desc">Estes dados alimentam todos os módulos. Preencha aqui uma vez — você não precisa repetir em cada análise.</p>
+            </div>
+            <button class="hp-form-toggle" onclick="toggleHomeForm()" type="button" aria-label="Recolher formulário">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+            </button>
+          </header>
+          <div class="hp-form-body">
+            <div class="hp-grid">
+              <div class="hp-field">
+                <label for="hpProjeto">Nome / Identificação do Projeto</label>
+                <input type="text" id="hpProjeto" placeholder="Ex.: Concessão Administrativa do CAFF">
+              </div>
+              <div class="hp-field">
+                <label for="hpOrgao">Órgão / Secretaria Responsável</label>
+                <input type="text" id="hpOrgao" placeholder="Ex.: Secretaria de Logística e Transportes — SELT/RS">
+              </div>
+              <div class="hp-field">
+                <label for="hpPeriodo">Período de Referência</label>
+                <input type="text" id="hpPeriodo" placeholder="Ex.: 2026">
+              </div>
+              <div class="hp-field">
+                <label for="hpProa">Nº do Processo (PROA / SEI)</label>
+                <input type="text" id="hpProa" placeholder="Ex.: 23/0500-0001234-5">
+              </div>
+              <div class="hp-field">
+                <label for="hpResp">Responsável Técnico</label>
+                <input type="text" id="hpResp" placeholder="Nome, cargo e matrícula">
+              </div>
+              <div class="hp-field">
+                <label for="hpData">Data de Emissão</label>
+                <input type="date" id="hpData">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTINUAR DE ONDE PAROU -->
+        <section class="hp-continue" id="hpContinue" hidden>
+          <!-- Renderizado dinamicamente quando há módulo recente -->
+        </section>
+
+        <!-- CARDS DOS MÓDULOS -->
+        <section class="hp-modules">
+          <header class="hp-section-header">
+            <span class="hp-section-eyebrow">Módulos de análise</span>
+            <h2 class="hp-section-title">Ferramentas disponíveis</h2>
+          </header>
+          <div class="hp-cards" id="hpCards">
+            <!-- Preenchido por JS -->
+          </div>
+        </section>
+
+        <!-- CARD DE RELATÓRIOS (destaque) -->
+        <section class="hp-report-card-wrap">
+          <div class="hp-report-card" onclick="switchModule(5)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')switchModule(5)">
+            <div class="hp-report-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="hp-report-card-info">
+              <span class="hp-report-card-eyebrow">05 · Relatórios</span>
+              <h3 class="hp-report-card-title">Geração de Relatório Consolidado</h3>
+              <p class="hp-report-card-desc">Reúna a capa institucional e os módulos selecionados em um relatório único para anexar ao parecer técnico.</p>
+            </div>
+            <div class="hp-report-card-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- RODAPÉ INFORMATIVO -->
+        <footer class="hp-footer">
+          <span class="hp-footer-text">Pressione <kbd>Esc</kbd> ou <kbd>H</kbd> em qualquer módulo para voltar a esta tela</span>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Módulo 1 -->
+  <div class="loading-overlay hidden" id="load1">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Carregando módulo…</div>
+  </div>
+  <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1"
+    title="PSC — Custo Público" onload="onFrameLoad(1)"></iframe>
+
+  <!-- Módulo 2 -->
+  <div class="loading-overlay hidden" id="load2">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Carregando módulo…</div>
+  </div>
+  <iframe class="mod-frame" id="frame2" src=""
+    data-src="m2-vfm.html?embed=1"
+    title="Evidência Comparativa" onload="onFrameLoad(2)"></iframe>
+
+  <!-- Módulo 3 -->
+  <div class="loading-overlay hidden" id="load3">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Carregando módulo…</div>
+  </div>
+  <iframe class="mod-frame" id="frame3" src=""
+    data-src="m3-matriz-riscos.html?embed=1"
+    title="Matriz de Riscos PPP" onload="onFrameLoad(3)"></iframe>
+
+  <!-- Módulo 4 -->
+  <div class="loading-overlay hidden" id="load4">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Carregando módulo…</div>
+  </div>
+  <iframe class="mod-frame" id="frame4" src=""
+    data-src="m4-precificacao.html?embed=1"
+    title="Precificação de Obras" onload="onFrameLoad(4)"></iframe>
+
+  <!-- ════════════ PAINEL DE RELATÓRIOS (Módulo 5) ════════════ -->
+  <div class="report-panel" id="reportPanel" role="tabpanel" aria-label="Relatórios consolidados">
+    <div class="rp-scroll">
+      <div class="rp-container">
+
+        <!-- Cabeçalho do painel -->
+        <header class="rp-header">
+          <div class="rp-header-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="rp-header-titles">
+            <span class="rp-header-eyebrow">GT-PPPs · CAGE/SEFAZ-RS</span>
+            <h1 class="rp-header-title">Geração de Relatório Consolidado</h1>
+            <p class="rp-header-desc">Monte o conjunto de documentos a anexar ao parecer técnico. A capa institucional e os módulos selecionados serão impressos em sequência — você salva cada um como PDF e depois os combina em um único documento.</p>
+          </div>
+        </header>
+
+        <!-- Etapa 1: Capa -->
+        <section class="rp-section">
+          <div class="rp-section-header">
+            <span class="rp-step-num">01</span>
+            <div>
+              <h2 class="rp-section-title">Capa institucional</h2>
+              <p class="rp-section-sub">Identificação do parecer e do responsável técnico. Os campos abaixo são preenchidos automaticamente quando há dados sincronizados nos módulos.</p>
+            </div>
+          </div>
+          <div class="rp-section-body">
+            <div class="rp-grid">
+              <div class="rp-field">
+                <label for="capProjeto">Nome / Identificação do Projeto</label>
+                <input type="text" id="capProjeto" placeholder="Ex.: Concessão Administrativa do CAFF">
+              </div>
+              <div class="rp-field">
+                <label for="capOrgao">Órgão / Secretaria Responsável</label>
+                <input type="text" id="capOrgao" placeholder="Ex.: Secretaria de Logística e Transportes — SELT/RS">
+              </div>
+              <div class="rp-field">
+                <label for="capPeriodo">Período de Referência</label>
+                <input type="text" id="capPeriodo" placeholder="Ex.: 2026">
+              </div>
+              <div class="rp-field">
+                <label for="capProa">Nº do Processo (PROA / SEI)</label>
+                <input type="text" id="capProa" placeholder="Ex.: 23/0500-0001234-5">
+              </div>
+              <div class="rp-field">
+                <label for="capResp">Responsável Técnico</label>
+                <input type="text" id="capResp" placeholder="Nome, cargo e matrícula">
+              </div>
+              <div class="rp-field">
+                <label for="capData">Data de Emissão</label>
+                <input type="date" id="capData">
+              </div>
+              <div class="rp-field rp-field-full">
+                <label for="capObs">Observações / Contexto</label>
+                <textarea id="capObs" rows="3" placeholder="Anote o objeto sintético do parecer, antecedentes, escopo da análise…"></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Etapa 2: Seleção de módulos -->
+        <section class="rp-section">
+          <div class="rp-section-header">
+            <span class="rp-step-num">02</span>
+            <div>
+              <h2 class="rp-section-title">Módulos a incluir no relatório</h2>
+              <p class="rp-section-sub">Selecione quais análises comporão o documento final. Cada módulo será impresso como anexo separado.</p>
+            </div>
+          </div>
+          <div class="rp-section-body">
+            <div class="rp-modlist" id="rpModlist">
+              <!-- Preenchido por JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Etapa 3: Exportação -->
+        <section class="rp-section rp-section-action">
+          <div class="rp-section-header">
+            <span class="rp-step-num">03</span>
+            <div>
+              <h2 class="rp-section-title">Exportar</h2>
+              <p class="rp-section-sub">Você imprimirá em sequência a capa e cada módulo selecionado. Salve cada PDF e combine-os depois (Adobe Acrobat, PDFsam, qpdf).</p>
+            </div>
+          </div>
+          <div class="rp-section-body">
+            <div class="rp-summary" id="rpSummary">
+              <!-- Resumo dinâmico — quantos PDFs serão gerados -->
+            </div>
+            <button class="rp-btn-export" id="rpBtnExport" onclick="iniciarExportacaoConsolidada()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Iniciar exportação sequencial
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ WIZARD DE EXPORTAÇÃO (modal) ════════════ -->
+  <div class="rp-wizard hidden" id="rpWizard" role="dialog" aria-modal="true" aria-labelledby="rpWizTitle">
+    <div class="rp-wizard-backdrop" onclick="cancelarExportacao()"></div>
+    <div class="rp-wizard-card">
+      <header class="rp-wizard-header">
+        <span class="rp-wizard-step" id="rpWizStep">Etapa 1 de N</span>
+        <h2 class="rp-wizard-title" id="rpWizTitle">—</h2>
+        <button class="rp-wizard-close" onclick="cancelarExportacao()" aria-label="Cancelar exportação">×</button>
+      </header>
+      <div class="rp-wizard-body">
+        <p class="rp-wizard-desc" id="rpWizDesc">—</p>
+        <div class="rp-wizard-progress">
+          <div class="rp-wizard-progress-fill" id="rpWizProgress"></div>
+        </div>
+        <ol class="rp-wizard-checklist" id="rpWizChecklist">
+          <!-- Preenchido por JS -->
+        </ol>
+      </div>
+      <footer class="rp-wizard-footer">
+        <button class="rp-wizard-btn rp-wizard-btn-ghost" onclick="cancelarExportacao()">Cancelar</button>
+        <button class="rp-wizard-btn rp-wizard-btn-primary" id="rpWizNext" onclick="proximaEtapaExportacao()">Imprimir capa</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ════════════ CAPA IMPRIMÍVEL (oculta exceto na hora do print) ════════════ -->
+  <div class="rp-capa-print" id="rpCapaPrint" aria-hidden="true">
+    <!-- Preenchida dinamicamente antes do print -->
+  </div>
+
+</div>
+
+<!-- ══ STATUS BAR ══ -->
+<div class="status-bar">
+  <span class="sb-item sb-modulo"><span class="sb-dot"></span><span id="sbModulo">Módulo 1 — PSC Custo Público</span></span>
+  <span class="sb-divider"></span>
+  <span class="sb-item sb-progress" id="sbProjeto" title="Projeto PPP em análise">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+    Projeto: <strong>—</strong>
+  </span>
+  <span class="sb-divider"></span>
+  <span class="sb-item sb-progress" id="sbProgresso" title="Campos preenchidos no módulo ativo">
+    Progresso: <strong>—</strong>
+  </span>
+  <span class="sb-divider"></span>
+  <span class="sb-item" id="sbStatus">● Pronto</span>
+  <span class="sb-right">CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.1</span>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   GTSEFAZ — Navegação e bridge dos módulos
+   v1.1 — embed mode + status enriquecida
+══════════════════════════════════════ */
+
+const MODULES = {
+  0: {
+    name: 'Início',
+    subtabs: []
+  },
+  1: {
+    name: 'PSC — Custo Público',
+    subtabs: []   // módulo 1 usa rolagem contínua, sem sub-abas
+  },
+  2: {
+    name: 'Evidência Comparativa (VfM)',
+    subtabs: [
+      { num: '01', label: 'Identificação' },
+      { num: '02', label: 'PSC Bruto' },
+      { num: '03', label: 'Diagnóstico' },
+      { num: '04', label: 'Melhorias' },
+      { num: '05', label: 'Matriz' },
+      { num: '06', label: 'VfM' },
+      { num: '07', label: 'Conclusão' },
+    ]
+  },
+  3: {
+    name: 'Matriz de Riscos PPP',
+    subtabs: [
+      { num: '01', label: 'Identificação' },
+      { num: '02', label: 'Matriz de Riscos' },
+      { num: '03', label: 'Dashboard' },
+      { num: '04', label: 'Relatório' },
+      { num: '05', label: 'Metodologia' },
+    ]
+  },
+  4: {
+    name: 'Precificação de Obras',
+    subtabs: [
+      { num: 'i',  label: 'Instruções' },
+      { num: '00', label: 'Capa' },
+      { num: '01', label: 'Identificação' },
+      { num: '02', label: 'Metodologia' },
+      { num: '03', label: 'Referências' },
+      { num: '04', label: 'Componentes' },
+      { num: '05', label: 'Justificativa' },
+      { num: '06', label: 'Análise Crítica' },
+      { num: '07', label: 'Síntese' },
+      { num: '08', label: 'Relatório' },
+      { num: '09', label: 'Dashboard' },
+    ]
+  },
+  5: {
+    name: 'Relatórios Consolidados',
+    subtabs: []   // painel próprio, sem sub-abas
+  }
+};
+
+let activeMod = 0;
+let activeSubtab = {};   // { modNum: subtabIndex }
+let ultimoModuloVisitado = null;   // Para o "continuar de onde parou"
+
+/* ── Inicialização ── */
+window.addEventListener('DOMContentLoaded', () => {
+  carregarUltimoModulo();
+  renderSubtabs(0);
+  updateStatus(0);
+  carregarProjetoCompartilhado();
+  inicializarPainelRelatorios();
+  inicializarHomePanel();
+  registrarAtalhosTeclado();
+  // Auto-save periódico a cada 60s — delegado para cada módulo individualmente
+  setInterval(pingAutoSave, 60000);
+});
+
+/* ── Trocar módulo ── */
+function switchModule(num) {
+  if (num === activeMod) return;
+
+  // Persiste último módulo visitado (exceto Home — Home é o ponto de retorno, não destino)
+  if (activeMod !== 0 && activeMod !== 5) {
+    ultimoModuloVisitado = { mod: activeMod, subtab: activeSubtab[activeMod] || 0 };
+    try {
+      localStorage.setItem('gtsefaz_ultimo_modulo', JSON.stringify(ultimoModuloVisitado));
+    } catch(e) {}
+  }
+
+  // Desativa tab e iframe/painel anterior
+  document.querySelector(`.mod-tab[data-mod="${activeMod}"]`).classList.remove('active');
+  if (activeMod === 0) {
+    document.getElementById('homePanel').classList.remove('active');
+  } else if (activeMod === 5) {
+    document.getElementById('reportPanel').classList.remove('active');
+  } else {
+    document.getElementById(`frame${activeMod}`).classList.remove('active');
+  }
+
+  // Ativa novo módulo
+  document.querySelector(`.mod-tab[data-mod="${num}"]`).classList.add('active');
+
+  if (num === 0) {
+    // Hub inicial — atualiza dados antes de exibir
+    document.getElementById('homePanel').classList.add('active');
+    renderHomePanel();
+  } else if (num === 5) {
+    // Painel de Relatórios
+    document.getElementById('reportPanel').classList.add('active');
+    atualizarStatusModulosCarregados();
+    sincronizarCapaComProjeto();
+  } else {
+    // Iframes dos módulos 1-4 (lazy-load)
+    const frame = document.getElementById(`frame${num}`);
+    const loadOverlay = document.getElementById(`load${num}`);
+    if (!frame.src || frame.src === 'about:blank' || frame.src === window.location.href) {
+      loadOverlay.classList.remove('hidden');
+      frame.src = frame.dataset.src;
+    }
+    frame.classList.add('active');
+  }
+
+  activeMod = num;
+  renderSubtabs(num);
+  updateStatus(num);
+  atualizarBotoesHeader(num);
+}
+
+/* ── Persistência de último módulo ── */
+function carregarUltimoModulo() {
+  try {
+    const raw = localStorage.getItem('gtsefaz_ultimo_modulo');
+    if (raw) ultimoModuloVisitado = JSON.parse(raw);
+  } catch(e) {}
+}
+
+/* ── Estado dos botões do header conforme módulo ativo ── */
+function atualizarBotoesHeader(modNum) {
+  // Em "Início" (0) e "Relatórios" (5), os botões Salvar/Imprimir/Limpar
+  // não fazem sentido (não há módulo individual para salvar/imprimir/limpar)
+  const btns = document.querySelectorAll('.header-actions .hbtn');
+  const disable = (modNum === 0 || modNum === 5);
+  btns.forEach(b => {
+    b.disabled = disable;
+    b.style.opacity = disable ? '.45' : '';
+    b.style.cursor = disable ? 'not-allowed' : '';
+  });
+}
+
+/* ── Sub-abas ── */
+function renderSubtabs(modNum) {
+  const bar = document.getElementById('subtabBar');
+  const subs = MODULES[modNum].subtabs;
+
+  if (subs.length === 0) {
+    bar.classList.add('hidden');
+    return;
+  }
+
+  bar.classList.remove('hidden');
+  const current = activeSubtab[modNum] || 0;
+
+  bar.innerHTML = subs.map((s, i) => `
+    <button class="sub-tab ${i === current ? 'active' : ''}"
+      onclick="switchSubtab(${modNum}, ${i})"
+      aria-label="${s.label}">
+      <span class="snum">${s.num}</span>
+      ${s.label}
+    </button>
+  `).join('');
+}
+
+function switchSubtab(modNum, idx) {
+  activeSubtab[modNum] = idx;
+
+  // Atualiza visual da barra
+  document.querySelectorAll('.sub-tab').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+
+  // Envia mensagem para o iframe do módulo ativo
+  const frame = document.getElementById(`frame${modNum}`);
+  try {
+    frame.contentWindow.postMessage({ type: 'gtsefaz_goto', index: idx }, '*');
+  } catch(e) {}
+}
+
+/* ── Status bar ── */
+function updateStatus(modNum) {
+  document.getElementById('sbModulo').textContent =
+    `Módulo ${modNum} — ${MODULES[modNum].name}`;
+}
+
+function setSaveStatus(text, ok = true) {
+  const el = document.getElementById('sbStatus');
+  el.textContent = text;
+  el.className = 'sb-item' + (ok ? ' sb-saved' : '');
+}
+
+function setProgresso(preenchidos, total) {
+  const el = document.getElementById('sbProgresso');
+  if (typeof preenchidos === 'number' && typeof total === 'number' && total > 0) {
+    el.innerHTML = `Progresso: <strong>${preenchidos}/${total}</strong>`;
+  } else {
+    el.innerHTML = `Progresso: <strong>—</strong>`;
+  }
+}
+
+function setProjetoLabel(dados) {
+  // Aceita string (legado) ou objeto { nome, orgao, periodoRef }
+  const el = document.getElementById('sbProjeto');
+  let nome = '', orgao = '', ano = '';
+  if (typeof dados === 'string') {
+    nome = dados;
+  } else if (dados && typeof dados === 'object') {
+    nome = dados.nome || '';
+    orgao = dados.orgao || '';
+    ano = dados.periodoRef || '';
+  }
+  const txt = nome.trim() || '—';
+  // Tooltip mostra info completa quando disponível
+  const partes = [nome, orgao, ano].filter(p => p && String(p).trim());
+  el.title = partes.length ? partes.join(' · ') : 'Projeto PPP em análise';
+  el.innerHTML = `
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+    Projeto: <strong>${escapeHtml(txt)}</strong>
+  `;
+}
+
+/* Helper anti-XSS — projeto pode ter caracteres especiais */
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* ── Projeto compartilhado entre módulos (localStorage) ── */
+function carregarProjetoCompartilhado() {
+  try {
+    const raw = localStorage.getItem('gtsefaz_projeto_atual');
+    if (raw) {
+      const proj = JSON.parse(raw);
+      // proj pode ser { nome, orgao, periodoRef, ts } ou apenas { nome, ts } no formato legado
+      setProjetoLabel(proj);
+    }
+  } catch(e) {}
+}
+
+/* ── Acessor: dados do projeto persistidos para envio ao iframe ── */
+function getProjetoSalvo() {
+  try {
+    const raw = localStorage.getItem('gtsefaz_projeto_atual');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
+/* ── Ações do header ── */
+function salvarAtivo() {
+  const frame = document.getElementById(`frame${activeMod}`);
+  try {
+    frame.contentWindow.postMessage({ type: 'gtsefaz_save' }, '*');
+    setSaveStatus('● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR'));
+  } catch(e) {
+    setSaveStatus('● Erro ao salvar', false);
+  }
+}
+
+function imprimirAtivo() {
+  const frame = document.getElementById(`frame${activeMod}`);
+  try {
+    frame.contentWindow.focus();
+    frame.contentWindow.print();
+  } catch(e) {
+    alert('Use o botão de exportar PDF dentro do módulo.');
+  }
+}
+
+function limparAtivo() {
+  if (!confirm(`Deseja limpar todos os dados do Módulo ${activeMod}?\nEsta ação não pode ser desfeita.`)) return;
+  const frame = document.getElementById(`frame${activeMod}`);
+  try {
+    frame.contentWindow.postMessage({ type: 'gtsefaz_clear' }, '*');
+    setSaveStatus('● Dados limpos', false);
+  } catch(e) {}
+}
+
+function pingAutoSave() {
+  for (let m = 1; m <= 4; m++) {
+    const frame = document.getElementById(`frame${m}`);
+    if (frame.src && frame.src !== 'about:blank') {
+      try { frame.contentWindow.postMessage({ type: 'gtsefaz_save' }, '*'); } catch(e) {}
+    }
+  }
+}
+
+/* ── Receber mensagens dos iframes ── */
+window.addEventListener('message', (e) => {
+  if (!e.data || typeof e.data !== 'object') return;
+  switch (e.data.type) {
+    case 'gtsefaz_saved':
+      setSaveStatus('● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR'));
+      break;
+    case 'gtsefaz_subtab_changed':
+      if (e.data.mod === activeMod) {
+        activeSubtab[activeMod] = e.data.index;
+        renderSubtabs(activeMod);
+      }
+      break;
+    case 'gtsefaz_progress':
+      // módulo informa { preenchidos, total }
+      setProgresso(e.data.preenchidos, e.data.total);
+      break;
+    case 'gtsefaz_projeto':
+      // módulo informa dados de identificação do projeto
+      // payload esperado: { mod: N, dados: { nome, orgao, periodoRef } }
+      // (compat: também aceita { mod: N, nome: "..." } no formato antigo)
+      {
+        const dados = e.data.dados || { nome: e.data.nome };
+        // mescla com persistido para não apagar campos vazios na transmissão parcial
+        const atual = getProjetoSalvo() || {};
+        const merged = {
+          nome:       (dados.nome       !== undefined) ? dados.nome       : (atual.nome       || ''),
+          orgao:      (dados.orgao      !== undefined) ? dados.orgao      : (atual.orgao      || ''),
+          periodoRef: (dados.periodoRef !== undefined) ? dados.periodoRef : (atual.periodoRef || ''),
+          ts: Date.now()
+        };
+        setProjetoLabel(merged);
+        try {
+          localStorage.setItem('gtsefaz_projeto_atual', JSON.stringify(merged));
+        } catch(err) {}
+        // propaga para os outros iframes
+        for (let m = 1; m <= 4; m++) {
+          if (m === e.data.mod) continue;
+          const f = document.getElementById(`frame${m}`);
+          if (f.src && f.src !== 'about:blank') {
+            try { f.contentWindow.postMessage({ type: 'gtsefaz_projeto_set', dados: merged }, '*'); } catch(err) {}
+          }
+        }
+      }
+      break;
+    case 'gtsefaz_projeto_request':
+      // módulo recém-carregado pediu o estado atual do projeto
+      {
+        const atual = getProjetoSalvo();
+        if (atual && e.source) {
+          try { e.source.postMessage({ type: 'gtsefaz_projeto_set', dados: atual }, '*'); } catch(err) {}
+        }
+      }
+      break;
+    case 'gtsefaz_ready':
+      // módulo carregado e pronto
+      break;
+  }
+});
+
+/* ── Ocultar loading quando iframe carrega ── */
+function onFrameLoad(num) {
+  const overlay = document.getElementById(`load${num}`);
+  overlay.classList.add('hidden');
+
+  // Injeta listener de postMessage nos módulos
+  const frame = document.getElementById(`frame${num}`);
+  try {
+    injectBridge(frame.contentWindow, num);
+  } catch(e) {}
+
+  // Sincronização proativa: envia o projeto atual para o iframe assim que carregar.
+  // Cobre o caso em que o módulo carrega depois que o usuário já preencheu na Home.
+  // Pequeno delay para garantir que o handler de message dentro do iframe foi registrado.
+  setTimeout(() => {
+    const atual = getProjetoSalvo();
+    if (atual) {
+      try {
+        frame.contentWindow.postMessage({ type: 'gtsefaz_projeto_set', dados: atual }, '*');
+      } catch(e) {}
+    }
+  }, 200);
+}
+
+/* ══════════════════════════════════════════════════════════
+   PAINEL DE RELATÓRIOS — seleção de módulos e wizard
+══════════════════════════════════════════════════════════ */
+
+// Estado: quais módulos estão selecionados para o relatório consolidado
+let modulosSelecionados = { 1: true, 2: true, 3: true, 4: true };
+
+// Estado do wizard de exportação
+let wizardState = {
+  steps: [],      // ex.: [{ kind: 'capa' }, { kind: 'modulo', mod: 1, name: '...' }, ...]
+  currentIdx: -1,
+  active: false
+};
+
+const MOD_DESC = {
+  1: 'Public Sector Comparator — levantamento de custos públicos.',
+  2: 'Evidência comparativa PSC × PPP, Value for Money.',
+  3: 'Matriz de alocação de riscos (público / privado / compartilhado).',
+  4: 'Análise crítica de precificação de obras e serviços.'
+};
+
+/* ══════════════════════════════════════════════════════════
+   HUB INICIAL (Home Panel) — capa, cards, "continuar"
+══════════════════════════════════════════════════════════ */
+
+const HOME_MOD_DESC = {
+  1: 'Levantamento de custos públicos para construir o Public Sector Comparator (PSC).',
+  2: 'Comparação PSC × PPP para apurar Value for Money e fundamentar a vantagem econômica.',
+  3: 'Alocação de riscos entre Poder Público, Concessionário e compartilhados.',
+  4: 'Análise crítica de precificação de obras em estudos, modelagens, projetos e editais.'
+};
+
+const HOME_MOD_THUMBS = {
+  1: 'assets/card-01.jpg',
+  2: 'assets/card-02.jpg',
+  3: 'assets/card-03.jpg',
+  4: 'assets/card-04.jpg'
+};
+
+function inicializarHomePanel() {
+  // Restaura valores dos campos do form a partir do projeto compartilhado
+  const proj = getProjetoSalvo() || {};
+  const map = {
+    hpProjeto:  proj.nome,
+    hpOrgao:    proj.orgao,
+    hpPeriodo:  proj.periodoRef,
+    hpProa:     proj.proa,
+    hpResp:     proj.responsavel,
+    hpData:     proj.data
+  };
+  for (const id in map) {
+    const el = document.getElementById(id);
+    if (el && map[id]) el.value = map[id];
+  }
+  // Inicializa data com hoje se vazio
+  const hpData = document.getElementById('hpData');
+  if (hpData && !hpData.value) {
+    hpData.value = new Date().toISOString().slice(0,10);
+  }
+
+  // Listeners: ao alterar qualquer campo, salvar e propagar
+  ['hpProjeto','hpOrgao','hpPeriodo','hpProa','hpResp','hpData'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      salvarFormHome();
+    });
+  });
+
+  renderHomePanel();
+}
+
+function salvarFormHome() {
+  // Lê todos os campos e atualiza o projeto compartilhado
+  const get = id => (document.getElementById(id) || {}).value || '';
+  const dados = {
+    nome:       get('hpProjeto'),
+    orgao:      get('hpOrgao'),
+    periodoRef: get('hpPeriodo'),
+    proa:       get('hpProa'),
+    responsavel: get('hpResp'),
+    data:       get('hpData'),
+    ts: Date.now()
+  };
+  try {
+    localStorage.setItem('gtsefaz_projeto_atual', JSON.stringify(dados));
+  } catch(e) {}
+
+  // Atualiza status bar
+  setProjetoLabel(dados);
+
+  // Propaga para iframes carregados (sync com módulos)
+  for (let m = 1; m <= 4; m++) {
+    const frame = document.getElementById(`frame${m}`);
+    if (frame && frame.src && frame.src !== 'about:blank') {
+      try {
+        frame.contentWindow.postMessage({ type: 'gtsefaz_projeto_set', dados: dados }, '*');
+      } catch(e) {}
+    }
+  }
+
+  // Re-renderiza o hero (sem reescrever o form, evita perda de foco)
+  renderHomeHero(false);
+}
+
+function renderHomePanel() {
+  // Renderização completa — define estado inicial do form conforme dados
+  renderHomeHero(true);
+  renderHomeContinue();
+  renderHomeCards();
+}
+
+/**
+ * Renderiza o hero (banner de identificação).
+ * @param {boolean} setFormState - Se true, ajusta o estado do form (expandido/colapsado)
+ *   conforme os dados. Se false, NÃO mexe no form — usado durante digitação para
+ *   evitar perda de foco quando o usuário está editando.
+ */
+function renderHomeHero(setFormState) {
+  const proj = getProjetoSalvo() || {};
+  const hero = document.getElementById('hpHero');
+  const form = document.getElementById('hpForm');
+  if (!hero) return;
+
+  const temNome = proj.nome && proj.nome.trim();
+
+  if (!temNome) {
+    // Estado vazio — CTA convidando a preencher
+    hero.innerHTML = `
+      <div class="hp-hero-empty">
+        <div class="hp-hero-empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+        </div>
+        <div class="hp-hero-empty-content">
+          <span class="hp-hero-empty-eyebrow">Bem-vindo · GT-PPPs · CAGE/SEFAZ-RS</span>
+          <h2 class="hp-hero-empty-title">Comece identificando o projeto PPP</h2>
+          <p class="hp-hero-empty-desc">Preencha os dados centrais do parecer uma única vez. Eles alimentam todos os módulos de análise e a capa do relatório.</p>
+          <button class="hp-hero-cta" onclick="abrirFormHome()" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Preencher identificação
+          </button>
+        </div>
+      </div>
+    `;
+    // Auto-expande o form quando vazio (apenas na renderização inicial)
+    if (setFormState && form) {
+      form.hidden = false;
+      form.classList.remove('collapsed');
+    }
+  } else {
+    // Estado preenchido — exibir resumo
+    const meta = [];
+    if (proj.orgao)       meta.push({ label: 'Órgão',      value: proj.orgao });
+    if (proj.periodoRef)  meta.push({ label: 'Período',    value: proj.periodoRef });
+    if (proj.proa)        meta.push({ label: 'Processo',   value: proj.proa });
+    if (proj.responsavel) meta.push({ label: 'Responsável', value: proj.responsavel });
+
+    const metaHtml = meta.map(m => `
+      <div class="hp-hero-meta-item">
+        <span class="hp-hero-meta-label">${escapeHtml(m.label)}</span>
+        <span class="hp-hero-meta-value">${escapeHtml(m.value)}</span>
+      </div>
+    `).join('');
+
+    hero.innerHTML = `
+      <button class="hp-hero-edit" onclick="abrirFormHome()" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Editar
+      </button>
+      <span class="hp-hero-filled-eyebrow">Projeto em análise</span>
+      <h1 class="hp-hero-filled-title">${escapeHtml(proj.nome)}</h1>
+      ${metaHtml ? `<div class="hp-hero-meta">${metaHtml}</div>` : ''}
+    `;
+    // Quando preenchido, colapsa o form (apenas na renderização inicial)
+    if (setFormState && form) {
+      form.hidden = false;
+      form.classList.add('collapsed');
+    }
+  }
+}
+
+function abrirFormHome() {
+  const form = document.getElementById('hpForm');
+  if (!form) return;
+  form.hidden = false;
+  form.classList.remove('collapsed');
+  // Scroll suave até o form e foca no primeiro campo vazio
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => {
+    const ids = ['hpProjeto','hpOrgao','hpPeriodo','hpProa','hpResp','hpData'];
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el && (!el.value || !el.value.trim())) { el.focus(); return; }
+    }
+    document.getElementById('hpProjeto')?.focus();
+  }, 350);
+}
+
+function toggleHomeForm() {
+  const form = document.getElementById('hpForm');
+  if (!form) return;
+  form.classList.toggle('collapsed');
+}
+
+function renderHomeContinue() {
+  const cont = document.getElementById('hpContinue');
+  if (!cont) return;
+  if (!ultimoModuloVisitado || !ultimoModuloVisitado.mod) {
+    cont.hidden = true;
+    return;
+  }
+  const m = ultimoModuloVisitado.mod;
+  if (!MODULES[m] || m === 0 || m === 5) {
+    cont.hidden = true;
+    return;
+  }
+  cont.hidden = false;
+  cont.onclick = () => switchModule(m);
+  cont.onkeydown = (e) => { if (e.key === 'Enter') switchModule(m); };
+  cont.setAttribute('role', 'button');
+  cont.setAttribute('tabindex', '0');
+  cont.innerHTML = `
+    <div class="hp-continue-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    </div>
+    <div class="hp-continue-info">
+      <span class="hp-continue-eyebrow">Continuar de onde parou</span>
+      <span class="hp-continue-name">Módulo ${String(m).padStart(2,'0')} — ${escapeHtml(MODULES[m].name)}</span>
+    </div>
+    <div class="hp-continue-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+  `;
+}
+
+function renderHomeCards() {
+  const wrap = document.getElementById('hpCards');
+  if (!wrap) return;
+  wrap.innerHTML = [1,2,3,4].map(n => {
+    const status = obterStatusModulo(n);
+    const statusLabel = status === 'ready' ? 'Pronto' : (status === 'in-progress' ? 'Em uso' : 'Não iniciado');
+    const action = status === 'empty' ? 'Iniciar' : 'Continuar';
+    const thumb = HOME_MOD_THUMBS[n];
+    return `
+      <div class="hp-card" onclick="switchModule(${n})" role="button" tabindex="0"
+           onkeydown="if(event.key==='Enter')switchModule(${n})">
+        <div class="hp-card-thumb" style="background-image:url('${thumb}')" aria-hidden="true">
+          <span class="hp-card-thumb-num">Módulo ${String(n).padStart(2,'0')}</span>
+        </div>
+        <div class="hp-card-body">
+          <h3 class="hp-card-title">${escapeHtml(MODULES[n].name)}</h3>
+          <p class="hp-card-desc">${escapeHtml(HOME_MOD_DESC[n])}</p>
+          <div class="hp-card-footer">
+            <span class="hp-card-status ${status}">${statusLabel}</span>
+            <span class="hp-card-action">${action}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function obterStatusModulo(n) {
+  // Heurística simples — futuramente os módulos podem informar progresso real via postMessage
+  // Por ora: 'ready' se carregado nesta sessão, 'empty' se nunca acessado
+  const frame = document.getElementById(`frame${n}`);
+  const loaded = frame && frame.src && frame.src !== 'about:blank' && frame.src !== window.location.href;
+  if (loaded) return 'in-progress';
+  return 'empty';
+}
+
+/* ── Atalhos de teclado ── */
+function registrarAtalhosTeclado() {
+  document.addEventListener('keydown', (e) => {
+    // Não interfere se foco está em campo de texto
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    if (e.target.isContentEditable) return;
+
+    // Esc ou H volta para Home (do shell)
+    if (e.key === 'Escape' || e.key === 'h' || e.key === 'H') {
+      if (activeMod !== 0) {
+        e.preventDefault();
+        switchModule(0);
+      }
+    }
+  });
+}
+
+
+function inicializarPainelRelatorios() {
+  // Renderiza lista de módulos com checkboxes
+  const list = document.getElementById('rpModlist');
+  if (!list) return;
+
+  list.innerHTML = [1,2,3,4].map(n => `
+    <div class="rp-mod-item ${modulosSelecionados[n] ? 'checked' : ''}" data-mod="${n}" onclick="toggleModuloRelatorio(${n})">
+      <div class="rp-mod-checkbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="rp-mod-num">${String(n).padStart(2,'0')}</div>
+      <div class="rp-mod-info">
+        <div class="rp-mod-name">${MODULES[n].name}</div>
+        <div class="rp-mod-desc">${MOD_DESC[n]}</div>
+      </div>
+      <div class="rp-mod-status" data-status-for="${n}">não carregado</div>
+    </div>
+  `).join('');
+
+  // Inicializa data com hoje (se vazio)
+  const capData = document.getElementById('capData');
+  if (capData && !capData.value) {
+    const hoje = new Date();
+    capData.value = hoje.toISOString().slice(0,10);
+  }
+
+  // Persistência local dos campos da capa
+  ['capProjeto','capOrgao','capPeriodo','capProa','capResp','capData','capObs'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    // Restaura valor salvo
+    try {
+      const saved = localStorage.getItem('gtsefaz_capa_' + id);
+      if (saved && !el.value) el.value = saved;
+    } catch(e) {}
+    // Salva ao alterar
+    el.addEventListener('input', () => {
+      try { localStorage.setItem('gtsefaz_capa_' + id, el.value); } catch(e) {}
+      atualizarSummary();
+    });
+  });
+
+  atualizarSummary();
+}
+
+/* Sincroniza campos da capa com dados do projeto persistidos pelo (c) sync */
+function sincronizarCapaComProjeto() {
+  try {
+    const raw = localStorage.getItem('gtsefaz_projeto_atual');
+    if (!raw) return;
+    const proj = JSON.parse(raw);
+    const map = {
+      capProjeto: proj.nome,
+      capOrgao:   proj.orgao,
+      capPeriodo: proj.periodoRef
+    };
+    for (const id in map) {
+      const el = document.getElementById(id);
+      if (el && (!el.value || el.value.trim() === '') && map[id]) {
+        el.value = map[id];
+        try { localStorage.setItem('gtsefaz_capa_' + id, map[id]); } catch(e) {}
+      }
+    }
+    atualizarSummary();
+  } catch(e) {}
+}
+
+function toggleModuloRelatorio(n) {
+  modulosSelecionados[n] = !modulosSelecionados[n];
+  const item = document.querySelector(`.rp-mod-item[data-mod="${n}"]`);
+  if (item) item.classList.toggle('checked', modulosSelecionados[n]);
+  atualizarSummary();
+}
+
+function atualizarStatusModulosCarregados() {
+  for (let n = 1; n <= 4; n++) {
+    const status = document.querySelector(`[data-status-for="${n}"]`);
+    if (!status) continue;
+    const frame = document.getElementById(`frame${n}`);
+    const loaded = frame && frame.src && frame.src !== 'about:blank' && frame.src !== window.location.href;
+    if (loaded) {
+      status.textContent = 'pronto';
+      status.classList.add('loaded');
+    } else {
+      status.textContent = 'não carregado';
+      status.classList.remove('loaded');
+    }
+  }
+}
+
+function atualizarSummary() {
+  const summary = document.getElementById('rpSummary');
+  const btn = document.getElementById('rpBtnExport');
+  if (!summary || !btn) return;
+
+  const selecionados = [1,2,3,4].filter(n => modulosSelecionados[n]);
+  const totalPdfs = 1 + selecionados.length; // capa + módulos
+  const projeto = (document.getElementById('capProjeto') || {}).value || '';
+
+  if (selecionados.length === 0) {
+    summary.innerHTML = `<strong>Nenhum módulo selecionado.</strong> Marque ao menos um módulo para gerar o relatório.`;
+    btn.disabled = true;
+    return;
+  }
+
+  summary.innerHTML = `
+    Serão gerados <strong>${totalPdfs} PDFs</strong> em sequência: 1 capa institucional + ${selecionados.length} ${selecionados.length === 1 ? 'módulo' : 'módulos'}
+    ${projeto ? `referente${selecionados.length > 1 ? 's' : ''} ao projeto <strong>${escapeHtml(projeto)}</strong>` : ''}.
+    Salve cada um e combine-os depois (ex.: Adobe Acrobat, PDFsam).
+  `;
+  btn.disabled = false;
+}
+
+/* ══════════════════════════════════════
+   WIZARD DE EXPORTAÇÃO SEQUENCIAL
+══════════════════════════════════════ */
+
+function iniciarExportacaoConsolidada() {
+  const selecionados = [1,2,3,4].filter(n => modulosSelecionados[n]);
+  if (selecionados.length === 0) return;
+
+  // Monta sequência de etapas
+  wizardState.steps = [{ kind: 'capa' }];
+  selecionados.forEach(n => {
+    wizardState.steps.push({ kind: 'modulo', mod: n, name: MODULES[n].name });
+  });
+  wizardState.currentIdx = 0;
+  wizardState.active = true;
+
+  // Pré-carrega iframes que ainda não foram carregados (para evitar surpresa no print)
+  selecionados.forEach(n => {
+    const frame = document.getElementById(`frame${n}`);
+    if (!frame.src || frame.src === 'about:blank' || frame.src === window.location.href) {
+      frame.src = frame.dataset.src;
+    }
+  });
+
+  abrirWizard();
+  renderizarEtapaWizard();
+}
+
+function abrirWizard() {
+  document.getElementById('rpWizard').classList.remove('hidden');
+}
+
+function cancelarExportacao() {
+  document.getElementById('rpWizard').classList.add('hidden');
+  wizardState.active = false;
+  wizardState.currentIdx = -1;
+  document.body.classList.remove('printing-capa');
+}
+
+function renderizarEtapaWizard() {
+  const total = wizardState.steps.length;
+  const idx = wizardState.currentIdx;
+  const step = wizardState.steps[idx];
+
+  document.getElementById('rpWizStep').textContent = `Etapa ${idx + 1} de ${total}`;
+
+  // Atualiza barra de progresso
+  const pct = total > 0 ? ((idx) / total) * 100 : 0;
+  document.getElementById('rpWizProgress').style.width = pct + '%';
+
+  // Renderiza checklist completa
+  const checklist = document.getElementById('rpWizChecklist');
+  checklist.innerHTML = wizardState.steps.map((s, i) => {
+    const cls = i < idx ? 'done' : (i === idx ? 'current' : 'pending');
+    const label = s.kind === 'capa' ? 'Capa institucional' : `Módulo ${s.mod} — ${s.name}`;
+    return `<li class="rp-wiz-step-item ${cls}">${label}</li>`;
+  }).join('');
+
+  // Texto e botão conforme etapa
+  if (step.kind === 'capa') {
+    document.getElementById('rpWizTitle').textContent = 'Imprimir capa institucional';
+    document.getElementById('rpWizDesc').textContent =
+      'Será aberta a janela de impressão com a capa do parecer. No diálogo, escolha "Salvar como PDF" e nomeie o arquivo (ex.: 00-capa.pdf). Depois clique em Próximo para seguir.';
+    document.getElementById('rpWizNext').textContent = 'Imprimir capa';
+  } else if (step.kind === 'modulo') {
+    document.getElementById('rpWizTitle').textContent = `Imprimir Módulo ${step.mod} — ${step.name}`;
+    document.getElementById('rpWizDesc').textContent =
+      `Será aberto o módulo ${step.mod} e disparada a janela de impressão. Salve como PDF (sugestão: ${String(step.mod).padStart(2,'0')}-${slugify(step.name)}.pdf) e depois clique em Próximo.`;
+    const isUltima = (idx === total - 1);
+    document.getElementById('rpWizNext').textContent = isUltima ? 'Imprimir e finalizar' : `Imprimir módulo ${step.mod}`;
+  }
+}
+
+function proximaEtapaExportacao() {
+  const step = wizardState.steps[wizardState.currentIdx];
+  if (!step) return;
+
+  if (step.kind === 'capa') {
+    imprimirCapa();
+  } else if (step.kind === 'modulo') {
+    imprimirModulo(step.mod);
+  }
+
+  // Avança após pequeno delay (após o diálogo fechar)
+  setTimeout(() => {
+    avancarWizard();
+  }, 800);
+}
+
+function avancarWizard() {
+  wizardState.currentIdx++;
+  if (wizardState.currentIdx >= wizardState.steps.length) {
+    finalizarExportacao();
+  } else {
+    renderizarEtapaWizard();
+  }
+}
+
+function finalizarExportacao() {
+  document.getElementById('rpWizTitle').textContent = 'Exportação concluída';
+  document.getElementById('rpWizDesc').innerHTML =
+    `<strong>Pronto.</strong> Você gerou ${wizardState.steps.length} PDFs (1 capa + ${wizardState.steps.length - 1} ${wizardState.steps.length - 1 === 1 ? 'módulo' : 'módulos'}).<br><br>` +
+    `Combine-os na ordem usando ferramentas como Adobe Acrobat, PDFsam ou qpdf:<br>` +
+    `<code style="font-family:var(--mono);font-size:11px;background:var(--cinza-header);padding:2px 6px;border-radius:3px">qpdf --empty --pages 00-capa.pdf 01-*.pdf 02-*.pdf 03-*.pdf 04-*.pdf -- relatorio-consolidado.pdf</code>`;
+
+  document.getElementById('rpWizProgress').style.width = '100%';
+  // Marca todas como done
+  const checklist = document.getElementById('rpWizChecklist');
+  checklist.innerHTML = wizardState.steps.map(s => {
+    const label = s.kind === 'capa' ? 'Capa institucional' : `Módulo ${s.mod} — ${s.name}`;
+    return `<li class="rp-wiz-step-item done">${label}</li>`;
+  }).join('');
+
+  document.getElementById('rpWizNext').textContent = 'Fechar';
+  document.getElementById('rpWizNext').onclick = cancelarExportacao;
+  setTimeout(() => {
+    // restaura handler para próxima exportação
+    document.getElementById('rpWizNext').onclick = proximaEtapaExportacao;
+  }, 100);
+}
+
+/* ══════════════════════════════════════
+   PRINT: capa e módulos individuais
+══════════════════════════════════════ */
+
+function imprimirCapa() {
+  // Renderiza a capa imprimível com os dados atuais
+  renderizarCapaImprimivel();
+  document.body.classList.add('printing-capa');
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => {
+      document.body.classList.remove('printing-capa');
+    }, 200);
+  }, 50);
+}
+
+function imprimirModulo(num) {
+  const frame = document.getElementById(`frame${num}`);
+  if (!frame || !frame.src || frame.src === 'about:blank') {
+    alert(`Módulo ${num} ainda não foi carregado. Abra-o pelo menos uma vez antes de exportar.`);
+    return;
+  }
+
+  // Para que o print do iframe funcione bem, o iframe precisa ter layout
+  // (não pode estar com display:none). Vamos ativar temporariamente o iframe
+  // por trás do modal do wizard.
+  const reportPanel = document.getElementById('reportPanel');
+  reportPanel.classList.remove('active');
+  // Desativa qualquer outro frame ativo, ativa o do módulo a imprimir
+  for (let m = 1; m <= 4; m++) {
+    document.getElementById(`frame${m}`).classList.remove('active');
+  }
+  frame.classList.add('active');
+
+  // Pequeno delay para garantir layout antes do print
+  setTimeout(() => {
+    try {
+      frame.contentWindow.focus();
+      frame.contentWindow.print();
+    } catch(e) {
+      alert(`Não foi possível imprimir o módulo ${num} automaticamente. Abra-o e use o botão "Exportar Relatório" interno.`);
+    }
+    // Restaura painel de relatórios após o diálogo de impressão fechar
+    setTimeout(() => {
+      frame.classList.remove('active');
+      reportPanel.classList.add('active');
+    }, 100);
+  }, 50);
+}
+
+function renderizarCapaImprimivel() {
+  const get = id => (document.getElementById(id) || {}).value || '';
+  const projeto = get('capProjeto') || '—';
+  const orgao   = get('capOrgao')   || '—';
+  const periodo = get('capPeriodo') || '—';
+  const proa    = get('capProa')    || '—';
+  const resp    = get('capResp')    || '—';
+  const dataStr = get('capData');
+  const obs     = get('capObs');
+
+  let dataFormatada = '—';
+  if (dataStr) {
+    try {
+      const d = new Date(dataStr + 'T00:00:00');
+      dataFormatada = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+    } catch(e) { dataFormatada = dataStr; }
+  }
+
+  const selecionados = [1,2,3,4].filter(n => modulosSelecionados[n]);
+  const tocItems = selecionados.map((n, i) => `
+    <div class="rp-capa-doc-toc-item">
+      <span class="rp-capa-doc-toc-num">Anexo ${String.fromCharCode(64 + i + 1)}</span>
+      <span class="rp-capa-doc-toc-name">Módulo ${n} — ${MODULES[n].name}</span>
+      <span class="rp-capa-doc-toc-anexo">[anexo separado]</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="rp-capa-doc">
+      <div class="rp-capa-doc-banner">
+        <div class="rp-capa-doc-banner-meta">
+          <span class="rp-capa-doc-eyebrow">Estado do Rio Grande do Sul · CAGE-RS · SEFAZ-RS</span>
+          <div class="rp-capa-doc-org">Contadoria e Auditoria-Geral do Estado · GT-PPPs · SEFAZ-RS</div>
+        </div>
+      </div>
+
+      <h1 class="rp-capa-doc-title">Relatório de Análise PPP</h1>
+      <p class="rp-capa-doc-subtitle">${escapeHtml(projeto)}</p>
+
+      <div class="rp-capa-doc-fields">
+        <div>
+          <span class="rp-capa-doc-field-label">Órgão / Secretaria</span>
+          <div class="rp-capa-doc-field-value">${escapeHtml(orgao)}</div>
+        </div>
+        <div>
+          <span class="rp-capa-doc-field-label">Período de Referência</span>
+          <div class="rp-capa-doc-field-value">${escapeHtml(periodo)}</div>
+        </div>
+        <div>
+          <span class="rp-capa-doc-field-label">Processo (PROA / SEI)</span>
+          <div class="rp-capa-doc-field-value">${escapeHtml(proa)}</div>
+        </div>
+        <div>
+          <span class="rp-capa-doc-field-label">Data de Emissão</span>
+          <div class="rp-capa-doc-field-value">${escapeHtml(dataFormatada)}</div>
+        </div>
+        <div style="grid-column:1/-1">
+          <span class="rp-capa-doc-field-label">Responsável Técnico</span>
+          <div class="rp-capa-doc-field-value">${escapeHtml(resp)}</div>
+        </div>
+      </div>
+
+      ${obs ? `
+        <div class="rp-capa-doc-obs">
+          <span class="rp-capa-doc-obs-label">Observações</span>
+          ${escapeHtml(obs).replace(/\n/g,'<br>')}
+        </div>
+      ` : ''}
+
+      <div class="rp-capa-doc-toc">
+        <div class="rp-capa-doc-toc-title">Sumário do Relatório</div>
+        <div class="rp-capa-doc-toc-item" style="border-bottom:1px solid #1F8B7C">
+          <span class="rp-capa-doc-toc-num">Capa</span>
+          <span class="rp-capa-doc-toc-name">Identificação do parecer (este documento)</span>
+          <span class="rp-capa-doc-toc-anexo">[esta página]</span>
+        </div>
+        ${tocItems || '<div style="padding:4mm 0;color:#6B7280;font-style:italic">Nenhum módulo selecionado para anexo.</div>'}
+      </div>
+
+      <div class="rp-capa-doc-footer">
+        <span>CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.2</span>
+        <span>Documento gerado em ${new Date().toLocaleDateString('pt-BR')}</span>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('rpCapaPrint').innerHTML = html;
+}
+
+/* Helper para nomes de arquivo sugeridos */
+function slugify(s) {
+  return String(s)
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .substring(0, 40);
+}
+
+function injectBridge(win, modNum) {
+  // Injeta ponte de comunicação no módulo (compatível com módulos existentes)
+  const script = win.document.createElement('script');
+  script.textContent = `
+    (function() {
+      const MOD = ${modNum};
+      window.addEventListener('message', function(e) {
+        if (!e.data || typeof e.data !== 'object') return;
+        if (e.data.type === 'gtsefaz_save') {
+          if (typeof salvarRascunho === 'function') salvarRascunho();
+          else if (typeof saveState === 'function') saveState();
+          parent.postMessage({ type: 'gtsefaz_saved' }, '*');
+        }
+        if (e.data.type === 'gtsefaz_clear') {
+          if (typeof limparDados === 'function') limparDados();
+          else if (typeof limparFormulario === 'function') limparFormulario();
+        }
+        if (e.data.type === 'gtsefaz_goto') {
+          // Estratégia em camadas:
+          // 1) Tenta clicar no botão de aba correspondente ao índice — funciona para
+          //    módulos cujas funções de troca de aba usam IDs string (M4: 'instr','capa'...)
+          //    ou números (M2: 0,1,2...). O click delega ao handler nativo.
+          // 2) Se não houver botões de aba detectáveis, cai para chamada direta.
+          var tabs = document.querySelectorAll('[data-tab],[data-idx],.nav-tab,.tab');
+          if (tabs && tabs.length > e.data.index && tabs[e.data.index]) {
+            tabs[e.data.index].click();
+          } else if (typeof goTo === 'function') {
+            goTo(e.data.index);
+          } else if (typeof switchTab === 'function') {
+            switchTab(e.data.index);
+          }
+        }
+      });
+      const notifyParent = function(idx) {
+        parent.postMessage({ type: 'gtsefaz_subtab_changed', mod: MOD, index: idx }, '*');
+      };
+      document.addEventListener('click', function(ev) {
+        const tab = ev.target.closest('[data-tab],[data-idx],.nav-tab,.tab');
+        if (!tab) return;
+        const idx = tab.dataset.idx !== undefined
+          ? parseInt(tab.dataset.idx)
+          : Array.from(tab.parentElement.children).indexOf(tab);
+        if (!isNaN(idx) && idx >= 0) notifyParent(idx);
+      });
+    })();
+  `;
+  try { win.document.head.appendChild(script); } catch(e) {}
+}
+</script>
+</body>
+</html>

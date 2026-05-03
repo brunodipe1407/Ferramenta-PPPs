@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise de Precificação de Obras · CAGE/SEFAZ-RS</title>
+
+<!-- ══ EMBED MODE — detecção precoce (antes do CSS carregar) ══ -->
+<script>
+  (function() {
+    if (new URLSearchParams(location.search).get('embed') === '1') {
+      document.documentElement.classList.add('embed-mode');
+    }
+  })();
+</script>
+<style id="embed-overrides">
+  /* Quando carregado dentro do shell (?embed=1), oculta cromos redundantes */
+  html.embed-mode .app-header,
+  html.embed-mode .app-nav { display: none !important; }
+  html.embed-mode body { padding-top: 0 !important; margin-top: 0 !important; }
+  html.embed-mode .app-main,
+  html.embed-mode main { padding-top: 16px !important; }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ── Paleta institucional CAGE/SEFAZ-RS (canônica, alinhada com index.html) ── */
+  --cage-navy:    #0A4D44;   /* teal-darker — barras escuras    */
+  --cage-blue:    #0F6B5E;   /* teal-dark   — sub-barras        */
+  --cage-mid:     #1F8B7C;   /* teal        — botões primários  */
+  --cage-sky:     #2EB6A5;   /* teal-light  — acentos / status  */
+  --cage-light:   #D1F0EB;   /* teal-xlight — fundos suaves     */
+  --cage-azul:    #003366;   /* azul institucional (uso restrito) */
+  /* ── Neutros ── */
+  --cinza-header: #EAEAEA;
+  --cinza-suave:  #F5F5F5;
+  /* ── Semafóricos ── */
+  --rs-ambar:    #B45309;
+  --rs-vermelho: #8B1A1A;
+  --rs-verde:    #15803D;
+  /* ── Texto e linhas ── */
+  --ink:        #1A1A1A;
+  --ink-soft:   #4B5563;
+  --ink-muted:  #6B7280;
+  --line:       #D4D4D4;
+  --line-soft:  #E5E5E5;
+  /* ── Backgrounds ── */
+  --bg-card:    #FFFFFF;
+  --bg-input:   #FDFDFD;
+  /* ── Sombras ── */
+  --shadow-sm:  0 1px 2px rgba(10,77,68,.06);
+  --shadow-md:  0 2px 8px rgba(10,77,68,.08);
+  --shadow-lg:  0 6px 20px rgba(10,77,68,.12);
+  /* ── Radii ── */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  /* ── Layout ── */
+  --header-h: 108px;
+  --nav-h:    52px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:14px;line-height:1.5;color:var(--ink);
+  background:var(--cinza-suave);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+h1,h2,h3,h4,h5{font-family:'Roboto Slab',serif;margin:0;color:var(--cage-navy);font-weight:600}
+h1{font-size:22px;letter-spacing:-.01em}
+h2{font-size:18px;letter-spacing:-.005em}
+h3{font-size:15px;text-transform:uppercase;letter-spacing:.03em;font-weight:600;color:var(--cage-blue)}
+h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--cage-azul);font-weight:700}
+p{margin:0 0 8px 0}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,textarea,select{font-family:inherit;font-size:14px;color:var(--ink)}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+/* ============ HEADER ============ */
+.app-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--cinza-header);
+  border-bottom:4px solid var(--cage-mid);
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px;
+  padding:14px 28px;
+}
+.header-logos{display:flex;align-items:center;gap:14px}
+.logo-govrs{
+  background:var(--cage-blue);
+  padding:8px 14px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-govrs img{height:48px;display:block}
+.logo-sep{width:1px;height:42px;background:#B0B0B0}
+.logo-cage{
+  background:#fff;padding:6px 12px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid #DCDCDC;
+}
+.logo-cage img{height:48px;display:block}
+.header-title{display:flex;flex-direction:column;gap:2px;min-width:0}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--cage-blue);font-weight:500;
+}
+.app-header h1{color:var(--cage-navy);font-size:22px;line-height:1.15}
+.subtitle{font-size:12px;color:var(--ink-soft);font-weight:400}
+.save-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:999px;
+  background:#fff;border:1px solid var(--cage-mid);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cage-navy);
+  white-space:nowrap;font-weight:500;
+}
+.save-pill::before{
+  content:"●";color:var(--cage-mid);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ============ NAVBAR ============ */
+.app-nav{
+  position:sticky;top:var(--header-h);z-index:99;
+  background:var(--cage-blue);
+  display:flex;align-items:stretch;
+  padding:0 24px;
+  box-shadow:0 2px 4px rgba(0,0,0,.08);
+  overflow-x:auto;scrollbar-width:thin;
+}
+.app-nav::-webkit-scrollbar{height:4px}
+.app-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2)}
+.nav-tabs{display:flex;align-items:stretch;flex:1}
+.nav-tab{
+  background:transparent;color:#fff;padding:0 18px;
+  font-size:13px;font-weight:500;
+  border-bottom:3px solid transparent;
+  display:flex;align-items:center;gap:8px;
+  white-space:nowrap;transition:background .15s,border-color .15s;
+  position:relative;
+}
+.nav-tab:hover{background:rgba(255,255,255,.06)}
+.nav-tab .tab-num{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  opacity:.6;font-weight:500;
+}
+.nav-tab.active{background:var(--cage-navy);border-bottom-color:#fff}
+.nav-tab.active .tab-num{opacity:.9}
+.nav-tab .completion-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#9DC97F;margin-left:2px;
+  opacity:0;transition:opacity .2s;
+}
+.nav-tab.completed .completion-dot{opacity:1}
+.btn-clear{
+  display:inline-flex;align-items:center;gap:7px;
+  margin-left:auto;align-self:center;
+  background:transparent;color:#fff;
+  border:1px solid rgba(255,255,255,.4);
+  padding:6px 14px;border-radius:var(--r-sm);
+  font-size:12px;font-weight:500;
+  transition:background .15s,border-color .15s;
+}
+.btn-clear:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.btn-clear svg{width:13px;height:13px}
+
+/* ============ CONTENT ============ */
+.app-main{
+  max-width:1280px;margin:0 auto;padding:28px 32px 64px;
+}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.panel-header{
+  margin-bottom:20px;padding-bottom:14px;
+  border-bottom:1px solid var(--line-soft);
+}
+.panel-header .step-label{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--cage-mid);letter-spacing:.1em;font-weight:500;
+  margin-bottom:4px;
+}
+.panel-header h1{font-size:24px;color:var(--cage-navy)}
+.panel-header .panel-desc{
+  font-size:13.5px;color:var(--ink-soft);margin-top:6px;line-height:1.55;
+  max-width:880px;
+}
+
+/* ============ CARDS ============ */
+.card{
+  background:var(--bg-card);border:1px solid var(--line-soft);
+  border-radius:var(--r-lg);
+  margin-bottom:18px;overflow:hidden;
+}
+.card-header{
+  padding:14px 20px;background:#FAFBFA;
+  border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.card-header h3{margin:0}
+.card-body{padding:20px}
+
+/* ============ FORM ELEMENTS ============ */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px 18px}
+.field-grid .field{margin-bottom:0}
+.field-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--cage-blue);font-weight:500;
+  display:flex;align-items:center;gap:6px;
+}
+.field-label .req{color:var(--rs-vermelho);font-weight:700}
+.field-help{font-size:11.5px;color:var(--ink-muted);margin-top:-2px}
+.input,.textarea,.select{
+  width:100%;padding:9px 12px;
+  background:var(--bg-input);
+  border:1px solid var(--line);
+  border-radius:var(--r-sm);
+  font-size:13.5px;color:var(--ink);
+  transition:border-color .15s,box-shadow .15s,background .15s;
+}
+.input:focus,.textarea:focus,.select:focus{
+  outline:none;border-color:var(--cage-mid);
+  box-shadow:0 0 0 3px rgba(31,139,124,.12);
+  background:#fff;
+}
+.textarea{resize:vertical;min-height:64px;line-height:1.5;font-family:inherit}
+.select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231F8B7C' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat:no-repeat;background-position:right 10px center;
+  padding-right:32px;cursor:pointer;
+}
+.input.required-empty,.textarea.required-empty,.select.required-empty{
+  background:#FFFBEA;border-color:#E8C76B;
+}
+.input.required-empty:focus,.textarea.required-empty:focus,.select.required-empty:focus{
+  background:#fff;
+}
+
+/* ============ TABLES ============ */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl thead th{
+  background:var(--cage-navy);color:#fff;
+  font-family:'Roboto Slab',serif;font-weight:500;font-size:12px;
+  text-transform:uppercase;letter-spacing:.04em;
+  padding:10px 12px;text-align:left;
+  border-right:1px solid rgba(255,255,255,.12);
+}
+.tbl thead th:last-child{border-right:none}
+.tbl tbody td{
+  padding:8px 12px;border-bottom:1px solid var(--line-soft);
+  vertical-align:top;
+}
+.tbl tbody tr:hover{background:#FAFBFA}
+.tbl tbody td.row-label{
+  font-weight:500;color:var(--ink);max-width:340px;
+}
+.tbl .num-cell{font-family:'JetBrains Mono',monospace;text-align:right}
+.tbl tfoot td{
+  background:#F4F8F7;font-weight:600;
+  padding:10px 12px;border-top:2px solid var(--cage-mid);
+}
+.tbl-input{
+  width:100%;padding:6px 8px;border:1px solid var(--line);
+  border-radius:var(--r-sm);background:var(--bg-input);font-size:13px;
+}
+.tbl-input:focus{outline:none;border-color:var(--cage-mid);background:#fff}
+.tbl-select{
+  width:100%;padding:6px 26px 6px 8px;
+  border:1px solid var(--line);border-radius:var(--r-sm);
+  background:var(--bg-input);font-size:13px;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%231F8B7C' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat:no-repeat;background-position:right 8px center;
+  cursor:pointer;
+}
+.tbl-select:focus{outline:none;border-color:var(--cage-mid);background-color:#fff}
+
+/* ============ STATUS BADGES ============ */
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 9px;border-radius:999px;font-size:11px;
+  font-weight:600;letter-spacing:.02em;
+  white-space:nowrap;
+}
+.badge-conforme{background:#D9F2DC;color:var(--rs-verde)}
+.badge-parcial{background:#FEF3C7;color:var(--rs-ambar)}
+.badge-naoconforme{background:#FEE2E2;color:var(--rs-vermelho)}
+.badge-na{background:#E5E7EB;color:#6B7280}
+.badge-baixo{background:#D9F2DC;color:var(--rs-verde)}
+.badge-medio{background:#FEF3C7;color:var(--rs-ambar)}
+.badge-alto{background:#FEE2E2;color:var(--rs-vermelho)}
+.badge-mono{
+  font-family:'JetBrains Mono',monospace;
+  background:var(--cage-navy);color:#fff;
+  padding:2px 7px;font-size:10px;letter-spacing:.04em;
+  border-radius:3px;font-weight:500;
+}
+
+/* ============ CAPA ============ */
+.capa-hero{
+  background:linear-gradient(135deg,var(--cage-navy) 0%,var(--cage-blue) 60%,var(--cage-mid) 100%);
+  color:#fff;border-radius:var(--r-lg);
+  padding:36px 40px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.capa-hero::before{
+  content:"";position:absolute;top:0;right:0;width:280px;height:100%;
+  background:radial-gradient(circle at top right,rgba(255,255,255,.08),transparent 60%);
+  pointer-events:none;
+}
+.capa-hero .eyebrow{color:rgba(255,255,255,.75);margin-bottom:6px}
+.capa-hero h1{color:#fff;font-size:30px;line-height:1.1;margin-bottom:8px}
+.capa-hero .lead{font-size:14px;color:rgba(255,255,255,.85);max-width:720px;font-weight:300}
+.legend{
+  display:flex;flex-wrap:wrap;gap:16px;margin-top:22px;
+  padding-top:18px;border-top:1px solid rgba(255,255,255,.18);
+}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.legend-swatch{width:14px;height:14px;border-radius:3px;border:1px solid rgba(255,255,255,.2)}
+
+/* ============ INSTRUCTIONS ============ */
+.instr-block{margin-bottom:18px}
+.instr-block h4{margin-bottom:8px;color:var(--cage-azul)}
+.instr-block ul,.instr-block ol{margin:0;padding-left:22px;font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
+.instr-block li{margin-bottom:4px}
+.callout{
+  background:#FFFBEA;border-left:3px solid #E8C76B;
+  padding:12px 16px;border-radius:0 var(--r-sm) var(--r-sm) 0;
+  font-size:13px;color:var(--ink);
+}
+
+/* ============ SUMMARY (aba 7) ============ */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi-card{
+  background:#fff;border:1px solid var(--line-soft);
+  border-radius:var(--r-md);padding:16px 18px;
+  display:flex;flex-direction:column;gap:6px;
+  border-top:3px solid var(--cage-mid);
+}
+.kpi-card .kpi-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--ink-muted);font-weight:500;
+}
+.kpi-card .kpi-value{font-family:'Roboto Slab',serif;font-size:28px;font-weight:600;color:var(--ink);line-height:1.1}
+.kpi-card .kpi-sub{font-size:11px;color:var(--ink-muted)}
+.kpi-card.green{border-top-color:var(--rs-verde)}
+.kpi-card.amber{border-top-color:var(--rs-ambar)}
+.kpi-card.red{border-top-color:var(--rs-vermelho)}
+.kpi-card.green .kpi-value{color:var(--rs-verde)}
+.kpi-card.amber .kpi-value{color:var(--rs-ambar)}
+.kpi-card.red .kpi-value{color:var(--rs-vermelho)}
+
+.summary-table tr td:first-child{
+  width:42%;font-family:'JetBrains Mono',monospace;
+  font-size:11px;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--cage-blue);font-weight:500;
+}
+.summary-table tr td:last-child{font-size:13.5px;color:var(--ink)}
+.summary-table tr td{padding:8px 14px;border-bottom:1px solid var(--line-soft)}
+
+/* ============ DASHBOARD ============ */
+.dash-section{margin-bottom:24px}
+.dash-section-header{
+  display:flex;align-items:baseline;gap:14px;margin-bottom:14px;
+}
+.dash-section-header .num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;color:var(--cage-mid);
+  background:var(--cinza-header);padding:3px 7px;border-radius:3px;
+}
+.dash-section-header h2{font-size:17px;color:var(--cage-navy)}
+.dash-section-header .desc{font-size:12.5px;color:var(--ink-soft);margin-left:8px}
+
+.heatmap{
+  display:grid;
+  grid-template-columns:180px repeat(4,1fr) 90px;
+  background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-md);overflow:hidden;
+}
+.heatmap > div{
+  padding:11px 14px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+  font-size:13px;display:flex;align-items:center;justify-content:center;
+}
+.heatmap > div:last-child{border-right:none}
+.heatmap .h-row-label{justify-content:flex-start;font-weight:500;background:#FAFBFA}
+.heatmap .h-col-header{
+  background:var(--cage-navy);color:#fff;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:.06em;font-weight:500;
+}
+.heatmap .h-cell{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:14px}
+.heatmap .h-total{background:#F4F8F7;font-weight:700}
+.heatmap .h-total-row{background:#E8F0EE !important}
+
+.dist-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.dist-card{background:#fff;border:1px solid var(--line-soft);border-radius:var(--r-md);padding:18px}
+.dist-card h4{margin-bottom:14px}
+.dist-list{display:flex;flex-direction:column;gap:8px}
+.dist-row{display:flex;align-items:center;gap:10px}
+.dist-row .dist-label{flex:0 0 165px;font-size:12.5px;color:var(--ink-soft)}
+.dist-row .dist-bar-wrap{flex:1;height:18px;background:#F0F0F0;border-radius:3px;overflow:hidden;position:relative}
+.dist-row .dist-bar{height:100%;border-radius:3px;transition:width .4s ease}
+.dist-row .dist-count{flex:0 0 28px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600}
+
+.priority-table tbody tr.crit-naoconf{background:#FFF5F5}
+.priority-table tbody tr.crit-alto{background:#FFFAEC}
+
+.empty-state{
+  padding:36px 20px;text-align:center;
+  color:var(--ink-muted);font-size:13px;
+  background:#FAFBFA;border:1px dashed var(--line);
+  border-radius:var(--r-md);
+}
+.empty-state strong{color:var(--cage-blue);display:block;margin-bottom:4px}
+
+/* ============ REPORT ============ */
+.report-doc{
+  background:#fff;border:1px solid var(--line-soft);
+  border-radius:var(--r-md);padding:36px 44px;
+  font-family:'Source Sans 3',serif;font-size:13.5px;line-height:1.65;
+  max-width:920px;margin:0 auto;
+}
+.report-doc h1{
+  font-size:20px;text-align:center;margin-bottom:6px;
+  color:var(--cage-navy);
+}
+.report-doc .report-sub{
+  text-align:center;font-size:11px;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--ink-muted);text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:24px;padding-bottom:14px;border-bottom:2px solid var(--cage-mid);
+}
+.report-doc h3{
+  font-size:13px;color:var(--cage-azul);
+  margin-top:22px;margin-bottom:10px;
+  padding-bottom:5px;border-bottom:1px solid var(--line-soft);
+}
+.report-doc .report-section{margin-bottom:14px}
+.report-doc .report-section p{margin-bottom:6px;text-align:justify}
+.report-doc .report-meta{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;
+  background:#F8FAFA;padding:14px 18px;border-radius:var(--r-sm);
+  margin-bottom:18px;
+}
+.report-doc .meta-line{font-size:12.5px}
+.report-doc .meta-line strong{color:var(--cage-blue);margin-right:6px}
+.report-doc .indicators-block{
+  background:#F8FAFA;padding:12px 18px;border-radius:var(--r-sm);
+  font-size:12.5px;margin-top:12px;
+}
+.report-doc .indicators-block strong{color:var(--cage-blue)}
+.report-doc .footer-note{
+  margin-top:30px;padding-top:14px;border-top:1px solid var(--line-soft);
+  font-size:11px;color:var(--ink-muted);text-align:center;font-style:italic;
+}
+.report-actions{
+  display:flex;gap:10px;justify-content:flex-end;margin-bottom:14px;
+}
+.btn-primary,.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 18px;border-radius:var(--r-sm);
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:transform .1s,box-shadow .15s,background .15s;
+}
+.btn-primary{background:var(--cage-azul);color:#fff;border:1px solid var(--cage-azul)}
+.btn-primary:hover{background:#002952;box-shadow:var(--shadow-md)}
+.btn-primary:active{transform:translateY(1px)}
+.btn-secondary{background:#fff;color:var(--cage-blue);border:1px solid var(--cage-mid)}
+.btn-secondary:hover{background:#F4F8F7}
+.btn-primary svg,.btn-secondary svg{width:14px;height:14px}
+
+/* ============ MODAL ============ */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(10,77,68,.55);
+  display:none;align-items:center;justify-content:center;z-index:1000;
+  backdrop-filter:blur(2px);
+}
+.modal-backdrop.show{display:flex;animation:fadeIn .15s ease}
+.modal{
+  background:#fff;border-radius:var(--r-lg);
+  max-width:440px;width:90%;
+  box-shadow:0 16px 48px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modal-header{padding:18px 22px;border-bottom:1px solid var(--line-soft)}
+.modal-header h3{margin:0;color:var(--rs-vermelho);font-size:14px}
+.modal-body{padding:18px 22px;font-size:13.5px;color:var(--ink-soft);line-height:1.55}
+.modal-footer{padding:14px 22px;background:#FAFBFA;display:flex;gap:10px;justify-content:flex-end}
+.btn-danger{
+  background:var(--rs-vermelho);color:#fff;border:none;
+  padding:8px 16px;border-radius:var(--r-sm);font-size:13px;font-weight:600;cursor:pointer;
+}
+.btn-danger:hover{background:#7A1717}
+.btn-cancel{
+  background:#fff;color:var(--ink-soft);border:1px solid var(--line);
+  padding:8px 16px;border-radius:var(--r-sm);font-size:13px;font-weight:500;cursor:pointer;
+}
+.btn-cancel:hover{background:#F5F5F5}
+
+/* ============ SECTION HEADERS WITH NUMBER ============ */
+.section{margin-bottom:22px}
+.section-title{
+  display:flex;align-items:baseline;gap:10px;
+  margin-bottom:12px;
+}
+.section-title .sec-num{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+  color:var(--cage-mid);background:var(--cinza-header);
+  padding:3px 8px;border-radius:3px;
+}
+.section-title h3{margin:0}
+
+/* ============ PRINT / PDF ============ */
+@media print{
+  .app-header,.app-nav,.report-actions,.modal-backdrop{display:none !important}
+  .app-main{padding:0;max-width:none}
+  .tab-panel{display:block !important;page-break-after:always}
+  .tab-panel:last-child{page-break-after:auto}
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1280px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .dist-grid{grid-template-columns:1fr}
+  .heatmap{grid-template-columns:140px repeat(4,1fr) 70px}
+}
+@media (max-width:900px){
+  .field-grid{grid-template-columns:1fr}
+  .app-header{grid-template-columns:auto auto;gap:12px;padding:10px 16px}
+  .header-title{grid-column:1/-1;order:3}
+  .save-pill{font-size:10px;padding:5px 10px}
+  .heatmap{font-size:11px}
+}
+</style>
+<!-- Padrão visual unificado (sobrescreve estilos divergentes) -->
+<link rel="stylesheet" href="padrao-visual.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-logos">
+    <div class="logo-govrs"><img src="data:image/png;base64,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" alt="Governo do Estado do RS"></div>
+    <div class="logo-sep"></div>
+    <div class="logo-cage"><img src="data:image/png;base64,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" alt="CAGE"></div>
+  </div>
+  <div class="header-title">
+    <span class="eyebrow">Estado do Rio Grande do Sul</span>
+    <h1>Análise de Precificação de Obras</h1>
+    <span class="subtitle">Contadoria e Auditoria-Geral do Estado · Secretaria da Fazenda</span>
+  </div>
+  <div class="save-pill" id="savePill">Rascunho salvo · --:--</div>
+</header>
+
+<nav class="app-nav">
+  <div class="nav-tabs" id="navTabs"></div>
+  <button class="btn-clear" id="btnClear" title="Limpar todos os dados preenchidos">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+    Limpar preenchimento
+  </button>
+</nav>
+
+<main class="app-main" id="appMain"></main>
+
+<div class="modal-backdrop" id="modalClear">
+  <div class="modal">
+    <div class="modal-header"><h3>Confirmar limpeza dos dados</h3></div>
+    <div class="modal-body">
+      Esta ação removerá <strong>todos os campos preenchidos</strong> da ferramenta e o rascunho salvo localmente. Não é possível desfazer.<br><br>
+      Deseja continuar?
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modalCancel">Cancelar</button>
+      <button class="btn-danger" id="modalConfirm">Sim, limpar tudo</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+/* ============================================================
+   ESTADO E PERSISTÊNCIA
+   ============================================================ */
+const STORAGE_KEY = "cage_rs_precificacao_obras_v1";
+
+const ENUMS = {
+  simNao: ["", "Sim", "Não", "Parcial", "Não aplicável", "Não informado"],
+  natureza: ["", "Reforma", "Ampliação", "Retrofit", "Requalificação", "Construção nova", "Obra mista", "Outro"],
+  fase: ["", "Estudo preliminar", "Anteprojeto", "Projeto básico", "Projeto executivo", "Modelagem PPP", "Edital/Licitação", "Contrato", "Aditivo", "Execução", "Outro"],
+  qualidadeJustif: ["", "Explícita", "Implícita", "Parcial", "Inexistente", "Não aplicável"],
+  suficiencia: ["", "Suficiente", "Parcialmente suficiente", "Insuficiente", "Não aplicável"],
+  avaliacao: ["", "Conforme", "Parcialmente conforme", "Não conforme", "Não aplicável"],
+  risco: ["", "Baixo", "Médio", "Alto", "Não identificado"],
+  parecer: ["", "Consistente e adequadamente justificada", "Consistente com ressalvas pontuais", "Parcialmente consistente — requer complementação", "Inconsistente — requer revisão", "Insuficiente para análise conclusiva"]
+};
+
+const METODOLOGIAS = [
+  "SINAPI — Sistema Nacional de Pesquisa de Custos e Índices",
+  "SICRO — Sistema de Custos Referenciais de Obras (DNIT)",
+  "CUB/SINDUSCON — Custo Unitário Básico da Construção",
+  "Composições próprias do órgão/ente",
+  "Valores de contratações similares (preços contratados)",
+  "Cotações de mercado (coletas de preços)",
+  "Orçamento consultivo / consultoria especializada",
+  "Sistema interno do órgão (base própria)",
+  "Benchmark setorial / estudos de referência",
+  "Metodologia híbrida (combinação)",
+  "Outra metodologia (detalhar)"
+];
+
+const PARAMETROS_METOD = [
+  {k:"databasePrecos", l:"Data-base dos preços", t:"text", ph:"ex.: jul/2025"},
+  {k:"regionalizou", l:"Houve regionalização dos preços?", t:"sel", o:"simNao"},
+  {k:"regionalRef", l:"Estado/região adotado como referência", t:"text"},
+  {k:"atualizMonet", l:"Houve atualização monetária dos preços?", t:"sel", o:"simNao"},
+  {k:"indiceAtualiz", l:"Índice de atualização adotado (IPCA, INCC, IGP-M, etc.)", t:"text"},
+  {k:"benchmarkSimil", l:"Foram utilizados benchmarks de contratações similares?", t:"sel", o:"simNao"},
+  {k:"compsUnit", l:"Foram utilizadas composições unitárias de serviços?", t:"sel", o:"simNao"},
+  {k:"paramM2", l:"Foram utilizados parâmetros por m² (custo médio)?", t:"sel", o:"simNao"},
+  {k:"fatoresAdic", l:"Foram adotados fatores adicionais / incrementos / ajustes?", t:"sel", o:"simNao"},
+  {k:"fatoresDesc", l:"Descrição dos fatores adicionais e percentuais", t:"textarea"},
+  {k:"memCalc", l:"Há memória de cálculo detalhada disponível?", t:"sel", o:"simNao"},
+  {k:"artRrt", l:"Há ART/RRT do responsável pela precificação?", t:"sel", o:"simNao"}
+];
+
+const REFERENCIAS_ADEQ = [
+  "A(s) base(s) utilizada(s) é(são) compatível(is) com o tipo de obra?",
+  "A data-base dos preços é recente ou está adequadamente atualizada?",
+  "Houve uso preferencial de referências públicas (SINAPI/SICRO)?",
+  "Quando houve uso de cotações de mercado, há no mínimo 3 cotações?",
+  "As cotações de mercado apresentam data, origem e responsável?",
+  "O uso do CUB (quando aplicável) está acompanhado de incremento justificado?",
+  "As bases utilizadas cobrem todo o escopo da obra?"
+];
+
+const METRICAS_GLOBAIS = [
+  {k:"valorTotal", l:"Valor total da obra", u:"R$"},
+  {k:"areaTotal", l:"Área total construída/intervencionada", u:"m²"},
+  {k:"custoM2", l:"Custo por m² apurado", u:"R$/m²"},
+  {k:"bdi", l:"BDI adotado", u:"%"},
+  {k:"incrCub", l:"Taxa de incremento sobre CUB (se aplicável)", u:"%"},
+  {k:"contingencia", l:"Contingência / reserva técnica", u:"%"},
+  {k:"encargosSociais", l:"Encargos sociais aplicados", u:"%"},
+  {k:"custoDireto", l:"Custo direto total", u:"R$"},
+  {k:"custoIndireto", l:"Custo indireto total", u:"R$"}
+];
+
+const PARCELAS = [
+  "Serviços preliminares e canteiro",
+  "Fundações e contenções",
+  "Estrutura",
+  "Vedações e esquadrias",
+  "Instalações elétricas",
+  "Instalações hidrossanitárias",
+  "Instalações de prevenção e combate a incêndio",
+  "Climatização (HVAC)",
+  "Elevadores e transporte vertical",
+  "Acabamentos e revestimentos",
+  "Equipamentos especiais / mobiliário fixo",
+  "Infraestrutura externa / urbanização",
+  "Projetos e aprovações",
+  "Licenciamento ambiental",
+  "Administração da obra / canteiro",
+  "Desapropriações",
+  "Outros serviços complementares"
+];
+
+const JUSTIFICATIVAS_TOPICOS = [
+  "Justificativa para a escolha da metodologia de precificação",
+  "Justificativa para a escolha da(s) base(s) de preços",
+  "Justificativa para a data-base adotada",
+  "Justificativa para o BDI adotado",
+  "Justificativa para taxa de incremento sobre CUB (se aplicável)",
+  "Justificativa para fatores adicionais, percentuais ou ajustes",
+  "Justificativa para parâmetros por m² (quando usados)",
+  "Justificativa para contingência / reserva técnica",
+  "Justificativa para composições próprias (se houver)",
+  "Justificativa para valores de cotação de mercado (se houver)"
+];
+
+const FUNDAMENTACAO = [
+  {k:"normaReg", l:"As justificativas estão apoiadas em norma ou regulamento?", t:"sel"},
+  {k:"normasQuais", l:"Quais normas/regulamentos (se aplicável)?", t:"text"},
+  {k:"benchmarkExt", l:"As justificativas estão apoiadas em benchmark externo?", t:"sel"},
+  {k:"estudosAnt", l:"As justificativas estão apoiadas em estudos anteriores?", t:"sel"},
+  {k:"experInst", l:"As justificativas estão apoiadas em experiência institucional?", t:"sel"},
+  {k:"premissasProp", l:"As justificativas estão apoiadas em premissas próprias explicitadas?", t:"sel"},
+  {k:"parecerEsp", l:"As justificativas citam parecer técnico específico?", t:"sel"}
+];
+
+const CHECKLIST_CRITICO = [
+  "A metodologia adotada está claramente documentada?",
+  "Os cálculos são rastreáveis desde as quantidades até o valor final?",
+  "A memória de cálculo permite reproduzir os resultados?",
+  "A referência de preços é compatível com o tipo de obra (reforma/nova/retrofit)?",
+  "O BDI adotado é compatível com o tipo de contratação e porte da obra?",
+  "O BDI inclui apenas componentes pertinentes (sem duplicidade)?",
+  "Há risco de dupla contagem entre composições unitárias e parcelas específicas?",
+  "O uso do CUB (se houver) está restrito a hipóteses adequadas?",
+  "Os incrementos sobre o CUB estão justificados tecnicamente?",
+  "As cotações de mercado (se usadas) apresentam origem e data verificáveis?",
+  "Há compatibilidade entre a data-base dos preços e a atualização adotada?",
+  "A regionalização dos preços reflete as condições do RS / local da obra?",
+  "Os parâmetros por m² (se usados) estão compatíveis com benchmarks do setor?",
+  "A precificação guarda coerência com contratações similares do órgão?",
+  "Existem componentes ausentes que deveriam estar contemplados?",
+  "O valor global apresenta coerência com a complexidade e o escopo da obra?",
+  "Há risco de superestimação / subestimação identificável?",
+  "A consistência global da precificação é aceitável?"
+];
+
+const SINTESE_TOPICOS = [
+  {k:"sMetod", l:"Metodologia de precificação adotada"},
+  {k:"sRefs", l:"Referências de preços utilizadas"},
+  {k:"sParams", l:"Principais parâmetros e componentes"},
+  {k:"sJustif", l:"Justificativa técnica apresentada"},
+  {k:"sCons", l:"Avaliação da consistência metodológica"},
+  {k:"sFrag", l:"Fragilidades, lacunas e ressalvas identificadas"},
+  {k:"sRecom", l:"Recomendações e encaminhamentos sugeridos"},
+  {k:"sConcl", l:"Conclusão objetiva da análise"}
+];
+
+const TABS = [
+  {id:"instr", num:"i", title:"Instruções", short:"Instruções"},
+  {id:"capa", num:"00", title:"Capa", short:"Capa"},
+  {id:"identif", num:"01", title:"Identificação", short:"Identificação", required:true},
+  {id:"metod", num:"02", title:"Metodologia", short:"Metodologia", required:true},
+  {id:"refs", num:"03", title:"Referências", short:"Referências"},
+  {id:"comps", num:"04", title:"Componentes", short:"Componentes"},
+  {id:"justif", num:"05", title:"Justificativa", short:"Justificativa"},
+  {id:"critic", num:"06", title:"Análise Crítica", short:"Análise Crítica", required:true},
+  {id:"sint", num:"07", title:"Síntese", short:"Síntese"},
+  {id:"rel", num:"08", title:"Relatório", short:"Relatório"},
+  {id:"dash", num:"09", title:"Dashboard", short:"Dashboard"}
+];
+
+function defaultState(){
+  return {
+    capa: {obraProj:"",orgao:"",responsavel:"",unidade:"",dataIni:"",dataFim:"",versao:"1.0"},
+    identif: {nomeProjeto:"",objetoResumido:"",orgaoEnt:"",unidadeDem:"",numProcesso:"",modalidade:"",tipoEmpreend:"",natureza:"",areaEstim:"",valorTotal:"",prazoExec:"",localizacao:"",fase:"",docsAnalisados:"",databasePrecos:"",docOrigem:"",respTecPrec:"",artRrt:"",artRrtDetalhe:"",observacoes:""},
+    metod: {usadas:METODOLOGIAS.map(()=>({usada:"",detalhe:"",obs:""})), params:Object.fromEntries(PARAMETROS_METOD.map(p=>[p.k,""]))},
+    refs: {bases:Array.from({length:10},()=>({base:"",databasePrecos:"",versao:"",abrangencia:"",escopo:""})), adeq:REFERENCIAS_ADEQ.map(()=>({val:"",obs:""}))},
+    comps: {metricas:Object.fromEntries(METRICAS_GLOBAIS.map(m=>[m.k,{valor:"",ref:"",obs:""}])), parcelas:PARCELAS.map(()=>({pres:"",valor:"",pct:"",obs:""}))},
+    justif: {tops:JUSTIFICATIVAS_TOPICOS.map(()=>({objeto:"",justif:"",qual:""})), fund:Object.fromEntries(FUNDAMENTACAO.map(f=>[f.k,""])), avaliacao:"", fundament:""},
+    critic: CHECKLIST_CRITICO.map(()=>({aval:"",risco:"",coment:""})),
+    sint: Object.fromEntries(SINTESE_TOPICOS.map(t=>[t.k,""])),
+    sintParecer: ""
+  };
+}
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    const loaded = JSON.parse(raw);
+    return mergeDeep(defaultState(), loaded);
+  }catch(e){
+    console.warn("Erro ao carregar estado:", e);
+    return defaultState();
+  }
+}
+
+function mergeDeep(target, source){
+  if(typeof source !== "object" || source === null) return target;
+  if(Array.isArray(target)){
+    if(!Array.isArray(source)) return target;
+    const out = target.map((item, i) => i < source.length ? mergeDeep(item, source[i]) : item);
+    return out;
+  }
+  const out = {...target};
+  for(const k in source){
+    if(k in target && typeof target[k] === "object" && target[k] !== null && !Array.isArray(target[k])){
+      out[k] = mergeDeep(target[k], source[k]);
+    } else if(k in target){
+      out[k] = source[k];
+    }
+  }
+  return out;
+}
+
+let saveTimer = null;
+function scheduleSave(){
+  if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const t = new Date();
+      const hh = String(t.getHours()).padStart(2,"0");
+      const mm = String(t.getMinutes()).padStart(2,"0");
+      document.getElementById("savePill").textContent = `Rascunho salvo · ${hh}:${mm}`;
+    }catch(e){
+      document.getElementById("savePill").textContent = "Erro ao salvar";
+    }
+  }, 500);
+}
+
+/* ============================================================
+   RENDERIZADORES DE CADA ABA
+   ============================================================ */
+function el(tag, attrs={}, ...children){
+  const e = document.createElement(tag);
+  for(const k in attrs){
+    if(k === "class") e.className = attrs[k];
+    else if(k === "html") e.innerHTML = attrs[k];
+    else if(k.startsWith("on") && typeof attrs[k] === "function") e.addEventListener(k.slice(2), attrs[k]);
+    else if(attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+  }
+  for(const c of children){
+    if(c == null) continue;
+    if(typeof c === "string") e.appendChild(document.createTextNode(c));
+    else e.appendChild(c);
+  }
+  return e;
+}
+
+function field(label, input, help){
+  const f = el("div", {class:"field"});
+  f.appendChild(el("label", {class:"field-label"}, label));
+  f.appendChild(input);
+  if(help) f.appendChild(el("div", {class:"field-help"}, help));
+  return f;
+}
+
+function inp(value, onInput, opts={}){
+  const i = el("input", {class:"input", type:opts.type||"text", placeholder:opts.ph||""});
+  i.value = value || "";
+  i.addEventListener("input", e => { onInput(e.target.value); scheduleSave(); });
+  return i;
+}
+function txa(value, onInput, opts={}){
+  const t = el("textarea", {class:"textarea", rows:opts.rows||3, placeholder:opts.ph||""});
+  t.value = value || "";
+  t.addEventListener("input", e => { onInput(e.target.value); scheduleSave(); });
+  return t;
+}
+function sel(value, options, onChange){
+  const s = el("select", {class:"select"});
+  for(const opt of options){
+    const o = el("option", {value:opt}, opt || "— selecionar —");
+    if(opt === value) o.selected = true;
+    s.appendChild(o);
+  }
+  s.addEventListener("change", e => { onChange(e.target.value); scheduleSave(); });
+  return s;
+}
+function tblSel(value, options, onChange){
+  const s = el("select", {class:"tbl-select"});
+  for(const opt of options){
+    const o = el("option", {value:opt}, opt || "—");
+    if(opt === value) o.selected = true;
+    s.appendChild(o);
+  }
+  s.addEventListener("change", e => { onChange(e.target.value); scheduleSave(); });
+  return s;
+}
+function tblInp(value, onInput, opts={}){
+  const i = el("input", {class:"tbl-input", type:opts.type||"text", placeholder:opts.ph||""});
+  i.value = value || "";
+  i.addEventListener("input", e => { onInput(e.target.value); scheduleSave(); });
+  return i;
+}
+
+/* ---------- ABA: INSTRUÇÕES ---------- */
+function renderInstr(){
+  const root = el("div", {class:"tab-panel", id:"panel-instr"});
+  root.appendChild(panelHeader("Sobre a ferramenta", "Instruções de uso", "Roteiro analítico padronizado da CAGE/SEFAZ-RS para apoiar a avaliação técnica de precificação de obras em estudos, modelagens, projetos, editais e contratos."));
+
+  const card = el("div", {class:"card"});
+  const body = el("div", {class:"card-body"});
+
+  body.appendChild(instrBlock("Finalidade", [
+    "Ferramenta elaborada para apoiar a análise técnica da precificação de obras em estudos, modelagens, projetos, editais ou contratos.",
+    "Não se destina a um único projeto — serve como base padronizada para diferentes tipos de objeto."
+  ]));
+
+  body.appendChild(instrBlock("Fluxo de preenchimento", [
+    "<strong>Capa</strong> — identificação do preenchimento: caso analisado, analista, data.",
+    "<strong>1. Identificação</strong> — cadastro dos dados do projeto, órgão, modalidade, fase e documentos examinados.",
+    "<strong>2. Metodologia</strong> — metodologias utilizadas e parâmetros (data-base, regionalização, atualização, composições, fatores adicionais).",
+    "<strong>3. Referências</strong> — referência de preços identificadas e adequação ao objeto.",
+    "<strong>4. Componentes</strong> — métricas globais (valor total, m², BDI) e as parcelas do custo.",
+    "<strong>5. Justificativa</strong> — síntese das justificativas identificadas e avaliação de qualidade.",
+    "<strong>6. Análise Crítica</strong> — checklist avaliativo de maturidade metodológica.",
+    "<strong>7. Síntese</strong> — elaboração da síntese interpretativa e do parecer global.",
+    "<strong>8. Relatório</strong> — texto gerado serve como base para o relatório.",
+    "<strong>9. Dashboard</strong> — visão consolidada da análise crítica."
+  ], true));
+
+  body.appendChild(instrBlock("Boas práticas", [
+    "Preencha seções descritivas com frases objetivas e claras — o texto segue para o relatório automatizado.",
+    "Indique sempre a fonte documental das informações (processo, página, item) para rastreabilidade.",
+    "Ao concluir, revise a aba Relatório e edite o texto-base antes da emissão formal.",
+    "Os dados são salvos automaticamente no seu navegador (rascunho). Não há envio externo."
+  ]));
+
+  body.appendChild(instrBlock("Aproveitamento para o relatório", [
+    "O texto da aba <strong>Relatório</strong> contempla: identificação do caso, metodologia, referências, parâmetros, justificativa, análise crítica, fragilidades, recomendações e conclusão.",
+    "Os indicadores automatizados (conformidade e risco) podem ser utilizados como anexo ao parecer."
+  ]));
+
+  const callout = el("div", {class:"callout"});
+  callout.innerHTML = "<strong>Referências normativas e técnicas:</strong> Lei federal nº 14.133/2021 (Nova Lei de Licitações); Lei federal nº 11.079/2004 (PPP); Lei estadual nº 12.234/2005 (Programa de PPPs do RS); Acórdãos TCU sobre BDI e orçamentação de obras públicas (Acórdãos 2.622/2013-Plenário e 2.369/2011-Plenário); Manual de Metodologias e Conceitos do SINAPI (CAIXA/IBGE); Manual de Custos de Infraestrutura de Transportes do DNIT (SICRO).";
+  body.appendChild(callout);
+
+  card.appendChild(body);
+  root.appendChild(card);
+  return root;
+}
+
+function instrBlock(title, items, ordered){
+  const b = el("div", {class:"instr-block"});
+  b.appendChild(el("h4", {}, title));
+  const list = el(ordered ? "ol" : "ul");
+  items.forEach(it => list.appendChild(el("li", {html:it})));
+  b.appendChild(list);
+  return b;
+}
+
+function panelHeader(stepLabel, title, desc){
+  const h = el("div", {class:"panel-header"});
+  h.appendChild(el("div", {class:"step-label"}, stepLabel));
+  h.appendChild(el("h1", {}, title));
+  if(desc) h.appendChild(el("div", {class:"panel-desc"}, desc));
+  return h;
+}
+
+/* ---------- ABA: CAPA ---------- */
+function renderCapa(){
+  const root = el("div", {class:"tab-panel", id:"panel-capa"});
+
+  const hero = el("div", {class:"capa-hero"});
+  hero.appendChild(el("span", {class:"eyebrow"}, "Análise técnica · Precificação de obras"));
+  hero.appendChild(el("h1", {}, "Roteiro Analítico para Avaliação de Precificação"));
+  hero.appendChild(el("div", {class:"lead"}, "Checklist e roteiro padronizado para avaliação técnica de precificação em projetos, modelagens, editais e contratos. Aplicável a obras diretas, PPP, concessões e demais modalidades."));
+
+  const legend = el("div", {class:"legend"});
+  [
+    {c:"#FFFBEA", l:"Campo de preenchimento", b:"#E8C76B"},
+    {c:"#D9F2DC", l:"Conformidade", b:"#15803D"},
+    {c:"#FEF3C7", l:"Ressalva", b:"#B45309"},
+    {c:"#FEE2E2", l:"Risco ou fragilidade", b:"#8B1A1A"}
+  ].forEach(it => {
+    const li = el("div", {class:"legend-item"});
+    const sw = el("span", {class:"legend-swatch"});
+    sw.style.background = it.c;
+    sw.style.borderColor = it.b;
+    li.appendChild(sw);
+    li.appendChild(el("span", {}, it.l));
+    legend.appendChild(li);
+  });
+  hero.appendChild(legend);
+  root.appendChild(hero);
+
+  const card = el("div", {class:"card"});
+  card.appendChild(cardHeader("Identificação do preenchimento"));
+  const body = el("div", {class:"card-body"});
+  const grid = el("div", {class:"field-grid"});
+  const c = state.capa;
+  grid.appendChild(field("Obra/Projeto analisado", inp(c.obraProj, v => c.obraProj = v)));
+  grid.appendChild(field("Órgão/Entidade responsável", inp(c.orgao, v => c.orgao = v)));
+  grid.appendChild(field("Responsável(is) pela análise", inp(c.responsavel, v => c.responsavel = v)));
+  grid.appendChild(field("Unidade", inp(c.unidade, v => c.unidade = v)));
+  grid.appendChild(field("Data de início da análise", inp(c.dataIni, v => c.dataIni = v, {type:"date"})));
+  grid.appendChild(field("Data de conclusão da análise", inp(c.dataFim, v => c.dataFim = v, {type:"date"})));
+  grid.appendChild(field("Versão do preenchimento", inp(c.versao, v => c.versao = v)));
+  body.appendChild(grid);
+  card.appendChild(body);
+  root.appendChild(card);
+
+  const card2 = el("div", {class:"card"});
+  card2.appendChild(cardHeader("Sumário da ferramenta"));
+  const body2 = el("div", {class:"card-body"});
+  const sumTbl = el("table", {class:"tbl summary-table"});
+  const tb = el("tbody");
+  const rows = [
+    ["Aba 1", "Identificação do caso analisado"],
+    ["Aba 2", "Metodologia de precificação"],
+    ["Aba 3", "Referências e bases de preços"],
+    ["Aba 4", "Parâmetros e componentes do custo"],
+    ["Aba 5", "Justificativa técnica"],
+    ["Aba 6", "Análise crítica da consistência"],
+    ["Aba 7", "Síntese conclusiva"],
+    ["Aba 8", "Relatório técnico (texto-base)"],
+    ["Aba 9", "Dashboard consolidado"]
+  ];
+  rows.forEach(r => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {}, r[0]));
+    tr.appendChild(el("td", {}, r[1]));
+    tb.appendChild(tr);
+  });
+  sumTbl.appendChild(tb);
+  body2.appendChild(sumTbl);
+  card2.appendChild(body2);
+  root.appendChild(card2);
+
+  return root;
+}
+
+function cardHeader(title, right){
+  const h = el("div", {class:"card-header"});
+  h.appendChild(el("h3", {}, title));
+  if(right) h.appendChild(right);
+  return h;
+}
+
+/* ---------- ABA: IDENTIFICAÇÃO ---------- */
+function renderIdentif(){
+  const root = el("div", {class:"tab-panel", id:"panel-identif"});
+  root.appendChild(panelHeader("Aba 1", "Identificação do caso analisado", "Registro dos dados básicos do objeto submetido à análise. Recomenda-se preencher integralmente para garantir rastreabilidade no relatório final."));
+
+  const d = state.identif;
+
+  const c1 = el("div", {class:"card"});
+  c1.appendChild(cardHeader("1.1 Identificação geral"));
+  const b1 = el("div", {class:"card-body"});
+  const g1 = el("div", {class:"field-grid"});
+  g1.appendChild(field("Nome do projeto / estudo / contratação", inp(d.nomeProjeto, v => d.nomeProjeto = v)));
+  g1.appendChild(field("Objeto resumido", inp(d.objetoResumido, v => d.objetoResumido = v)));
+  g1.appendChild(field("Órgão ou entidade responsável", inp(d.orgaoEnt, v => d.orgaoEnt = v)));
+  g1.appendChild(field("Unidade demandante / requisitante", inp(d.unidadeDem, v => d.unidadeDem = v)));
+  g1.appendChild(field("Número do processo / expediente (PROA, SEI...)", inp(d.numProcesso, v => d.numProcesso = v)));
+  g1.appendChild(field("Modalidade contratual", inp(d.modalidade, v => d.modalidade = v, {ph:"PPP, concessão, obra direta, RDC..."})));
+  b1.appendChild(g1);
+  c1.appendChild(b1);
+  root.appendChild(c1);
+
+  const c2 = el("div", {class:"card"});
+  c2.appendChild(cardHeader("1.2 Caracterização do objeto"));
+  const b2 = el("div", {class:"card-body"});
+  const g2 = el("div", {class:"field-grid"});
+  g2.appendChild(field("Tipo de empreendimento (setor / função)", inp(d.tipoEmpreend, v => d.tipoEmpreend = v)));
+  g2.appendChild(field("Natureza", sel(d.natureza, ENUMS.natureza, v => d.natureza = v)));
+  g2.appendChild(field("Área estimada (m²)", inp(d.areaEstim, v => d.areaEstim = v, {type:"number"})));
+  g2.appendChild(field("Valor total da obra no documento (R$)", inp(d.valorTotal, v => d.valorTotal = v, {type:"number"})));
+  g2.appendChild(field("Prazo estimado de execução", inp(d.prazoExec, v => d.prazoExec = v, {ph:"meses"})));
+  g2.appendChild(field("Localização", inp(d.localizacao, v => d.localizacao = v)));
+  b2.appendChild(g2);
+  c2.appendChild(b2);
+  root.appendChild(c2);
+
+  const c3 = el("div", {class:"card"});
+  c3.appendChild(cardHeader("1.3 Fase e fonte documental"));
+  const b3 = el("div", {class:"card-body"});
+  const g3 = el("div", {class:"field-grid"});
+  g3.appendChild(field("Fase do projeto analisada", sel(d.fase, ENUMS.fase, v => d.fase = v)));
+  g3.appendChild(field("Documentos analisados (referências)", inp(d.docsAnalisados, v => d.docsAnalisados = v)));
+  g3.appendChild(field("Data-base dos preços", inp(d.databasePrecos, v => d.databasePrecos = v, {ph:"ex.: jul/2025"})));
+  g3.appendChild(field("Documento de origem da memória de cálculo", inp(d.docOrigem, v => d.docOrigem = v)));
+  g3.appendChild(field("Responsável técnico pela precificação (se identificado)", inp(d.respTecPrec, v => d.respTecPrec = v)));
+  g3.appendChild(field("Existe ART/RRT anexado ou referenciado?", sel(d.artRrt, ENUMS.simNao, v => d.artRrt = v)));
+  b3.appendChild(g3);
+  b3.appendChild(field("Detalhar ART/RRT (se aplicável)", txa(d.artRrtDetalhe, v => d.artRrtDetalhe = v, {rows:2})));
+  c3.appendChild(b3);
+  root.appendChild(c3);
+
+  const c4 = el("div", {class:"card"});
+  c4.appendChild(cardHeader("1.4 Observações preliminares"));
+  const b4 = el("div", {class:"card-body"});
+  b4.appendChild(field("Observações / contexto relevante para a análise", txa(d.observacoes, v => d.observacoes = v, {rows:4, ph:"Contexto, antecedentes, fatos relevantes para a interpretação da precificação..."})));
+  c4.appendChild(b4);
+  root.appendChild(c4);
+
+  return root;
+}
+
+/* ---------- ABA: METODOLOGIA ---------- */
+function renderMetod(){
+  const root = el("div", {class:"tab-panel", id:"panel-metod"});
+  root.appendChild(panelHeader("Aba 2", "Metodologia de precificação", "Registro das metodologias utilizadas para mensurar o valor das obras: bases de preços, data-base, regionalização, atualização monetária, benchmarks, composições unitárias ou fatores adicionais."));
+
+  const c1 = el("div", {class:"card"});
+  c1.appendChild(cardHeader("2.1 Metodologias utilizadas", el("span", {class:"badge badge-mono"}, `${countMetodologiasUsadas()} marcada(s) como SIM`)));
+  const b1 = el("div", {class:"card-body"});
+  const tbl = el("table", {class:"tbl"});
+  const thead = el("thead");
+  const trh = el("tr");
+  ["Metodologia / Referência", "Utilizada?", "Detalhamento (base, versão, local aplicado)", "Observações críticas"].forEach((h,i) => {
+    trh.appendChild(el("th", {style: i===0 ? "width:32%" : i===1 ? "width:14%" : ""}, h));
+  });
+  thead.appendChild(trh);
+  tbl.appendChild(thead);
+
+  const tb = el("tbody");
+  METODOLOGIAS.forEach((m,i) => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {class:"row-label"}, m));
+    const tdSel = el("td");
+    tdSel.appendChild(tblSel(state.metod.usadas[i].usada, ENUMS.simNao, v => {
+      state.metod.usadas[i].usada = v;
+      const badgeEl = c1.querySelector(".badge-mono");
+      if(badgeEl) badgeEl.textContent = `${countMetodologiasUsadas()} marcada(s) como SIM`;
+    }));
+    tr.appendChild(tdSel);
+    const tdDet = el("td");
+    tdDet.appendChild(tblInp(state.metod.usadas[i].detalhe, v => state.metod.usadas[i].detalhe = v));
+    tr.appendChild(tdDet);
+    const tdObs = el("td");
+    tdObs.appendChild(tblInp(state.metod.usadas[i].obs, v => state.metod.usadas[i].obs = v));
+    tr.appendChild(tdObs);
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  b1.appendChild(tbl);
+  c1.appendChild(b1);
+  root.appendChild(c1);
+
+  const c2 = el("div", {class:"card"});
+  c2.appendChild(cardHeader("2.2 Parâmetros metodológicos aplicados"));
+  const b2 = el("div", {class:"card-body"});
+  const grid = el("div", {class:"field-grid"});
+  PARAMETROS_METOD.forEach(p => {
+    let inputEl;
+    if(p.t === "sel") inputEl = sel(state.metod.params[p.k], ENUMS[p.o], v => state.metod.params[p.k] = v);
+    else if(p.t === "textarea") inputEl = txa(state.metod.params[p.k], v => state.metod.params[p.k] = v, {rows:2});
+    else inputEl = inp(state.metod.params[p.k], v => state.metod.params[p.k] = v, {ph:p.ph});
+    const f = field(p.l, inputEl);
+    if(p.t === "textarea") f.style.gridColumn = "1 / -1";
+    grid.appendChild(f);
+  });
+  b2.appendChild(grid);
+  c2.appendChild(b2);
+  root.appendChild(c2);
+
+  return root;
+}
+
+function countMetodologiasUsadas(){
+  return state.metod.usadas.filter(u => u.usada === "Sim").length;
+}
+
+/* ---------- ABA: REFERÊNCIAS ---------- */
+function renderRefs(){
+  const root = el("div", {class:"tab-panel", id:"panel-refs"});
+  root.appendChild(panelHeader("Aba 3", "Referências e bases de preços", "Registro das bases de preços utilizadas, com data-base, abrangência regional e adequação ao objeto. Permite avaliar se a referência escolhida é compatível com o tipo de obra."));
+
+  const c1 = el("div", {class:"card"});
+  c1.appendChild(cardHeader("3.1 Bases de preços empregadas"));
+  const b1 = el("div", {class:"card-body"});
+  const tbl = el("table", {class:"tbl"});
+  const thead = el("thead");
+  const trh = el("tr");
+  ["#", "Base de preços", "Data-base", "Versão/Tabela", "Abrangência regional", "Trecho do escopo"].forEach((h,i) => {
+    trh.appendChild(el("th", {style: i===0 ? "width:36px" : ""}, h));
+  });
+  thead.appendChild(trh);
+  tbl.appendChild(thead);
+
+  const tb = el("tbody");
+  state.refs.bases.forEach((b,i) => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {class:"num-cell"}, String(i+1).padStart(2,"0")));
+    const tdB = el("td"); tdB.appendChild(tblInp(b.base, v => b.base = v, {ph:"SINAPI, SICRO..."})); tr.appendChild(tdB);
+    const tdD = el("td"); tdD.appendChild(tblInp(b.databasePrecos, v => b.databasePrecos = v, {ph:"mm/aaaa"})); tr.appendChild(tdD);
+    const tdV = el("td"); tdV.appendChild(tblInp(b.versao, v => b.versao = v)); tr.appendChild(tdV);
+    const tdA = el("td"); tdA.appendChild(tblInp(b.abrangencia, v => b.abrangencia = v)); tr.appendChild(tdA);
+    const tdE = el("td"); tdE.appendChild(tblInp(b.escopo, v => b.escopo = v)); tr.appendChild(tdE);
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  b1.appendChild(tbl);
+  c1.appendChild(b1);
+  root.appendChild(c1);
+
+  const c2 = el("div", {class:"card"});
+  c2.appendChild(cardHeader("3.2 Análise de adequação das bases"));
+  const b2 = el("div", {class:"card-body"});
+  const tbl2 = el("table", {class:"tbl"});
+  const th2 = el("thead");
+  const tr2 = el("tr");
+  ["Questão", "Avaliação", "Comentários / evidências"].forEach((h,i) => {
+    tr2.appendChild(el("th", {style: i===0 ? "width:50%" : i===1 ? "width:20%" : ""}, h));
+  });
+  th2.appendChild(tr2);
+  tbl2.appendChild(th2);
+  const tb2 = el("tbody");
+  REFERENCIAS_ADEQ.forEach((q,i) => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {class:"row-label"}, q));
+    const tdS = el("td");
+    tdS.appendChild(tblSel(state.refs.adeq[i].val, ENUMS.simNao, v => state.refs.adeq[i].val = v));
+    tr.appendChild(tdS);
+    const tdO = el("td");
+    tdO.appendChild(tblInp(state.refs.adeq[i].obs, v => state.refs.adeq[i].obs = v));
+    tr.appendChild(tdO);
+    tb2.appendChild(tr);
+  });
+  tbl2.appendChild(tb2);
+  b2.appendChild(tbl2);
+  c2.appendChild(b2);
+  root.appendChild(c2);
+
+  return root;
+}
+
+/* ---------- ABA: COMPONENTES ---------- */
+function renderComps(){
+  const root = el("div", {class:"tab-panel", id:"panel-comps"});
+  root.appendChild(panelHeader("Aba 4", "Parâmetros e componentes do custo", "Registro e avaliação dos componentes que formam o custo total da obra: custo por m², BDI, fundações, projetos, acabamentos, equipamentos, climatização, serviços complementares, infraestrutura externa e demais parcelas."));
+
+  const c1 = el("div", {class:"card"});
+  c1.appendChild(cardHeader("4.1 Métricas globais de precificação"));
+  const b1 = el("div", {class:"card-body"});
+  const tbl = el("table", {class:"tbl"});
+  const thead = el("thead");
+  const trh = el("tr");
+  ["Métrica", "Valor apurado", "Unidade", "Referência/benchmark", "Comentários"].forEach((h,i) => {
+    trh.appendChild(el("th", {style: i===2 ? "width:80px" : ""}, h));
+  });
+  thead.appendChild(trh);
+  tbl.appendChild(thead);
+  const tb = el("tbody");
+  METRICAS_GLOBAIS.forEach(m => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {class:"row-label"}, m.l));
+    const tdV = el("td", {class:"num-cell"});
+    tdV.appendChild(tblInp(state.comps.metricas[m.k].valor, v => state.comps.metricas[m.k].valor = v, {type:"number"}));
+    tr.appendChild(tdV);
+    tr.appendChild(el("td", {class:"mono", style:"font-size:11px;color:var(--ink-muted)"}, m.u));
+    const tdR = el("td"); tdR.appendChild(tblInp(state.comps.metricas[m.k].ref, v => state.comps.metricas[m.k].ref = v)); tr.appendChild(tdR);
+    const tdO = el("td"); tdO.appendChild(tblInp(state.comps.metricas[m.k].obs, v => state.comps.metricas[m.k].obs = v)); tr.appendChild(tdO);
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  b1.appendChild(tbl);
+  c1.appendChild(b1);
+  root.appendChild(c1);
+
+  const c2 = el("div", {class:"card"});
+  const updateTotalsHeader = () => {
+    const totals = computeParcelasTotals();
+    const badge = c2.querySelector(".badge-mono");
+    if(badge) badge.textContent = `${totals.pres} presente(s) · R$ ${fmtNum(totals.valor)} · ${fmtNum(totals.pct,2)}%`;
+  };
+  const initialTotals = computeParcelasTotals();
+  c2.appendChild(cardHeader("4.2 Parcelas / componentes do custo", el("span", {class:"badge badge-mono"}, `${initialTotals.pres} presente(s) · R$ ${fmtNum(initialTotals.valor)} · ${fmtNum(initialTotals.pct,2)}%`)));
+  const b2 = el("div", {class:"card-body"});
+  const tbl2 = el("table", {class:"tbl"});
+  const th2 = el("thead");
+  const tr2 = el("tr");
+  ["Parcela / Componente", "Presente?", "Valor (R$)", "% do total", "Observações técnicas"].forEach((h,i) => {
+    tr2.appendChild(el("th", {style: i===1 ? "width:14%" : i===2 || i===3 ? "width:14%" : ""}, h));
+  });
+  th2.appendChild(tr2);
+  tbl2.appendChild(th2);
+  const tb2 = el("tbody");
+  PARCELAS.forEach((p,i) => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {class:"row-label"}, p));
+    const tdP = el("td");
+    tdP.appendChild(tblSel(state.comps.parcelas[i].pres, ENUMS.simNao, v => { state.comps.parcelas[i].pres = v; updateTotalsHeader(); refreshTotalsRow(); }));
+    tr.appendChild(tdP);
+    const tdV = el("td", {class:"num-cell"});
+    tdV.appendChild(tblInp(state.comps.parcelas[i].valor, v => { state.comps.parcelas[i].valor = v; updateTotalsHeader(); refreshTotalsRow(); }, {type:"number"}));
+    tr.appendChild(tdV);
+    const tdPct = el("td", {class:"num-cell"});
+    tdPct.appendChild(tblInp(state.comps.parcelas[i].pct, v => { state.comps.parcelas[i].pct = v; updateTotalsHeader(); refreshTotalsRow(); }, {type:"number"}));
+    tr.appendChild(tdPct);
+    const tdO = el("td"); tdO.appendChild(tblInp(state.comps.parcelas[i].obs, v => state.comps.parcelas[i].obs = v)); tr.appendChild(tdO);
+    tb2.appendChild(tr);
+  });
+  tbl2.appendChild(tb2);
+  const tfoot = el("tfoot");
+  const trT = el("tr");
+  trT.appendChild(el("td", {class:"row-label"}, "TOTAL DAS PARCELAS INFORMADAS"));
+  trT.appendChild(el("td", {id:"parc-tot-pres", class:"num-cell"}));
+  trT.appendChild(el("td", {id:"parc-tot-val", class:"num-cell"}));
+  trT.appendChild(el("td", {id:"parc-tot-pct", class:"num-cell"}));
+  trT.appendChild(el("td"));
+  tfoot.appendChild(trT);
+  tbl2.appendChild(tfoot);
+  b2.appendChild(tbl2);
+  c2.appendChild(b2);
+  root.appendChild(c2);
+
+  function refreshTotalsRow(){
+    const t = computeParcelasTotals();
+    document.getElementById("parc-tot-pres").textContent = t.pres;
+    document.getElementById("parc-tot-val").textContent = fmtNum(t.valor);
+    document.getElementById("parc-tot-pct").textContent = fmtNum(t.pct,2);
+  }
+  setTimeout(refreshTotalsRow, 0);
+
+  return root;
+}
+
+function computeParcelasTotals(){
+  let pres = 0, valor = 0, pct = 0;
+  state.comps.parcelas.forEach(p => {
+    if(p.pres === "Sim") pres++;
+    valor += parseFloat(p.valor) || 0;
+    pct += parseFloat(p.pct) || 0;
+  });
+  return {pres, valor, pct};
+}
+
+function fmtNum(n, decimals = 0){
+  if(!isFinite(n) || n === 0) return decimals === 0 ? "0" : Number(0).toFixed(decimals);
+  return Number(n).toLocaleString("pt-BR", {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+}
+
+/* ---------- ABA: JUSTIFICATIVA ---------- */
+function renderJustif(){
+  const root = el("div", {class:"tab-panel", id:"panel-justif"});
+  root.appendChild(panelHeader("Aba 5", "Justificativa técnica da precificação", "Transcrição, síntese e avaliação da justificativa técnica apresentada nos documentos analisados. Examina se a justificativa é explícita, suficiente e fundamentada."));
+
+  const c1 = el("div", {class:"card"});
+  c1.appendChild(cardHeader("5.1 Justificativas apresentadas nos documentos"));
+  const b1 = el("div", {class:"card-body"});
+  const tbl = el("table", {class:"tbl"});
+  const thead = el("thead");
+  const trh = el("tr");
+  ["Tópico", "Objeto identificado nos documentos", "Justificativa transcrita / sintetizada", "Qualidade"].forEach((h,i) => {
+    trh.appendChild(el("th", {style: i===0 ? "width:30%" : i===3 ? "width:140px" : ""}, h));
+  });
+  thead.appendChild(trh);
+  tbl.appendChild(thead);
+  const tb = el("tbody");
+  JUSTIFICATIVAS_TOPICOS.forEach((t,i) => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {class:"row-label"}, t));
+    const tdO = el("td"); tdO.appendChild(tblInp(state.justif.tops[i].objeto, v => state.justif.tops[i].objeto = v)); tr.appendChild(tdO);
+    const tdJ = el("td"); tdJ.appendChild(tblInp(state.justif.tops[i].justif, v => state.justif.tops[i].justif = v)); tr.appendChild(tdJ);
+    const tdQ = el("td"); tdQ.appendChild(tblSel(state.justif.tops[i].qual, ENUMS.qualidadeJustif, v => state.justif.tops[i].qual = v)); tr.appendChild(tdQ);
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  b1.appendChild(tbl);
+  c1.appendChild(b1);
+  root.appendChild(c1);
+
+  const c2 = el("div", {class:"card"});
+  c2.appendChild(cardHeader("5.2 Fundamentação das justificativas"));
+  const b2 = el("div", {class:"card-body"});
+  const grid = el("div", {class:"field-grid"});
+  FUNDAMENTACAO.forEach(f => {
+    let input;
+    if(f.t === "sel") input = sel(state.justif.fund[f.k], ENUMS.simNao, v => state.justif.fund[f.k] = v);
+    else input = inp(state.justif.fund[f.k], v => state.justif.fund[f.k] = v);
+    grid.appendChild(field(f.l, input));
+  });
+  b2.appendChild(grid);
+  c2.appendChild(b2);
+  root.appendChild(c2);
+
+  const c3 = el("div", {class:"card"});
+  c3.appendChild(cardHeader("5.3 Avaliação global da suficiência"));
+  const b3 = el("div", {class:"card-body"});
+  b3.appendChild(field("Avaliação global da suficiência da justificativa apresentada", sel(state.justif.avaliacao, ENUMS.suficiencia, v => state.justif.avaliacao = v)));
+  b3.appendChild(field("Fundamentação da avaliação (síntese do analista)", txa(state.justif.fundament, v => state.justif.fundament = v, {rows:4})));
+  c3.appendChild(b3);
+  root.appendChild(c3);
+
+  return root;
+}
+
+/* ---------- ABA: ANÁLISE CRÍTICA ---------- */
+function renderCritic(){
+  const root = el("div", {class:"tab-panel", id:"panel-critic"});
+  root.appendChild(panelHeader("Aba 6", "Análise crítica da consistência metodológica", "Checklist orientado a evidenciar clareza metodológica, rastreabilidade dos cálculos, compatibilidade da referência, risco de duplicidade, coerência do BDI e suficiência da memória de cálculo."));
+
+  const card = el("div", {class:"card"});
+  const updateProgress = () => {
+    const total = state.critic.length;
+    const filled = state.critic.filter(r => r.aval).length;
+    const badge = card.querySelector(".badge-mono");
+    if(badge) badge.textContent = `${filled}/${total} avaliados`;
+  };
+  const initFilled = state.critic.filter(r => r.aval).length;
+  card.appendChild(cardHeader("6.1 Checklist avaliativo de consistência", el("span", {class:"badge badge-mono"}, `${initFilled}/${state.critic.length} avaliados`)));
+  const body = el("div", {class:"card-body"});
+  const tbl = el("table", {class:"tbl"});
+  const thead = el("thead");
+  const trh = el("tr");
+  ["#", "Questão avaliativa", "Avaliação", "Nível de risco", "Comentários / evidências"].forEach((h,i) => {
+    trh.appendChild(el("th", {style: i===0 ? "width:36px" : i===1 ? "width:38%" : i===2||i===3 ? "width:14%" : ""}, h));
+  });
+  thead.appendChild(trh);
+  tbl.appendChild(thead);
+  const tb = el("tbody");
+  CHECKLIST_CRITICO.forEach((q,i) => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {class:"num-cell"}, String(i+1).padStart(2,"0")));
+    tr.appendChild(el("td", {class:"row-label"}, q));
+    const tdA = el("td");
+    tdA.appendChild(tblSel(state.critic[i].aval, ENUMS.avaliacao, v => { state.critic[i].aval = v; updateProgress(); }));
+    tr.appendChild(tdA);
+    const tdR = el("td");
+    tdR.appendChild(tblSel(state.critic[i].risco, ENUMS.risco, v => state.critic[i].risco = v));
+    tr.appendChild(tdR);
+    const tdC = el("td");
+    tdC.appendChild(tblInp(state.critic[i].coment, v => state.critic[i].coment = v));
+    tr.appendChild(tdC);
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  body.appendChild(tbl);
+  card.appendChild(body);
+  root.appendChild(card);
+  return root;
+}
+
+/* ---------- ABA: SÍNTESE ---------- */
+function renderSint(){
+  const root = el("div", {class:"tab-panel", id:"panel-sint"});
+  root.appendChild(panelHeader("Aba 7", "Síntese conclusiva", "Quadro-resumo consolidando as informações. Os indicadores são preenchidos automaticamente a partir das abas anteriores; as sínteses interpretativas exigem elaboração do analista."));
+
+  // 7.1 Identificação consolidada (auto)
+  const c1 = el("div", {class:"card"});
+  c1.appendChild(cardHeader("7.1 Identificação consolidada", el("span", {class:"badge badge-mono"}, "preenchimento automático")));
+  const b1 = el("div", {class:"card-body"});
+  const tbl1 = el("table", {class:"tbl summary-table"});
+  const tb1 = el("tbody");
+  const d = state.identif;
+  const rows = [
+    ["Projeto / caso analisado", d.nomeProjeto],
+    ["Objeto", d.objetoResumido],
+    ["Órgão / entidade", d.orgaoEnt],
+    ["Modalidade contratual", d.modalidade],
+    ["Natureza da intervenção", d.natureza],
+    ["Valor total declarado (R$)", d.valorTotal ? "R$ " + fmtNum(parseFloat(d.valorTotal), 2) : ""],
+    ["Fase analisada", d.fase],
+    ["Data-base dos preços", d.databasePrecos]
+  ];
+  rows.forEach(r => {
+    const tr = el("tr");
+    tr.appendChild(el("td", {}, r[0]));
+    tr.appendChild(el("td", {style: r[1] ? "" : "color:var(--ink-muted);font-style:italic"}, r[1] || "— não preenchido —"));
+    tb1.appendChild(tr);
+  });
+  tbl1.appendChild(tb1);
+  b1.appendChild(tbl1);
+  c1.appendChild(b1);
+  root.appendChild(c1);
+
+  // 7.2 Indicadores
+  const ind = computeIndicators();
+  const c2 = el("div", {class:"card"});
+  c2.appendChild(cardHeader("7.2 Indicadores da análise crítica", el("span", {class:"badge badge-mono"}, "preenchimento automático")));
+  const b2 = el("div", {class:"card-body"});
+  const kpiGrid = el("div", {class:"kpi-grid"});
+  kpiGrid.appendChild(kpiCard("Total de itens avaliados", ind.total, "checklist Aba 6", ""));
+  kpiGrid.appendChild(kpiCard("Itens conformes", ind.conf, ind.total ? `${Math.round(ind.conf/ind.total*100)}% do total` : "—", "green"));
+  kpiGrid.appendChild(kpiCard("Parcialmente conformes", ind.parc, ind.total ? `${Math.round(ind.parc/ind.total*100)}% do total` : "—", "amber"));
+  kpiGrid.appendChild(kpiCard("Não conformes", ind.naoConf, ind.total ? `${Math.round(ind.naoConf/ind.total*100)}% do total` : "—", "red"));
+  b2.appendChild(kpiGrid);
+
+  const kpiGrid2 = el("div", {class:"kpi-grid"});
+  kpiGrid2.appendChild(kpiCard("Metodologias utilizadas (Sim)", countMetodologiasUsadas(), "Aba 2", ""));
+  kpiGrid2.appendChild(kpiCard("Itens com risco BAIXO", ind.rBaixo, "", "green"));
+  kpiGrid2.appendChild(kpiCard("Itens com risco MÉDIO", ind.rMedio, "", "amber"));
+  kpiGrid2.appendChild(kpiCard("Itens com risco ALTO", ind.rAlto, "", "red"));
+  b2.appendChild(kpiGrid2);
+  c2.appendChild(b2);
+  root.appendChild(c2);
+
+  // 7.3 Síntese interpretativa
+  const c3 = el("div", {class:"card"});
+  c3.appendChild(cardHeader("7.3 Síntese interpretativa", el("span", {class:"badge badge-mono"}, "preenchimento pelo analista")));
+  const b3 = el("div", {class:"card-body"});
+  SINTESE_TOPICOS.forEach(t => {
+    b3.appendChild(field(t.l, txa(state.sint[t.k], v => state.sint[t.k] = v, {rows:3})));
+  });
+  c3.appendChild(b3);
+  root.appendChild(c3);
+
+  // 7.4 Parecer global
+  const c4 = el("div", {class:"card"});
+  c4.appendChild(cardHeader("7.4 Parecer global da precificação"));
+  const b4 = el("div", {class:"card-body"});
+  b4.appendChild(field("Parecer global sobre a precificação analisada", sel(state.sintParecer, ENUMS.parecer, v => state.sintParecer = v)));
+  c4.appendChild(b4);
+  root.appendChild(c4);
+
+  return root;
+}
+
+function kpiCard(label, value, sub, variant){
+  const c = el("div", {class:"kpi-card" + (variant ? " " + variant : "")});
+  c.appendChild(el("div", {class:"kpi-label"}, label));
+  c.appendChild(el("div", {class:"kpi-value"}, String(value)));
+  if(sub) c.appendChild(el("div", {class:"kpi-sub"}, sub));
+  return c;
+}
+
+function computeIndicators(){
+  const r = {total:0, conf:0, parc:0, naoConf:0, na:0, rBaixo:0, rMedio:0, rAlto:0, rNI:0};
+  state.critic.forEach(it => {
+    if(it.aval){
+      r.total++;
+      if(it.aval === "Conforme") r.conf++;
+      else if(it.aval === "Parcialmente conforme") r.parc++;
+      else if(it.aval === "Não conforme") r.naoConf++;
+      else if(it.aval === "Não aplicável") r.na++;
+    }
+    if(it.risco === "Baixo") r.rBaixo++;
+    else if(it.risco === "Médio") r.rMedio++;
+    else if(it.risco === "Alto") r.rAlto++;
+    else if(it.risco === "Não identificado") r.rNI++;
+  });
+  return r;
+}
+
+/* ---------- ABA: RELATÓRIO ---------- */
+function renderRel(){
+  const root = el("div", {class:"tab-panel", id:"panel-rel"});
+  root.appendChild(panelHeader("Aba 8", "Relatório técnico (texto-base)", "Texto gerado automaticamente a partir do preenchimento das demais abas. Destinado a subsidiar a elaboração de relatório, parecer ou nota técnica."));
+
+  const actions = el("div", {class:"report-actions"});
+  const btnPdf = el("button", {class:"btn-primary", onclick:exportPdf});
+  btnPdf.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><polyline points="9 15 12 18 15 15"></polyline></svg> Exportar PDF';
+  actions.appendChild(btnPdf);
+  const btnPrint = el("button", {class:"btn-secondary", onclick:() => window.print()});
+  btnPrint.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> Imprimir';
+  actions.appendChild(btnPrint);
+  root.appendChild(actions);
+
+  const doc = el("div", {class:"report-doc", id:"reportDoc"});
+  doc.appendChild(el("h1", {}, "Relatório Técnico de Análise de Precificação de Obras"));
+  doc.appendChild(el("div", {class:"report-sub"}, "CAGE/SEFAZ-RS · Roteiro analítico padronizado"));
+
+  const d = state.identif;
+  const c = state.capa;
+
+  // Metadados
+  const meta = el("div", {class:"report-meta"});
+  const metaItems = [
+    ["Caso analisado:", d.nomeProjeto || c.obraProj],
+    ["Objeto:", d.objetoResumido],
+    ["Órgão/Entidade:", d.orgaoEnt || c.orgao],
+    ["Modalidade:", d.modalidade],
+    ["Natureza:", d.natureza],
+    ["Valor declarado:", d.valorTotal ? "R$ " + fmtNum(parseFloat(d.valorTotal), 2) : "—"],
+    ["Fase analisada:", d.fase],
+    ["Data-base:", d.databasePrecos],
+    ["Localização:", d.localizacao],
+    ["Processo/Expediente:", d.numProcesso]
+  ];
+  metaItems.forEach(it => {
+    if(it[1]){
+      const m = el("div", {class:"meta-line"});
+      m.innerHTML = `<strong>${it[0]}</strong> ${it[1]}`;
+      meta.appendChild(m);
+    }
+  });
+  if(meta.children.length === 0){
+    const m = el("div", {class:"meta-line", style:"font-style:italic;color:var(--ink-muted)"}, "Identificação não preenchida — preencher aba 1.");
+    meta.appendChild(m);
+  }
+  doc.appendChild(meta);
+
+  // Documentos analisados
+  if(d.docsAnalisados){
+    const sec = el("div", {class:"report-section"});
+    sec.appendChild(el("h3", {}, "Documentos analisados"));
+    sec.appendChild(el("p", {}, d.docsAnalisados));
+    doc.appendChild(sec);
+  }
+
+  // 2. Metodologia
+  const sec2 = reportSection("2. Metodologia de precificação adotada", state.sint.sMetod, "Sintetizar na aba 7 a metodologia adotada (SINAPI, SICRO, CUB, composições próprias, etc.).");
+  doc.appendChild(sec2);
+
+  // 3. Referências
+  const sec3 = reportSection("3. Referências de preços utilizadas", state.sint.sRefs, "Sintetizar na aba 7 as bases de preços empregadas e sua adequação ao objeto.");
+  doc.appendChild(sec3);
+
+  // 4. Parâmetros e componentes
+  const sec4 = reportSection("4. Parâmetros e componentes empregados", state.sint.sParams, "Sintetizar na aba 7 as métricas globais (R$/m², BDI, contingência, encargos) e a composição das parcelas.");
+  doc.appendChild(sec4);
+
+  // 5. Justificativa
+  const sec5 = reportSection("5. Justificativa apresentada para a precificação", state.sint.sJustif, "Sintetizar na aba 7 a qualidade e a fundamentação das justificativas identificadas.");
+  doc.appendChild(sec5);
+
+  // 6. Análise crítica
+  const sec6 = reportSection("6. Análise crítica da consistência metodológica", state.sint.sCons, "Sintetizar na aba 7 a avaliação da consistência metodológica.");
+  doc.appendChild(sec6);
+
+  // 7. Fragilidades
+  const sec7 = reportSection("7. Fragilidades, lacunas e ressalvas identificadas", state.sint.sFrag, "Sintetizar na aba 7 fragilidades, lacunas e ressalvas.");
+  doc.appendChild(sec7);
+
+  // 8. Recomendações
+  const sec8 = reportSection("8. Recomendações e encaminhamentos", state.sint.sRecom, "Sintetizar na aba 7 recomendações e encaminhamentos sugeridos.");
+  doc.appendChild(sec8);
+
+  // 9. Conclusão
+  const conclSec = el("div", {class:"report-section"});
+  conclSec.appendChild(el("h3", {}, "9. Conclusão"));
+  if(state.sintParecer){
+    const p = el("p");
+    p.innerHTML = `<strong>Parecer global:</strong> ${state.sintParecer}.`;
+    conclSec.appendChild(p);
+  }
+  if(state.sint.sConcl){
+    conclSec.appendChild(el("p", {}, state.sint.sConcl));
+  }
+  if(!state.sintParecer && !state.sint.sConcl){
+    conclSec.appendChild(el("p", {style:"font-style:italic;color:var(--ink-muted)"}, "Preencher na aba 7 o parecer global e a conclusão objetiva da análise."));
+  }
+  doc.appendChild(conclSec);
+
+  // Indicadores-chave
+  const ind = computeIndicators();
+  const indBlock = el("div", {class:"indicators-block"});
+  indBlock.innerHTML = `<strong>Indicadores-chave da análise:</strong> total de itens avaliados ${ind.total} · conformes ${ind.conf} · parcialmente conformes ${ind.parc} · não conformes ${ind.naoConf} · risco alto ${ind.rAlto} · risco médio ${ind.rMedio} · risco baixo ${ind.rBaixo}.`;
+  doc.appendChild(indBlock);
+
+  doc.appendChild(el("div", {class:"footer-note"}, "CAGE/SEFAZ-RS — Texto gerado automaticamente a partir da ferramenta padronizada. Recomenda-se revisão pelo analista antes da emissão formal."));
+
+  root.appendChild(doc);
+  return root;
+}
+
+function reportSection(title, content, fallback){
+  const s = el("div", {class:"report-section"});
+  s.appendChild(el("h3", {}, title));
+  if(content && content.trim()){
+    content.split(/\n\n+/).forEach(par => {
+      if(par.trim()) s.appendChild(el("p", {}, par.trim()));
+    });
+  } else {
+    s.appendChild(el("p", {style:"font-style:italic;color:var(--ink-muted)"}, fallback || "—"));
+  }
+  return s;
+}
+
+/* ---------- ABA: DASHBOARD ---------- */
+let chartInstances = {};
+function renderDash(){
+  const root = el("div", {class:"tab-panel", id:"panel-dash"});
+  root.appendChild(panelHeader("Aba 9", "Dashboard consolidado", "Indicadores agregados do checklist da análise crítica — atualizados automaticamente conforme preenchimento."));
+
+  const ind = computeIndicators();
+
+  // KPIs
+  const kpi = el("div", {class:"kpi-grid"});
+  kpi.appendChild(kpiCard("Total de itens avaliados", ind.total, "checklist Aba 6", ""));
+  kpi.appendChild(kpiCard("Conformes", ind.conf, ind.total ? `${Math.round(ind.conf/ind.total*100)}% do total` : "—", "green"));
+  kpi.appendChild(kpiCard("Parcialmente conformes", ind.parc, ind.total ? `${Math.round(ind.parc/ind.total*100)}% do total` : "—", "amber"));
+  kpi.appendChild(kpiCard("Não conformes", ind.naoConf, ind.total ? `${Math.round(ind.naoConf/ind.total*100)}% do total` : "—", "red"));
+  root.appendChild(kpi);
+
+  // Seção 1: Matriz Avaliação x Risco (heatmap)
+  const sec1 = el("div", {class:"dash-section"});
+  const h1 = el("div", {class:"dash-section-header"});
+  h1.appendChild(el("span", {class:"num"}, "01"));
+  h1.appendChild(el("h2", {}, "Matriz Avaliação × Risco"));
+  h1.appendChild(el("span", {class:"desc"}, "Distribuição cruzada — quanto mais saturada a célula, maior a concentração."));
+  sec1.appendChild(h1);
+
+  const matrix = computeMatrix();
+  const heat = el("div", {class:"heatmap"});
+  heat.appendChild(el("div", {class:"h-row-label"}, ""));
+  ["Baixo","Médio","Alto","Não identif."].forEach(h => heat.appendChild(el("div", {class:"h-col-header"}, h)));
+  heat.appendChild(el("div", {class:"h-col-header"}, "Total"));
+
+  const avalRows = [
+    {key:"Conforme", color:"21,128,61"},
+    {key:"Parcialmente conforme", color:"180,83,9"},
+    {key:"Não conforme", color:"139,26,26"},
+    {key:"Não aplicável", color:"107,114,128"}
+  ];
+  const maxVal = Math.max(1, ...Object.values(matrix.cells).flat ? [] : []);
+  let mx = 1;
+  avalRows.forEach(a => ["Baixo","Médio","Alto","Não identificado"].forEach(r => mx = Math.max(mx, matrix.cells[a.key][r])));
+
+  avalRows.forEach(a => {
+    heat.appendChild(el("div", {class:"h-row-label"}, a.key));
+    ["Baixo","Médio","Alto","Não identificado"].forEach(r => {
+      const v = matrix.cells[a.key][r];
+      const intensity = v / mx;
+      const c = el("div", {class:"h-cell", style: v > 0 ? `background:rgba(${a.color},${0.10 + intensity*0.55});color:${intensity > 0.5 ? "#fff" : "var(--ink)"};font-weight:${intensity > 0.5 ? "700" : "500"}` : ""}, String(v));
+      heat.appendChild(c);
+    });
+    heat.appendChild(el("div", {class:"h-cell h-total"}, String(matrix.rowTotals[a.key])));
+  });
+  heat.appendChild(el("div", {class:"h-row-label h-total-row"}, "Total"));
+  ["Baixo","Médio","Alto","Não identificado"].forEach(r => {
+    heat.appendChild(el("div", {class:"h-cell h-total h-total-row"}, String(matrix.colTotals[r])));
+  });
+  heat.appendChild(el("div", {class:"h-cell h-total h-total-row"}, String(matrix.grandTotal)));
+  sec1.appendChild(heat);
+  root.appendChild(sec1);
+
+  // Seção 2: Distribuições agregadas (gráficos)
+  const sec2 = el("div", {class:"dash-section"});
+  const h2 = el("div", {class:"dash-section-header"});
+  h2.appendChild(el("span", {class:"num"}, "02"));
+  h2.appendChild(el("h2", {}, "Distribuições agregadas"));
+  h2.appendChild(el("span", {class:"desc"}, "Visão por avaliação e por nível de risco — leitura rápida do agregado."));
+  sec2.appendChild(h2);
+
+  const distGrid = el("div", {class:"dist-grid"});
+  const dCard1 = el("div", {class:"dist-card"});
+  dCard1.appendChild(el("h4", {}, "Por avaliação"));
+  const cv1 = el("canvas", {id:"chartAval", style:"max-height:240px"});
+  dCard1.appendChild(cv1);
+  distGrid.appendChild(dCard1);
+
+  const dCard2 = el("div", {class:"dist-card"});
+  dCard2.appendChild(el("h4", {}, "Por nível de risco"));
+  const cv2 = el("canvas", {id:"chartRisco", style:"max-height:240px"});
+  dCard2.appendChild(cv2);
+  distGrid.appendChild(dCard2);
+  sec2.appendChild(distGrid);
+  root.appendChild(sec2);
+
+  // Seção 3: Itens prioritários
+  const sec3 = el("div", {class:"dash-section"});
+  const h3 = el("div", {class:"dash-section-header"});
+  h3.appendChild(el("span", {class:"num"}, "03"));
+  h3.appendChild(el("h2", {}, "Itens prioritários"));
+  h3.appendChild(el("span", {class:"desc"}, "Itens classificados como Não Conforme ou com Risco Alto."));
+  sec3.appendChild(h3);
+
+  const priorityItems = [];
+  state.critic.forEach((it, i) => {
+    if(it.aval === "Não conforme" || it.risco === "Alto"){
+      priorityItems.push({idx:i, ...it});
+    }
+  });
+
+  if(priorityItems.length === 0){
+    const empty = el("div", {class:"empty-state"});
+    empty.innerHTML = "<strong>Nenhum item prioritário identificado</strong>Esta tabela é populada automaticamente quando algum item da análise crítica receber avaliação 'Não conforme' ou nível de risco 'Alto'.";
+    sec3.appendChild(empty);
+  } else {
+    const pTbl = el("table", {class:"tbl priority-table"});
+    const pTh = el("thead");
+    const pTr = el("tr");
+    ["#", "Questão avaliativa", "Avaliação", "Risco", "Comentários"].forEach((h,i) => {
+      pTr.appendChild(el("th", {style: i===0 ? "width:36px" : i===1 ? "width:42%" : i===2||i===3 ? "width:13%" : ""}, h));
+    });
+    pTh.appendChild(pTr);
+    pTbl.appendChild(pTh);
+    const pTb = el("tbody");
+    priorityItems.forEach(it => {
+      const cls = it.aval === "Não conforme" ? "crit-naoconf" : "crit-alto";
+      const tr = el("tr", {class: cls});
+      tr.appendChild(el("td", {class:"num-cell"}, String(it.idx+1).padStart(2,"0")));
+      tr.appendChild(el("td", {}, CHECKLIST_CRITICO[it.idx]));
+      tr.appendChild(el("td", {}, badgeForAval(it.aval)));
+      tr.appendChild(el("td", {}, badgeForRisco(it.risco)));
+      tr.appendChild(el("td", {style:"font-size:12px;color:var(--ink-soft)"}, it.coment || "—"));
+      pTb.appendChild(tr);
+    });
+    pTbl.appendChild(pTb);
+    sec3.appendChild(pTbl);
+  }
+  root.appendChild(sec3);
+
+  const fontInfo = el("div", {style:"font-size:11px;color:var(--ink-muted);text-align:right;margin-top:18px;font-style:italic"}, "Fonte: Aba 6 (entrada) → Aba 7 (indicadores) → Aba 9 (consolidação visual). CAGE/SEFAZ-RS.");
+  root.appendChild(fontInfo);
+
+  // Renderizar charts após inserção no DOM
+  setTimeout(() => renderCharts(ind), 50);
+
+  return root;
+}
+
+function badgeForAval(v){
+  const b = el("span", {class:"badge"});
+  if(v === "Conforme") b.classList.add("badge-conforme");
+  else if(v === "Parcialmente conforme") b.classList.add("badge-parcial");
+  else if(v === "Não conforme") b.classList.add("badge-naoconforme");
+  else b.classList.add("badge-na");
+  b.textContent = v || "—";
+  return b;
+}
+function badgeForRisco(v){
+  const b = el("span", {class:"badge"});
+  if(v === "Baixo") b.classList.add("badge-baixo");
+  else if(v === "Médio") b.classList.add("badge-medio");
+  else if(v === "Alto") b.classList.add("badge-alto");
+  else b.classList.add("badge-na");
+  b.textContent = v || "—";
+  return b;
+}
+
+function computeMatrix(){
+  const cells = {
+    "Conforme": {"Baixo":0,"Médio":0,"Alto":0,"Não identificado":0},
+    "Parcialmente conforme": {"Baixo":0,"Médio":0,"Alto":0,"Não identificado":0},
+    "Não conforme": {"Baixo":0,"Médio":0,"Alto":0,"Não identificado":0},
+    "Não aplicável": {"Baixo":0,"Médio":0,"Alto":0,"Não identificado":0}
+  };
+  state.critic.forEach(it => {
+    if(it.aval && it.risco && cells[it.aval] && cells[it.aval][it.risco] !== undefined){
+      cells[it.aval][it.risco]++;
+    }
+  });
+  const rowTotals = {};
+  Object.keys(cells).forEach(k => rowTotals[k] = Object.values(cells[k]).reduce((a,b)=>a+b,0));
+  const colTotals = {"Baixo":0,"Médio":0,"Alto":0,"Não identificado":0};
+  Object.keys(cells).forEach(k => Object.keys(colTotals).forEach(r => colTotals[r] += cells[k][r]));
+  const grandTotal = Object.values(rowTotals).reduce((a,b)=>a+b,0);
+  return {cells, rowTotals, colTotals, grandTotal};
+}
+
+function renderCharts(ind){
+  if(typeof Chart === "undefined"){
+    ["chartAval","chartRisco"].forEach(id => {
+      const c = document.getElementById(id);
+      if(c){
+        const parent = c.parentElement;
+        c.remove();
+        renderFallbackChart(parent, id, ind);
+      }
+    });
+    return;
+  }
+  Object.values(chartInstances).forEach(c => { try { c.destroy(); } catch(e){} });
+  chartInstances = {};
+
+  const fontFamily = "'Source Sans 3', sans-serif";
+  Chart.defaults.font.family = fontFamily;
+  Chart.defaults.font.size = 12;
+  Chart.defaults.color = '#4B5563';
+
+  const c1 = document.getElementById("chartAval");
+  if(c1){
+    chartInstances.aval = new Chart(c1, {
+      type: 'bar',
+      data: {
+        labels: ['Conforme','Parcialmente','Não conforme','Não aplicável'],
+        datasets: [{
+          data: [ind.conf, ind.parc, ind.naoConf, ind.na],
+          backgroundColor: ['#15803D','#B45309','#8B1A1A','#9CA3AF'],
+          borderRadius: 4,
+          maxBarThickness: 60
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 }, grid: { color: '#E5E5E5' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  const c2 = document.getElementById("chartRisco");
+  if(c2){
+    chartInstances.risco = new Chart(c2, {
+      type: 'bar',
+      data: {
+        labels: ['Baixo','Médio','Alto','Não identif.'],
+        datasets: [{
+          data: [ind.rBaixo, ind.rMedio, ind.rAlto, ind.rNI],
+          backgroundColor: ['#15803D','#B45309','#8B1A1A','#9CA3AF'],
+          borderRadius: 4,
+          maxBarThickness: 60
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 }, grid: { color: '#E5E5E5' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+}
+
+function renderFallbackChart(parent, id, ind){
+  const data = id === "chartAval"
+    ? [["Conforme",ind.conf,"#15803D"],["Parcialmente",ind.parc,"#B45309"],["Não conforme",ind.naoConf,"#8B1A1A"],["Não aplicável",ind.na,"#9CA3AF"]]
+    : [["Baixo",ind.rBaixo,"#15803D"],["Médio",ind.rMedio,"#B45309"],["Alto",ind.rAlto,"#8B1A1A"],["Não identif.",ind.rNI,"#9CA3AF"]];
+  const max = Math.max(1, ...data.map(d => d[1]));
+  const wrap = el("div", {class:"dist-list", style:"padding:8px 0"});
+  data.forEach(d => {
+    const row = el("div", {class:"dist-row"});
+    row.appendChild(el("div", {class:"dist-label"}, d[0]));
+    const barWrap = el("div", {class:"dist-bar-wrap"});
+    const bar = el("div", {class:"dist-bar"});
+    bar.style.width = (d[1]/max*100) + "%";
+    bar.style.background = d[2];
+    barWrap.appendChild(bar);
+    row.appendChild(barWrap);
+    row.appendChild(el("div", {class:"dist-count"}, String(d[1])));
+    wrap.appendChild(row);
+  });
+  parent.appendChild(wrap);
+  const note = el("div", {style:"font-size:10px;color:var(--ink-muted);margin-top:8px;font-style:italic"}, "Visualização simplificada (Chart.js indisponível offline).");
+  parent.appendChild(note);
+}
+
+/* ============================================================
+   ROTEAMENTO E NAVEGAÇÃO
+   ============================================================ */
+let activeTab = "instr";
+const renderers = {
+  instr: renderInstr, capa: renderCapa, identif: renderIdentif,
+  metod: renderMetod, refs: renderRefs, comps: renderComps,
+  justif: renderJustif, critic: renderCritic, sint: renderSint,
+  rel: renderRel, dash: renderDash
+};
+
+function buildNav(){
+  const nav = document.getElementById("navTabs");
+  nav.innerHTML = "";
+  TABS.forEach(t => {
+    const btn = el("button", {class: "nav-tab" + (t.id === activeTab ? " active" : ""), "data-tab": t.id});
+    btn.appendChild(el("span", {class:"tab-num"}, t.num));
+    btn.appendChild(el("span", {}, t.short));
+    if(isTabCompleted(t.id)) btn.classList.add("completed");
+    btn.appendChild(el("span", {class:"completion-dot"}));
+    btn.addEventListener("click", () => switchTab(t.id));
+    nav.appendChild(btn);
+  });
+}
+
+function isTabCompleted(id){
+  if(id === "instr") return true;
+  if(id === "capa") return !!(state.capa.obraProj && state.capa.responsavel);
+  if(id === "identif") return !!(state.identif.nomeProjeto && state.identif.orgaoEnt);
+  if(id === "metod") return countMetodologiasUsadas() > 0;
+  if(id === "refs") return state.refs.bases.some(b => b.base);
+  if(id === "comps") return Object.values(state.comps.metricas).some(m => m.valor) || state.comps.parcelas.some(p => p.pres);
+  if(id === "justif") return state.justif.tops.some(t => t.qual) || !!state.justif.avaliacao;
+  if(id === "critic") return state.critic.some(it => it.aval);
+  if(id === "sint") return Object.values(state.sint).some(v => v) || !!state.sintParecer;
+  if(id === "rel" || id === "dash") return false;
+  return false;
+}
+
+function switchTab(id){
+  activeTab = id;
+  const main = document.getElementById("appMain");
+  main.innerHTML = "";
+  const panel = renderers[id]();
+  panel.classList.add("active");
+  main.appendChild(panel);
+  document.querySelectorAll(".nav-tab").forEach(t => {
+    t.classList.toggle("active", t.dataset.tab === id);
+  });
+  buildNav();
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+/* ============================================================
+   PDF EXPORT
+   ============================================================ */
+function exportPdf(){
+  const elDoc = document.getElementById("reportDoc");
+  if(!elDoc){ alert("Relatório não encontrado."); return; }
+  if(typeof html2pdf === "undefined"){
+    alert("Geração de PDF indisponível (biblioteca html2pdf não carregada).\n\nUse o botão 'Imprimir' ou Ctrl+P para gerar PDF via diálogo de impressão do navegador.");
+    return;
+  }
+  const projName = (state.identif.nomeProjeto || state.capa.obraProj || "analise_precificacao").replace(/[^a-zA-Z0-9_-]/g,"_").substring(0,60);
+  const dt = new Date();
+  const dateStr = dt.toISOString().slice(0,10);
+  const filename = `${projName}_${dateStr}.pdf`;
+
+  html2pdf().set({
+    margin: [12,12,14,12],
+    filename: filename,
+    image: { type:'jpeg', quality:0.98 },
+    html2canvas: { scale:2, useCORS:true, backgroundColor: '#ffffff' },
+    jsPDF: { unit:'mm', format:'a4', orientation:'portrait' },
+    pagebreak: { mode:['avoid-all','css','legacy'] }
+  }).from(elDoc).save();
+}
+
+/* ============================================================
+   MODAL DE LIMPEZA (com try/catch — em embed mode os botões podem estar ocultos
+   mas no DOM; defensivo caso futuras alterações removam algum elemento)
+   ============================================================ */
+try {
+  const _bc = document.getElementById("btnClear");
+  if (_bc) _bc.addEventListener("click", () => {
+    document.getElementById("modalClear").classList.add("show");
+  });
+  const _mc = document.getElementById("modalCancel");
+  if (_mc) _mc.addEventListener("click", () => {
+    document.getElementById("modalClear").classList.remove("show");
+  });
+  const _mco = document.getElementById("modalConfirm");
+  if (_mco) _mco.addEventListener("click", () => {
+    localStorage.removeItem(STORAGE_KEY);
+    state = defaultState();
+    document.getElementById("modalClear").classList.remove("show");
+    const sp = document.getElementById("savePill");
+    if (sp) sp.textContent = "Rascunho limpo";
+    switchTab("instr");
+  });
+  const _mcl = document.getElementById("modalClear");
+  if (_mcl) _mcl.addEventListener("click", e => {
+    if(e.target.id === "modalClear") document.getElementById("modalClear").classList.remove("show");
+  });
+} catch(e) { console.error('[M4] erro nos handlers do modal:', e); }
+
+/* ============================================================
+   INIT (com try/catch defensivo — evita que erro num botão do header
+   bloqueie o render do conteúdo principal)
+   ============================================================ */
+try {
+  buildNav();
+} catch(e) { console.error('[M4] erro em buildNav:', e); }
+
+try {
+  switchTab("instr");
+} catch(e) { console.error('[M4] erro em switchTab:', e); }
+
+// Indicador de save inicial
+try {
+  if(localStorage.getItem(STORAGE_KEY)){
+    const t = new Date();
+    const sp = document.getElementById("savePill");
+    if (sp) sp.textContent = `Rascunho salvo · ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`;
+  } else {
+    const sp = document.getElementById("savePill");
+    if (sp) sp.textContent = "Rascunho · auto-save ativo";
+  }
+} catch(e) { console.error('[M4] erro no indicador de save:', e); }
+
+/* ══════════════════════════════════════
+   Sincronização de identificação do projeto entre módulos (via shell)
+   Roda apenas quando carregado dentro do shell (?embed=1)
+   M4 é caso especial: usa state.identif (objeto JS) em vez de IDs no DOM
+══════════════════════════════════════ */
+(function() {
+  if (!document.documentElement.classList.contains('embed-mode')) return;
+  const MOD = 4;
+  // M4 mantém os campos em state.identif, com chaves diferentes
+  // Mapeamento: chave canônica → chave no state.identif
+  const FIELD_MAP = {
+    nome:  'nomeProjeto',
+    orgao: 'orgaoEnt'
+    // periodoRef: M4 não tem campo equivalente direto
+  };
+  let suspendEmit = false;
+  let debounceTimer = null;
+
+  function getDados() {
+    const out = {};
+    if (typeof state === 'undefined' || !state.identif) return out;
+    for (const k in FIELD_MAP) {
+      out[k] = state.identif[FIELD_MAP[k]] || '';
+    }
+    return out;
+  }
+
+  function setDados(dados) {
+    if (!dados || typeof dados !== 'object') return;
+    if (typeof state === 'undefined' || !state.identif) return;
+    suspendEmit = true;
+    let changed = false;
+    for (const k in FIELD_MAP) {
+      const stateKey = FIELD_MAP[k];
+      const novoValor = dados[k] || '';
+      // Só preenche se vazio (não sobrescreve trabalho do usuário)
+      if (!state.identif[stateKey] || String(state.identif[stateKey]).trim() === '') {
+        if (novoValor) {
+          state.identif[stateKey] = novoValor;
+          changed = true;
+        }
+      }
+    }
+    if (changed) {
+      // Persiste no localStorage do M4
+      try {
+        if (typeof STORAGE_KEY !== 'undefined') {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+      } catch(e) {}
+      // Re-renderiza a aba ativa se for a de identificação
+      try {
+        if (typeof activeTab !== 'undefined' && activeTab === 'identif' && typeof switchTab === 'function') {
+          switchTab('identif');
+        }
+      } catch(e) {}
+    }
+    suspendEmit = false;
+  }
+
+  function emitProjeto() {
+    if (suspendEmit) return;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      try {
+        parent.postMessage({ type: 'gtsefaz_projeto', mod: MOD, dados: getDados() }, '*');
+      } catch(e) {}
+    }, 500);
+  }
+
+  // M4 não tem IDs nos inputs, mas chama scheduleSave() em todo input.
+  // Vamos hookar scheduleSave para também emitir o sinal de projeto.
+  function patchScheduleSave() {
+    if (typeof scheduleSave !== 'function') return false;
+    if (window.__gtsScheduleSavePatched) return true;
+    const original = scheduleSave;
+    window.scheduleSave = function() {
+      const result = original.apply(this, arguments);
+      // Apenas emite se a aba ativa for identif (é onde nomeProjeto/orgaoEnt mudam)
+      try {
+        if (typeof activeTab !== 'undefined' && activeTab === 'identif') {
+          emitProjeto();
+        }
+      } catch(e) {}
+      return result;
+    };
+    window.__gtsScheduleSavePatched = true;
+    return true;
+  }
+
+  window.addEventListener('message', (e) => {
+    if (!e.data || typeof e.data !== 'object') return;
+    if (e.data.type === 'gtsefaz_projeto_set') {
+      setDados(e.data.dados);
+    }
+  });
+
+  function init() {
+    // Tenta aplicar o patch em scheduleSave; se ainda não está disponível, retenta
+    let attempts = 0;
+    const tryPatch = () => {
+      if (patchScheduleSave()) {
+        try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: MOD }, '*'); } catch(e) {}
+      } else if (attempts++ < 20) {
+        setTimeout(tryPatch, 100);
+      }
+    };
+    tryPatch();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

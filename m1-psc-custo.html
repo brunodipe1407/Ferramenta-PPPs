@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSC — Custo Público Anual | CAGE/SEFAZ-RS</title>
+
+<!-- ══ EMBED MODE — detecção precoce (antes do CSS carregar) ══ -->
+<script>
+  (function() {
+    if (new URLSearchParams(location.search).get('embed') === '1') {
+      document.documentElement.classList.add('embed-mode');
+    }
+  })();
+</script>
+<style id="embed-overrides">
+  /* Quando carregado dentro do shell (?embed=1), oculta cromos redundantes */
+  html.embed-mode .app-header { display: none !important; }
+  html.embed-mode body { padding-top: 0 !important; }
+  html.embed-mode .main-container { padding-top: 16px !important; padding-bottom: 24px !important; }
+</style>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    /* Paleta unificada CAGE/SEFAZ-RS */
+    --cage-navy:    #0A4D44;   /* teal-darker */
+    --cage-blue:    #0F6B5E;   /* teal-dark   */
+    --cage-mid:     #1F8B7C;   /* teal        */
+    --cage-sky:     #2EB6A5;   /* teal-light  */
+    --cage-light:   #D1F0EB;   /* teal-xlight */
+    --cage-bg:      #F5F5F5;
+    --cage-surface: #FFFFFF;
+    --cage-border:  #D9D9D9;
+    --cage-text:    #1A1A1A;
+    --cage-muted:   #6B7280;
+
+    --capex-color:  #0A4D44;
+    --capex-light:  #D1F0EB;
+    --opex-color:   #0F6B5E;
+    --opex-light:   #CCEDE8;
+    --gestao-color: #003366;
+    --gestao-light: #D6E4F0;
+    --receita-color:#15803D;
+    --receita-light:#DCFCE7;
+    --trans-color:  #B45309;
+    --trans-light:  #FEF3C7;
+
+    --red:    #8B1A1A;
+    --amber:  #B45309;
+    --green:  #15803D;
+
+    --radius: 6px;
+    --shadow:    0 2px 8px rgba(10,77,68,0.10);
+    --shadow-lg: 0 4px 20px rgba(10,77,68,0.14);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 14px;
+    color: var(--cage-text);
+    background: var(--cage-bg);
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ── */
+  .app-header {
+    background: #EAEAEA;
+    color: var(--cage-text);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(10,77,68,0.10);
+    border-bottom: 4px solid var(--cage-mid);
+  }
+  .app-header-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 28px;
+  }
+  .header-logo {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cage-border);
+    padding-right: 20px;
+  }
+  .header-logo .org { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--cage-blue); }
+  .header-logo .title { font-family: 'Roboto Slab', Georgia, serif; font-size: 17px; font-weight: 600; color: var(--cage-navy); line-height: 1.15; }
+  .header-subtitle { font-size: 11px; color: var(--cage-muted); margin-top: 2px; }
+  .header-meta { flex: 1; display: flex; gap: 8px; align-items: center; }
+  .header-badge {
+    background: var(--cage-light);
+    border: 1px solid var(--cage-sky);
+    color: var(--cage-navy);
+    font-size: 10px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .header-actions { display: flex; gap: 8px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+  .btn svg { width: 13px; height: 13px; }
+  .btn-ghost { background: #fff; color: var(--cage-navy); border-color: var(--cage-border); }
+  .btn-ghost:hover { background: var(--cage-light); border-color: var(--cage-mid); }
+  .btn-primary { background: var(--cage-mid); color: #fff; border-color: var(--cage-mid); }
+  .btn-primary:hover { background: var(--cage-blue); }
+  .btn-danger { background: rgba(139,26,26,0.08); color: var(--red); border-color: rgba(139,26,26,0.25); }
+  .btn-danger:hover { background: rgba(139,26,26,0.15); }
+
+  /* ── MAIN ── */
+  .main-container { max-width: 1400px; margin: 0 auto; padding: 28px 24px 60px; }
+
+  /* ── IDENTIFICATION PANEL ── */
+  .panel { background: var(--cage-surface); border: 1px solid var(--cage-border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; }
+  .panel-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 20px;
+    background: var(--cage-navy);
+    color: #fff;
+    font-family: 'Roboto Slab', Georgia, serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .panel-header .ph-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cage-sky); flex-shrink: 0; }
+  .panel-body { padding: 20px; }
+
+  .id-grid { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 16px; }
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+  .field-group label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--cage-muted); }
+  .field-group input, .field-group select, .field-group textarea {
+    border: 1px solid var(--cage-border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 13px;
+    color: var(--cage-text);
+    background: #F8FAFC;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
+    border-color: var(--cage-sky);
+    box-shadow: 0 0 0 3px rgba(74,144,196,0.12);
+    background: #fff;
+  }
+
+  /* ── MODALIDADE PANEL ── */
+  .modal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .modal-card {
+    border: 2px solid var(--cage-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .modal-card:hover { border-color: var(--cage-sky); background: #F8FAFC; }
+  .modal-card.active { border-color: var(--cage-blue); background: var(--cage-light); }
+  .modal-card input[type=checkbox] { position: absolute; top: 14px; right: 14px; width: 16px; height: 16px; accent-color: var(--cage-blue); cursor: pointer; }
+  .modal-card .mc-label { font-family: 'Roboto Slab', Georgia, serif; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: var(--cage-navy); margin-bottom: 3px; }
+  .modal-card .mc-desc { font-size: 11px; color: var(--cage-muted); line-height: 1.4; padding-right: 24px; }
+
+  /* ── TRANSACTION COSTS ── */
+  .trans-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: end; }
+  .trans-result {
+    background: var(--trans-light);
+    border: 1px solid #C8B8E0;
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .trans-result .tr-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--trans-color); }
+  .trans-result .tr-value { font-family: 'Roboto Slab', Georgia, serif; font-size: 20px; font-weight: 800; color: var(--trans-color); }
+
+  /* ── COST TABLE ── */
+  .category-block { margin-bottom: 8px; }
+  .category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    cursor: pointer;
+  }
+  .ch-left { display: flex; align-items: center; gap: 10px; }
+  .ch-code { font-family: 'Roboto Slab', Georgia, serif; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.7); }
+  .ch-name { font-family: 'Roboto Slab', Georgia, serif; font-size: 13px; font-weight: 700; color: #fff; }
+  .ch-count { font-size: 11px; color: rgba(255,255,255,0.6); margin-left: 4px; }
+  .ch-subtotal { font-family: 'Roboto Slab', Georgia, serif; font-size: 14px; font-weight: 700; color: #fff; }
+  .ch-toggle { color: rgba(255,255,255,0.6); font-size: 12px; transition: transform 0.2s; }
+  .category-header.collapsed .ch-toggle { transform: rotate(-90deg); }
+
+  .cat-capex .category-header { background: var(--capex-color); }
+  .cat-opex .category-header { background: var(--opex-color); }
+  .cat-gestao .category-header { background: var(--gestao-color); }
+  .cat-receita .category-header { background: var(--receita-color); }
+
+  .category-table-wrap {
+    border: 1px solid var(--cage-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    overflow-x: auto;
+    background: var(--cage-surface);
+  }
+  table.cost-table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+  table.cost-table thead tr { background: #F4F7FB; }
+  table.cost-table th {
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--cage-muted);
+    border-bottom: 1px solid var(--cage-border);
+    white-space: nowrap;
+  }
+  table.cost-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #EEF2F7;
+    vertical-align: middle;
+  }
+  table.cost-table tr:last-child td { border-bottom: none; }
+  table.cost-table tr:hover td { background: #F8FAFB; }
+
+  .cost-table input[type=text], .cost-table input[type=number], .cost-table select, .cost-table textarea {
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 12px;
+    background: transparent;
+    color: var(--cage-text);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .cost-table input:hover, .cost-table select:hover, .cost-table textarea:hover { border-color: var(--cage-border); background: #F8FAFC; }
+  .cost-table input:focus, .cost-table select:focus, .cost-table textarea:focus { border-color: var(--cage-sky); background: #fff; box-shadow: 0 0 0 2px rgba(74,144,196,0.1); }
+  .cost-table input[type=number] { text-align: right; font-variant-numeric: tabular-nums; }
+  .cost-table textarea { resize: none; min-height: 36px; }
+
+  .col-item { min-width: 160px; }
+  .col-modal { width: 140px; }
+  .col-fonte-sug { width: 180px; }
+  .col-fonte-used { width: 150px; }
+  .col-valor { width: 130px; }
+  .col-conf { width: 90px; }
+  .col-obs { min-width: 140px; }
+  .col-acao { width: 44px; text-align: center; }
+
+  .line-value-display { font-family: 'Roboto Slab', Georgia, serif; font-size: 12px; font-weight: 700; color: var(--cage-navy); text-align: right; white-space: nowrap; }
+
+  .btn-del { background: none; border: none; cursor: pointer; color: #B0BEC5; padding: 4px; border-radius: 4px; transition: color 0.15s, background 0.15s; display: flex; align-items: center; justify-content: center; }
+  .btn-del:hover { color: var(--red); background: rgba(192,57,43,0.08); }
+  .btn-del svg { width: 14px; height: 14px; }
+
+  .category-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #F8FAFC;
+    border: 1px solid var(--cage-border);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+  .cat-capex .category-footer { border-left: 3px solid var(--capex-color); }
+  .cat-opex .category-footer { border-left: 3px solid var(--opex-color); }
+  .cat-gestao .category-footer { border-left: 3px solid var(--gestao-color); }
+  .cat-receita .category-footer { border-left: 3px solid var(--receita-color); }
+
+  .btn-add { background: none; border: 1px dashed var(--cage-border); border-radius: var(--radius); padding: 5px 12px; font-size: 11px; font-weight: 600; color: var(--cage-muted); cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 5px; }
+  .btn-add:hover { color: var(--cage-blue); border-color: var(--cage-blue); background: var(--cage-light); }
+  .cat-capex .btn-add:hover { color: var(--capex-color); border-color: var(--capex-color); background: var(--capex-light); }
+  .cat-receita .btn-add:hover { color: var(--receita-color); border-color: var(--receita-color); background: var(--receita-light); }
+
+  .footer-subtotal { font-family: 'Roboto Slab', Georgia, serif; font-size: 13px; font-weight: 700; }
+  .cat-capex .footer-subtotal { color: var(--capex-color); }
+  .cat-opex .footer-subtotal { color: var(--opex-color); }
+  .cat-gestao .footer-subtotal { color: var(--gestao-color); }
+  .cat-receita .footer-subtotal { color: var(--receita-color); }
+
+  .conf-alta { color: var(--green); font-weight: 600; }
+  .conf-media { color: var(--amber); font-weight: 600; }
+  .conf-baixa { color: var(--red); font-weight: 600; }
+
+  /* ── TOTALIZADORES ── */
+  .totals-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .total-card {
+    background: var(--cage-surface);
+    border: 1px solid var(--cage-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .total-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .total-card.tc-main::before { background: var(--cage-navy); }
+  .total-card.tc-direta::before { background: #2C5F8A; }
+  .total-card.tc-indireta::before { background: #3A7ABD; }
+  .total-card.tc-licitada::before { background: #5A3E7A; }
+
+  .tc-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--cage-muted); margin-bottom: 6px; }
+  .tc-sublabel { font-size: 10px; color: var(--cage-muted); margin-top: 3px; }
+  .tc-value { font-family: 'Roboto Slab', Georgia, serif; font-size: 26px; font-weight: 800; line-height: 1; }
+  .total-card.tc-main .tc-value { color: var(--cage-navy); font-size: 32px; }
+  .total-card.tc-direta .tc-value { color: #2C5F8A; }
+  .total-card.tc-indireta .tc-value { color: #3A7ABD; }
+  .total-card.tc-licitada .tc-value { color: var(--trans-color); }
+  .tc-pct { font-size: 12px; font-weight: 500; color: var(--cage-muted); margin-top: 4px; }
+
+  /* ── CONFIABILIDADE ── */
+  .conf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .conf-card {
+    border: 1px solid var(--cage-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .conf-card .cc-label { font-size: 11px; font-weight: 600; color: var(--cage-muted); letter-spacing: 0.5px; }
+  .conf-select-wrap { display: flex; align-items: center; gap: 8px; }
+  .conf-select-wrap select {
+    flex: 1;
+    border: 1px solid var(--cage-border);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: 12px;
+    background: #F8FAFC;
+    color: var(--cage-text);
+    outline: none;
+  }
+  .conf-select-wrap select:focus { border-color: var(--cage-sky); }
+  .conf-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; font-size: 13px; flex-shrink: 0; }
+  .conf-just { width: 100%; border: 1px solid var(--cage-border); border-radius: 4px; padding: 6px 10px; font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 11px; background: #F8FAFC; color: var(--cage-text); outline: none; resize: none; min-height: 48px; }
+  .conf-global-row { grid-column: 1 / -1; background: var(--cage-navy); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+  .conf-global-row .cg-label { font-family: 'Roboto Slab', Georgia, serif; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+  .conf-global-row .cg-value { font-family: 'Roboto Slab', Georgia, serif; font-size: 20px; font-weight: 800; color: #fff; }
+
+  /* ── PREMISSAS ── */
+  .premissa-table { width: 100%; border-collapse: collapse; }
+  .premissa-table th { padding: 8px 12px; text-align: left; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--cage-muted); border-bottom: 1px solid var(--cage-border); background: #F4F7FB; }
+  .premissa-table td { padding: 6px 12px; border-bottom: 1px solid #EEF2F7; font-size: 12px; }
+  .premissa-table tr:last-child td { border-bottom: none; }
+  .premissa-table select, .premissa-table input, .premissa-table textarea {
+    width: 100%; border: 1px solid transparent; border-radius: 4px; padding: 4px 8px;
+    font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 12px; background: transparent;
+    color: var(--cage-text); outline: none; transition: border-color 0.15s;
+  }
+  .premissa-table select:hover, .premissa-table input:hover, .premissa-table textarea:hover { border-color: var(--cage-border); background: #F8FAFC; }
+  .premissa-table select:focus, .premissa-table input:focus, .premissa-table textarea:focus { border-color: var(--cage-sky); background: #fff; }
+  .premissa-table textarea { resize: none; min-height: 34px; }
+  .tipo-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+  .tipo-P { background: #D4EDE3; color: var(--green); }
+  .tipo-L { background: #FDE8D8; color: var(--amber); }
+  .tipo-E { background: #FFE8E6; color: var(--red); }
+
+  .premissa-footer { padding: 10px 16px; border-top: 1px solid var(--cage-border); display: flex; justify-content: flex-end; }
+
+  /* ── FONTES ── */
+  .fontes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .fonte-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #F8FAFC; border: 1px solid var(--cage-border); border-radius: var(--radius); }
+  .fonte-icon { font-size: 18px; }
+  .fonte-name { font-weight: 600; font-size: 12px; color: var(--cage-navy); }
+  .fonte-url { font-size: 11px; color: var(--cage-sky); text-decoration: none; }
+  .fonte-url:hover { text-decoration: underline; }
+
+  /* ── NOTA RODAPÉ ── */
+  .note-bar {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: #FFF8E7; border: 1px solid #F0C060; border-radius: var(--radius);
+    padding: 12px 16px; margin-bottom: 20px; font-size: 11px; color: #7A5500;
+  }
+  .note-bar svg { width: 16px; height: 16px; flex-shrink: 0; color: #E67E22; margin-top: 1px; }
+
+  /* ── EMPTY STATE ── */
+  .empty-state { padding: 28px; text-align: center; color: var(--cage-muted); font-size: 12px; font-style: italic; }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--cage-navy); color: rgba(255,255,255,0.55);
+    padding: 6px 28px; font-size: 11px; font-family: 'JetBrains Mono', monospace;
+    display: flex; align-items: center; gap: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08); z-index: 100;
+  }
+  .status-bar .sb-item { display: flex; align-items: center; gap: 5px; }
+  .status-bar .sb-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cage-sky); }
+  .status-bar .sb-saved { color: #5DD8A0; }
+  .status-bar .sb-right { margin-left: auto; font-size: 10px; letter-spacing: 0.05em; color: rgba(255,255,255,0.25); }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; font-size: 11px; }
+    .app-header { position: static; }
+    .header-actions, .status-bar, .btn-add, .btn-del, .note-bar { display: none !important; }
+    .main-container { padding: 10px; max-width: 100%; }
+    .panel { box-shadow: none; break-inside: avoid; }
+
+    input, select, textarea {
+      border: none !important; background: transparent !important;
+      box-shadow: none !important; padding: 2px 0 !important;
+      font-size: 11px !important;
+      pointer-events: none;
+    }
+    .modal-card input[type=checkbox] { display: none; }
+    .modal-card { border: 1px solid #ccc; }
+    .modal-card.active { background: #EEF4FF; border-color: #4A90C4; }
+    .modal-card:not(.active) { opacity: 0.4; }
+
+    .totals-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+    .tc-value { font-size: 18px !important; }
+    .total-card.tc-main .tc-value { font-size: 22px !important; }
+
+    .category-table-wrap { overflow: visible; }
+    table.cost-table { min-width: unset; }
+
+    .print-header { display: block !important; }
+    .app-header-inner { padding: 8px 14px; }
+
+    .conf-grid { grid-template-columns: repeat(3, 1fr); }
+    .fontes-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .category-footer { page-break-inside: avoid; }
+    .category-block { break-inside: avoid; }
+  }
+  .print-header { display: none; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cage-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--cage-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--cage-muted); }
+
+  /* ── SECTION DIVIDER ── */
+  .section-label {
+    font-family: 'Roboto Slab', Georgia, serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cage-muted);
+    margin: 28px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--cage-border); }
+
+  .fonte-sug-text {
+    font-size: 11px;
+    color: var(--cage-muted);
+    font-style: italic;
+    padding: 5px 8px;
+    display: block;
+  }
+  .fonte-sug-input {
+    display: block;
+  }
+</style>
+<!-- Padrão visual unificado (sobrescreve estilos divergentes) -->
+<link rel="stylesheet" href="padrao-visual.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="header-logo">
+      <span class="org">CAGE · SEFAZ-RS</span>
+      <span class="title">PSC — Custo Público</span>
+      <span class="header-subtitle">Public Sector Comparator · Módulo 2 — Levantamento de Custos</span>
+    </div>
+    <div class="header-meta">
+      <span class="header-badge">VfM / PPP</span>
+      <span class="header-badge">Custo Estático Anual</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="salvarRascunho()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Salvar Rascunho
+      </button>
+      <button class="btn btn-primary" onclick="exportarRelatorio()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Exportar Relatório
+      </button>
+      <button class="btn btn-danger" onclick="limparDados()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        Limpar
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-container">
+
+  <!-- NOTA -->
+  <div class="note-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span><strong>Instrumento de uso complementar:</strong> Este app constrói o PSC Bruto (linha de base de custo público). Os dados levantados alimentam o Modelo de Evidência Comparativa conforme art. 10, I, 'a', da Lei Federal nº 11.079/2004. Estimativa estática anual — sem cálculo de VPL.</span>
+  </div>
+
+  <!-- IDENTIFICAÇÃO -->
+  <div class="panel">
+    <div class="panel-header"><span class="ph-dot"></span>Identificação do Projeto e Período de Referência</div>
+    <div class="panel-body">
+      <div class="id-grid">
+        <div class="field-group">
+          <label>Nome / Identificação do Projeto</label>
+          <input type="text" id="nomeProjeto" placeholder="Ex.: Gestão de Escolas Estaduais de Tempo Integral">
+        </div>
+        <div class="field-group">
+          <label>Órgão / Secretaria Responsável</label>
+          <input type="text" id="orgao" placeholder="Ex.: Secretaria da Educação — SEDUC/RS">
+        </div>
+        <div class="field-group">
+          <label>Período de Referência (Ano-base)</label>
+          <input type="text" id="periodoRef" placeholder="Ex.: 2024">
+        </div>
+        <div class="field-group">
+          <label>Responsável pelo Preenchimento</label>
+          <input type="text" id="responsavel" placeholder="Nome, cargo e contato">
+        </div>
+        <div class="field-group">
+          <label>Data do Preenchimento</label>
+          <input type="text" id="dataPreench" placeholder="DD/MM/AAAA">
+        </div>
+        <div class="field-group">
+          <label>Versão do Instrumento</label>
+          <input type="text" id="versao" value="v1.0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALIDADE -->
+  <div class="panel">
+    <div class="panel-header"><span class="ph-dot"></span>Modalidade de Prestação do Serviço</div>
+    <div class="panel-body">
+      <p style="font-size:12px; color:var(--cage-muted); margin-bottom:14px;">Selecione a(s) modalidade(s) identificada(s). Em projetos mistos, marque todas as que se aplicam. As modalidades não selecionadas serão ocultadas no relatório, mas os valores preenchidos entram na consolidação total.</p>
+      <div class="modal-grid">
+        <label class="modal-card active" id="card-A">
+          <input type="checkbox" id="modal-A" checked onchange="toggleModalCard('A')">
+          <div class="mc-label">A — Administração Direta</div>
+          <div class="mc-desc">Serviço prestado diretamente pelo órgão/secretaria com servidores do quadro estadual</div>
+        </label>
+        <label class="modal-card active" id="card-B">
+          <input type="checkbox" id="modal-B" checked onchange="toggleModalCard('B')">
+          <div class="mc-label">B — Administração Indireta</div>
+          <div class="mc-desc">Serviço prestado por autarquia, fundação, EP ou SEM vinculada</div>
+        </label>
+        <label class="modal-card active" id="card-C">
+          <input type="checkbox" id="modal-C" checked onchange="toggleModalCard('C')">
+          <div class="mc-label">C — Contratação Licitada</div>
+          <div class="mc-desc">Serviço prestado integralmente por empresa contratada via licitação</div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSAÇÃO -->
+  <div class="panel">
+    <div class="panel-header"><span class="ph-dot"></span>Custos de Transação — Processos Licitatórios</div>
+    <div class="panel-body">
+      <div class="trans-grid">
+        <div class="field-group">
+          <label>Número de Contratos a Licitar</label>
+          <input type="number" id="numContratos" min="0" value="0" placeholder="0" oninput="calcTransacao()">
+        </div>
+        <div class="field-group">
+          <label>Custo Estimado por Processo Licitatório (R$)</label>
+          <input type="number" id="custoLicit" min="0" value="0" placeholder="0,00" oninput="calcTransacao()">
+        </div>
+        <div class="trans-result">
+          <span class="tr-label">Subtotal — Custo de Transação Anual</span>
+          <span class="tr-value" id="totalTransacao">R$ 0,00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELAS DE CUSTO -->
+  <div class="section-label">Tabela de Levantamento de Custos</div>
+
+  <!-- CAPEX -->
+  <div class="category-block cat-capex">
+    <div class="category-header" onclick="toggleCategory('capex')">
+      <div class="ch-left">
+        <span class="ch-code">CAT A</span>
+        <span class="ch-name">CAPEX — Investimentos Anualizados</span>
+        <span class="ch-count" id="count-capex">(0 itens)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="ch-subtotal" id="sub-capex">R$ 0,00</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="category-table-wrap" id="wrap-capex">
+      <table class="cost-table" id="table-capex">
+        <thead><tr>
+          <th class="col-item">Item de Custo</th>
+          <th class="col-modal">Modalidade</th>
+          <th class="col-fonte-sug">Fontes Sugeridas</th>
+          <th class="col-fonte-used">Fonte Utilizada</th>
+          <th class="col-valor">Valor Anual (R$)</th>
+          <th class="col-conf">Confiabilidade</th>
+          <th class="col-obs">Observações</th>
+          <th class="col-acao"></th>
+        </tr></thead>
+        <tbody id="tbody-capex"></tbody>
+      </table>
+      <div class="empty-state" id="empty-capex" style="display:none">Nenhum item. Use "+ Adicionar" para incluir custos de capital.</div>
+    </div>
+    <div class="category-footer">
+      <button class="btn-add" onclick="addRow('capex')">+ Adicionar CAPEX</button>
+      <span class="footer-subtotal" id="foot-capex">Subtotal: R$ 0,00</span>
+    </div>
+  </div>
+
+  <!-- OPEX -->
+  <div class="category-block cat-opex" style="margin-top:8px">
+    <div class="category-header" onclick="toggleCategory('opex')">
+      <div class="ch-left">
+        <span class="ch-code">CAT B</span>
+        <span class="ch-name">OPEX — Operação e Manutenção</span>
+        <span class="ch-count" id="count-opex">(0 itens)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="ch-subtotal" id="sub-opex">R$ 0,00</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="category-table-wrap" id="wrap-opex">
+      <table class="cost-table" id="table-opex">
+        <thead><tr>
+          <th class="col-item">Item de Custo</th>
+          <th class="col-modal">Modalidade</th>
+          <th class="col-fonte-sug">Fontes Sugeridas</th>
+          <th class="col-fonte-used">Fonte Utilizada</th>
+          <th class="col-valor">Valor Anual (R$)</th>
+          <th class="col-conf">Confiabilidade</th>
+          <th class="col-obs">Observações</th>
+          <th class="col-acao"></th>
+        </tr></thead>
+        <tbody id="tbody-opex"></tbody>
+      </table>
+      <div class="empty-state" id="empty-opex" style="display:none">Nenhum item.</div>
+    </div>
+    <div class="category-footer">
+      <button class="btn-add" onclick="addRow('opex')">+ Adicionar OPEX</button>
+      <span class="footer-subtotal" id="foot-opex">Subtotal: R$ 0,00</span>
+    </div>
+  </div>
+
+  <!-- GESTÃO -->
+  <div class="category-block cat-gestao" style="margin-top:8px">
+    <div class="category-header" onclick="toggleCategory('gestao')">
+      <div class="ch-left">
+        <span class="ch-code">CAT C</span>
+        <span class="ch-name">Gestão e Fiscalização Contratual</span>
+        <span class="ch-count" id="count-gestao">(0 itens)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="ch-subtotal" id="sub-gestao">R$ 0,00</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="category-table-wrap" id="wrap-gestao">
+      <table class="cost-table" id="table-gestao">
+        <thead><tr>
+          <th class="col-item">Item de Custo</th>
+          <th class="col-modal">Modalidade</th>
+          <th class="col-fonte-sug">Fontes Sugeridas</th>
+          <th class="col-fonte-used">Fonte Utilizada</th>
+          <th class="col-valor">Valor Anual (R$)</th>
+          <th class="col-conf">Confiabilidade</th>
+          <th class="col-obs">Observações</th>
+          <th class="col-acao"></th>
+        </tr></thead>
+        <tbody id="tbody-gestao"></tbody>
+      </table>
+      <div class="empty-state" id="empty-gestao" style="display:none">Nenhum item.</div>
+    </div>
+    <div class="category-footer">
+      <button class="btn-add" onclick="addRow('gestao')">+ Adicionar Gestão</button>
+      <span class="footer-subtotal" id="foot-gestao">Subtotal: R$ 0,00</span>
+    </div>
+  </div>
+
+  <!-- RECEITAS -->
+  <div class="category-block cat-receita" style="margin-top:8px">
+    <div class="category-header" onclick="toggleCategory('receita')">
+      <div class="ch-left">
+        <span class="ch-code">CAT D</span>
+        <span class="ch-name">Receitas — Deduções do Custo Público</span>
+        <span class="ch-count" id="count-receita">(0 itens)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="ch-subtotal" id="sub-receita">R$ 0,00</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="category-table-wrap" id="wrap-receita">
+      <table class="cost-table" id="table-receita">
+        <thead><tr>
+          <th class="col-item">Item de Receita</th>
+          <th class="col-modal">Modalidade</th>
+          <th class="col-fonte-sug">Fontes Sugeridas</th>
+          <th class="col-fonte-used">Fonte Utilizada</th>
+          <th class="col-valor">Valor Anual (R$)</th>
+          <th class="col-conf">Confiabilidade</th>
+          <th class="col-obs">Observações</th>
+          <th class="col-acao"></th>
+        </tr></thead>
+        <tbody id="tbody-receita"></tbody>
+      </table>
+      <div class="empty-state" id="empty-receita" style="display:none">Nenhum item.</div>
+    </div>
+    <div class="category-footer">
+      <button class="btn-add" onclick="addRow('receita')">+ Adicionar Receita</button>
+      <span class="footer-subtotal" id="foot-receita">Total Deduções: R$ 0,00</span>
+    </div>
+  </div>
+
+  <!-- TOTALIZADORES -->
+  <div class="section-label" style="margin-top:32px">Consolidação — Totalizadores</div>
+  <div class="totals-grid">
+    <div class="total-card tc-main">
+      <div class="tc-label">Custo Público Anual Total (PSC Bruto)</div>
+      <div class="tc-value" id="total-geral">R$ 0,00</div>
+      <div class="tc-sublabel">(CAPEX + OPEX + Gestão) − Receitas + Transação</div>
+    </div>
+    <div class="total-card tc-direta">
+      <div class="tc-label">Administração Direta</div>
+      <div class="tc-value" id="total-direta">R$ 0,00</div>
+      <div class="tc-pct" id="pct-direta">—</div>
+    </div>
+    <div class="total-card tc-indireta">
+      <div class="tc-label">Administração Indireta</div>
+      <div class="tc-value" id="total-indireta">R$ 0,00</div>
+      <div class="tc-pct" id="pct-indireta">—</div>
+    </div>
+    <div class="total-card tc-licitada">
+      <div class="tc-label">Contratos Licitados + Transação</div>
+      <div class="tc-value" id="total-licitada">R$ 0,00</div>
+      <div class="tc-pct" id="pct-licitada">—</div>
+    </div>
+  </div>
+
+  <!-- CONFIABILIDADE — bloco removido a pedido (2026-05) -->
+
+  <!-- PREMISSAS -->
+  <div class="panel">
+    <div class="panel-header"><span class="ph-dot"></span>Premissas e Limitações Declaradas</div>
+    <div class="panel-body" style="padding:0">
+      <table class="premissa-table" id="premissa-table">
+        <thead><tr>
+          <th style="width:40px">Nº</th>
+          <th style="width:120px">Tipo</th>
+          <th>Descrição</th>
+          <th style="width:44px"></th>
+        </tr></thead>
+        <tbody id="tbody-premissa"></tbody>
+      </table>
+    </div>
+    <div class="premissa-footer">
+      <button class="btn-add" onclick="addPremissa()">+ Adicionar Premissa / Limitação</button>
+    </div>
+  </div>
+
+  <!-- FONTES DE REFERÊNCIA — bloco removido a pedido (2026-05) -->
+
+</main>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <span class="sb-item"><span class="sb-dot"></span> CAGE/SEFAZ-RS · PSC Módulo 2</span>
+  <span class="sb-item">Lei 11.079/2004 · Art. 10, I, 'a'</span>
+  <span class="sb-item sb-saved" id="sb-status">● Rascunho não salvo</span>
+  <span class="sb-right">Versão 1.0 · Estimativa estática anual · Sem VPL</span>
+</div>
+
+<script>
+// ── CONSTANTS ──
+const FONTES_SUG = 'Ex.: Portal da Transparência, FPE, CAGE Gerencial';
+
+const MODAL_OPTIONS = `
+  <option value="Administração Direta">Administração Direta</option>
+  <option value="Administração Indireta">Administração Indireta</option>
+  <option value="Contrato Licitado">Contrato Licitado</option>
+`;
+const CONF_OPTIONS = `
+  <option value="">—</option>
+  <option value="Alta">Alta</option>
+  <option value="Média">Média</option>
+  <option value="Baixa">Baixa</option>
+  <option value="Estimativa">Estimativa</option>
+`;
+
+let rowCounter = 0;
+
+// ── ROW CREATION ──
+function makeRow(cat, data = {}) {
+  rowCounter++;
+  const id = `row-${rowCounter}`;
+  const tr = document.createElement('tr');
+  tr.id = id;
+  tr.dataset.cat = cat;
+
+  const item    = data.item || '';
+  const modal   = data.modal || 'Administração Direta';
+  const fonteSug = FONTES_SUG;
+  const fonteUsed = data.fonteUsed || '';
+  const valor   = data.valor !== undefined ? data.valor : '';
+  const conf    = data.conf || '';
+  const obs     = data.obs || '';
+
+  tr.innerHTML = `
+    <td class="col-item"><input type="text" placeholder="Descreva o item de custo…" value="${escHtml(item)}" oninput="recalc()"></td>
+    <td class="col-modal">
+      <select onchange="recalc()">
+        ${buildModalOptions(modal)}
+      </select>
+    </td>
+    <td class="col-fonte-sug">
+      <span class="fonte-sug-text">${escHtml(fonteSug)}</span>
+    </td>
+    <td class="col-fonte-used"><input type="text" placeholder="Informe a fonte consultada" value="${escHtml(fonteUsed)}" oninput="recalc()"></td>
+    <td class="col-valor"><input type="number" min="0" step="0.01" placeholder="0,00" value="${valor !== '' ? valor : ''}" oninput="recalc()"></td>
+    <td class="col-conf">
+      <select onchange="recalc(); updateConfColor(this)">
+        ${buildConfOptions(conf)}
+      </select>
+    </td>
+    <td class="col-obs"><textarea placeholder="Registre premissas, rateios, referências…" oninput="recalc()">${escHtml(obs)}</textarea></td>
+    <td class="col-acao"><button class="btn-del" onclick="delRow('${id}')" title="Excluir linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
+  `;
+
+  // color conf select
+  const sel = tr.querySelector('select:last-of-type');
+  updateConfColor(sel);
+
+  return tr;
+}
+
+function buildModalOptions(selected) {
+  return ['Administração Direta','Administração Indireta','Contrato Licitado'].map(v =>
+    `<option value="${v}"${v === selected ? ' selected' : ''}>${v}</option>`
+  ).join('');
+}
+
+function buildConfOptions(selected) {
+  return [['','—'],['Alta','Alta'],['Média','Média'],['Baixa','Baixa'],['Estimativa','Estimativa']].map(([v,l]) =>
+    `<option value="${v}"${v === selected ? ' selected' : ''}>${l}</option>`
+  ).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function updateConfColor(sel) {
+  sel.className = '';
+  const v = sel.value;
+  if (v === 'Alta') sel.style.color = 'var(--green)';
+  else if (v === 'Média') sel.style.color = 'var(--amber)';
+  else if (v === 'Baixa' || v === 'Estimativa') sel.style.color = 'var(--red)';
+  else sel.style.color = '';
+}
+
+function addRow(cat, data = {}) {
+  const tbody = document.getElementById(`tbody-${cat}`);
+  const tr = makeRow(cat, data);
+  tbody.appendChild(tr);
+  recalc();
+  updateEmpty(cat);
+}
+
+function delRow(id) {
+  const tr = document.getElementById(id);
+  if (!tr) return;
+  const cat = tr.dataset.cat;
+  tr.remove();
+  recalc();
+  updateEmpty(cat);
+}
+
+function updateEmpty(cat) {
+  const tbody = document.getElementById(`tbody-${cat}`);
+  const empty = document.getElementById(`empty-${cat}`);
+  if (!empty) return;
+  empty.style.display = tbody.children.length === 0 ? 'block' : 'none';
+}
+
+// ── CALCULATION ──
+function getRowValue(tr) {
+  const valInput = tr.querySelector('input[type=number]');
+  return parseFloat(valInput?.value || 0) || 0;
+}
+
+function getRowModal(tr) {
+  const sel = tr.querySelector('select');
+  return sel?.value || '';
+}
+
+function calcCat(cat) {
+  const tbody = document.getElementById(`tbody-${cat}`);
+  let total = 0;
+  Array.from(tbody?.children || []).forEach(tr => { total += getRowValue(tr); });
+  return total;
+}
+
+function calcByModal(modal, excludeCat) {
+  let total = 0;
+  ['capex','opex','gestao'].forEach(cat => {
+    if (cat === excludeCat) return;
+    const tbody = document.getElementById(`tbody-${cat}`);
+    Array.from(tbody?.children || []).forEach(tr => {
+      if (getRowModal(tr) === modal) total += getRowValue(tr);
+    });
+  });
+  return total;
+}
+
+function calcTransacao() {
+  const n = parseFloat(document.getElementById('numContratos')?.value) || 0;
+  const c = parseFloat(document.getElementById('custoLicit')?.value) || 0;
+  const t = n * c;
+  document.getElementById('totalTransacao').textContent = fmt(t);
+  recalc();
+}
+
+function recalc() {
+  const cats = ['capex','opex','gestao','receita'];
+  const subs = {};
+
+  cats.forEach(cat => {
+    const tbody = document.getElementById(`tbody-${cat}`);
+    let sub = 0;
+    let count = 0;
+    Array.from(tbody?.children || []).forEach(tr => {
+      sub += getRowValue(tr);
+      count++;
+    });
+    subs[cat] = sub;
+    document.getElementById(`sub-${cat}`).textContent = fmt(sub);
+    document.getElementById(`foot-${cat}`).textContent =
+      cat === 'receita' ? `Total Deduções: ${fmt(sub)}` : `Subtotal: ${fmt(sub)}`;
+    const countEl = document.getElementById(`count-${cat}`);
+    if (countEl) countEl.textContent = `(${count} ${count === 1 ? 'item' : 'itens'})`;
+  });
+
+  const trans = parseFloat(document.getElementById('numContratos')?.value || 0) *
+                parseFloat(document.getElementById('custoLicit')?.value || 0) || 0;
+
+  const totalBruto = subs.capex + subs.opex + subs.gestao - subs.receita + trans;
+  document.getElementById('total-geral').textContent = fmt(totalBruto);
+
+  // by modal
+  const modals = { 'Administração Direta': 0, 'Administração Indireta': 0, 'Contrato Licitado': 0 };
+  ['capex','opex','gestao'].forEach(cat => {
+    const tbody = document.getElementById(`tbody-${cat}`);
+    Array.from(tbody?.children || []).forEach(tr => {
+      const m = getRowModal(tr);
+      if (modals[m] !== undefined) modals[m] += getRowValue(tr);
+    });
+  });
+  modals['Contrato Licitado'] += trans;
+
+  const tDir   = modals['Administração Direta'];
+  const tInd   = modals['Administração Indireta'];
+  const tLic   = modals['Contrato Licitado'];
+  const tModal = tDir + tInd + tLic;
+
+  document.getElementById('total-direta').textContent   = fmt(tDir);
+  document.getElementById('total-indireta').textContent = fmt(tInd);
+  document.getElementById('total-licitada').textContent = fmt(tLic);
+
+  const pct = v => tModal > 0 ? `${((v/tModal)*100).toFixed(1)}% do total` : '—';
+  document.getElementById('pct-direta').textContent   = pct(tDir);
+  document.getElementById('pct-indireta').textContent = pct(tInd);
+  document.getElementById('pct-licitada').textContent = pct(tLic);
+
+  updateConfGlobal();
+}
+
+function fmt(v) {
+  if (isNaN(v)) v = 0;
+  return 'R$ ' + Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+// ── TOGGLE CATEGORY ──
+function toggleCategory(cat) {
+  const wrap = document.getElementById(`wrap-${cat}`);
+  const footer = wrap?.nextElementSibling;
+  const header = wrap?.previousElementSibling;
+  const isHidden = wrap?.style.display === 'none';
+  if (wrap) wrap.style.display = isHidden ? '' : 'none';
+  if (footer) footer.style.display = isHidden ? '' : 'none';
+  if (header) header.classList.toggle('collapsed', !isHidden);
+}
+
+// ── MODAL CARD TOGGLE ──
+function toggleModalCard(letter) {
+  const card = document.getElementById(`card-${letter}`);
+  const cb = document.getElementById(`modal-${letter}`);
+  if (card && cb) card.classList.toggle('active', cb.checked);
+}
+
+// ── CONFIABILIDADE ──
+function updateConfBadge(dim) {
+  const sel = document.getElementById(`conf-${dim}`);
+  const badge = document.getElementById(`badge-${dim}`);
+  const v = sel?.value;
+  if (!badge) return;
+  if (v === 'Alto')  { badge.textContent = '✓'; badge.style.background = '#D4EDE3'; badge.style.color = 'var(--green)'; }
+  else if (v === 'Médio') { badge.textContent = '~'; badge.style.background = '#FDE8D8'; badge.style.color = 'var(--amber)'; }
+  else if (v === 'Baixo') { badge.textContent = '!'; badge.style.background = '#FFE8E6'; badge.style.color = 'var(--red)'; }
+  else { badge.textContent = '—'; badge.style.background = '#EEF2F7'; badge.style.color = 'var(--cage-muted)'; }
+  updateConfGlobal();
+}
+
+function updateConfGlobal() {
+  const dims = ['pessoal','contratos','capital','periodo','rateio','receitas'];
+  const vals = dims.map(d => document.getElementById(`conf-${d}`)?.value).filter(Boolean);
+  let global = 'Não avaliado';
+  if (vals.length > 0) {
+    if (vals.every(v => v === 'Alto')) global = 'Alto';
+    else if (vals.some(v => v === 'Baixo')) global = 'Baixo';
+    else global = 'Médio';
+  }
+  const el = document.getElementById('conf-global-value');
+  if (el) {
+    el.textContent = global;
+    el.style.color = global === 'Alto' ? '#70D070' : global === 'Baixo' ? '#E87060' : global === 'Médio' ? '#F0C060' : 'rgba(255,255,255,0.7)';
+  }
+}
+
+// ── PREMISSAS ──
+let premissaCounter = 0;
+function addPremissa(data = {}) {
+  premissaCounter++;
+  const id = `pre-${premissaCounter}`;
+  const tbody = document.getElementById('tbody-premissa');
+  const tr = document.createElement('tr');
+  tr.id = id;
+  const tipo = data.tipo || 'Limitação';
+  const desc = data.desc || '';
+  tr.innerHTML = `
+    <td style="text-align:center;color:var(--cage-muted);font-size:11px">${tbody.children.length + 1}</td>
+    <td>
+      <select onchange="updateTipoBadge(this)">
+        <option${tipo==='Premissa'?' selected':''}>Premissa</option>
+        <option${tipo==='Limitação'?' selected':''}>Limitação</option>
+        <option${tipo==='Estimativa'?' selected':''}>Estimativa</option>
+      </select>
+    </td>
+    <td><textarea placeholder="Descreva a premissa, limitação ou estimativa utilizada…">${escHtml(desc)}</textarea></td>
+    <td><button class="btn-del" onclick="delPremissa('${id}')" title="Excluir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
+  `;
+  tbody.appendChild(tr);
+}
+function delPremissa(id) {
+  document.getElementById(id)?.remove();
+  // renumber
+  const rows = document.querySelectorAll('#tbody-premissa tr');
+  rows.forEach((tr, i) => { const td = tr.querySelector('td:first-child'); if (td) td.textContent = i + 1; });
+}
+
+// ── SAVE / LOAD ──
+function collectData() {
+  const cats = ['capex','opex','gestao','receita'];
+  const rows = {};
+  cats.forEach(cat => {
+    rows[cat] = Array.from(document.getElementById(`tbody-${cat}`)?.children || []).map(tr => {
+      const inputs = tr.querySelectorAll('input, select, textarea');
+      return {
+        item:      inputs[0]?.value || '',
+        modal:     inputs[1]?.value || '',
+        fonteUsed: inputs[2]?.value || '',
+        valor:     inputs[3]?.value || '',
+        conf:      inputs[4]?.value || '',
+        obs:       inputs[5]?.value || ''
+      };
+    });
+  });
+
+  const premissas = Array.from(document.getElementById('tbody-premissa')?.children || []).map(tr => {
+    const sel = tr.querySelector('select');
+    const ta  = tr.querySelector('textarea');
+    return { tipo: sel?.value || '', desc: ta?.value || '' };
+  });
+
+  const confDims = ['pessoal','contratos','capital','periodo','rateio','receitas'];
+  const confs = {};
+  confDims.forEach(d => {
+    confs[d] = { val: document.getElementById(`conf-${d}`)?.value || '', just: document.getElementById(`just-${d}`)?.value || '' };
+  });
+
+  return {
+    header: {
+      nomeProjeto: document.getElementById('nomeProjeto')?.value,
+      orgao: document.getElementById('orgao')?.value,
+      periodoRef: document.getElementById('periodoRef')?.value,
+      responsavel: document.getElementById('responsavel')?.value,
+      dataPreench: document.getElementById('dataPreench')?.value,
+      versao: document.getElementById('versao')?.value,
+    },
+    modalidades: {
+      A: document.getElementById('modal-A')?.checked,
+      B: document.getElementById('modal-B')?.checked,
+      C: document.getElementById('modal-C')?.checked,
+    },
+    transacao: {
+      numContratos: document.getElementById('numContratos')?.value,
+      custoLicit: document.getElementById('custoLicit')?.value,
+    },
+    rows, premissas, confs
+  };
+}
+
+function salvarRascunho() {
+  try {
+    const data = collectData();
+    localStorage.setItem('psc_cage_rs_v1', JSON.stringify(data));
+    document.getElementById('sb-status').textContent = '● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR');
+  } catch(e) {
+    alert('Atenção: não foi possível salvar no localStorage deste navegador. Copie os dados manualmente ou use o Export PDF.');
+  }
+}
+
+function carregarRascunho() {
+  try {
+    const raw = localStorage.getItem('psc_cage_rs_v1');
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    // header
+    if (data.header) {
+      Object.entries(data.header).forEach(([k,v]) => { const el = document.getElementById(k); if (el) el.value = v || ''; });
+    }
+    // modalidades
+    if (data.modalidades) {
+      ['A','B','C'].forEach(l => {
+        const cb = document.getElementById(`modal-${l}`);
+        if (cb) { cb.checked = !!data.modalidades[l]; toggleModalCard(l); }
+      });
+    }
+    // transacao
+    if (data.transacao) {
+      const nc = document.getElementById('numContratos'); if (nc) nc.value = data.transacao.numContratos || 0;
+      const cl = document.getElementById('custoLicit'); if (cl) cl.value = data.transacao.custoLicit || 0;
+      calcTransacao();
+    }
+    // rows
+    if (data.rows) {
+      ['capex','opex','gestao','receita'].forEach(cat => {
+        (data.rows[cat] || []).forEach(r => addRow(cat, r));
+      });
+    }
+    // premissas
+    if (data.premissas) { data.premissas.forEach(p => addPremissa(p)); }
+    // confs
+    if (data.confs) {
+      Object.entries(data.confs).forEach(([d, obj]) => {
+        const sel = document.getElementById(`conf-${d}`); if (sel) { sel.value = obj.val; updateConfBadge(d); }
+        const just = document.getElementById(`just-${d}`); if (just) just.value = obj.just;
+      });
+    }
+    recalc();
+    document.getElementById('sb-status').textContent = '● Rascunho carregado';
+    return true;
+  } catch(e) { return false; }
+}
+
+// ── EXPORT ──
+function exportarRelatorio() {
+  window.print();
+}
+
+// ── CLEAR ──
+function limparDados() {
+  if (!confirm('Deseja limpar todos os dados e recarregar os exemplos? Esta ação não pode ser desfeita.')) return;
+  try { localStorage.removeItem('psc_cage_rs_v1'); } catch(e) {}
+  ['capex','opex','gestao','receita'].forEach(cat => {
+    const tbody = document.getElementById(`tbody-${cat}`);
+    if (tbody) tbody.innerHTML = '';
+    updateEmpty(cat);
+  });
+  document.getElementById('tbody-premissa').innerHTML = '';
+  document.getElementById('nomeProjeto').value = '';
+  document.getElementById('orgao').value = '';
+  document.getElementById('periodoRef').value = '';
+  document.getElementById('responsavel').value = '';
+  document.getElementById('dataPreench').value = '';
+  document.getElementById('versao').value = 'v1.0';
+  document.getElementById('numContratos').value = 0;
+  document.getElementById('custoLicit').value = 0;
+  ['pessoal','contratos','capital','periodo','rateio','receitas'].forEach(d => {
+    const sel = document.getElementById(`conf-${d}`); if (sel) sel.value = '';
+    const just = document.getElementById(`just-${d}`); if (just) just.value = '';
+    updateConfBadge(d);
+  });
+  calcTransacao();
+  carregarExemplos();
+  document.getElementById('sb-status').textContent = '● Rascunho não salvo';
+}
+
+// ── TEMPLATE DATA ──
+function carregarExemplos() {
+  // CAPEX
+  addRow('capex', { item: 'Obras e instalações — adequação de infraestrutura', modal: 'Contrato Licitado', fonteUsed: '', valor: 850000, conf: 'Baixa', obs: 'Custo anualizado: valor total ÷ vida útil estimada (25 anos). Dados do setor de patrimônio.' });
+  addRow('capex', { item: 'Equipamentos e material permanente (depreciação anual)', modal: 'Administração Direta', fonteUsed: '', valor: 120000, conf: 'Baixa', obs: 'Taxa de depreciação conforme NBC TSP 34 / MCASP. Dados de patrimônio do órgão.' });
+  addRow('capex', { item: 'Sistemas de TI e licenças de software específicos', modal: 'Contrato Licitado', fonteUsed: '', valor: 95000, conf: 'Médio', obs: 'Contratos de licença e manutenção de sistemas. Verificar no CAGE Gerencial / IEF.' });
+  addRow('capex', { item: 'Veículos — depreciação anual (frota alocada ao serviço)', modal: 'Administração Direta', fonteUsed: '', valor: 48000, conf: 'Baixa', obs: 'Vida útil de veículos: 5 anos (MCASP). Solicitar ao setor de patrimônio.' });
+
+  // OPEX
+  addRow('opex', { item: 'Remuneração bruta de servidores (custo total do empregador)', modal: 'Administração Direta', fonteUsed: '', valor: 3200000, conf: 'Alta', obs: 'Incluir remuneração + contribuição patronal RPPS/IPE Prev (~23,75%). Fonte: Painel de Informações de Pessoal / pi.sefaz.rs.gov.br. Aplicar fator de rateio pelo gestor.' });
+  addRow('opex', { item: 'Contribuição patronal ao RPPS / IPE Prev (FUNDOPREV)', modal: 'Administração Direta', fonteUsed: '', valor: 0, conf: 'Alta', obs: 'Se já consolidado na linha de remuneração acima, manter como zero e registrar aqui.' });
+  addRow('opex', { item: 'Diárias e passagens — pessoal alocado ao serviço (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 18000, conf: 'Médio', obs: 'Aplicar mesmo fator de rateio do pessoal. Portal Transparência/RS → Natureza: Diárias.' });
+  addRow('opex', { item: 'Capacitação e treinamento (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 22000, conf: 'Baixa', obs: 'Estimativa: separar contratos de capacitação do total de Outros Serviços de Terceiros PJ.' });
+  addRow('opex', { item: 'Contratos terceirizados de limpeza e conservação', modal: 'Contrato Licitado', fonteUsed: '', valor: 480000, conf: 'Alta', obs: 'Somar valores anualizados dos contratos vigentes. CAGE Gerencial → CUSTOS-RS (TERC).' });
+  addRow('opex', { item: 'Contratos de manutenção de equipamentos e instalações', modal: 'Contrato Licitado', fonteUsed: '', valor: 210000, conf: 'Alta', obs: 'Incluir manutenção predial, equipamentos e TI. Portal Transparência/RS → Contratos de Serviços.' });
+  addRow('opex', { item: 'Energia elétrica e água/esgoto (rateio por uso)', modal: 'Administração Direta', fonteUsed: '', valor: 95000, conf: 'Médio', obs: 'Estimar com base em m² ocupados. IEF não permite rateio percentual por CC — consolidar no CC superior.' });
+  addRow('opex', { item: 'Locação de imóveis utilizados pelo serviço', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, conf: 'Alta', obs: 'Incluir apenas imóveis utilizados pelo serviço. CAGE Gerencial → CUSTOS-RS (LOC).' });
+  addRow('opex', { item: 'Rateio de despesas operacionais da entidade vinculada', modal: 'Administração Indireta', fonteUsed: '', valor: 620000, conf: 'Baixa', obs: 'Fonte: Demonstrações Financeiras da entidade (DRE/Notas Explicativas). Aplicar % de atividade.' });
+  addRow('opex', { item: 'Transferências do Estado para a entidade vinculada (repasses)', modal: 'Administração Indireta', fonteUsed: '', valor: 0, conf: 'Alto', obs: 'Portal Transparência/RS → Convênios e Parcerias. Verificar se o repasse cobre só este serviço.' });
+  addRow('opex', { item: 'Fornecimento de bens / insumos recorrentes (almoxarifado)', modal: 'Administração Direta', fonteUsed: '', valor: 68000, conf: 'Médio', obs: 'CAGE Gerencial → CUSTOS-RS (SAM — materiais de consumo). Saída do almoxarifado por CC.' });
+
+  // GESTÃO
+  addRow('gestao', { item: 'Pessoal interno alocado à fiscalização contratual (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 140000, conf: 'Baixa', obs: 'Estimar nº de servidores equivalentes × custo médio. Registrar metodologia de rateio.' });
+  addRow('gestao', { item: 'Fiscalização técnica terceirizada (assessoria/consultoria)', modal: 'Contrato Licitado', fonteUsed: '', valor: 85000, conf: 'Médio', obs: 'Contratos de empresa de fiscalização ou consultoria para gestão do contrato principal.' });
+  addRow('gestao', { item: 'Custos jurídicos — gestão contratual (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 30000, conf: 'Baixa', obs: 'Estimativa de horas da área jurídica alocadas à gestão dos contratos do serviço.' });
+
+  // RECEITAS
+  addRow('receita', { item: 'Receitas tarifárias / arrecadação direta do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 120000, conf: 'Média', obs: 'Receitas que reduzem o custo líquido público. Informar fonte e periodicidade.' });
+
+  // PREMISSAS
+  addPremissa({ tipo: 'Limitação', desc: 'Painel APE (CUSTOS-RS) não disponível no CAGE Gerencial (situação em mar/2025). Dados de depreciação e patrimônio foram obtidos junto ao setor de patrimônio do órgão ou estimados.' });
+  addPremissa({ tipo: 'Limitação', desc: 'IEF (Integração Estado Fornecedor) não permite rateio percentual por centro de custo. Custos de energia/água foram alocados por estimativa de uso proporcional (m² ou pontos de consumo).' });
+  addPremissa({ tipo: 'Premissa', desc: 'Fator de rateio de pessoal: [informar percentual e metodologia — ex.: 40% baseado em declaração do gestor responsável].' });
+  addPremissa({ tipo: 'Premissa', desc: 'Período de referência: [informar exercício(s) utilizado(s) e se houve correção pelo IPCA].' });
+  addPremissa({ tipo: 'Estimativa', desc: 'Itens com grau Baixo ou Estimativa: [listar dados não disponíveis nos sistemas públicos].' });
+
+  recalc();
+  ['capex','opex','gestao','receita'].forEach(updateEmpty);
+}
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', () => {
+  const loaded = carregarRascunho();
+  if (!loaded) carregarExemplos();
+
+  // auto-date
+  const dataEl = document.getElementById('dataPreench');
+  if (dataEl && !dataEl.value) {
+    const now = new Date();
+    dataEl.value = now.toLocaleDateString('pt-BR');
+  }
+});
+
+// auto-save on beforeunload hint
+window.addEventListener('beforeunload', () => {
+  try { salvarRascunho(); } catch(e) {}
+});
+
+/* ══════════════════════════════════════
+   Sincronização de identificação do projeto entre módulos (via shell)
+   Roda apenas quando carregado dentro do shell (?embed=1)
+══════════════════════════════════════ */
+(function() {
+  if (!document.documentElement.classList.contains('embed-mode')) return;
+  const MOD = 1;
+  // Mapa de campos lógicos → IDs no DOM deste módulo
+  const FIELDS = {
+    nome:       'nomeProjeto',
+    orgao:      'orgao',
+    periodoRef: 'periodoRef'
+  };
+  let suspendEmit = false;
+  let debounceTimer = null;
+
+  function getEl(logical) {
+    return document.getElementById(FIELDS[logical]);
+  }
+
+  function getDados() {
+    const out = {};
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (el) out[k] = el.value || '';
+    }
+    return out;
+  }
+
+  function setDados(dados) {
+    if (!dados || typeof dados !== 'object') return;
+    suspendEmit = true;
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (!el) continue;
+      const novoValor = dados[k] || '';
+      // Só preenche se o campo está vazio (não sobrescreve trabalho do usuário)
+      if (!el.value || el.value.trim() === '') {
+        el.value = novoValor;
+      }
+    }
+    suspendEmit = false;
+  }
+
+  function emitProjeto() {
+    if (suspendEmit) return;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      try {
+        parent.postMessage({ type: 'gtsefaz_projeto', mod: MOD, dados: getDados() }, '*');
+      } catch(e) {}
+    }, 500);
+  }
+
+  function bindFields() {
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (el && !el.dataset.gtsBound) {
+        el.addEventListener('input', emitProjeto);
+        el.dataset.gtsBound = '1';
+      }
+    }
+  }
+
+  // Listener de mensagens do shell
+  window.addEventListener('message', (e) => {
+    if (!e.data || typeof e.data !== 'object') return;
+    if (e.data.type === 'gtsefaz_projeto_set') {
+      setDados(e.data.dados);
+    }
+  });
+
+  // Inicialização: aguarda DOM dos campos
+  function init() {
+    bindFields();
+    try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: MOD }, '*'); } catch(e) {}
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSC / VfM — Instrumento de Apuração | Governo RS</title>
+
+<!-- ══ EMBED MODE — detecção precoce (antes do CSS carregar) ══ -->
+<script>
+  (function() {
+    if (new URLSearchParams(location.search).get('embed') === '1') {
+      document.documentElement.classList.add('embed-mode');
+    }
+  })();
+</script>
+<style id="embed-overrides">
+  /* Quando carregado dentro do shell (?embed=1), oculta cromos redundantes */
+  html.embed-mode .hdr,
+  html.embed-mode .hero,
+  html.embed-mode .tabbar { display: none !important; }
+  html.embed-mode body { padding-top: 0 !important; margin-top: 0 !important; }
+  html.embed-mode .content { padding-top: 16px !important; }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════
+   PSC / VfM — Governo do Rio Grande do Sul
+   "O futuro nos une" · 2023-2026
+   Institutional Corporate Edition
+══════════════════════════════════════════════ */
+:root {
+  /* ── Paleta institucional CAGE/SEFAZ-RS (canônica, alinhada com index.html) ── */
+  --cage-navy:    #0A4D44;   /* teal-darker — barras escuras    */
+  --cage-blue:    #0F6B5E;   /* teal-dark   — sub-barras        */
+  --cage-mid:     #1F8B7C;   /* teal        — botões primários  */
+  --cage-sky:     #2EB6A5;   /* teal-light  — acentos / status  */
+  --cage-light:   #D1F0EB;   /* teal-xlight — fundos suaves     */
+  --cage-azul:    #1B4F8A;   /* azul institucional (logo CAGE)  */
+
+  /* ── Semafóricos ── */
+  --rs-vermelho:    #8B1A1A;
+  --rs-vermelho-dk: #6B1212;
+  --rs-vermelho-lt: #FEE2E2;
+  --rs-ambar:       #B45309;
+  --rs-ambar-dk:    #92400E;
+  --rs-ambar-lt:    #FEF3C7;
+  --rs-gold:        #B45309;
+  --rs-gold-lt:     #FDE68A;
+
+  /* ── Neutros ── */
+  --ink:       #1A1A1A;
+  --ink2:      #4A4A4A;
+  --ink3:      #6B7280;
+  --ink4:      #9CA3AF;
+  --ink5:      #D1D5DB;
+  --rule:      #D9D9D9;
+  --rule2:     #E8E8E8;
+  --bg:        #F5F5F5;
+  --white:     #FFFFFF;
+  --paper:     #FAFAFA;
+
+  /* ── Layout ── */
+  --tabh:      60px;
+  --headh:     72px;
+
+  /* ── Tipografia ── */
+  --sans:  'Source Sans 3', system-ui, sans-serif;
+  --serif: 'Roboto Slab', Georgia, serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── Sombras ── */
+  --shadow-sm: 0 1px 2px rgba(10,77,68,.04), 0 1px 3px rgba(10,77,68,.06);
+  --shadow:    0 4px 6px rgba(10,77,68,.06), 0 10px 15px rgba(10,77,68,.08);
+  --shadow-lg: 0 10px 25px rgba(10,77,68,.10), 0 20px 50px rgba(10,77,68,.12);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  font-size:14px;
+  line-height:1.6;
+  padding-bottom:calc(var(--tabh) + 24px);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* ════════════════════════════════
+   HEADER — Institutional bar
+════════════════════════════════ */
+.hdr{
+  position:sticky;top:0;z-index:300;
+  height:var(--headh);
+  background:#EAEAEA;
+  display:flex;align-items:stretch;
+  box-shadow:var(--shadow);
+  border-bottom:4px solid var(--cage-mid);
+}
+.hdr-flag{display:flex;flex-shrink:0;width:11px}
+.hdr-flag span{flex:1}
+.hdr-flag .fv{background:var(--cage-mid)}
+.hdr-flag .fr{background:var(--rs-vermelho)}
+.hdr-flag .fa{background:#F0C040}
+
+.hdr-body{
+  display:flex;align-items:center;
+  padding:0 36px;gap:22px;flex:1;
+}
+
+/* Brasão estilizado */
+.brasao{
+  width:38px;height:38px;
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.hdr-gov{display:flex;flex-direction:column;gap:2px}
+.hdr-gov-sub{
+  font-family:var(--mono);font-size:8px;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(245,230,168,.65);font-weight:500;
+}
+.hdr-gov-name{
+  font-family:var(--serif);font-size:15px;font-weight:600;
+  color:rgba(255,255,255,.95);letter-spacing:.01em;line-height:1;
+}
+
+.hdr-div{width:1px;height:40px;background:rgba(255,255,255,.15)}
+
+.hdr-tool{display:flex;flex-direction:column;gap:3px}
+.hdr-tool-tag{
+  font-family:var(--mono);font-size:8px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--rs-gold-lt);font-weight:500;
+}
+.hdr-tool-name{
+  font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.88);
+}
+.hdr-sp{flex:1}
+
+.hdr-steps{display:flex;align-items:center;gap:4px;padding-right:6px}
+.step-dot{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  border:1.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.35);
+  background:rgba(255,255,255,.02);
+  cursor:pointer;transition:all .2s;flex-shrink:0;
+}
+.step-dot:hover{border-color:rgba(255,255,255,.5);color:rgba(255,255,255,.7)}
+.step-dot.done{
+  border-color:var(--cage-mid);
+  color:#fff;
+  background:var(--cage-mid);
+}
+.step-dot.active{
+  background:var(--rs-gold);
+  border-color:var(--rs-gold);
+  color:var(--cage-navy);
+  font-weight:700;
+  box-shadow:0 0 0 3px rgba(184,134,11,.25);
+}
+.step-line{width:12px;height:1.5px;background:rgba(255,255,255,.12)}
+.step-line.done{background:var(--cage-mid)}
+
+/* ════════════════════════════════
+   HERO — Premium landscape banner
+════════════════════════════════ */
+.hero{
+  position:relative;overflow:hidden;
+  height:320px;
+  background:#001a0d;
+  display:none;
+}
+.hero.show{display:flex;align-items:flex-end}
+.hero-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(0,26,13,.15) 0%,
+    rgba(0,26,13,.25) 40%,
+    rgba(0,26,13,.85) 100%);
+  pointer-events:none;
+}
+.hero-grain{
+  position:absolute;inset:0;
+  opacity:.4;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='5'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0 0.6 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hero-content{
+  position:relative;z-index:3;
+  padding:0 48px 44px;
+  max-width:1100px;width:100%;margin:0 auto;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:40px;
+}
+.hero-text{flex:1;max-width:640px}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--rs-gold-lt);margin-bottom:14px;
+  font-weight:500;
+}
+.hero-tag::before{
+  content:'';width:22px;height:1.5px;background:var(--rs-gold);
+}
+.hero-ttl{
+  font-family:var(--serif);
+  font-size:34px;font-weight:600;
+  color:var(--white);line-height:1.15;
+  letter-spacing:-.015em;
+  margin-bottom:14px;
+  text-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.hero-ttl em{font-style:italic;color:var(--rs-gold-lt);font-weight:500}
+.hero-sub{
+  font-size:14px;color:rgba(255,255,255,.72);
+  line-height:1.6;max-width:540px;font-weight:400;
+}
+
+.hero-seal{
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:12px;flex-shrink:0;
+}
+.hero-seal-badge{
+  display:flex;flex-direction:column;align-items:center;
+  padding:14px 18px;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.12);
+  border-left:3px solid var(--rs-gold);
+}
+.hero-seal-label{
+  font-family:var(--mono);font-size:8px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(245,230,168,.7);margin-bottom:4px;
+}
+.hero-seal-val{
+  font-family:var(--serif);font-size:14px;font-weight:600;
+  color:var(--white);
+}
+
+/* ════════════════════════════════
+   CONTENT
+════════════════════════════════ */
+.content{
+  max-width:1100px;margin:0 auto;
+  padding:40px 48px 24px;
+}
+
+/* Panels */
+.panel{display:none}
+.panel.active{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+
+/* ════════════════════════════════
+   PANEL HEADER — Institutional
+════════════════════════════════ */
+.ph{
+  position:relative;
+  margin-bottom:32px;
+  padding-bottom:24px;
+  border-bottom:1px solid var(--rule);
+}
+.ph-overline{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:10px;
+}
+.ph-num{
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--cage-mid);font-weight:600;
+  padding:4px 10px;background:var(--cage-light);
+  border-left:3px solid var(--cage-mid);
+}
+.ph-num.r{background:var(--rs-vermelho-lt);color:var(--rs-vermelho);border-left-color:var(--rs-vermelho)}
+.ph-num.a{background:var(--rs-ambar-lt);color:var(--rs-ambar-dk);border-left-color:var(--rs-ambar)}
+.ph-num.k{background:#0F172A;color:var(--rs-gold-lt);border-left-color:var(--rs-gold)}
+.ph-breadcrumb{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink4);
+}
+.ph-breadcrumb strong{color:var(--ink2);font-weight:600}
+
+.ph-title{
+  font-family:var(--serif);
+  font-size:30px;font-weight:600;
+  line-height:1.2;color:var(--ink);
+  margin-bottom:10px;
+  letter-spacing:-.01em;
+}
+.ph-title em{font-style:italic;color:var(--cage-mid);font-weight:600}
+.ph-desc{
+  font-size:14px;color:var(--ink2);
+  max-width:760px;line-height:1.7;font-weight:400;
+}
+.ph-desc strong{color:var(--ink);font-weight:600}
+
+/* ════════════════════════════════
+   SECTION HEADINGS
+════════════════════════════════ */
+.sh{
+  display:flex;align-items:center;
+  margin:32px 0 16px;
+  position:relative;
+}
+.sh:first-of-type{margin-top:0}
+.sh-accent{
+  width:3px;height:20px;
+  margin-right:12px;flex-shrink:0;
+  background:var(--cage-mid);
+  border-radius:1.5px;
+}
+.sh-accent.r{background:var(--rs-vermelho)}
+.sh-accent.a{background:var(--rs-ambar)}
+.sh-accent.k{background:var(--ink)}
+.sh-text{
+  font-family:var(--mono);font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink);font-weight:600;
+}
+
+/* ════════════════════════════════
+   FORM FIELDS
+════════════════════════════════ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+.fld{margin-bottom:18px}
+.fld-l{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink2);margin-bottom:7px;
+  display:flex;gap:5px;align-items:center;font-weight:600;
+}
+.fld-l .req{color:var(--rs-vermelho);font-size:11px;font-weight:700}
+.fld-hint{font-size:11.5px;color:var(--ink4);margin-top:5px;line-height:1.5}
+
+input[type=text],input[type=number],select,textarea{
+  width:100%;background:var(--white);
+  border:1.5px solid var(--rule);color:var(--ink);
+  font-family:var(--sans);font-size:13.5px;
+  padding:10px 13px;outline:none;border-radius:4px;
+  transition:all .15s;
+  line-height:1.5;
+  box-shadow:var(--shadow-sm);
+}
+input[type=text]:focus,input[type=number]:focus,
+select:focus,textarea:focus{
+  border-color:var(--cage-mid);
+  box-shadow:0 0 0 3px rgba(0,107,60,.12),var(--shadow-sm);
+}
+input[type=text]:hover:not(:focus),input[type=number]:hover:not(:focus),
+select:hover:not(:focus),textarea:hover:not(:focus){
+  border-color:var(--rule2);
+}
+input[type=number]{font-family:var(--mono)}
+textarea{resize:vertical;min-height:80px;font-family:var(--sans)}
+select{
+  cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364748B'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:34px;
+}
+
+/* ════════════════════════════════
+   CHIPS
+════════════════════════════════ */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
+  padding:7px 14px;border:1.5px solid var(--rule);
+  cursor:pointer;color:var(--ink2);background:var(--white);
+  border-radius:4px;transition:all .15s;user-select:none;
+  font-weight:500;
+  box-shadow:var(--shadow-sm);
+}
+.chip:hover{border-color:var(--cage-mid);color:var(--cage-mid)}
+.chip.on{
+  background:var(--cage-mid);border-color:var(--cage-mid);color:var(--white);
+  box-shadow:0 2px 4px rgba(0,107,60,.2);
+}
+
+/* ════════════════════════════════
+   KPI STRIP
+════════════════════════════════ */
+.lstp{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  margin-bottom:24px;
+  box-shadow:var(--shadow-sm);
+}
+.lv{
+  background:var(--white);padding:18px 20px 16px;
+  position:relative;
+  transition:background .2s;
+}
+.lv::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.lv.v::before{background:var(--cage-mid)}
+.lv.r::before{background:var(--rs-vermelho)}
+.lv.a::before{background:var(--rs-ambar)}
+.lv.k::before{background:var(--ink)}
+.lv.k{background:linear-gradient(180deg,var(--bg) 0%,var(--white) 100%)}
+
+.lv-l{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:8px;
+  font-weight:600;
+}
+.lv-v{
+  font-family:var(--serif);font-size:24px;font-weight:700;
+  line-height:1;letter-spacing:-.02em;
+}
+.lv.v .lv-v{color:var(--cage-mid)}
+.lv.r .lv-v{color:var(--rs-vermelho)}
+.lv.a .lv-v{color:var(--rs-ambar-dk)}
+.lv.k .lv-v{color:var(--ink)}
+.lv-u{
+  font-family:var(--mono);font-size:9px;color:var(--ink4);
+  margin-top:5px;letter-spacing:.03em;
+}
+
+/* ════════════════════════════════
+   COST TABLE
+════════════════════════════════ */
+.ct-wrap{
+  border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  box-shadow:var(--shadow-sm);margin-bottom:8px;
+  background:var(--white);
+}
+.ct{width:100%;border-collapse:collapse;font-size:13px}
+.ct thead tr{background:var(--ink)}
+.ct th{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(255,255,255,.65);
+  padding:12px 14px;text-align:left;font-weight:500;
+}
+.ct th.r{text-align:right}
+.ct .cat-r td{
+  background:var(--cage-light);font-family:var(--mono);
+  font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--cage-mid);padding:8px 14px;
+  border-bottom:1px solid var(--rule);font-weight:600;
+}
+.ct .cat-r.r td{background:var(--rs-vermelho-lt);color:var(--rs-vermelho)}
+.ct .cat-r.a td{background:var(--rs-ambar-lt);color:var(--rs-ambar-dk)}
+.ct .cat-r td span{font-weight:300;opacity:.7;font-size:9px}
+.ct tbody tr{border-bottom:1px solid var(--rule);transition:background .12s}
+.ct tbody tr:hover{background:var(--paper)}
+.ct td{padding:9px 14px;vertical-align:middle}
+.ct td.r{text-align:right;font-family:var(--mono);font-size:12px}
+.ct td input[type=number],
+.ct td input[type=text],
+.ct td select{
+  padding:5px 9px;font-size:12px;
+  border:1px solid var(--rule);border-radius:3px;
+  box-shadow:none;
+}
+.ct td input[type=number]{text-align:right}
+.ct td input:focus,.ct td select:focus{
+  border-color:var(--cage-mid);
+  box-shadow:0 0 0 2px rgba(0,107,60,.08);
+}
+.ct td select{padding-right:28px}
+.ct .sub td{
+  background:var(--cage-light);font-family:var(--mono);
+  font-size:12.5px;font-weight:600;color:var(--cage-mid);padding:10px 14px;
+}
+.ct .sub.r td{background:var(--rs-vermelho-lt);color:var(--rs-vermelho)}
+.ct .sub.a td{background:var(--rs-ambar-lt);color:var(--rs-ambar-dk)}
+.ct .ttl td{
+  background:linear-gradient(180deg,var(--ink) 0%,var(--cage-navy) 100%);
+  color:var(--white);
+  font-family:var(--serif);font-size:15px;padding:14px;
+  font-weight:600;
+}
+.ct .ttl td.r{color:var(--rs-gold-lt);font-size:18px}
+.ct .ttl td strong{font-weight:700}
+.ct .ded td{color:var(--cage-mid)}
+
+/* ════════════════════════════════
+   CALLOUTS / NOTES
+════════════════════════════════ */
+.note{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:14px 16px;margin-bottom:20px;
+  font-size:13px;line-height:1.65;
+  border-radius:4px;
+  box-shadow:var(--shadow-sm);
+}
+.note.i{background:var(--cage-light);border-left:3px solid var(--cage-mid);color:var(--cage-blue)}
+.note.w{background:var(--rs-ambar-lt);border-left:3px solid var(--rs-ambar);color:var(--rs-ambar-dk)}
+.note.e{background:var(--rs-vermelho-lt);border-left:3px solid var(--rs-vermelho);color:var(--rs-vermelho-dk)}
+.note-i{
+  font-size:16px;flex-shrink:0;margin-top:1px;
+  width:20px;height:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;
+}
+.note strong{font-weight:600}
+
+/* ════════════════════════════════
+   MELHORIA CARDS
+════════════════════════════════ */
+.mel-list{display:flex;flex-direction:column;gap:14px}
+.mel-card{
+  border:1.5px solid var(--rule);border-radius:6px;
+  background:var(--white);
+  box-shadow:var(--shadow-sm);
+  transition:box-shadow .2s,border-color .2s;
+}
+.mel-card:hover{box-shadow:var(--shadow);border-color:var(--rule2)}
+
+.mel-hd{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;
+  background:linear-gradient(180deg,var(--white) 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--rule);
+  cursor:pointer;border-radius:6px 6px 0 0;
+  user-select:none;
+}
+.mel-code{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+  background:var(--cage-mid);color:var(--white);
+  padding:3px 9px;flex-shrink:0;border-radius:3px;font-weight:600;
+}
+.mel-ni{
+  flex:1!important;border:none!important;background:transparent!important;
+  font-family:var(--sans)!important;font-weight:600;font-size:14px!important;
+  padding:0!important;box-shadow:none!important;outline:none!important;color:var(--ink)!important;
+}
+.mel-ni::placeholder{color:var(--ink4);font-weight:400}
+.mel-tog{font-size:13px;color:var(--ink3);flex-shrink:0;padding:2px 6px}
+.mel-body{padding:18px;display:none}
+.mel-body.open{display:block}
+.mel-g{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mel-g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px}
+
+.rb-grp{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.rb{
+  font-family:var(--mono);font-size:10px;letter-spacing:.04em;
+  padding:5px 12px;border:1.5px solid var(--rule);
+  cursor:pointer;color:var(--ink2);background:var(--white);
+  border-radius:3px;transition:all .12s;font-weight:500;
+}
+.rb:hover{border-color:var(--ink3);color:var(--ink)}
+.rb.sc{background:var(--rs-vermelho);border-color:var(--rs-vermelho);color:#fff}
+.rb.sa{background:var(--cage-mid);border-color:var(--cage-mid);color:#fff}
+.rb.sm{background:var(--rs-ambar);border-color:var(--rs-ambar);color:#fff}
+.rb.sb{background:var(--ink3);border-color:var(--ink3);color:#fff}
+.rb.sr{background:var(--cage-mid);border-color:var(--cage-mid);color:#fff}
+.rb.smo{background:var(--cage-blue);border-color:var(--cage-blue);color:#fff}
+.rb.sf{background:var(--rs-ambar);border-color:var(--rs-ambar);color:#fff}
+.rb.ss{background:var(--cage-mid);border-color:var(--cage-mid);color:#fff}
+.rb.sp{background:var(--rs-ambar);border-color:var(--rs-ambar);color:#fff}
+.rb.sn{background:var(--rs-vermelho);border-color:var(--rs-vermelho);color:#fff}
+
+.btn-add{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 22px;margin-top:14px;
+  border:2px dashed var(--rule2);background:var(--white);
+  cursor:pointer;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);
+  border-radius:4px;transition:all .15s;font-weight:600;
+}
+.btn-add:hover{
+  border-color:var(--cage-mid);color:var(--cage-mid);
+  background:var(--cage-light);
+  transform:translateY(-1px);
+  box-shadow:var(--shadow);
+}
+
+/* ════════════════════════════════
+   MATRIZ / STRENGTH
+════════════════════════════════ */
+.mtbl-wrap{
+  border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+  box-shadow:var(--shadow-sm);background:var(--white);margin-bottom:20px;
+}
+.mtbl{width:100%;border-collapse:collapse;font-size:13px}
+.mtbl th{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink2);
+  padding:12px 14px;border-bottom:2px solid var(--rule);
+  text-align:left;background:var(--bg);font-weight:600;
+}
+.mtbl td{padding:11px 14px;border-bottom:1px solid var(--rule)}
+.mtbl tr:last-child td{border-bottom:none}
+
+.badge{
+  display:inline-block;font-family:var(--mono);
+  font-size:9.5px;letter-spacing:.06em;padding:3px 9px;border-radius:3px;
+  font-weight:600;
+}
+.be{background:var(--rs-vermelho-lt);color:var(--rs-vermelho);border:1px solid rgba(185,28,28,.15)}
+.br{background:var(--cage-light);color:var(--cage-mid);border:1px solid rgba(0,107,60,.15)}
+.ba{background:var(--bg);color:var(--ink3);border:1px solid var(--rule2)}
+
+.stbox{
+  border:1.5px solid var(--rule);background:var(--white);
+  border-radius:6px;padding:22px;margin-bottom:22px;
+  box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.stbox::before{
+  content:'';position:absolute;
+  top:0;left:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--cage-mid) 0%,var(--rs-gold) 100%);
+}
+.stl{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:10px;
+  font-weight:600;
+}
+.stv{
+  font-family:var(--serif);font-size:26px;font-weight:700;
+  margin-bottom:14px;letter-spacing:-.01em;
+}
+.stv.forte{color:var(--cage-mid)}
+.stv.mod{color:var(--rs-ambar-dk)}
+.stv.fraco{color:var(--rs-vermelho)}
+.sttrack{
+  height:8px;background:var(--rule);border-radius:4px;overflow:hidden;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.05);
+}
+.stfill{
+  height:100%;border-radius:4px;
+  transition:width .8s cubic-bezier(.23,1,.32,1),background .3s;
+}
+
+/* ════════════════════════════════
+   VFM RESULT
+════════════════════════════════ */
+.vgrid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:6px;overflow:hidden;
+  margin-bottom:22px;
+  box-shadow:var(--shadow);
+}
+.vbox{
+  background:var(--white);padding:22px 24px;
+  position:relative;
+}
+.vbox-l{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:10px;
+  font-weight:600;
+}
+.vnum{
+  font-family:var(--serif);font-size:30px;font-weight:700;
+  line-height:1;letter-spacing:-.02em;
+}
+.vnum.v{color:var(--cage-mid)}
+.vnum.r{color:var(--rs-vermelho)}
+.vnum.a{color:var(--rs-ambar-dk)}
+.vunit{
+  font-family:var(--mono);font-size:9.5px;color:var(--ink4);
+  margin-top:5px;letter-spacing:.03em;
+}
+
+.vresult{
+  grid-column:span 2;
+  background:linear-gradient(135deg,var(--cage-navy) 0%,var(--cage-blue) 60%,#002410 100%);
+  color:var(--white);
+  padding:28px 32px;
+  display:flex;align-items:center;gap:36px;
+  position:relative;overflow:hidden;
+}
+.vresult::after{
+  content:'';position:absolute;
+  top:-50%;right:-10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(184,134,11,.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.vresult-num{
+  font-family:var(--serif);font-size:44px;font-weight:700;
+  line-height:1;color:var(--rs-gold-lt);white-space:nowrap;
+  letter-spacing:-.02em;
+  text-shadow:0 2px 20px rgba(184,134,11,.2);
+  position:relative;z-index:1;
+}
+.vresult-l{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:rgba(245,230,168,.7);margin-bottom:8px;
+  font-weight:600;
+}
+.vresult-d{
+  font-size:13px;color:rgba(255,255,255,.78);line-height:1.65;
+  position:relative;z-index:1;max-width:420px;
+}
+.sig{
+  display:inline-block;font-family:var(--mono);font-size:10px;
+  letter-spacing:.1em;padding:4px 11px;margin-top:10px;border-radius:3px;
+  font-weight:600;
+}
+.sig.pos{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+.sig.neg{background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3)}
+
+/* ════════════════════════════════
+   QUESTÕES
+════════════════════════════════ */
+.qk{
+  border:1.5px solid var(--rule);border-radius:5px;
+  background:var(--white);margin-bottom:12px;
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.qk-h{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 18px;
+  background:linear-gradient(180deg,var(--white) 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--rule);
+}
+.qk-n{
+  font-family:var(--mono);font-size:11px;
+  background:var(--cage-mid);color:var(--white);
+  padding:3px 10px;border-radius:3px;flex-shrink:0;font-weight:700;
+  letter-spacing:.04em;
+}
+.qk-t{font-size:13.5px;font-weight:600;line-height:1.45;color:var(--ink)}
+.qk-b{padding:14px 18px}
+
+/* ════════════════════════════════
+   M7 VERDICT & CONCLUSION
+════════════════════════════════ */
+.verdict{
+  border-radius:6px;overflow:hidden;
+  margin-bottom:26px;
+  position:relative;
+  box-shadow:var(--shadow-lg);
+}
+.verdict-inner{
+  background:linear-gradient(135deg,var(--cage-navy) 0%,var(--cage-blue) 50%,#001a0d 100%);
+  color:var(--white);
+  padding:32px 36px;
+  position:relative;
+}
+.verdict-inner::before{
+  content:'';position:absolute;
+  top:0;right:0;width:280px;height:100%;
+  background:radial-gradient(ellipse at top right,rgba(184,134,11,.18) 0%,transparent 60%);
+  pointer-events:none;
+}
+.verdict-inner::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--cage-mid) 0%,var(--rs-vermelho) 50%,#F0C040 100%);
+}
+.verdict-q{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--rs-gold-lt);margin-bottom:16px;
+  position:relative;z-index:1;font-weight:600;
+  display:flex;align-items:center;gap:10px;
+}
+.verdict-q::before{
+  content:'';width:22px;height:1.5px;background:var(--rs-gold);
+}
+.verdict-txt{
+  font-family:var(--serif);font-size:19px;font-weight:400;
+  line-height:1.7;color:rgba(255,255,255,.92);
+  position:relative;z-index:1;
+  letter-spacing:-.005em;
+}
+.verdict-txt em{font-style:italic;color:var(--rs-gold-lt);font-weight:500}
+.verdict-txt strong{font-weight:600;color:var(--white)}
+
+.cdims{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px;
+}
+.cdim{
+  border:1.5px solid var(--rule);
+  background:var(--white);
+  border-radius:5px;
+  padding:18px 20px;
+  box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.cdim::before{
+  content:'';position:absolute;
+  top:0;left:0;bottom:0;width:3px;
+  background:var(--ink4);
+}
+.cdim.p::before{background:var(--cage-mid)}
+.cdim.n::before{background:var(--rs-vermelho)}
+.cdim.w::before{background:var(--rs-ambar)}
+.cdim-l{
+  font-family:var(--mono);font-size:9px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:8px;font-weight:600;
+}
+.cdim-v{
+  font-family:var(--serif);font-size:17px;font-weight:700;
+  color:var(--ink);letter-spacing:-.01em;
+}
+.cdim.p .cdim-v{color:var(--cage-mid)}
+.cdim.n .cdim-v{color:var(--rs-vermelho)}
+.cdim.w .cdim-v{color:var(--rs-ambar-dk)}
+
+/* ════════════════════════════════
+   BOTTOM TAB BAR
+════════════════════════════════ */
+.tabbar{
+  position:fixed;bottom:0;left:0;right:0;z-index:400;
+  height:var(--tabh);
+  background:var(--white);
+  border-top:1px solid var(--rule);
+  box-shadow:0 -4px 20px rgba(15,23,42,.08);
+  display:flex;align-items:stretch;
+}
+.tab{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:3px;cursor:pointer;
+  border-top:3px solid transparent;
+  padding:4px 4px;
+  transition:all .15s;position:relative;
+  user-select:none;
+}
+.tab:hover{background:var(--bg)}
+.tab.active{
+  border-top-color:var(--cage-mid);
+  background:linear-gradient(180deg,var(--cage-light) 0%,var(--white) 100%);
+}
+.tab-num{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;
+  color:var(--ink4);font-weight:600;
+}
+.tab.active .tab-num{color:var(--cage-mid)}
+.tab-name{
+  font-size:11.5px;font-weight:500;color:var(--ink2);
+  text-align:center;line-height:1.2;
+}
+.tab.active .tab-name{color:var(--cage-mid);font-weight:700}
+.tab.done::after{
+  content:'✓';position:absolute;top:6px;right:10px;
+  font-size:10px;color:var(--cage-mid);font-weight:700;
+}
+.tab-sep{width:1px;background:var(--rule);flex-shrink:0;margin:12px 0}
+
+.tab.pdf-tab{
+  background:linear-gradient(180deg,var(--rs-gold) 0%,var(--rs-ambar-dk) 100%)!important;
+  max-width:110px;
+  border-top-color:transparent;
+}
+.tab.pdf-tab:hover{
+  background:linear-gradient(180deg,var(--rs-ambar-dk) 0%,var(--cage-navy) 100%)!important;
+}
+.tab.pdf-tab .tab-num,
+.tab.pdf-tab .tab-name{color:var(--white)!important;font-weight:700}
+
+/* ════════════════════════════════
+   DETAILS (collapsible)
+════════════════════════════════ */
+details{
+  border:1px solid var(--rule);background:var(--white);
+  margin-bottom:18px;border-radius:4px;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+details summary{
+  padding:12px 16px;cursor:pointer;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink2);font-weight:600;
+  user-select:none;list-style:none;
+  display:flex;align-items:center;gap:10px;
+  transition:background .15s;
+}
+details summary:hover{background:var(--bg)}
+details summary::before{
+  content:'▸';font-size:11px;transition:transform .2s;
+  color:var(--cage-mid);
+}
+details[open] summary::before{transform:rotate(90deg)}
+details .detail-body{padding:16px;border-top:1px solid var(--rule)}
+
+/* ════════════════════════════════
+   PARAMS BOX
+════════════════════════════════ */
+.pbox{
+  border:1.5px solid var(--rule);background:var(--white);
+  border-radius:6px;padding:22px;margin-bottom:22px;
+  box-shadow:var(--shadow-sm);
+  position:relative;
+}
+.pbox-title{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink2);
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid var(--rule);font-weight:600;
+  display:flex;align-items:center;gap:10px;
+}
+.pbox-title::before{
+  content:'';width:18px;height:2px;background:var(--cage-mid);
+}
+
+/* ════════════════════════════════
+   PRINT / PDF
+════════════════════════════════ */
+@media print {
+  :root {
+    /* Cores mais saturadas para melhor contraste em impressão */
+    --cage-mid:     #006B3C;
+    --cage-blue:    #004D2C;
+    --rs-vermelho:  #B91C1C;
+    --rs-ambar:     #D97706;
+    --rs-gold:      #B8860B;
+  }
+
+  body{
+    font-family:'Roboto Slab',serif;
+    font-size:10.5pt;line-height:1.55;
+    background:#fff;color:#111;padding:0;margin:0;
+  }
+
+  .hdr,.hero,.tabbar,.btn-add,.btn-sec,.btn-primary,
+  .rb-grp,.chips,.mel-tog,
+  .tab,.tab-sep,select,.no-print,.hero-overlay,.hero-grain{display:none!important}
+
+  .panel{display:block!important;page-break-after:always}
+  .panel:last-of-type{page-break-after:avoid}
+
+  .content{padding:0;max-width:100%}
+
+  @page{size:A4;margin:18mm 18mm 22mm 18mm}
+  @page:first{margin-top:10mm}
+
+  .print-header{
+    display:flex!important;align-items:flex-start;
+    gap:16pt;padding-bottom:10pt;margin-bottom:14pt;
+    border-bottom:2pt solid var(--cage-mid);
+  }
+  .print-header-flag{
+    display:flex!important;flex-direction:column;
+    width:7pt;height:60pt;flex-shrink:0;
+  }
+  .print-header-flag span{flex:1}
+  .print-header-flag .fv{background:var(--cage-mid)}
+  .print-header-flag .fr{background:var(--rs-vermelho)}
+  .print-header-flag .fa{background:#F0C040}
+  .print-header-body{flex:1}
+  .print-header-gov{
+    font-family:'Source Sans 3',sans-serif;
+    font-size:7pt;letter-spacing:.15em;text-transform:uppercase;
+    color:#666;margin-bottom:3pt;
+  }
+  .print-header-title{
+    font-size:14pt;font-weight:700;color:var(--cage-blue);
+    margin-bottom:2pt;line-height:1.2;
+  }
+  .print-header-subtitle{font-size:9pt;color:#555}
+  .print-header-meta{
+    text-align:right;font-family:'JetBrains Mono',monospace;
+    font-size:7.5pt;color:#777;line-height:1.8;
+  }
+  .print-header-meta strong{color:var(--cage-blue)}
+
+  .ph{margin-bottom:10pt;border:none;padding:0}
+  .ph-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:7pt;letter-spacing:.12em;text-transform:uppercase;
+    padding:2pt 6pt;background:var(--cage-mid)!important;color:#fff!important;
+    border:none;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .ph-title{font-size:14pt;font-weight:700;margin:6pt 0 4pt;line-height:1.2}
+  .ph-title em{color:var(--cage-mid)}
+  .ph-desc{font-size:9.5pt;color:#555;margin-bottom:8pt}
+  .ph-breadcrumb,.ph-overline{display:none}
+
+  .sh{margin:12pt 0 8pt}
+  .sh-accent{height:14pt;width:3pt}
+  .sh-text{font-size:8pt;letter-spacing:.12em}
+
+  .fld{margin-bottom:6pt}
+  .fld-l{font-size:7.5pt;letter-spacing:.1em;color:#555;margin-bottom:2pt}
+  input[type=text],input[type=number],select,textarea{
+    background:transparent;border:none;border-bottom:1pt solid #ccc;
+    border-radius:0;padding:2pt 0;font-size:10pt;
+    box-shadow:none!important;color:#111;
+  }
+  textarea{min-height:auto;resize:none}
+
+  .ct-wrap{border:1pt solid #ccc;border-radius:0;box-shadow:none}
+  .ct{font-size:9pt;border-collapse:collapse;width:100%;margin-bottom:8pt}
+  .ct th{font-size:7pt;padding:5pt 6pt;background:#111!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ct td{padding:5pt 6pt;border-bottom:1pt solid #ddd}
+  .ct .cat-r td{
+    font-size:7pt;padding:4pt 6pt;
+    background:#e8f3ed!important;color:var(--cage-mid)!important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .ct .sub td{
+    background:#e8f3ed!important;color:var(--cage-mid)!important;font-size:9pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .ct .ttl td{
+    background:#111!important;color:#fff!important;font-size:11pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .ct .ttl td.r{color:var(--rs-gold)!important}
+  .ct td input,.ct td select{border:none;background:transparent;font-size:9pt;padding:0;text-align:inherit}
+  .ct td.r input{text-align:right}
+
+  .lstp{display:grid!important;grid-template-columns:repeat(4,1fr);gap:0;background:#fff;border:1pt solid #ccc;margin-bottom:10pt;border-radius:0}
+  .lv{border:1pt solid #ccc;border-top:3pt solid var(--cage-mid);padding:8pt 10pt}
+  .lv.r{border-top-color:var(--rs-vermelho)!important}
+  .lv.a{border-top-color:var(--rs-ambar)!important}
+  .lv.k{border-top-color:#111!important}
+  .lv-l{font-size:7pt}
+  .lv-v{font-size:14pt}
+  .lv-u{font-size:7.5pt}
+
+  .note{border:none;border-left:3pt solid var(--cage-mid);padding:5pt 8pt;margin-bottom:8pt;background:transparent;border-radius:0;box-shadow:none}
+  .note.w{border-left-color:var(--rs-ambar)}
+  .note.e{border-left-color:var(--rs-vermelho)}
+  .note-i{display:none}
+
+  .verdict{border:1.5pt solid var(--cage-mid);border-radius:0;box-shadow:none}
+  .verdict-inner{
+    background:var(--cage-blue)!important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+    padding:14pt 16pt;
+  }
+  .verdict-inner::before,.verdict-inner::after{display:none}
+  .verdict-q{font-size:7pt;color:var(--rs-gold)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .verdict-txt{font-size:12pt;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .verdict-txt em{color:var(--rs-gold)!important}
+
+  .cdims{display:grid!important;grid-template-columns:1fr 1fr;gap:6pt;margin-bottom:12pt}
+  .cdim{border:1pt solid #ccc;padding:8pt 10pt;box-shadow:none;border-radius:0}
+  .cdim::before{display:none}
+  .cdim-l{font-size:7pt}
+  .cdim-v{font-size:12pt}
+
+  .vgrid{display:grid!important;grid-template-columns:1fr 1fr;gap:0;border:1pt solid #ccc;margin-bottom:10pt;border-radius:0;box-shadow:none}
+  .vbox{border:1pt solid #ccc;padding:10pt 12pt}
+  .vbox-l{font-size:7pt}
+  .vnum{font-size:18pt}
+  .vresult{
+    background:var(--cage-blue)!important;padding:12pt 14pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .vresult::after{display:none}
+  .vresult-num{font-size:22pt;color:var(--rs-gold)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .vresult-l{font-size:7pt;color:rgba(255,255,255,.7)!important}
+  .vresult-d{font-size:9.5pt;color:rgba(255,255,255,.8)!important}
+  .sig{font-size:8pt;padding:2pt 7pt}
+
+  .mel-card{border:1pt solid #ccc;margin-bottom:8pt;background:transparent;box-shadow:none;border-radius:0}
+  .mel-hd{padding:6pt 10pt;background:#f5f5f3!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .mel-body{display:block!important;padding:10pt;border-top:1pt solid #ddd}
+  .mel-code{font-size:7.5pt;padding:1pt 6pt}
+
+  .qk{border:1pt solid #ccc;margin-bottom:6pt;box-shadow:none;border-radius:0}
+  .qk-h{padding:6pt 10pt;background:#f5f5f3!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .qk-n{font-size:8pt;padding:1pt 6pt}
+  .qk-t{font-size:10pt}
+  .qk-b{padding:8pt 10pt}
+  .qk-b textarea{font-size:10pt}
+
+  .mtbl-wrap{border:1pt solid #ccc;box-shadow:none;border-radius:0}
+  .mtbl{font-size:9pt}
+  .mtbl th{font-size:7.5pt;padding:5pt 8pt}
+  .mtbl td{padding:5pt 8pt}
+  .badge{font-size:7.5pt;padding:1pt 6pt}
+  .stbox{border:1pt solid #ccc;padding:10pt;box-shadow:none;border-radius:0}
+  .stbox::before{display:none}
+  .stv{font-size:14pt}
+  .sttrack{height:5pt}
+
+  .print-footer{
+    display:flex!important;justify-content:space-between;align-items:center;
+    padding-top:8pt;margin-top:16pt;border-top:1pt solid var(--cage-mid);
+    font-family:'JetBrains Mono',monospace;font-size:7pt;color:#888;
+  }
+  .print-footer-left{display:flex;flex-direction:column;gap:2pt}
+  .print-footer-law{color:var(--cage-mid);font-weight:500}
+
+  .sig-block{
+    display:grid!important;grid-template-columns:1fr 1fr 1fr;
+    gap:20pt;margin-top:24pt;page-break-inside:avoid;
+  }
+  .sig-line{
+    border-top:1pt solid #333;padding-top:4pt;
+    font-family:'JetBrains Mono',monospace;
+    font-size:7.5pt;color:#555;text-align:center;line-height:1.6;
+  }
+
+  .g2{display:grid!important;grid-template-columns:1fr 1fr;gap:10pt}
+  .g3{display:grid!important;grid-template-columns:1fr 1fr 1fr;gap:10pt}
+  .g4{display:grid!important;grid-template-columns:repeat(4,1fr);gap:8pt}
+
+  details .detail-body{display:block!important}
+
+  .pbox{border:1pt solid #ccc;box-shadow:none;border-radius:0;padding:10pt}
+}
+</style>
+<!-- Padrão visual unificado (sobrescreve estilos divergentes) -->
+<link rel="stylesheet" href="padrao-visual.css">
+</head>
+<body>
+
+<!-- ════════════════ HEADER ════════════════ -->
+<header class="hdr">
+  <div class="hdr-flag">
+    <span class="fv"></span><span class="fr"></span><span class="fa"></span>
+  </div>
+  <div class="hdr-body">
+    <!-- Brasão estilizado SVG -->
+    <div class="brasao">
+      <svg width="38" height="38" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <!-- Escudo estilizado -->
+        <path d="M20 3 L33 7 L33 22 Q33 32 20 37 Q7 32 7 22 L7 7 Z" fill="none" stroke="#F5E6A8" stroke-width="1.5" opacity=".9"/>
+        <!-- Estrela central (simbolizando RS) -->
+        <circle cx="20" cy="20" r="6" fill="none" stroke="#F5E6A8" stroke-width="1" opacity=".7"/>
+        <path d="M20 15 L21.2 18.5 L25 18.5 L22 20.8 L23.2 24.3 L20 22 L16.8 24.3 L18 20.8 L15 18.5 L18.8 18.5 Z" fill="#F5E6A8" opacity=".95"/>
+      </svg>
+    </div>
+    <div class="hdr-gov">
+      <span class="hdr-gov-sub">Governo do Estado</span>
+      <span class="hdr-gov-name">Rio Grande do Sul</span>
+    </div>
+    <div class="hdr-div"></div>
+    <div class="hdr-tool">
+      <span class="hdr-tool-tag">CAGE · Grupo 02 · PPP/Concessões</span>
+      <span class="hdr-tool-name">Instrumento PSC/VfM — Apuração de Custo Público e Avaliação de PPP</span>
+    </div>
+    <div class="hdr-sp"></div>
+    <div class="hdr-steps" id="hdr-steps">
+      <div class="step-dot active" onclick="goTo(0)" title="Identificação">1</div>
+      <div class="step-line"></div>
+      <div class="step-dot" onclick="goTo(1)" title="PSC Bruto">2</div>
+      <div class="step-line"></div>
+      <div class="step-dot" onclick="goTo(2)" title="Diagnóstico">3</div>
+      <div class="step-line"></div>
+      <div class="step-dot" onclick="goTo(3)" title="Melhorias">4</div>
+      <div class="step-line"></div>
+      <div class="step-dot" onclick="goTo(4)" title="Matriz">5</div>
+      <div class="step-line"></div>
+      <div class="step-dot" onclick="goTo(5)" title="VfM">6</div>
+      <div class="step-line"></div>
+      <div class="step-dot" onclick="goTo(6)" title="Conclusão">7</div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════ HERO BANNER ════════════════ -->
+<section class="hero show" id="hero">
+  <svg class="hero-svg" viewBox="0 0 1400 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Céu: horizonte gaúcho ao amanhecer -->
+      <linearGradient id="sky-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#001a0d"/>
+        <stop offset="30%" stop-color="#003218"/>
+        <stop offset="60%" stop-color="#004D2C"/>
+        <stop offset="85%" stop-color="#B8860B" stop-opacity=".3"/>
+        <stop offset="100%" stop-color="#D4A574" stop-opacity=".5"/>
+      </linearGradient>
+      <!-- Sol nascente -->
+      <radialGradient id="sun" cx=".7" cy=".85" r=".3">
+        <stop offset="0%" stop-color="#F5E6A8" stop-opacity=".85"/>
+        <stop offset="40%" stop-color="#D4A574" stop-opacity=".5"/>
+        <stop offset="100%" stop-color="#D4A574" stop-opacity="0"/>
+      </radialGradient>
+      <!-- Camadas de montanha -->
+      <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#002410"/>
+        <stop offset="100%" stop-color="#001a0d"/>
+      </linearGradient>
+      <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#003218"/>
+        <stop offset="100%" stop-color="#002410"/>
+      </linearGradient>
+      <linearGradient id="mtn3" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#004D2C"/>
+        <stop offset="100%" stop-color="#003218"/>
+      </linearGradient>
+      <!-- Água do Guaíba -->
+      <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#B8860B" stop-opacity=".25"/>
+        <stop offset="50%" stop-color="#003218" stop-opacity=".7"/>
+        <stop offset="100%" stop-color="#001a0d"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Sky background -->
+    <rect width="1400" height="320" fill="url(#sky-grad)"/>
+    <!-- Sun glow -->
+    <ellipse cx="980" cy="270" rx="420" ry="220" fill="url(#sun)"/>
+
+    <!-- Estrelas sutis no topo -->
+    <g fill="white" opacity=".35">
+      <circle cx="120" cy="35" r="0.8"/>
+      <circle cx="230" cy="22" r="1"/>
+      <circle cx="380" cy="48" r="0.7"/>
+      <circle cx="510" cy="30" r="1.1"/>
+      <circle cx="650" cy="55" r="0.8"/>
+      <circle cx="800" cy="25" r="0.9"/>
+      <circle cx="920" cy="48" r="0.7"/>
+      <circle cx="1080" cy="32" r="1"/>
+      <circle cx="1250" cy="45" r="0.8"/>
+      <circle cx="1350" cy="28" r="0.9"/>
+      <circle cx="60" cy="60" r="0.6"/>
+      <circle cx="320" cy="15" r="0.8"/>
+      <circle cx="600" cy="70" r="0.6"/>
+    </g>
+
+    <!-- Camada distante: serra gaúcha / Itaimbezinho silhouette -->
+    <path d="M0,200 L60,185 L120,195 L180,170 L240,180 L320,155 L400,175 L480,160 L560,190 L640,165 L720,180 L800,150 L880,170 L960,160 L1040,185 L1120,170 L1200,195 L1280,180 L1360,200 L1400,190 L1400,320 L0,320 Z" fill="url(#mtn3)" opacity=".7"/>
+
+    <!-- Camada intermediária: cânions/serra -->
+    <path d="M0,230 L80,215 L160,235 L240,205 L320,225 L420,200 L500,235 L580,210 L680,240 L760,215 L860,245 L940,220 L1040,250 L1120,225 L1220,245 L1300,230 L1400,250 L1400,320 L0,320 Z" fill="url(#mtn2)" opacity=".85"/>
+
+    <!-- Camada próxima: pampas ondulados -->
+    <path d="M0,260 Q100,250 200,260 T400,265 T600,258 T800,270 T1000,262 T1200,275 T1400,268 L1400,320 L0,320 Z" fill="url(#mtn1)"/>
+
+    <!-- Guaíba / água refletindo o sol -->
+    <path d="M0,285 Q200,282 400,287 T800,285 T1200,288 L1400,285 L1400,320 L0,320 Z" fill="url(#water)"/>
+
+    <!-- Reflexo do sol na água -->
+    <ellipse cx="980" cy="300" rx="180" ry="6" fill="#F5E6A8" opacity=".2"/>
+
+    <!-- Silhueta Palácio Piratini / edifícios institucionais -->
+    <g opacity=".4" fill="#001a0d">
+      <!-- Palácio central -->
+      <rect x="680" y="245" width="80" height="40"/>
+      <rect x="685" y="235" width="8" height="10"/>
+      <rect x="718" y="230" width="4" height="15"/>
+      <rect x="748" y="235" width="8" height="10"/>
+      <polygon points="680,245 720,225 760,245"/>
+      <!-- Prédios esquerda -->
+      <rect x="300" y="250" width="20" height="35"/>
+      <rect x="325" y="255" width="14" height="30"/>
+      <rect x="345" y="248" width="18" height="37"/>
+      <!-- Skyline POA direita -->
+      <rect x="880" y="252" width="16" height="33"/>
+      <rect x="900" y="258" width="12" height="27"/>
+      <rect x="916" y="250" width="20" height="35"/>
+      <rect x="940" y="255" width="14" height="30"/>
+      <rect x="958" y="248" width="18" height="37"/>
+      <rect x="980" y="260" width="12" height="25"/>
+      <rect x="996" y="252" width="16" height="33"/>
+      <rect x="1016" y="256" width="14" height="29"/>
+      <rect x="1034" y="250" width="18" height="35"/>
+    </g>
+
+    <!-- Ponte / viaduto (infraestrutura = desenvolvimento) -->
+    <g opacity=".35" stroke="#F5E6A8" stroke-width="1" fill="none">
+      <path d="M120,275 Q180,265 240,275"/>
+      <path d="M120,278 Q180,268 240,278"/>
+      <line x1="140" y1="270" x2="140" y2="285"/>
+      <line x1="180" y1="267" x2="180" y2="285"/>
+      <line x1="220" y1="270" x2="220" y2="285"/>
+    </g>
+
+    <!-- Torres eólicas (RS é referência em energia eólica) -->
+    <g opacity=".5" stroke="#F5E6A8" stroke-width="1" fill="none">
+      <g transform="translate(450,235)">
+        <line x1="0" y1="0" x2="0" y2="25"/>
+        <circle cx="0" cy="0" r="1.5" fill="#F5E6A8"/>
+        <line x1="0" y1="0" x2="-9" y2="-5" stroke-width=".8"/>
+        <line x1="0" y1="0" x2="9" y2="-5" stroke-width=".8"/>
+        <line x1="0" y1="0" x2="0" y2="-11" stroke-width=".8"/>
+      </g>
+      <g transform="translate(1180,240)">
+        <line x1="0" y1="0" x2="0" y2="22"/>
+        <circle cx="0" cy="0" r="1.3" fill="#F5E6A8"/>
+        <line x1="0" y1="0" x2="-8" y2="-3" stroke-width=".8"/>
+        <line x1="0" y1="0" x2="7" y2="-6" stroke-width=".8"/>
+        <line x1="0" y1="0" x2="2" y2="-9" stroke-width=".8"/>
+      </g>
+      <g transform="translate(1290,245)" opacity=".7">
+        <line x1="0" y1="0" x2="0" y2="18"/>
+        <circle cx="0" cy="0" r="1" fill="#F5E6A8"/>
+        <line x1="0" y1="0" x2="-7" y2="-4" stroke-width=".7"/>
+        <line x1="0" y1="0" x2="7" y2="-4" stroke-width=".7"/>
+        <line x1="0" y1="0" x2="0" y2="-8" stroke-width=".7"/>
+      </g>
+    </g>
+
+    <!-- Faixa institucional de base (cores da bandeira) -->
+    <rect x="0" y="316" width="1400" height="4" fill="#F0C040" opacity=".55"/>
+    <rect x="0" y="318" width="1400" height="2" fill="#B91C1C" opacity=".4"/>
+  </svg>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-tag">O futuro nos une · Governo do Estado do RS</div>
+      <h1 class="hero-ttl">Instrumento <em>PSC/VfM</em><br>Apuração do Custo Público e Avaliação de PPP</h1>
+      <p class="hero-sub">Evidência técnica para autorização de Parceria Público-Privada em conformidade com o art. 10, I, "a", da Lei nº 11.079/2004 e Decreto Estadual nº 53.495/2017.</p>
+    </div>
+    <div class="hero-seal">
+      <div class="hero-seal-badge">
+        <span class="hero-seal-label">CAGE · Grupo 02</span>
+        <span class="hero-seal-val">PPP / Concessões</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CONTENT ════════════════ -->
+<div class="content">
+
+<!-- Print-only header -->
+<div class="print-header" style="display:none">
+  <div class="print-header-flag">
+    <span class="fv"></span><span class="fr"></span><span class="fa"></span>
+  </div>
+  <div class="print-header-body">
+    <div class="print-header-gov">Estado do Rio Grande do Sul — Controladoria e Auditoria-Geral do Estado (CAGE)</div>
+    <div class="print-header-title" id="prt-title">PSC / VfM — Instrumento de Apuração de Custo Público e Avaliação de Value for Money</div>
+    <div class="print-header-subtitle">Fundamento: art. 10, I, "a", Lei Federal nº 11.079/2004 · Decreto Estadual nº 53.495/2017</div>
+  </div>
+  <div class="print-header-meta">
+    <div><strong>Secretaria:</strong> <span id="prt-sec-val">___</span></div>
+    <div><strong>Projeto:</strong> <span id="prt-proj">___</span></div>
+    <div><strong>Exercício:</strong> <span id="prt-ano">___</span></div>
+    <div><strong>Data:</strong> <span id="prt-data">___</span></div>
+    <div><strong>Versão:</strong> v1.0</div>
+  </div>
+</div>
+
+<!-- ══ MÓDULO 1 ══ -->
+<div class="panel active" id="p1">
+  <div class="ph">
+    <div class="ph-overline">
+      <span class="ph-num">Módulo 01</span>
+      <span class="ph-breadcrumb">Identificação · <strong>Etapa inicial</strong></span>
+    </div>
+    <h1 class="ph-title">Identificação do <em>Projeto PPP</em></h1>
+    <p class="ph-desc">Defina o serviço ou obra a ser analisado, a unidade de análise, o período de referência e as características das alternativas. O preenchimento deste módulo é pré-requisito para os cálculos dos Módulos 2 e 6 e compõe a <strong>identificação formal do documento de evidência</strong>.</p>
+  </div>
+
+  <div class="note i"><span class="note-i">ℹ</span><span>Todos os campos marcados com <strong>*</strong> são obrigatórios para geração do relatório de evidência. Registre o responsável pelo preenchimento — o nome consta no documento impresso como declarante.</span></div>
+
+  <div class="sh"><span class="sh-accent"></span><span class="sh-text">A — Identificação do Projeto</span></div>
+  <div class="g2">
+    <div class="fld">
+      <div class="fld-l">Secretaria / Órgão demandante <span class="req">*</span></div>
+      <input type="text" id="m1-sec" placeholder="Ex.: Secretaria de Planejamento (SPGG)" oninput="syncPrint()">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Nome do serviço / objeto da PPP <span class="req">*</span></div>
+      <input type="text" id="m1-nome" placeholder="Ex.: Concessão Administrativa do CAFF" oninput="syncPrint()">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Exercício de referência <span class="req">*</span></div>
+      <input type="text" id="m1-ano" placeholder="Ex.: 2026" oninput="syncPrint()">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Período abrangido pelo levantamento</div>
+      <input type="text" id="m1-periodo" placeholder="Ex.: 2023–2026">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Prazo do contrato PPP (anos) <span class="req">*</span></div>
+      <input type="number" id="m1-prazo" placeholder="30" min="5" max="50">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Modalidade da alternativa comparada <span class="req">*</span></div>
+      <select id="m1-mod">
+        <option value="">Selecionar...</option>
+        <option>PPP Administrativa (Lei 11.079/2004)</option>
+        <option>PPP Patrocinada (Lei 11.079/2004)</option>
+        <option>Concessão comum (Lei 8.987/1995)</option>
+      </select>
+    </div>
+    <div class="fld">
+      <div class="fld-l">Base legal da prestação atual</div>
+      <input type="text" id="m1-legal" placeholder="Lei / Decreto / Contrato vigente">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Data-base dos valores <span class="req">*</span></div>
+      <input type="text" id="m1-database" placeholder="Ex.: jan/2026" oninput="syncPrint()">
+    </div>
+  </div>
+  <div class="fld">
+    <div class="fld-l">Escopo atual da prestação estatal</div>
+    <textarea id="m1-escopo-atual" placeholder="Descreva as atividades efetivamente realizadas hoje pelo Estado..."></textarea>
+  </div>
+  <div class="fld">
+    <div class="fld-l">Escopo previsto na alternativa PPP</div>
+    <textarea id="m1-escopo-ppp" placeholder="Descreva o escopo completo da PPP proposta..."></textarea>
+  </div>
+  <div class="fld">
+    <div class="fld-l">Diferença de escopo entre os modelos</div>
+    <textarea id="m1-dif" placeholder="Destaque o que a PPP entregaria a mais ou a menos..."></textarea>
+  </div>
+
+  <div class="sh"><span class="sh-accent"></span><span class="sh-text">B — Modalidade de Prestação Atual</span></div>
+  <div class="fld-l" style="margin-bottom:8px">Selecione as modalidades de execução atuais identificadas</div>
+  <div class="chips">
+    <span class="chip" id="chip-dir" onclick="this.classList.toggle('on')">Administração Direta</span>
+    <span class="chip" id="chip-ind" onclick="this.classList.toggle('on')">Administração Indireta</span>
+    <span class="chip" id="chip-lic" onclick="this.classList.toggle('on')">Contratação Licitada</span>
+  </div>
+
+  <div class="sh" style="margin-top:28px"><span class="sh-accent"></span><span class="sh-text">C — Parâmetros Quantitativos de Referência</span></div>
+  <div class="note i"><span class="note-i">ℹ</span><span>Os VPLs da PPP e do PSC Ajustado são inseridos no Módulo 6 como referência cruzada ao modelo financeiro elaborado em paralelo.</span></div>
+  <div class="g3">
+    <div class="fld">
+      <div class="fld-l">Taxa Social de Desconto — TSD (%)</div>
+      <input type="number" id="m1-tsd" placeholder="8,5" step="0.1">
+      <div class="fld-hint">Ref.: SDI/ME, maio/2020 → 8,5% a.a. real</div>
+    </div>
+    <div class="fld">
+      <div class="fld-l">Fator sobrecusto de obras (%)</div>
+      <input type="number" id="m1-sob" placeholder="25" step="1">
+      <div class="fld-hint">Ref.: art. 125, Lei nº 14.133/2021</div>
+    </div>
+    <div class="fld">
+      <div class="fld-l">Fator eficiência comercial pública (%)</div>
+      <input type="number" id="m1-ef" placeholder="70" step="5">
+      <div class="fld-hint">% do valor de mercado privado</div>
+    </div>
+  </div>
+
+  <div class="sh"><span class="sh-accent"></span><span class="sh-text">D — Declaração do Responsável</span></div>
+  <div class="note w"><span class="note-i">⚠</span><span>O nome e matrícula informados abaixo identificam o <strong>responsável técnico</strong> pelo preenchimento deste instrumento perante a CAGE e órgãos de controle. O documento impresso constitui evidência de auditoria.</span></div>
+  <div class="g2">
+    <div class="fld">
+      <div class="fld-l">Responsável pelo preenchimento <span class="req">*</span></div>
+      <input type="text" id="m1-resp" placeholder="Nome completo" oninput="syncPrint()">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Matrícula / Cargo</div>
+      <input type="text" id="m1-matr" placeholder="Matrícula e cargo">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Data do preenchimento <span class="req">*</span></div>
+      <input type="text" id="m1-data" placeholder="dd/mm/aaaa" oninput="syncPrint()">
+    </div>
+    <div class="fld">
+      <div class="fld-l">Número de identificação do documento</div>
+      <input type="text" id="m1-numid" placeholder="Ex.: PSC-VfM/SPGG/2026/001">
+      <div class="fld-hint">Controle interno da secretaria ou CAGE</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MÓDULO 2 ══ -->
+<div class="panel" id="p2">
+  <div class="ph">
+    <div class="ph-overline">
+      <span class="ph-num">Módulo 02</span>
+      <span class="ph-breadcrumb">Quantitativo · <strong>Custo Atual</strong></span>
+    </div>
+    <h1 class="ph-title"><em>PSC Bruto</em> — Levantamento do Custo Público Atual</h1>
+    <p class="ph-desc">Mensure o custo real da prestação atual pelo Estado por categoria. É a <strong>linha de base quantitativa</strong> para o VfM. Preencha todos os itens identificados e registre a fonte utilizada em cada um. Os subtotais são calculados automaticamente.</p>
+  </div>
+
+  <div class="lstp">
+    <div class="lv v"><div class="lv-l">CAT A · CAPEX</div><div class="lv-v" id="lv-a">R$ 0</div><div class="lv-u">anualizado</div></div>
+    <div class="lv r"><div class="lv-l">CAT B · OPEX</div><div class="lv-v" id="lv-b">R$ 0</div><div class="lv-u">operação + manutenção</div></div>
+    <div class="lv a"><div class="lv-l">CAT C · Gestão</div><div class="lv-v" id="lv-c">R$ 0</div><div class="lv-u">fiscalização contratual</div></div>
+    <div class="lv k"><div class="lv-l">PSC Bruto Anual</div><div class="lv-v" id="lv-tot">R$ 0</div><div class="lv-u">A + B + C − receitas</div></div>
+  </div>
+
+  <div class="ct-wrap">
+  <table class="ct">
+    <thead>
+      <tr>
+        <th style="width:36px">Nº</th>
+        <th>Item de custo</th>
+        <th style="width:130px">Modalidade</th>
+        <th style="width:150px">Fonte utilizada</th>
+        <th class="r" style="width:150px">Valor anual (R$)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="cat-r"><td colspan="5">CAT A · CAPEX — Investimentos Anualizados&nbsp;&nbsp;<span>(valor total ÷ vida útil — NBC TSP/MCASP)</span></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A1</td><td>Obras e instalações — adequação de infraestrutura</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal Transp. / FPE"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A2</td><td>Equipamentos e material permanente</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / inventário"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A3</td><td>Sistemas de TI e licenças de software</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / CAGE Gerencial"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A4</td><td>Veículos (frota alocada)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / inventário"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
+      <tr class="sub"><td colspan="4">Subtotal CAT A</td><td class="r" id="sa">R$ 0</td></tr>
+
+      <tr class="cat-r r"><td colspan="5">CAT B · OPEX — Operação e Manutenção</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B1</td><td>Remuneração bruta de servidores (custo total do empregador)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / FPE"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B2</td><td>Contribuição patronal RPPS / RGPS / IPE Prev / RS-Prev</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Folha / RHE"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B3</td><td>Contratos terceirizados de serviços (limpeza, segurança, FM)</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B4</td><td>Contratos de manutenção predial e de equipamentos</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B5</td><td>Energia elétrica e água / esgoto (rateio pelo uso)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal Transparência"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B6</td><td>Contratos de locação de imóveis utilizados pelo serviço</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B7</td><td>Fornecimento de bens / insumos recorrentes (almoxarifado)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Almoxarifado"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B8</td><td>Rateio de despesas operacionais de entidade vinculada</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / CAGE Gerencial"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B9</td><td>Outros custos de pessoal (EPIs, uniformes, vale-alimentação)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Folha / almoxarifado"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr class="sub r"><td colspan="4">Subtotal CAT B</td><td class="r" id="sb">R$ 0</td></tr>
+
+      <tr class="cat-r a"><td colspan="5">CAT C · Gestão e Fiscalização Contratual</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C1</td><td>Pessoal interno — fiscalização contratual (rateio)</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C2</td><td>Fiscalização técnica terceirizada (assessoria/consultoria)</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contrato fiscalização"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C3</td><td>Custos jurídicos — gestão contratual (rateio)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="PGE / estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C4</td><td>Custos com processos licitatórios recorrentes</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr class="sub a"><td colspan="4">Subtotal CAT C</td><td class="r" id="sc">R$ 0</td></tr>
+
+      <tr class="cat-r"><td colspan="5" style="color:var(--cage-mid);background:var(--cage-light)">CAT D · Receitas — Deduções do Custo Público&nbsp;&nbsp;<span>(reduz o custo líquido)</span></td></tr>
+      <tr class="ded"><td style="font-family:var(--mono);font-size:10px;color:var(--cage-mid)">D1</td><td>Receitas tarifárias / arrecadação direta do serviço</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal Transparência"></td><td class="r"><input type="number" class="cd" placeholder="0" min="0" step="100"></td></tr>
+      <tr class="ded"><td style="font-family:var(--mono);font-size:10px;color:var(--cage-mid)">D2</td><td>Outras receitas geradas pelo serviço (aluguéis, cessões, comércio)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal / contrato"></td><td class="r"><input type="number" class="cd" placeholder="0" min="0" step="100"></td></tr>
+      <tr class="sub"><td colspan="4" style="color:var(--cage-mid)">Total Deduções CAT D</td><td class="r" id="sd" style="color:var(--cage-mid)">R$ 0</td></tr>
+
+      <tr class="ttl"><td colspan="4"><strong>PSC BRUTO — CUSTO PÚBLICO ANUAL TOTAL</strong><br><span style="font-size:10px;font-family:var(--mono);opacity:.65;font-weight:400">A + B + C − D</span></td><td class="r" id="ttl-psc">R$ 0</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="pbox" style="margin-top:22px">
+    <div class="pbox-title">Consolidação — VPL (inserir após cálculo no modelo financeiro)</div>
+    <div class="note i" style="margin-bottom:14px"><span class="note-i">ℹ</span><span>Os valores abaixo são obtidos do modelo VfM/PSC elaborado em paralelo e inseridos aqui como referência cruzada para o Módulo 6.</span></div>
+    <div class="g3">
+      <div class="fld">
+        <div class="fld-l">VPL PSC Bruto (R$)</div>
+        <input type="number" id="m2-vpb" placeholder="0">
+        <div class="fld-hint">PSC Bruto × fator anuidade (TSD, prazo)</div>
+      </div>
+      <div class="fld">
+        <div class="fld-l">VPL PSC Ajustado (R$)</div>
+        <input type="number" id="m2-vpa" placeholder="0">
+        <div class="fld-hint">Inclui sobrecusto, atraso, transação</div>
+      </div>
+      <div class="fld">
+        <div class="fld-l">VPL Custo da PPP (R$)</div>
+        <input type="number" id="m2-vpp" placeholder="0">
+        <div class="fld-hint">Contraprestação + gestão − neutralidade</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MÓDULO 3 ══ -->
+<div class="panel" id="p3">
+  <div class="ph">
+    <div class="ph-overline">
+      <span class="ph-num r">Módulo 03</span>
+      <span class="ph-breadcrumb">Qualitativo · <strong>Diagnóstico</strong></span>
+    </div>
+    <h1 class="ph-title">Diagnóstico do <em>Padrão Atual</em> de Prestação</h1>
+    <p class="ph-desc">Documente o nível atual de qualidade, as falhas recorrentes e as limitações estruturais da prestação estatal. Cada limitação registrada deve ter melhoria qualitativa correspondente no Módulo 4 — isso torna o <strong>argumento auditável</strong>: a PPP responde a problemas reais documentados.</p>
+  </div>
+
+  <div class="sh"><span class="sh-accent"></span><span class="sh-text">3.1 — Nível de Serviço Atual (Linha de Base Qualitativa)</span></div>
+  <div class="ct-wrap">
+  <table class="ct">
+    <thead><tr><th>Dimensão</th><th>Indicador ou parâmetro</th><th>Valor / situação atual</th><th>Fonte</th></tr></thead>
+    <tbody>
+      <tr><td>Disponibilidade do serviço / ativo</td><td><input type="text" placeholder="Ex.: % do tempo disponível"></td><td><input type="text" placeholder="—"></td><td><input type="text" placeholder="Fonte"></td></tr>
+      <tr><td>Tempo médio de resposta / atendimento</td><td><input type="text" placeholder="Ex.: horas ou dias"></td><td><input type="text" placeholder="—"></td><td><input type="text" placeholder="Fonte"></td></tr>
+      <tr><td>Taxa de incidentes / falhas recorrentes</td><td><input type="text" placeholder="Ex.: nº incidentes/ano"></td><td><input type="text" placeholder="—"></td><td><input type="text" placeholder="Fonte"></td></tr>
+      <tr><td>Nível de satisfação dos usuários</td><td><input type="text" placeholder="Ex.: pesquisa / reclamações"></td><td><input type="text" placeholder="—"></td><td><input type="text" placeholder="Fonte"></td></tr>
+      <tr><td>Cumprimento de normas técnicas aplicáveis</td><td><input type="text" placeholder="Ex.: % de conformidade"></td><td><input type="text" placeholder="—"></td><td><input type="text" placeholder="Fonte"></td></tr>
+      <tr><td>Outros indicadores relevantes</td><td><input type="text" placeholder="Especificar..."></td><td><input type="text" placeholder="—"></td><td><input type="text" placeholder="Fonte"></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sh" style="margin-top:30px"><span class="sh-accent r"></span><span class="sh-text">3.2 — Mapa de Falhas e Limitações Estruturais</span></div>
+  <div class="note w"><span class="note-i">⚠</span><span>Cada limitação listada abaixo deve ter melhoria correspondente no Módulo 4. A coluna "Melhoria PPP" deve referenciar o código da melhoria (ex.: M01).</span></div>
+  <div class="ct-wrap">
+  <table class="ct">
+    <thead><tr><th>Cód.</th><th>Dimensão</th><th>Descrição da falha / limitação</th><th>Evidência</th><th>Melhoria PPP (M4)</th></tr></thead>
+    <tbody>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X1</td><td>Disponibilidade e continuidade</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="OS/relatórios"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X2</td><td>Velocidade de resposta corretiva</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Registros"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X3</td><td>Capacidade de reposição de ativos</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Inventário"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X4</td><td>Planejamento da manutenção preventiva</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Plano"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X5</td><td>Passivo de manutenção acumulado</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Laudos"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X6</td><td>Qualidade da manutenção no ciclo de vida</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Histórico"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X7</td><td>Defasagem tecnológica dos equipamentos</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Inventário"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X8</td><td>Responsabilidade contratual e prestação de contas</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Processos"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ══ MÓDULO 4 ══ -->
+<div class="panel" id="p4">
+  <div class="ph">
+    <div class="ph-overline">
+      <span class="ph-num a">Módulo 04</span>
+      <span class="ph-breadcrumb">Qualitativo · <strong>Melhorias esperadas</strong></span>
+    </div>
+    <h1 class="ph-title">Melhorias Qualitativas <em>Esperadas na PPP</em></h1>
+    <p class="ph-desc">Para cada melhoria esperada, documente: qual problema atual ela resolve (ref. Módulo 3), o que a PPP entregará, as evidências e o mecanismo contratual de garantia. Cada melhoria alimenta a <strong>Matriz de Relevância</strong> do Módulo 5 e a justificativa de auditoria.</p>
+  </div>
+
+  <div class="note i"><span class="note-i">ℹ</span><span>Clique em <strong>+ Adicionar Melhoria</strong>. Use os exemplos orientativos como referência. Avalie relevância, evidência e se cada melhoria justifica pagar mais pela PPP — esses campos formam a base da conclusão integrada do Módulo 7.</span></div>
+
+  <details>
+    <summary>Exemplos orientativos de melhorias típicas em contratos de PPP</summary>
+    <div class="detail-body">
+      <div class="ct-wrap">
+      <table class="ct">
+        <thead><tr><th>Cód.</th><th>Melhoria típica</th><th>Problema atual que enfrenta</th></tr></thead>
+        <tbody>
+          <tr><td style="font-family:var(--mono);font-size:10px">X01</td><td>Maior disponibilidade do ativo / serviço</td><td style="font-size:12px;color:var(--ink3)">Interrupções por falta de manutenção preventiva</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X02</td><td>Planejamento da manutenção preventiva</td><td style="font-size:12px;color:var(--ink3)">Manutenção reativa (pós-falha), sem planejamento</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X03</td><td>Maior velocidade de reposição e ação corretiva</td><td style="font-size:12px;color:var(--ink3)">Tempo de resposta lento por burocracia</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X04</td><td>Padrão de qualidade contratual monitorado</td><td style="font-size:12px;color:var(--ink3)">Ausência de indicadores e mecanismos de glosa</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X05</td><td>Integração do ciclo de vida (projeto-construção-operação-manutenção)</td><td style="font-size:12px;color:var(--ink3)">Projetista, construtor e operador distintos</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X06</td><td>Redução da deterioração ao longo do contrato</td><td style="font-size:12px;color:var(--ink3)">Falta de reinvestimentos programados</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X07</td><td>Acesso a tecnologias e inovação operacional</td><td style="font-size:12px;color:var(--ink3)">Defasagem tecnológica por limite orçamentário</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X08</td><td>Maior monitoramento e rastreabilidade</td><td style="font-size:12px;color:var(--ink3)">Ausência de sistemas de dados</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X09</td><td>Entrega da infraestrutura no prazo</td><td style="font-size:12px;color:var(--ink3)">Atrasos recorrentes em obras públicas</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X10</td><td>Responsabilidade contratual</td><td style="font-size:12px;color:var(--ink3)">Prestação de contas difusa</td></tr>
+          <tr><td style="font-family:var(--mono);font-size:10px">X11</td><td>Reversão do ativo em condições adequadas</td><td style="font-size:12px;color:var(--ink3)">Sem incentivo a reinvestimento de longo prazo</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </details>
+
+  <div class="mel-list" id="mel-list"></div>
+  <button class="btn-add" onclick="addMel()">+ Adicionar Melhoria Qualitativa</button>
+</div>
+
+<!-- ══ MÓDULO 5 ══ -->
+<div class="panel" id="p5">
+  <div class="ph">
+    <div class="ph-overline">
+      <span class="ph-num">Módulo 05</span>
+      <span class="ph-breadcrumb">Qualitativo · <strong>Síntese</strong></span>
+    </div>
+    <h1 class="ph-title">Matriz de <em>Relevância Qualitativa</em></h1>
+    <p class="ph-desc">Classifique cada melhoria por relevância estratégica e nível de evidência. A síntese automática abaixo apura a <strong>força do argumento qualitativo</strong> — um dos determinantes da conclusão do Módulo 7.</p>
+  </div>
+
+  <div id="m5-content">
+    <div class="note i"><span class="note-i">ℹ</span><span>Adicione melhorias no Módulo 4 para que a matriz seja gerada automaticamente aqui.</span></div>
+  </div>
+
+  <div class="stbox">
+    <div class="stl">Força do Argumento Qualitativo</div>
+    <div class="stv" id="st-val">— Preencher Módulo 4</div>
+    <div class="sttrack"><div class="stfill" id="st-fill" style="width:0%;background:var(--rule)"></div></div>
+  </div>
+
+  <div class="ct-wrap">
+  <table class="ct">
+    <thead><tr><th>Dimensão de síntese</th><th class="r">Resultado</th></tr></thead>
+    <tbody>
+      <tr><td>Número total de melhorias identificadas</td><td class="r" id="sn-tot">—</td></tr>
+      <tr><td>Melhorias classificadas como Essenciais</td><td class="r" id="sn-ess">—</td></tr>
+      <tr><td>Melhorias com evidência Robusta ou Moderada</td><td class="r" id="sn-ev">—</td></tr>
+      <tr><td>Melhorias que justificam pagar mais</td><td class="r" id="sn-just">—</td></tr>
+      <tr style="font-weight:600"><td>FORÇA DO ARGUMENTO QUALITATIVO</td><td class="r" id="sn-forca">—</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ══ MÓDULO 6 ══ -->
+<div class="panel" id="p6">
+  <div class="ph">
+    <div class="ph-overline">
+      <span class="ph-num r">Módulo 06</span>
+      <span class="ph-breadcrumb">Integração · <strong>Preço × Qualidade</strong></span>
+    </div>
+    <h1 class="ph-title">Relação entre <em>Preço e Qualidade</em></h1>
+    <p class="ph-desc">Este módulo integra custo e qualidade para responder a questão central: <strong>se a PPP custar mais, o conjunto de melhorias qualitativas justifica essa escolha?</strong></p>
+  </div>
+
+  <div class="sh"><span class="sh-accent"></span><span class="sh-text">6.1 — Confronto Quantitativo</span></div>
+  <div class="vgrid">
+    <div class="vbox">
+      <div class="vbox-l">Custo público atual — linha de base</div>
+      <div class="vnum v" id="v-psc-bruto">—</div>
+      <div class="vunit">VPL PSC Bruto (R$)</div>
+    </div>
+    <div class="vbox">
+      <div class="vbox-l">PSC Ajustado — com riscos retidos</div>
+      <div class="vnum v" id="v-psc-adj">—</div>
+      <div class="vunit">VPL PSC Ajustado (R$)</div>
+    </div>
+    <div class="vbox">
+      <div class="vbox-l">Custo líquido da PPP</div>
+      <div class="vnum a" id="v-ppp">—</div>
+      <div class="vunit">VPL PPP (R$)</div>
+    </div>
+    <div class="vbox">
+      <div class="vbox-l">Diferencial relativo (% sobre custo atual)</div>
+      <div class="vnum r" id="v-dif">—</div>
+      <div class="vunit">% sobre VPL PSC Bruto</div>
+    </div>
+    <div class="vresult">
+      <div>
+        <div class="vresult-l">Value for Money — VPL</div>
+        <div class="vresult-num" id="v-vfm">—</div>
+        <div id="v-sig"></div>
+      </div>
+      <div class="vresult-d" id="v-desc">Preencha os VPLs no Módulo 2 para calcular automaticamente.</div>
+    </div>
+  </div>
+
+  <div class="sh"><span class="sh-accent"></span><span class="sh-text">6.2 — Correspondência Preço × Melhorias Qualitativas</span></div>
+  <div id="m6-mel"></div>
+
+  <div class="sh" style="margin-top:30px"><span class="sh-accent r"></span><span class="sh-text">6.3 — Questões-Chave de Avaliação</span></div>
+  <div class="qk"><div class="qk-h"><span class="qk-n">Q1</span><span class="qk-t">A PPP custa mais do que a prestação atual? Quanto?</span></div><div class="qk-b"><textarea id="q1" placeholder="Ex.: Sim — R$ ___ ou ___% mais cara/barata em VPL..."></textarea></div></div>
+  <div class="qk"><div class="qk-h"><span class="qk-n">Q2</span><span class="qk-t">As melhorias qualitativas são essenciais ou acessórias?</span></div><div class="qk-b"><textarea id="q2" placeholder="Descreva o conjunto de melhorias e sua classificação predominante..."></textarea></div></div>
+  <div class="qk"><div class="qk-h"><span class="qk-n">Q3</span><span class="qk-t">Essas melhorias atacam problemas reais e documentados?</span></div><div class="qk-b"><textarea id="q3" placeholder="Referencie as falhas do Módulo 3 diretamente endereçadas..."></textarea></div></div>
+  <div class="qk"><div class="qk-h"><span class="qk-n">Q4</span><span class="qk-t">Existe evidência de que a PPP entregará essas melhorias?</span></div><div class="qk-b"><textarea id="q4" placeholder="Referencie benchmarks, estudos técnicos e mecanismos contratuais..."></textarea></div></div>
+  <div class="qk"><div class="qk-h"><span class="qk-n">Q5</span><span class="qk-t">O conjunto de melhorias justifica a opção pela PPP?</span></div><div class="qk-b"><textarea id="q5" placeholder="Emita conclusão fundamentada sobre a proporcionalidade..."></textarea></div></div>
+</div>
+
+<!-- ══ MÓDULO 7 ══ -->
+<div class="panel" id="p7">
+  <div class="ph">
+    <div class="ph-overline">
+      <span class="ph-num k">Módulo 07 · Conclusão</span>
+      <span class="ph-breadcrumb">Parecer Técnico · <strong>Evidência de Auditoria</strong></span>
+    </div>
+    <h1 class="ph-title">Conclusão — <em>Vale Pagar Mais?</em></h1>
+    <p class="ph-desc">Parecer técnico integrado — combina as dimensões <strong>quantitativa</strong> (VfM) e <strong>qualitativa</strong> (força do argumento) para responder se a opção pela PPP é conveniente e oportuna nos termos do art. 10, I, "a", da Lei nº 11.079/2004.</p>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-inner">
+      <div class="verdict-q">Questão central do instrumento</div>
+      <div class="verdict-txt" id="v7-txt">Preencha os módulos anteriores para que a conclusão integrada seja gerada automaticamente.</div>
+    </div>
+  </div>
+
+  <div class="cdims" id="v7-dims"></div>
+
+  <div class="sh"><span class="sh-accent"></span><span class="sh-text">7.1 — Síntese dos Resultados por Módulo</span></div>
+  <div class="ct-wrap">
+  <table class="ct">
+    <thead><tr><th>Módulo</th><th>Dimensão</th><th>Resultado resumido</th></tr></thead>
+    <tbody>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 2</td><td>Custo público atual</td><td id="syn-m2">—</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 3</td><td>Padrão atual</td><td><input type="text" id="syn-m3" placeholder="Síntese das principais falhas e limitações..."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 4–5</td><td>Melhorias qualitativas</td><td id="syn-m45">—</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 6</td><td>Diferencial preço × qualidade</td><td id="syn-m6">—</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sh" style="margin-top:30px"><span class="sh-accent"></span><span class="sh-text">7.2 — Conclusão e Recomendação</span></div>
+  <div class="ct-wrap">
+  <table class="ct">
+    <thead><tr><th>Dimensão</th><th>Conclusão e Recomendação</th></tr></thead>
+    <tbody>
+      <tr><td style="font-family:var(--mono);font-size:10px;width:200px">VfM Quantitativo</td><td><input type="text" id="r-vfm" placeholder="Positivo / Negativo / Marginal — R$ ___"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Diferencial de preço</td><td><input type="text" id="r-dif" placeholder="PPP ___% mais cara/barata em VPL"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Argumento qualitativo</td><td id="r-qual">—</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Correspondência preço × qualidade</td><td>
+        <select id="r-corr">
+          <option value="">Selecionar...</option>
+          <option>Plenamente justificado — maioria das melhorias é Essencial com evidência Robusta/Moderada</option>
+          <option>Parcialmente justificado — combinação de melhorias Essenciais e Acessórias</option>
+          <option>Não suficientemente justificado — predominância de melhorias Acessórias ou evidência Fraca</option>
+        </select>
+      </td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Recomendação</td><td>
+        <select id="r-rec">
+          <option value="">Selecionar...</option>
+          <option>PPP recomendada</option>
+          <option>Prestação pelo Estado recomendada</option>
+          <option>Análise complementar necessária</option>
+        </select>
+      </td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="fld" style="margin-top:20px">
+    <div class="fld-l">Conclusão fundamentada — texto livre <span class="req">*</span></div>
+    <textarea id="r-conclusao" style="min-height:120px" placeholder="Redija a conclusão técnica integrada, referenciando os resultados dos módulos anteriores..."></textarea>
+  </div>
+
+  <div class="sh" style="margin-top:30px"><span class="sh-accent r"></span><span class="sh-text">7.3 — Ressalvas, Limitações e Premissas Críticas</span></div>
+  <div class="g2">
+    <div class="fld"><div class="fld-l">Limitações nos dados do custo atual</div><textarea id="res1" placeholder="Registrar dados estimados..."></textarea></div>
+    <div class="fld"><div class="fld-l">Melhorias sem evidência direta</div><textarea id="res2" placeholder="Identificar melhorias sem benchmark..."></textarea></div>
+    <div class="fld"><div class="fld-l">Condicionantes contratuais críticos</div><textarea id="res3" placeholder="Cláusulas sem as quais as melhorias não se concretizarão..."></textarea></div>
+    <div class="fld"><div class="fld-l">Parâmetros quantitativos sensíveis</div><textarea id="res4" placeholder="TSD, sobrecusto, eficiência comercial..."></textarea></div>
+    <div class="fld"><div class="fld-l">Atualizações recomendadas</div><textarea id="res5" placeholder="Quando o modelo deve ser revisado..."></textarea></div>
+  </div>
+
+  <!-- Print signature block -->
+  <div class="sig-block" style="display:none">
+    <div class="sig-line">Responsável técnico pelo preenchimento<br><br><span id="sig-resp">___________________________</span><br>Nome / Matrícula</div>
+    <div class="sig-line">Ciência do gestor<br><br>___________________________<br>Secretário / Diretor</div>
+    <div class="sig-line">Controle CAGE<br><br>___________________________<br>Auditor responsável</div>
+  </div>
+
+  <div class="print-footer" style="display:none">
+    <div class="print-footer-left">
+      <span class="print-footer-law">Lei Federal nº 11.079/2004, art. 10, I, "a" · Decreto Estadual nº 53.495/2017</span>
+      <span>Instrumento PSC/VfM — CAGE/RS · Grupo 02 PPP/Concessões · v1.0</span>
+    </div>
+    <div>Documento gerado em: <span id="prt-gerado"></span></div>
+  </div>
+</div>
+
+</div>
+
+<!-- ════════════════ BOTTOM TABS ════════════════ -->
+<nav class="tabbar" id="tabbar">
+  <div class="tab active" data-idx="0" onclick="goTo(0)">
+    <span class="tab-num">01</span><span class="tab-name">Identificação</span>
+  </div>
+  <div class="tab-sep"></div>
+  <div class="tab" data-idx="1" onclick="goTo(1)">
+    <span class="tab-num">02</span><span class="tab-name">PSC Bruto</span>
+  </div>
+  <div class="tab-sep"></div>
+  <div class="tab" data-idx="2" onclick="goTo(2)">
+    <span class="tab-num">03</span><span class="tab-name">Diagnóstico</span>
+  </div>
+  <div class="tab-sep"></div>
+  <div class="tab" data-idx="3" onclick="goTo(3)">
+    <span class="tab-num">04</span><span class="tab-name">Melhorias</span>
+  </div>
+  <div class="tab-sep"></div>
+  <div class="tab" data-idx="4" onclick="goTo(4)">
+    <span class="tab-num">05</span><span class="tab-name">Matriz</span>
+  </div>
+  <div class="tab-sep"></div>
+  <div class="tab" data-idx="5" onclick="goTo(5)">
+    <span class="tab-num">06</span><span class="tab-name">VfM</span>
+  </div>
+  <div class="tab-sep"></div>
+  <div class="tab" data-idx="6" onclick="goTo(6)">
+    <span class="tab-num">07</span><span class="tab-name">Conclusão</span>
+  </div>
+  <div class="tab-sep"></div>
+  <div class="tab pdf-tab" onclick="printReport()">
+    <span class="tab-num">PDF</span><span class="tab-name">Gerar Relatório</span>
+  </div>
+</nav>
+
+<script>
+const S = { mels: [], mc: 0 };
+const PANELS = ['p1','p2','p3','p4','p5','p6','p7'];
+let cur = 0;
+
+function goTo(idx) {
+  PANELS.forEach((id,i) => {
+    const p = document.getElementById(id);
+    if (p) p.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.tab[data-idx]').forEach(t => {
+    const ti = parseInt(t.dataset.idx);
+    t.classList.toggle('active', ti === idx);
+    if (ti < idx) t.classList.add('done');
+    else if (ti !== idx) t.classList.remove('done');
+  });
+  const dots = document.querySelectorAll('.step-dot');
+  dots.forEach((d,i) => {
+    d.classList.toggle('active', i === idx);
+    d.classList.toggle('done', i < idx);
+  });
+  document.querySelectorAll('.step-line').forEach((l,i) => l.classList.toggle('done', i < idx));
+  cur = idx;
+  const hero = document.getElementById('hero');
+  if (hero) hero.classList.toggle('show', idx === 0);
+  window.scrollTo(0,0);
+  if (idx === 4) buildM5();
+  if (idx === 5) buildM6();
+  if (idx === 6) buildM7();
+}
+
+function fR(n) {
+  if (!n && n !== 0) return '—';
+  const abs = Math.abs(n);
+  let s;
+  if (abs >= 1e9) s = 'R$ ' + (abs/1e9).toFixed(2).replace('.',',') + ' bi';
+  else if (abs >= 1e6) s = 'R$ ' + (abs/1e6).toFixed(1).replace('.',',') + ' mi';
+  else if (abs >= 1e3) s = 'R$ ' + (abs/1e3).toFixed(0) + ' mil';
+  else s = 'R$ ' + abs.toFixed(0);
+  return n < 0 ? '−' + s : s;
+}
+function sum(cls) {
+  return [...document.querySelectorAll('.'+cls)].reduce((a,e)=>a+(parseFloat(e.value)||0),0);
+}
+
+function recalcPSC() {
+  const a=sum('ca'), b=sum('cb'), c=sum('cc'), d=sum('cd');
+  const tot = a+b+c-d;
+  document.getElementById('sa').textContent = fR(a);
+  document.getElementById('sb').textContent = fR(b);
+  document.getElementById('sc').textContent = fR(c);
+  document.getElementById('sd').textContent = d>0 ? '−'+fR(d) : fR(0);
+  document.getElementById('ttl-psc').textContent = fR(tot);
+  document.getElementById('lv-a').textContent = fR(a);
+  document.getElementById('lv-b').textContent = fR(b);
+  document.getElementById('lv-c').textContent = fR(c);
+  document.getElementById('lv-tot').textContent = fR(tot);
+}
+document.querySelectorAll('.ca,.cb,.cc,.cd').forEach(e=>e.addEventListener('input',recalcPSC));
+
+function syncPrint() {
+  const v = id => document.getElementById(id)?.value || '___';
+  const els = {
+    'prt-sec-val': v('m1-sec'),
+    'prt-proj': v('m1-nome'),
+    'prt-ano': v('m1-ano'),
+    'prt-data': v('m1-data'),
+  };
+  Object.entries(els).forEach(([k,val]) => {
+    const el = document.getElementById(k);
+    if (el) el.textContent = val;
+  });
+  const sigResp = document.getElementById('sig-resp');
+  if (sigResp) sigResp.textContent = v('m1-resp') + (v('m1-matr') !== '___' ? ' / '+v('m1-matr') : '');
+  const nom = v('m1-nome');
+  const prtTitle = document.getElementById('prt-title');
+  if (prtTitle && nom !== '___') prtTitle.textContent = 'PSC / VfM — '+nom;
+}
+
+function addMel() {
+  S.mc++;
+  const code = 'M' + String(S.mc).padStart(2,'0');
+  const m = { code, nome:'', rel:'', ev:'', just:'', classif:'' };
+  S.mels.push(m);
+  const card = document.createElement('div');
+  card.className = 'mel-card';
+  card.id = 'mc-'+code;
+  card.innerHTML = `
+    <div class="mel-hd" onclick="togMel('${code}')">
+      <span class="mel-code">${code}</span>
+      <input class="mel-ni" type="text" placeholder="Denominação da melhoria..." onclick="event.stopPropagation()" oninput="updMel('${code}','nome',this.value)">
+      <span class="mel-tog">▾</span>
+    </div>
+    <div class="mel-body open" id="mb-${code}">
+      <div class="mel-g">
+        <div class="fld"><div class="fld-l">Limitação atual (ref. Módulo 3)</div>
+          <input type="text" placeholder="Código(s) + descrição..." oninput="updMel('${code}','falha',this.value)"></div>
+        <div class="fld"><div class="fld-l">Situação atual (Estado)</div>
+          <textarea placeholder="Como o serviço é prestado hoje..." oninput="updMel('${code}','sit',this.value)" style="min-height:56px"></textarea></div>
+        <div class="fld"><div class="fld-l">Melhoria esperada (PPP)</div>
+          <textarea placeholder="O que a PPP promete entregar..." oninput="updMel('${code}','mel',this.value)" style="min-height:56px"></textarea></div>
+        <div class="fld"><div class="fld-l">Natureza da melhoria</div>
+          <select oninput="updMel('${code}','nat',this.value)">
+            <option value="">Selecionar...</option>
+            <option>Disponibilidade</option><option>Qualidade</option><option>Prazo</option>
+            <option>Manutenção</option><option>Tecnologia</option><option>Governança</option>
+            <option>Ciclo de vida</option><option>Reversão do ativo</option><option>Outra</option>
+          </select></div>
+        <div class="fld"><div class="fld-l">Base objetiva da expectativa</div>
+          <input type="text" placeholder="Benchmarks / estudos / edital..." oninput="updMel('${code}','base',this.value)"></div>
+        <div class="fld"><div class="fld-l">Indicador de Desempenho (ID)</div>
+          <input type="text" placeholder="Nome e descrição..." oninput="updMel('${code}','id',this.value)"></div>
+        <div class="fld"><div class="fld-l">Mecanismo de glosa/incentivo</div>
+          <input type="text" placeholder="Penalidade / bônus / dedução..." oninput="updMel('${code}','glosa',this.value)"></div>
+        <div class="fld"><div class="fld-l">Responsável pelo aceite</div>
+          <input type="text" placeholder="Unidade Gestora / Verificador..."></div>
+      </div>
+      <div class="mel-g3">
+        <div class="fld">
+          <div class="fld-l">Relevância</div>
+          <div class="rb-grp" id="rel-${code}">
+            <span class="rb" onclick="setRb('rel','${code}','critica',this,'sc')">Crítica</span>
+            <span class="rb" onclick="setRb('rel','${code}','alta',this,'sa')">Alta</span>
+            <span class="rb" onclick="setRb('rel','${code}','media',this,'sm')">Média</span>
+            <span class="rb" onclick="setRb('rel','${code}','baixa',this,'sb')">Baixa</span>
+          </div>
+        </div>
+        <div class="fld">
+          <div class="fld-l">Evidência disponível</div>
+          <div class="rb-grp" id="ev-${code}">
+            <span class="rb" onclick="setRb('ev','${code}','robusta',this,'sr')">Robusta</span>
+            <span class="rb" onclick="setRb('ev','${code}','moderada',this,'smo')">Moderada</span>
+            <span class="rb" onclick="setRb('ev','${code}','fraca',this,'sf')">Fraca</span>
+          </div>
+        </div>
+        <div class="fld">
+          <div class="fld-l">Justifica pagar mais?</div>
+          <div class="rb-grp" id="just-${code}">
+            <span class="rb" onclick="setRb('just','${code}','sim',this,'ss')">Sim</span>
+            <span class="rb" onclick="setRb('just','${code}','parcial',this,'sp')">Parcial</span>
+            <span class="rb" onclick="setRb('just','${code}','nao',this,'sn')">Não</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('mel-list').appendChild(card);
+}
+function togMel(code) { document.getElementById('mb-'+code)?.classList.toggle('open'); }
+function updMel(code,f,v) { const m=S.mels.find(x=>x.code===code); if(m) m[f]=v; }
+function setRb(type,code,val,el,cls) {
+  const grp=document.getElementById(type+'-'+code);
+  grp.querySelectorAll('.rb').forEach(b=>b.className='rb');
+  el.classList.add(cls);
+  const m=S.mels.find(x=>x.code===code);
+  if(!m) return;
+  m[type]=val;
+  const r=m.rel, e=m.ev;
+  if((r==='critica'||r==='alta')&&(e==='robusta'||e==='moderada')) m.classif='essencial';
+  else if(r==='alta'||r==='media') m.classif='relevante';
+  else m.classif='acessoria';
+  if(cur===4) buildM5();
+}
+
+function buildM5() {
+  const mels=S.mels, n=mels.length;
+  const c=document.getElementById('m5-content');
+  if(!n){ c.innerHTML='<div class="note i"><span class="note-i">ℹ</span><span>Adicione melhorias no Módulo 4 para que a matriz seja gerada automaticamente aqui.</span></div>'; return; }
+  const ess=mels.filter(m=>m.classif==='essencial').length;
+  const rm=mels.filter(m=>m.ev==='robusta'||m.ev==='moderada').length;
+  const sj=mels.filter(m=>m.just==='sim'||m.just==='parcial').length;
+  const rows=mels.map(m=>{
+    const b=m.classif==='essencial'?'<span class="badge be">Essencial</span>':m.classif==='relevante'?'<span class="badge br">Relevante</span>':'<span class="badge ba">Acessória</span>';
+    const r=m.rel?m.rel.charAt(0).toUpperCase()+m.rel.slice(1):'—';
+    const e=m.ev?m.ev.charAt(0).toUpperCase()+m.ev.slice(1):'—';
+    const j=m.just?(m.just==='sim'?'✓ Sim':m.just==='parcial'?'≈ Parcial':'✗ Não'):'—';
+    return `<tr><td style="font-family:var(--mono);font-size:10px">${m.code}</td><td>${m.nome||'(sem nome)'}</td><td>${r}</td><td>${e}</td><td>${b}</td><td style="font-size:12px">${j}</td></tr>`;
+  }).join('');
+  c.innerHTML=`<div class="mtbl-wrap"><table class="mtbl"><thead><tr><th>Cód.</th><th>Melhoria qualitativa</th><th>Relevância</th><th>Evidência</th><th>Classificação</th><th>Justifica pagar mais?</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  const score = n>0 ? (ess/n)*.5+(rm/n)*.5 : 0;
+  let forca, fc;
+  if(score>=.55){forca='FORTE';fc='var(--cage-mid)'}
+  else if(score>=.3){forca='MODERADO';fc='var(--rs-ambar-dk)'}
+  else{forca='FRACO — revisar melhorias';fc='var(--rs-vermelho)'}
+  const sv=document.getElementById('st-val');
+  sv.textContent=forca; sv.className='stv '+(score>=.55?'forte':score>=.3?'mod':'fraco');
+  document.getElementById('st-fill').style.cssText=`width:${score*100}%;background:${fc}`;
+  document.getElementById('sn-tot').textContent=n;
+  document.getElementById('sn-ess').textContent=ess;
+  document.getElementById('sn-ev').textContent=rm;
+  document.getElementById('sn-just').textContent=sj;
+  const sf=document.getElementById('sn-forca');
+  sf.textContent=forca; sf.style.color=fc;
+}
+
+function buildM6() {
+  const vb=parseFloat(document.getElementById('m2-vpb').value)||0;
+  const va=parseFloat(document.getElementById('m2-vpa').value)||0;
+  const vp=parseFloat(document.getElementById('m2-vpp').value)||0;
+  document.getElementById('v-psc-bruto').textContent=vb?fR(vb):'—';
+  document.getElementById('v-psc-adj').textContent=va?fR(va):'—';
+  document.getElementById('v-ppp').textContent=vp?fR(vp):'—';
+  if(vb&&vp){
+    const d=(vp-vb)/vb*100;
+    document.getElementById('v-dif').textContent=(d>0?'+':'')+d.toFixed(1).replace('.',',')+' %';
+  }
+  if(va&&vp){
+    const vfm=va-vp;
+    document.getElementById('v-vfm').textContent=fR(vfm);
+    const sig=document.getElementById('v-sig');
+    const desc=document.getElementById('v-desc');
+    if(vfm>0){
+      sig.innerHTML='<span class="sig pos">VfM Positivo — PPP mais vantajosa</span>';
+      desc.textContent=`A PPP representa economia de ${fR(vfm)} (${((vfm/va)*100).toFixed(1)}%) em relação ao PSC Ajustado.`;
+    } else {
+      sig.innerHTML='<span class="sig neg">VfM Negativo — avaliar argumento qualitativo</span>';
+      desc.textContent=`A PPP é mais cara que o PSC Ajustado em ${fR(Math.abs(vfm))}.`;
+    }
+  }
+  const er=S.mels.filter(m=>m.classif==='essencial'||m.classif==='relevante');
+  const t=document.getElementById('m6-mel');
+  if(!er.length){t.innerHTML='<div class="note i"><span class="note-i">ℹ</span><span>Nenhuma melhoria Essencial ou Relevante identificada.</span></div>';return;}
+  const rows=er.map(m=>{
+    const b=m.classif==='essencial'?'<span class="badge be">Essencial</span>':'<span class="badge br">Relevante</span>';
+    return `<tr><td style="font-family:var(--mono);font-size:10px">${m.code}</td><td>${m.nome||'(sem nome)'}</td><td>${b}</td>
+    <td><select onchange="updMel('${m.code}','contrib',this.value)" style="font-size:12px;width:100%"><option value="">—</option><option>Alta</option><option>Parcial</option><option>Baixa</option></select></td>
+    <td><input type="text" placeholder="Argumento..." onchange="updMel('${m.code}','argM6',this.value)" style="font-size:12px"></td></tr>`;
+  }).join('');
+  t.innerHTML=`<div class="ct-wrap"><table class="ct"><thead><tr><th>Cód.</th><th>Melhoria</th><th>Classif.</th><th style="width:120px">Contribuição</th><th>Argumentos</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function buildM7() {
+  const vb=parseFloat(document.getElementById('m2-vpb').value)||0;
+  const va=parseFloat(document.getElementById('m2-vpa').value)||0;
+  const vp=parseFloat(document.getElementById('m2-vpp').value)||0;
+  const vfm=va&&vp?va-vp:null;
+  const proj=document.getElementById('m1-nome').value||'(projeto não identificado)';
+  const n=S.mels.length;
+  const ess=S.mels.filter(m=>m.classif==='essencial').length;
+  const rm=S.mels.filter(m=>m.ev==='robusta'||m.ev==='moderada').length;
+  const sj=S.mels.filter(m=>m.just==='sim'||m.just==='parcial').length;
+  const score=n>0?(ess/n)*.5+(rm/n)*.5:0;
+  const forca=score>=.55?'FORTE':score>=.3?'MODERADO':'FRACO';
+  const pscAnual=sum('ca')+sum('cb')+sum('cc')-sum('cd');
+
+  let txt;
+  if(vfm!==null&&vfm>0&&forca==='FORTE')
+    txt=`Para <em>${proj}</em>, a opção pela PPP é recomendada. O VfM quantitativo é <strong>positivo em ${fR(vfm)}</strong> e o argumento qualitativo é forte (${ess} Essencial(is) de ${n}, sendo que ${sj} justificam pagar mais). A PPP entrega melhorias estruturais que o modelo atual não garante.`;
+  else if(vfm!==null&&vfm>0&&forca==='MODERADO')
+    txt=`Para <em>${proj}</em>, o VfM é <strong>positivo em ${fR(vfm)}</strong> e o argumento qualitativo é moderado (${n} melhoria(s), ${ess} Essencial(is)). A PPP apresenta vantagem econômica. Recomenda-se fortalecer as evidências qualitativas.`;
+  else if(vfm!==null&&vfm>0&&forca==='FRACO')
+    txt=`Para <em>${proj}</em>, o VfM é <strong>positivo em ${fR(vfm)}</strong>, mas o argumento qualitativo ainda é fraco. Recomenda-se revisar e detalhar as melhorias do Módulo 4.`;
+  else if(vfm!==null&&vfm<0&&forca!=='FRACO')
+    txt=`Para <em>${proj}</em>, o VfM é <strong>negativo em ${fR(Math.abs(vfm))}</strong>, mas o argumento qualitativo é ${forca.toLowerCase()}. A PPP pode ser justificada se as melhorias qualitativas forem suficientemente relevantes.`;
+  else if(vfm!==null&&vfm<0&&forca==='FRACO')
+    txt=`Para <em>${proj}</em>, o VfM é <strong>negativo</strong> e o argumento qualitativo é fraco. A prestação direta pelo Estado ou análise complementar são recomendadas.`;
+  else
+    txt=`Preencha os módulos anteriores para que a conclusão integrada seja gerada automaticamente.`;
+
+  document.getElementById('v7-txt').innerHTML=txt;
+
+  const fc=score>=.55?'p':score>=.3?'w':'n';
+  const vfmCls=vfm===null?'':vfm>0?'p':'n';
+  document.getElementById('v7-dims').innerHTML=`
+    <div class="cdim ${vfmCls}"><div class="cdim-l">VfM Quantitativo</div><div class="cdim-v">${vfm!==null?(fR(vfm)+(vfm>0?' — positivo':' — negativo')):'—'}</div></div>
+    <div class="cdim"><div class="cdim-l">PSC Bruto Anual</div><div class="cdim-v">${pscAnual?fR(pscAnual)+' / ano':'—'}</div></div>
+    <div class="cdim ${fc}"><div class="cdim-l">Força do argumento qualitativo</div><div class="cdim-v">${n>0?forca:'—'}</div></div>
+    <div class="cdim ${sj>n*.5&&n>0?'p':'w'}"><div class="cdim-l">Justificam pagar mais</div><div class="cdim-v">${n>0?sj+' de '+n:'—'}</div></div>`;
+
+  document.getElementById('syn-m2').textContent = pscAnual ? 'PSC Bruto anual: '+fR(pscAnual)+(vb?' | VPL: '+fR(vb):'') : '—';
+  document.getElementById('syn-m45').textContent = n>0 ? n+' melhoria(s) — '+ess+' Essencial(is), '+S.mels.filter(m=>m.classif==='relevante').length+' Relevante(s), força: '+forca : '—';
+  document.getElementById('syn-m6').textContent = vfm!==null ? 'VfM = '+fR(vfm)+(vfm>0?' (positivo)':' (negativo)') : '—';
+
+  const rq = document.getElementById('r-qual');
+  if (rq) rq.textContent = n>0 ? forca : '—';
+
+  const pg = document.getElementById('prt-gerado');
+  if (pg) pg.textContent = new Date().toLocaleDateString('pt-BR');
+}
+
+function printReport() {
+  const req = ['m1-sec','m1-nome','m1-ano','m1-resp','m1-data','r-conclusao'];
+  const miss = req.filter(id => !document.getElementById(id)?.value?.trim());
+  if (miss.length) {
+    alert('Preencha os campos obrigatórios:\n— Secretaria\n— Nome do projeto\n— Exercício\n— Responsável / data\n— Conclusão fundamentada');
+    return;
+  }
+  buildM5(); buildM6(); buildM7();
+  document.querySelectorAll('.panel').forEach(p => p.style.display = '');
+  window.print();
+  setTimeout(() => {
+    document.querySelectorAll('.panel').forEach(p => p.style.display = '');
+    goTo(cur);
+  }, 500);
+}
+
+recalcPSC();
+syncPrint();
+const pg = document.getElementById('prt-gerado');
+if (pg) pg.textContent = new Date().toLocaleDateString('pt-BR');
+
+/* ══════════════════════════════════════
+   Sincronização de identificação do projeto entre módulos (via shell)
+   Roda apenas quando carregado dentro do shell (?embed=1)
+══════════════════════════════════════ */
+(function() {
+  if (!document.documentElement.classList.contains('embed-mode')) return;
+  const MOD = 2;
+  // M2 usa prefixo m1- na sub-aba 01 (identificação)
+  const FIELDS = {
+    nome:       'm1-nome',
+    orgao:      'm1-sec',
+    periodoRef: 'm1-ano'
+  };
+  let suspendEmit = false;
+  let debounceTimer = null;
+
+  function getEl(logical) {
+    return document.getElementById(FIELDS[logical]);
+  }
+
+  function getDados() {
+    const out = {};
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (el) out[k] = el.value || '';
+    }
+    return out;
+  }
+
+  function setDados(dados) {
+    if (!dados || typeof dados !== 'object') return;
+    suspendEmit = true;
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (!el) continue;
+      const novoValor = dados[k] || '';
+      if (!el.value || el.value.trim() === '') {
+        el.value = novoValor;
+        // M2 tem syncPrint() para atualizar previews — chamar se disponível
+        try { if (typeof syncPrint === 'function') syncPrint(); } catch(e) {}
+      }
+    }
+    suspendEmit = false;
+  }
+
+  function emitProjeto() {
+    if (suspendEmit) return;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      try {
+        parent.postMessage({ type: 'gtsefaz_projeto', mod: MOD, dados: getDados() }, '*');
+      } catch(e) {}
+    }, 500);
+  }
+
+  function bindFields() {
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (el && !el.dataset.gtsBound) {
+        el.addEventListener('input', emitProjeto);
+        el.dataset.gtsBound = '1';
+      }
+    }
+  }
+
+  window.addEventListener('message', (e) => {
+    if (!e.data || typeof e.data !== 'object') return;
+    if (e.data.type === 'gtsefaz_projeto_set') {
+      setDados(e.data.dados);
+    }
+  });
+
+  function init() {
+    bindFields();
+    try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: MOD }, '*'); } catch(e) {}
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

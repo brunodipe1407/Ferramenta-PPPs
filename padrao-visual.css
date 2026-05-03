@@ -1,0 +1,417 @@
+/* ══════════════════════════════════════════════════════════
+   GTSEFAZ — Padrão Visual Unificado · CAGE-RS / SEFAZ-RS
+   v1.0 · Aplicável a todos os módulos (1, 2, 3, 4) e ao shell
+   
+   Carregado via <link rel="stylesheet" href="padrao-visual.css">
+   após o CSS principal de cada módulo, para sobrescrever divergências.
+   
+   PRINCÍPIO: usa apenas as variáveis canônicas (--cage-*, --rs-*),
+   já declaradas no :root de cada módulo após a migração de tokens.
+═══════════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────────────
+   1. CABEÇALHO DE PAINEL / SEÇÃO
+   Unifica: M1 .panel-header, M2 .sh, M3 .section-title/.card-title,
+            M4 (vários cabeçalhos de seção)
+────────────────────────────────────────────── */
+.panel-header,
+.sh,
+.section-rule,
+.alertas-panel-title {
+  font-family: 'Roboto Slab', Georgia, serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  color: #fff !important;
+  background: var(--cage-navy) !important;
+  padding: 12px 18px !important;
+  border-radius: 6px 6px 0 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  border: none !important;
+  box-shadow: none !important;
+  line-height: 1.3 !important;
+}
+
+/* Indicador "ph-dot" (M1) padronizado para todos */
+.panel-header .ph-dot,
+.sh .sh-accent {
+  display: inline-block !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: var(--cage-sky) !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0 0 2px rgba(46, 182, 165, 0.18) !important;
+}
+/* M2 .sh-accent vinha sendo barra vertical; vira ponto canônico */
+.sh .sh-accent {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+/* M2 .sh-text — apenas remove negrito duplicado */
+.sh .sh-text {
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* ──────────────────────────────────────────────
+   2. PAINEL / CARD CONTAINER
+   Unifica: M1 .panel, M2 .panel, M3 .card / .alertas-panel,
+            M4 .panel-form / cards diversos
+────────────────────────────────────────────── */
+.panel,
+.card,
+.alertas-panel,
+.chart-card {
+  background: #FFFFFF !important;
+  border: 1px solid var(--rule, #D9D9D9) !important;
+  border-radius: 6px !important;
+  margin-bottom: 18px !important;
+  box-shadow: 0 1px 2px rgba(10, 77, 68, 0.04) !important;
+  overflow: hidden !important;
+}
+
+/* Hover sutil em cards interativos (M3) */
+.card[onclick],
+.card[role="button"] {
+  cursor: pointer !important;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s !important;
+}
+.card[onclick]:hover,
+.card[role="button"]:hover {
+  border-color: var(--cage-mid) !important;
+  box-shadow: 0 4px 14px rgba(10, 77, 68, 0.08) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Body do painel — padding consistente */
+.panel-body,
+.card-body {
+  padding: 18px !important;
+}
+
+/* ──────────────────────────────────────────────
+   3. INPUTS, SELECTS, TEXTAREAS
+   Unifica visual de campos em todos os módulos
+────────────────────────────────────────────── */
+.panel-body input[type="text"],
+.panel-body input[type="number"],
+.panel-body input[type="date"],
+.panel-body input[type="email"],
+.panel-body select,
+.panel-body textarea,
+.card-body input[type="text"],
+.card-body input[type="number"],
+.card-body input[type="date"],
+.card-body input[type="email"],
+.card-body select,
+.card-body textarea,
+.field input[type="text"],
+.field input[type="number"],
+.field input[type="date"],
+.field select,
+.field textarea {
+  font-family: 'Source Sans 3', system-ui, sans-serif !important;
+  font-size: 13.5px !important;
+  color: var(--ink, #1A1A1A) !important;
+  background: #FFFFFF !important;
+  border: 1px solid var(--rule, #D9D9D9) !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.panel-body input:focus,
+.panel-body select:focus,
+.panel-body textarea:focus,
+.card-body input:focus,
+.card-body select:focus,
+.card-body textarea:focus,
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none !important;
+  border-color: var(--cage-mid) !important;
+  box-shadow: 0 0 0 3px rgba(31, 139, 124, 0.12) !important;
+}
+
+.panel-body textarea,
+.card-body textarea,
+.field textarea {
+  resize: vertical !important;
+  min-height: 60px !important;
+  line-height: 1.5 !important;
+}
+
+/* Labels de campo — monoespaçada institucional */
+.field label,
+.panel-body label,
+.card-body label,
+label.field-label {
+  font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--ink-muted, #6B7280) !important;
+  display: block !important;
+  margin-bottom: 5px !important;
+}
+
+/* ──────────────────────────────────────────────
+   4. BOTÕES
+   Unifica: btn-primary, btn-secondary, btn-add, btn-clear etc.
+────────────────────────────────────────────── */
+.btn,
+.btn-primary,
+.btn-add,
+button.btn,
+button.btn-primary,
+button.btn-add {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 8px 16px !important;
+  border-radius: 4px !important;
+  font-family: 'Source Sans 3', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  border: 1px solid var(--cage-mid) !important;
+  background: var(--cage-mid) !important;
+  color: #FFFFFF !important;
+  cursor: pointer !important;
+  transition: all 0.15s !important;
+  text-decoration: none !important;
+  line-height: 1.3 !important;
+}
+.btn:hover,
+.btn-primary:hover,
+.btn-add:hover {
+  background: var(--cage-blue) !important;
+  border-color: var(--cage-blue) !important;
+  box-shadow: 0 2px 6px rgba(31, 139, 124, 0.2) !important;
+}
+
+.btn-secondary,
+button.btn-secondary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 8px 16px !important;
+  border-radius: 4px !important;
+  font-family: 'Source Sans 3', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  border: 1px solid var(--rule, #D9D9D9) !important;
+  background: #FFFFFF !important;
+  color: var(--cage-navy) !important;
+  cursor: pointer !important;
+  transition: all 0.15s !important;
+  text-decoration: none !important;
+  line-height: 1.3 !important;
+}
+.btn-secondary:hover {
+  border-color: var(--cage-mid) !important;
+  background: var(--cage-light, #D1F0EB) !important;
+  color: var(--cage-navy) !important;
+}
+
+/* Botão "danger" / clear */
+.btn-danger,
+.btn-clear {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 8px 16px !important;
+  border-radius: 4px !important;
+  font-family: 'Source Sans 3', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(139, 26, 26, 0.22) !important;
+  background: rgba(139, 26, 26, 0.06) !important;
+  color: var(--rs-vermelho, #8B1A1A) !important;
+  cursor: pointer !important;
+  transition: all 0.15s !important;
+}
+.btn-danger:hover,
+.btn-clear:hover {
+  background: rgba(139, 26, 26, 0.12) !important;
+  border-color: var(--rs-vermelho, #8B1A1A) !important;
+}
+
+/* ──────────────────────────────────────────────
+   5. BADGES / PILLS DE STATUS
+────────────────────────────────────────────── */
+.badge,
+.pill,
+.status-badge,
+.tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 3px 8px !important;
+  border-radius: 3px !important;
+  background: var(--rule-soft, #E8E8E8) !important;
+  color: var(--ink-muted, #6B7280) !important;
+  border: none !important;
+  line-height: 1.4 !important;
+}
+.badge-success,
+.pill-success,
+.tag-success {
+  background: rgba(21, 128, 61, 0.12) !important;
+  color: #15803D !important;
+}
+.badge-warning,
+.pill-warning,
+.tag-warning {
+  background: rgba(180, 83, 9, 0.12) !important;
+  color: var(--rs-ambar, #B45309) !important;
+}
+.badge-danger,
+.pill-danger,
+.tag-danger {
+  background: rgba(139, 26, 26, 0.10) !important;
+  color: var(--rs-vermelho, #8B1A1A) !important;
+}
+
+/* ──────────────────────────────────────────────
+   6. TIPOGRAFIA GERAL — corpo, títulos, parágrafos
+────────────────────────────────────────────── */
+body {
+  font-family: 'Source Sans 3', system-ui, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  color: var(--ink, #1A1A1A) !important;
+}
+
+/* Títulos principais dentro do corpo */
+h1, h2, h3, h4 {
+  font-family: 'Roboto Slab', Georgia, serif !important;
+  color: var(--cage-navy) !important;
+  letter-spacing: -0.005em !important;
+}
+
+/* Códigos / valores monoespaçados */
+code, .mono, .num {
+  font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+}
+
+/* ──────────────────────────────────────────────
+   7. TABELAS — apresentação institucional
+────────────────────────────────────────────── */
+table.data-table,
+.panel-body table,
+.card-body table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-family: 'Source Sans 3', system-ui, sans-serif !important;
+  font-size: 13px !important;
+}
+.panel-body table thead th,
+.card-body table thead th,
+table.data-table thead th {
+  font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--ink-muted, #6B7280) !important;
+  background: var(--cinza-suave, #F5F5F5) !important;
+  border-bottom: 2px solid var(--rule, #D9D9D9) !important;
+  padding: 10px 12px !important;
+  text-align: left !important;
+}
+.panel-body table tbody td,
+.card-body table tbody td,
+table.data-table tbody td {
+  padding: 9px 12px !important;
+  border-bottom: 1px solid var(--rule-soft, #E8E8E8) !important;
+  vertical-align: top !important;
+}
+
+/* ──────────────────────────────────────────────
+   8. AJUSTES PONTUAIS POR MÓDULO
+   Para casos onde a regra geral causaria regressão
+────────────────────────────────────────────── */
+
+/* M2: a barra vermelha lateral do .sh-accent (variante "r") deve continuar
+   visualmente distinta para riscos */
+.sh .sh-accent.r {
+  background: var(--rs-vermelho, #8B1A1A) !important;
+}
+
+/* M3: nav-tab herda visual do shell, mas precisa permanecer compacto */
+.nav-tab {
+  font-family: 'Source Sans 3', system-ui, sans-serif !important;
+}
+
+/* M3: cards de modal/dashboard preservam padding maior */
+.chart-card .card-body {
+  padding: 22px !important;
+}
+
+/* M3: títulos de seção de relatório (rel-section-title) */
+.rel-section-title {
+  font-family: 'Roboto Slab', Georgia, serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--cage-navy) !important;
+  margin: 0 0 8px !important;
+  letter-spacing: -0.005em !important;
+}
+
+/* M3: subtítulos de seção de relatório */
+.section-subtitle,
+.card-subtitle {
+  font-size: 12.5px !important;
+  color: var(--ink-muted, #6B7280) !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+}
+
+/* ──────────────────────────────────────────────
+   9. PRESERVAÇÕES — onde NÃO sobrescrever
+────────────────────────────────────────────── */
+
+/* O hero/banner do M2 preserva seu visual próprio (intencionalmente diferente) */
+.hero,
+.hero * {
+  /* A regra de body acima já cobre fonte; não forçar nada aqui */
+}
+
+/* Print mode: nenhuma das regras acima deve quebrar impressão.
+   Se houver problema, override específico vai aqui. */
+@media print {
+  /* Reset de sombras e backgrounds escuros que prejudicam impressão */
+  .panel-header,
+  .sh,
+  .section-rule {
+    background: #fff !important;
+    color: var(--cage-navy) !important;
+    border-bottom: 2px solid var(--cage-mid) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .panel-header .ph-dot,
+  .sh .sh-accent {
+    background: var(--cage-mid) !important;
+    box-shadow: none !important;
+  }
+}
