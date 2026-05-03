@@ -10,7 +10,7 @@ Conjunto de instrumentos de apoio à instrução de processos de **Parcerias Pú
 
 ## Acesso
 
-🔗 **Acesse em:** _[preencher URL do GitHub Pages após publicação]_
+🔗 **Acesse em:** (https://brunodipe1407.github.io/Ferramenta-PPPs/)
 
 A ferramenta roda inteiramente no navegador. Não há login, não há servidor de aplicação, não há banco de dados.
 
