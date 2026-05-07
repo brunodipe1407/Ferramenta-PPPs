@@ -667,6 +667,8 @@ body {
 .badge-pub { background: var(--pub-bg); color: var(--pub); }
 .badge-comp { background: var(--comp-bg); color: var(--comp); }
 .badge-priv { background: var(--priv-bg); color: var(--priv); }
+.badge-var { background: #FFF4E5; color: #B45309; }
+.radio-option.checked-var { background: #FFF4E5; border-color: #B45309; color: #B45309; }
 .badge-na { background: var(--na-bg); color: var(--na); }
 
 .badge-desvio {
@@ -1679,10 +1681,10 @@ body {
   <div class="filter-bar">
     <input type="text" class="field-input" id="filter-busca" placeholder="Buscar por código, título, palavra-chave..." oninput="aplicarFiltros()">
     <span style="font-size: 11px; color: var(--ink-light); margin-left: auto;">Filtrar por status:</span>
-    <span class="filter-pill active" data-filter="todos" onclick="setFilterPill(this, 'todos')">Todos</span>
-    <span class="filter-pill" data-filter="pendentes" onclick="setFilterPill(this, 'pendentes')">Pendentes</span>
-    <span class="filter-pill" data-filter="desvios" onclick="setFilterPill(this, 'desvios')">Com desvio</span>
-    <span class="filter-pill" data-filter="setorial" onclick="setFilterPill(this, 'setorial')">Com ajuste setorial</span>
+    <span class="filter-pill active" role="button" tabindex="0" data-filter="todos" onclick="setFilterPill(this, 'todos')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'todos');}">Todos</span>
+    <span class="filter-pill" role="button" tabindex="0" data-filter="pendentes" onclick="setFilterPill(this, 'pendentes')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'pendentes');}">Pendentes</span>
+    <span class="filter-pill" role="button" tabindex="0" data-filter="desvios" onclick="setFilterPill(this, 'desvios')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'desvios');}">Com desvio</span>
+    <span class="filter-pill" role="button" tabindex="0" data-filter="setorial" onclick="setFilterPill(this, 'setorial')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'setorial');}">Com ajuste setorial</span>
     <button class="btn btn-secondary" onclick="expandirTodos()" style="margin-left: 8px;">Expandir todos</button>
     <button class="btn btn-secondary" onclick="abrirModalNovoRisco()" style="background: var(--cage-azul); color: white; border-color: var(--cage-azul);">+ Novo risco</button>
   </div>
@@ -1857,9 +1859,9 @@ body {
 <div class="toast" id="toast"></div>
 
 <!-- ============ MODAL NOVO RISCO ============ -->
-<div class="modal-overlay" id="modal-novo-risco">
-  <div class="modal">
-    <h3 class="modal-title">Novo Risco Customizado</h3>
+<div class="modal-overlay" id="modal-novo-risco" onclick="if(event.target===this)fecharModal('modal-novo-risco')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-novo-risco-titulo">
+    <h3 class="modal-title" id="modal-novo-risco-titulo">Novo Risco Customizado</h3>
     <p class="modal-subtitle">Inclua um risco específico do seu projeto que não esteja contemplado nas 16 categorias do núcleo comum.</p>
 
     <div class="form-grid" style="grid-template-columns: 1fr;">
@@ -2152,10 +2154,17 @@ function setFilterPill(el, filtro) {
 function getAlocClass(aloc) {
   if (aloc === "Público") return "pub";
   if (aloc === "Compartilhado") return "comp";
-  if (aloc === "Variável por setor") return "comp";  // R08 — variação setorial usa o estilo de Compartilhado
+  if (aloc === "Variável por setor") return "var";  // R08 — variação setorial: classe dedicada
   if (aloc === "Privado") return "priv";
   if (aloc === "N/A") return "na";
   return "";
+}
+
+// Opções de alocação proposta — adiciona "Variável por setor" se a típica for esta
+function getOpcoesAloc(tipica) {
+  const base = ["Público","Compartilhado","Privado"];
+  if (tipica === "Variável por setor") return ["Variável por setor", ...base];
+  return base;
 }
 
 /* ==================== INICIALIZAÇÃO ==================== */
@@ -2312,9 +2321,23 @@ function renderMatriz(preservarAbertos = false) {
 
   // Bind toggle (apenas no header — ignora cliques em controles de form)
   container.querySelectorAll(".risco-header").forEach(h => {
-    h.addEventListener("click", (e) => {
+    // Acessibilidade — torna o header operável por teclado e expõe estado expandido
+    if (!h.hasAttribute('role')) {
+      h.setAttribute('role', 'button');
+      h.setAttribute('tabindex', '0');
+      h.setAttribute('aria-expanded', h.parentElement.classList.contains('open') ? 'true' : 'false');
+    }
+    const toggleHandler = (e) => {
       if (e.target.closest("button") || e.target.closest("input") || e.target.closest("label") || e.target.closest("textarea") || e.target.closest("select") || e.target.closest(".risco-body")) return;
-      h.parentElement.classList.toggle("open");
+      const isOpen = h.parentElement.classList.toggle("open");
+      h.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+    h.addEventListener("click", toggleHandler);
+    h.addEventListener("keydown", (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleHandler(e);
+      }
     });
   });
 
@@ -2388,7 +2411,7 @@ function renderRisco(r, ajustesSetor) {
         <div>
           <div class="alocacao-tipica-label">Alocação proposta</div>
           <div class="radio-group" style="margin-top:4px">
-            ${["Público","Compartilhado","Privado"].map(opt => `
+            ${getOpcoesAloc(s.tipica).map(opt => `
               <label class="radio-option ${dadosSub.aloc === opt ? "checked-" + getAlocClass(opt) : ""}">
                 <input type="radio" name="aloc-${r.id}-${i}" value="${opt}" ${dadosSub.aloc === opt ? "checked" : ""} onchange="atualizarAloc('${r.id}',${i},'${opt}')">
                 ${opt}
@@ -2499,12 +2522,14 @@ function renderRiscoCustomizado(r, idx) {
 function atualizarAloc(rid, idx, valor) {
   estado.riscos[rid].sub[idx].aloc = valor;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
 function atualizarJust(rid, idx, valor) {
   estado.riscos[rid].sub[idx].just = valor;
   salvarAutomatico();
+  atualizarProgresso();
   // Re-render para atualizar badges (preservando estado aberto)
   renderMatriz(true);
 }
@@ -2518,18 +2543,21 @@ function atualizarMit(rid, idx, valor) {
 function toggleExcluido(rid, idx) {
   estado.riscos[rid].sub[idx].excluido = !estado.riscos[rid].sub[idx].excluido;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
 function atualizarNovoAloc(idx, valor) {
   estado.novos[idx].aloc = valor;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
 function atualizarNovoJust(idx, valor) {
   estado.novos[idx].just = valor;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
@@ -2552,7 +2580,18 @@ function abrirModalNovoRisco() {
   document.getElementById("novo-risco-desc").value = "";
   document.getElementById("novo-risco-tipica").value = "Compartilhado";
   abrirModal("modal-novo-risco");
+  // Foco automático no campo de título — acessibilidade
+  setTimeout(() => {
+    const t = document.getElementById("novo-risco-titulo");
+    if (t) t.focus();
+  }, 50);
 }
+
+// Esc fecha qualquer modal aberto
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+});
 
 function adicionarNovoRisco() {
   const titulo = document.getElementById("novo-risco-titulo").value.trim();
@@ -2663,6 +2702,9 @@ function calcularEstatisticas() {
       if (s.aloc === "Público") { stats.pub++; porCategoria[r.id].pub++; }
       else if (s.aloc === "Compartilhado") { stats.comp++; porCategoria[r.id].comp++; }
       else if (s.aloc === "Privado") { stats.priv++; porCategoria[r.id].priv++; }
+      else if (s.aloc === "Variável por setor") { stats.comp++; porCategoria[r.id].comp++; }
+      // Nota: "Variável por setor" agrega visualmente em Compartilhado nos contadores
+      // do dashboard, alinhado com o tratamento da planilha canônica.
 
       if (s.aloc !== tipica) {
         stats.desvios++;
@@ -3096,10 +3138,15 @@ document.querySelectorAll(".nav-tab").forEach(tab => {
 
 function limparFormulario() {
   if (confirm("Tem certeza que deseja limpar todos os campos? Esta ação não pode ser desfeita.")) {
-    localStorage.removeItem("matriz_riscos_data");
+    // BUG corrigido na Fase 3: a chave correta é STORAGE_KEY ('matriz_riscos_ppp_rs_v1'),
+    // não 'matriz_riscos_data'. Antes desta correção, "Limpar Campos" não fazia nada.
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
     location.reload();
   }
 }
+
+// Alias para o contrato genérico do shell (gtsefaz_clear)
+function limparDados() { limparFormulario(); }
 
 /* ==================== INIT ==================== */
 
@@ -3128,12 +3175,12 @@ document.addEventListener("DOMContentLoaded", () => {
 ══════════════════════════════════════ */
 (function() {
   if (!document.documentElement.classList.contains('embed-mode')) return;
-  const MOD = 3;
-  // M3 usa prefixo proj- (não tem campo de período de referência)
+  const MOD = 2;
+  // M2 usa prefixo proj- (não tem campo de período de referência)
   const FIELDS = {
     nome:  'proj-nome',
     orgao: 'proj-secretaria'
-    // periodoRef: não existe no M3
+    // periodoRef: não existe no M2
   };
   let suspendEmit = false;
   let debounceTimer = null;
@@ -3189,6 +3236,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'gtsefaz_projeto_set') {
       setDados(e.data.dados);
+    } else if (e.data.type === 'gtsefaz_save') {
+      // Save imediato + emite gtsefaz_saved para o shell
+      try {
+        if (typeof salvarAutomatico === 'function') salvarAutomatico();
+        parent.postMessage({ type: 'gtsefaz_saved', mod: MOD }, '*');
+      } catch(err) {}
+    } else if (e.data.type === 'gtsefaz_clear') {
+      try { if (typeof limparFormulario === 'function') limparFormulario(); } catch(err) {}
     }
   });
 
