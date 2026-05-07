@@ -742,37 +742,9 @@ body {
   box-shadow: 0 2px 8px rgba(31,139,124,.15);
 }
 
-/* ── PDF Unificado: estilos do popup de impressão ── */
-@media print {
-  body.printing-unified .app-header,
-  body.printing-unified .module-tabs,
-  body.printing-unified .subtab-bar,
-  body.printing-unified .status-bar,
-  body.printing-unified .rp-wizard,
-  body.printing-unified .home-panel,
-  body.printing-unified .report-panel {
-    display: none !important;
-  }
-  body.printing-unified .content-area {
-    position: static !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-  body.printing-unified .mod-frame {
-    display: none !important;
-  }
-  body.printing-unified .mod-frame.unified-print {
-    display: block !important;
-    position: static !important;
-    width: 100% !important;
-    border: 0 !important;
-    page-break-before: always;
-    page-break-inside: auto;
-  }
-  body.printing-unified .rp-capa-print {
-    display: block !important;
-  }
-}
+/* (CSS de "printing-unified" no shell foi removido na v1.4 — a impressão
+   unificada agora ocorre numa janela popup dedicada, não mais por @media print
+   no shell. Ver iniciarExportacaoUnificada / construirHtmlRelatorioUnificado.) */
 
 /* Wizard modal */
 .rp-wizard {
@@ -2089,7 +2061,7 @@ body {
             <span class="rp-step-num">03</span>
             <div>
               <h2 class="rp-section-title">Exportar</h2>
-              <p class="rp-section-sub">Escolha o formato: <strong>PDF unificado</strong> gera um único arquivo com capa e módulos em sequência (recomendado para anexar ao parecer); o <strong>modo sequencial</strong> gera N PDFs que você combina depois com Acrobat/PDFsam/qpdf.</p>
+              <p class="rp-section-sub">Escolha o formato: <strong>PDF unificado</strong> abre uma nova janela com o documento consolidado (capa + módulos) e dispara automaticamente o diálogo de impressão — escolha "Salvar como PDF" para obter um arquivo único. O <strong>modo sequencial</strong> gera N PDFs separados que você combina depois com Acrobat/PDFsam/qpdf. Permita popups deste site para usar o PDF unificado.</p>
             </div>
           </div>
           <div class="rp-section-body">
@@ -2965,10 +2937,22 @@ function atualizarSummary() {
 
 /* ══════════════════════════════════════
    EXPORTAÇÃO UNIFICADA — capa + módulos em um único PDF
-   Estratégia: pré-carrega iframes selecionados; renderiza a capa imprimível;
-   estende temporariamente a altura de cada iframe para o scrollHeight do conteúdo
-   (caso contrário o navegador imprime apenas o viewport visível); ativa
-   `body.printing-unified` (ver @media print) e dispara window.print().
+
+   Estratégia (v1.4): abre uma janela popup, escreve um documento
+   consolidado contendo a capa + um <iframe srcdoc="..."> por módulo
+   selecionado, redimensiona cada iframe para a altura do conteúdo
+   após o load e dispara window.print() na popup.
+
+   Por que popup em vez de imprimir o shell? Em Chromium, mesmo
+   ajustando iframe.style.height = scrollHeight, o print do parent
+   pode truncar o conteúdo dos iframes embutidos. A popup é um
+   contexto de print isolado, sem cromos do shell, e permite ajuste
+   de altura confiável antes do print.
+
+   Para preservar os dados preenchidos pelo usuário, materializamos
+   os values dos campos como atributos HTML antes da serialização e
+   removemos os <script> dos snapshots (evita a re-execução de init
+   no popup, que duplicaria linhas dinâmicas adicionadas via JS).
 ══════════════════════════════════════ */
 
 async function iniciarExportacaoUnificada() {
@@ -2976,10 +2960,15 @@ async function iniciarExportacaoUnificada() {
   if (selecionados.length === 0) return;
 
   const btn = document.getElementById('rpBtnExportUnificado');
+  const restoreBtn = () => {
+    if (!btn) return;
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg> Gerar PDF único (consolidado)';
+  };
   if (btn) { btn.disabled = true; btn.textContent = 'Preparando…'; }
 
   try {
-    // 1. Pré-carrega iframes selecionados e aguarda load
+    // 1. Pré-carrega iframes selecionados (esperando load + hidratação)
     for (const n of selecionados) {
       const f = document.getElementById(`frame${n}`);
       if (!f) continue;
@@ -2988,64 +2977,256 @@ async function iniciarExportacaoUnificada() {
         const p = new Promise(res => { f.addEventListener('load', res, { once: true }); });
         f.src = f.dataset.src;
         await p;
-        // Pequeno delay para permitir hidratação do localStorage no módulo
-        await new Promise(res => setTimeout(res, 400));
+        // Hidratação a partir do localStorage (carregarRascunho roda no DOMContentLoaded)
+        await new Promise(res => setTimeout(res, 500));
       }
     }
 
-    // 2. Renderiza a capa imprimível
-    renderizarCapaImprimivel();
-
-    // 3. Marca os iframes selecionados e estende altura ao conteúdo
-    const restaurar = [];
-    document.querySelectorAll('.mod-frame').forEach(f => {
-      const num = parseInt((f.id || '').replace('frame','') || '0', 10);
-      f.classList.remove('unified-print');
-      if (selecionados.includes(num)) {
-        f.classList.add('unified-print');
-        // Captura estilo original antes de modificar
-        restaurar.push({ f, height: f.style.height, minHeight: f.style.minHeight });
-        try {
-          const cd = f.contentDocument;
-          if (cd && cd.documentElement) {
-            const h = Math.max(
-              cd.documentElement.scrollHeight,
-              cd.body ? cd.body.scrollHeight : 0
-            );
-            // 50px de folga para evitar corte do rodapé
-            f.style.height    = (h + 50) + 'px';
-            f.style.minHeight = (h + 50) + 'px';
-          }
-        } catch(e) { /* same-origin esperado */ }
-      }
+    // 2. Captura snapshot HTML de cada iframe (com form values materializados)
+    const snapshots = selecionados.map(n => {
+      const f = document.getElementById(`frame${n}`);
+      return {
+        n,
+        name: MODULES[n].name,
+        html: snapshotIframeForPrint(f)
+      };
     });
 
-    // 4. Ativa o modo de impressão unificada e imprime
-    document.body.classList.add('printing-unified');
+    // 3. Renderiza a capa imprimível e captura o HTML
+    renderizarCapaImprimivel();
+    const capaEl = document.getElementById('rpCapaPrint');
+    const capaHtml = capaEl ? capaEl.innerHTML : '<p>Capa não disponível.</p>';
 
-    // Pequena espera para layout estabilizar antes do print
-    await new Promise(res => setTimeout(res, 300));
+    // 4. Abre popup e escreve documento consolidado
+    const w = window.open('', '_blank', 'width=1100,height=850,resizable=yes,scrollbars=yes');
+    if (!w) {
+      alert('A janela popup foi bloqueada pelo navegador. Permita popups deste site para usar o PDF unificado, ou use o modo sequencial.');
+      return;
+    }
 
-    window.print();
-
-    // 5. Limpeza após o diálogo de print fechar
-    setTimeout(() => {
-      document.body.classList.remove('printing-unified');
-      restaurar.forEach(r => {
-        r.f.classList.remove('unified-print');
-        r.f.style.height    = r.height || '';
-        r.f.style.minHeight = r.minHeight || '';
-      });
-    }, 600);
+    const popupHtml = construirHtmlRelatorioUnificado(capaHtml, snapshots);
+    w.document.open();
+    w.document.write(popupHtml);
+    w.document.close();
+    // O popup chama window.print() automaticamente quando todos os iframes estiverem prontos.
   } catch (err) {
     console.error('Falha ao gerar relatório unificado:', err);
     alert('Não foi possível gerar o PDF unificado. Tente o modo sequencial.');
   } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg> Gerar PDF único (consolidado)';
-    }
+    restoreBtn();
   }
+}
+
+/* Captura o documentElement.outerHTML de um iframe carregado:
+   - materializa form values (input/textarea/select) em atributos HTML
+   - injeta <base href> para que CSS/imagens com caminhos relativos funcionem
+   - remove <script> e onload/onclick para evitar re-execução de init no popup
+*/
+function snapshotIframeForPrint(frame) {
+  if (!frame) return '<!DOCTYPE html><html><body>(módulo indisponível)</body></html>';
+  let cd = null;
+  try { cd = frame.contentDocument; } catch (e) { /* same-origin esperado */ }
+  if (!cd || !cd.documentElement) {
+    return '<!DOCTYPE html><html><body>(módulo não carregado)</body></html>';
+  }
+
+  // Trabalha em um clone para não tocar no DOM ao vivo
+  const clone = cd.documentElement.cloneNode(true);
+
+  // 1) Materializar values do DOM ao vivo no clone
+  const liveInputs    = cd.querySelectorAll('input, textarea, select');
+  const cloneInputs   = clone.querySelectorAll('input, textarea, select');
+  liveInputs.forEach((live, i) => {
+    const c = cloneInputs[i];
+    if (!c) return;
+    const tag = live.tagName;
+    if (tag === 'INPUT') {
+      if (live.type === 'checkbox' || live.type === 'radio') {
+        if (live.checked) c.setAttribute('checked', 'checked');
+        else c.removeAttribute('checked');
+      } else {
+        c.setAttribute('value', live.value || '');
+      }
+    } else if (tag === 'TEXTAREA') {
+      c.textContent = live.value || '';
+    } else if (tag === 'SELECT') {
+      const opts = c.querySelectorAll('option');
+      Array.from(live.options).forEach((lo, j) => {
+        const co = opts[j];
+        if (!co) return;
+        if (lo.selected) co.setAttribute('selected', 'selected');
+        else co.removeAttribute('selected');
+      });
+    }
+  });
+
+  // 2) Remove scripts (não queremos re-rodar init no popup)
+  clone.querySelectorAll('script').forEach(s => s.remove());
+
+  // 3) Remove handlers inline que apontam para funções que não existem mais
+  clone.querySelectorAll('[onclick],[oninput],[onchange],[onload],[onkeydown]').forEach(el => {
+    el.removeAttribute('onclick');
+    el.removeAttribute('oninput');
+    el.removeAttribute('onchange');
+    el.removeAttribute('onload');
+    el.removeAttribute('onkeydown');
+  });
+
+  // 4) Injeta <base href> para resolver caminhos relativos (padrao-visual.css, assets/)
+  const head = clone.querySelector('head');
+  if (head && !head.querySelector('base')) {
+    const base = cd.createElement('base');
+    base.setAttribute('href', window.location.href);
+    head.insertBefore(base, head.firstChild);
+  }
+
+  // 5) Força modo embed (esconde header próprio do módulo no popup)
+  clone.classList.add('embed-mode');
+
+  return '<!DOCTYPE html>\n' + clone.outerHTML;
+}
+
+/* Monta o HTML do popup: capa + um iframe srcdoc por módulo, com auto-resize e auto-print. */
+function construirHtmlRelatorioUnificado(capaHtml, snapshots) {
+  const capaSection = `<section class="uni-section uni-capa">${capaHtml}</section>`;
+
+  const moduloSections = snapshots.map((s, i) => {
+    // srcdoc precisa ser HTML-escaped no atributo
+    const srcdocAttr = s.html.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    return `<section class="uni-section uni-modulo">
+      <iframe class="uni-mod" data-idx="${i}" data-mod="${s.n}" data-name="${(s.name || '').replace(/"/g, '&quot;')}" srcdoc="${srcdocAttr}"></iframe>
+    </section>`;
+  }).join('\n');
+
+  // Script da popup (inline, sem deps externas) — auto-resize de iframes + auto-print
+  const popupScript = `
+    (function() {
+      var iframes = document.querySelectorAll('iframe.uni-mod');
+      var pending = iframes.length;
+      var loadingEl = document.getElementById('uniLoading');
+      function setLoadingMsg(msg) {
+        if (loadingEl) {
+          var msgEl = loadingEl.querySelector('.uni-loading-msg');
+          if (msgEl) msgEl.textContent = msg;
+        }
+      }
+      function dispararPrint() {
+        if (loadingEl) loadingEl.style.display = 'none';
+        // Pequeno delay extra para garantir que o layout estabilizou
+        setTimeout(function() { window.focus(); window.print(); }, 400);
+      }
+      function maybeStart() {
+        if (pending <= 0) dispararPrint();
+        else setLoadingMsg('Preparando módulos para impressão... (' + (iframes.length - pending) + ' / ' + iframes.length + ')');
+      }
+      function ajustarAltura(f) {
+        try {
+          var cd = f.contentDocument;
+          if (!cd || !cd.documentElement) return;
+          var h = Math.max(
+            cd.documentElement.scrollHeight,
+            cd.body ? cd.body.scrollHeight : 0,
+            cd.documentElement.offsetHeight,
+            cd.body ? cd.body.offsetHeight : 0
+          );
+          // Folga generosa: evita corte de rodapé
+          f.style.height = (h + 50) + 'px';
+          // Re-mede após reflow do iframe (alguns módulos crescem após o resize)
+          setTimeout(function() {
+            try {
+              var cd2 = f.contentDocument;
+              if (!cd2) return;
+              var h2 = Math.max(
+                cd2.documentElement.scrollHeight,
+                cd2.body ? cd2.body.scrollHeight : 0
+              );
+              if (h2 > h) f.style.height = (h2 + 50) + 'px';
+            } catch(e) {}
+          }, 200);
+        } catch(e) {}
+      }
+      iframes.forEach(function(f) {
+        f.addEventListener('load', function() {
+          ajustarAltura(f);
+          pending--;
+          maybeStart();
+        }, { once: true });
+      });
+      // Edge case: nenhum módulo selecionado — ainda imprime a capa
+      if (iframes.length === 0) maybeStart();
+      // Timeout de segurança: se algum iframe não chegar a load em 8s, prossegue
+      setTimeout(function() {
+        if (pending > 0) { pending = 0; maybeStart(); }
+      }, 8000);
+    })();
+  `;
+
+  // Estilos da capa (replicados aqui para o popup, já que o CSS do shell não é carregado)
+  const capaStyles = `
+    .rp-capa-doc { font-family: 'Roboto Slab', Georgia, serif; color: #1a1a1a; line-height: 1.55; max-width: 165mm; margin: 0 auto; padding: 20mm 12mm; }
+    .rp-capa-doc-banner { border-top: 4px solid #0A4D44; border-bottom: 1px solid #D9D9D9; padding: 12mm 0 6mm; margin-bottom: 14mm; display: flex; align-items: center; gap: 10mm; }
+    .rp-capa-doc-banner-meta { flex: 1; }
+    .rp-capa-doc-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 9pt; letter-spacing: .2em; text-transform: uppercase; color: #0F6B5E; display: block; margin-bottom: 4mm; }
+    .rp-capa-doc-org { font-family: 'Roboto Slab', Georgia, serif; font-size: 11pt; font-weight: 600; color: #0A4D44; }
+    .rp-capa-doc-title { font-family: 'Roboto Slab', Georgia, serif; font-size: 24pt; font-weight: 700; letter-spacing: -.01em; color: #0A4D44; line-height: 1.15; margin: 14mm 0 6mm; }
+    .rp-capa-doc-subtitle { font-size: 13pt; font-weight: 400; color: #4A4A4A; margin: 0 0 18mm; font-family: 'Source Sans 3', sans-serif; }
+    .rp-capa-doc-fields { border-top: 1px solid #D9D9D9; padding-top: 8mm; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6mm 12mm; margin-bottom: 14mm; font-family: 'Source Sans 3', sans-serif; }
+    .rp-capa-doc-field-label { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: .15em; text-transform: uppercase; color: #6B7280; margin-bottom: 1mm; display: block; }
+    .rp-capa-doc-field-value { font-size: 11pt; color: #1A1A1A; font-weight: 500; }
+    .rp-capa-doc-obs { border-left: 3px solid #1F8B7C; padding: 4mm 6mm; background: #F5F5F5; margin-bottom: 14mm; font-family: 'Source Sans 3', sans-serif; font-size: 10.5pt; color: #4A4A4A; line-height: 1.55; }
+    .rp-capa-doc-obs-label { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: .15em; text-transform: uppercase; color: #6B7280; margin-bottom: 2mm; display: block; }
+    .rp-capa-doc-toc { border-top: 1px solid #D9D9D9; padding-top: 6mm; font-family: 'Source Sans 3', sans-serif; }
+    .rp-capa-doc-toc-title { font-family: 'Roboto Slab', Georgia, serif; font-size: 12pt; font-weight: 600; color: #0A4D44; margin-bottom: 5mm; }
+    .rp-capa-doc-toc-item { display: flex; align-items: baseline; gap: 4mm; padding: 2mm 0; border-bottom: 1px dotted #D9D9D9; font-size: 10.5pt; }
+    .rp-capa-doc-toc-num { font-family: 'JetBrains Mono', monospace; font-size: 9pt; color: #1F8B7C; font-weight: 600; min-width: 16mm; }
+    .rp-capa-doc-toc-name { flex: 1; color: #1A1A1A; }
+    .rp-capa-doc-toc-anexo { font-family: 'JetBrains Mono', monospace; font-size: 9pt; color: #6B7280; }
+    .rp-capa-doc-footer { margin-top: 18mm; padding-top: 6mm; border-top: 1px solid #D9D9D9; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; letter-spacing: .1em; color: #6B7280; text-transform: uppercase; }
+  `;
+
+  return [
+    '<!DOCTYPE html>',
+    '<html lang="pt-br">',
+    '<head>',
+    '  <meta charset="utf-8">',
+    '  <title>Relatório Consolidado — CAGE/SEFAZ-RS</title>',
+    '  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">',
+    '  <style>',
+    '    @page { size: A4; margin: 12mm; }',
+    '    html, body { margin: 0; padding: 0; background: #fff; font-family: \'Source Sans 3\', Arial, sans-serif; }',
+    '    .uni-section { display: block; }',
+    '    .uni-section + .uni-section { page-break-before: always; }',
+    '    iframe.uni-mod { display: block; width: 100%; border: 0; margin: 0; padding: 0; min-height: 400px; }',
+    capaStyles,
+    '    .uni-loading {',
+    '      position: fixed; inset: 0; background: rgba(255,255,255,0.95);',
+    '      display: flex; flex-direction: column; align-items: center; justify-content: center;',
+    '      font-family: Arial, sans-serif; font-size: 15px; color: #0A4D44; gap: 14px;',
+    '      z-index: 99999;',
+    '    }',
+    '    .uni-loading-spinner {',
+    '      width: 36px; height: 36px; border: 3px solid #D1F0EB; border-top-color: #1F8B7C;',
+    '      border-radius: 50%; animation: uni-spin 0.8s linear infinite;',
+    '    }',
+    '    @keyframes uni-spin { to { transform: rotate(360deg); } }',
+    '    .uni-loading-hint { font-size: 12px; color: #6B8585; max-width: 480px; text-align: center; }',
+    '    @media print {',
+    '      .uni-loading { display: none !important; }',
+    '    }',
+    '  </style>',
+    '</head>',
+    '<body>',
+    '  <div class="uni-loading" id="uniLoading">',
+    '    <div class="uni-loading-spinner"></div>',
+    '    <div class="uni-loading-msg">Preparando módulos para impressão...</div>',
+    '    <div class="uni-loading-hint">A janela de impressão aparecerá automaticamente. Escolha "Salvar como PDF" no destino para gerar o arquivo único.</div>',
+    '  </div>',
+    capaSection,
+    moduloSections,
+    '  <script>' + popupScript + '<\/script>',
+    '</body>',
+    '</html>'
+  ].join('\n');
 }
 
 /* ══════════════════════════════════════
