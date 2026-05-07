@@ -1481,29 +1481,37 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
     </thead>
     <tbody>
       <tr class="cat-r"><td colspan="5">CAT A · CAPEX — Investimentos Anualizados&nbsp;&nbsp;<span>(valor total ÷ vida útil — NBC TSP/MCASP)</span></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A1</td><td>Obras e instalações — adequação de infraestrutura</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal Transp. / FPE"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A1</td><td>Obras e instalações — adequação de infraestrutura</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal Transp. / FPE"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A2</td><td>Equipamentos e material permanente</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / inventário"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A3</td><td>Sistemas de TI e licenças de software</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / CAGE Gerencial"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A3</td><td>Sistemas de TI e licenças de software específicos do serviço</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / CAGE Gerencial"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A4</td><td>Veículos (frota alocada)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / inventário"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">A5</td><td>Custos tributários (CAPEX)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / contábil"></td><td class="r"><input type="number" class="ca" placeholder="0" min="0" step="100"></td></tr>
       <tr class="sub"><td colspan="4">Subtotal CAT A</td><td class="r" id="sa">R$ 0</td></tr>
 
       <tr class="cat-r r"><td colspan="5">CAT B · OPEX — Operação e Manutenção</td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B1</td><td>Remuneração bruta de servidores (custo total do empregador)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / FPE"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B2</td><td>Contribuição patronal RPPS / RGPS / IPE Prev / RS-Prev</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Folha / RHE"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B3</td><td>Contratos terceirizados de serviços (limpeza, segurança, FM)</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B4</td><td>Contratos de manutenção predial e de equipamentos</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B5</td><td>Energia elétrica e água / esgoto (rateio pelo uso)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal Transparência"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B6</td><td>Contratos de locação de imóveis utilizados pelo serviço</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B7</td><td>Fornecimento de bens / insumos recorrentes (almoxarifado)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Almoxarifado"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B8</td><td>Rateio de despesas operacionais de entidade vinculada</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / CAGE Gerencial"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B9</td><td>Outros custos de pessoal (EPIs, uniformes, vale-alimentação)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Folha / almoxarifado"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B3</td><td>Diárias e passagens</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / FPE"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B4</td><td>Capacitação e treinamento</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / FPE"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B5</td><td>Contratos terceirizados de limpeza e conservação</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B6</td><td>Contratos de manutenção de equipamentos e instalações</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B7</td><td>Energia elétrica e água/esgoto (rateio pelo uso)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Portal Transparência"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B8</td><td>Contratos de locação de imóveis</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B9</td><td>Rateio de despesas operacionais da entidade vinculada</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / CAGE Gerencial"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B10</td><td>Transferências do Estado para entidade vinculada (repasses)</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / CAGE Gerencial"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B11</td><td>Fornecimento de bens / insumos recorrentes (almoxarifado)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Almoxarifado"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B12</td><td>Outros custos de pessoal (EPIs, uniformes, vale-alimentação)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="Folha / almoxarifado"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">B13</td><td>Custos tributários (OPEX)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="FPE / contábil"></td><td class="r"><input type="number" class="cb" placeholder="0" min="0" step="100"></td></tr>
       <tr class="sub r"><td colspan="4">Subtotal CAT B</td><td class="r" id="sb">R$ 0</td></tr>
 
       <tr class="cat-r a"><td colspan="5">CAT C · Gestão e Fiscalização Contratual</td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C1</td><td>Pessoal interno — fiscalização contratual (rateio)</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C1</td><td>Pessoal interno alocado à fiscalização contratual (rateio)</td><td><select class="msel"><option>Adm. Direta</option><option selected>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C2</td><td>Fiscalização técnica terceirizada (assessoria/consultoria)</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contrato fiscalização"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C3</td><td>Custos jurídicos — gestão contratual (rateio)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="PGE / estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C4</td><td>Custos com processos licitatórios recorrentes</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C3</td><td>Custos jurídicos (rateio)</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="PGE / estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C4</td><td>Custo de sobrecarga do quadro funcional na gestão operacional</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="RHE / estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C5</td><td>Custos de judicialização e contencioso administrativo</td><td><select class="msel"><option selected>Adm. Direta</option><option>Adm. Indireta</option><option>Contrato Licitado</option></select></td><td><input type="text" placeholder="PGE / contábil"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C6</td><td>Custos com processo licitatório</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Estimativa"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">C7</td><td>Reajustes / reequilíbrios e aditivos aplicados no período</td><td><select class="msel"><option>Adm. Direta</option><option>Adm. Indireta</option><option selected>Contrato Licitado</option></select></td><td><input type="text" placeholder="Contratos vigentes"></td><td class="r"><input type="number" class="cc" placeholder="0" min="0" step="100"></td></tr>
       <tr class="sub a"><td colspan="4">Subtotal CAT C</td><td class="r" id="sc">R$ 0</td></tr>
 
       <tr class="cat-r"><td colspan="5" style="color:var(--cage-mid);background:var(--cage-light)">CAT D · Receitas — Deduções do Custo Público&nbsp;&nbsp;<span>(reduz o custo líquido)</span></td></tr>
@@ -1514,6 +1522,34 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
       <tr class="ttl"><td colspan="4"><strong>PSC BRUTO — CUSTO PÚBLICO ANUAL TOTAL</strong><br><span style="font-size:10px;font-family:var(--mono);opacity:.65;font-weight:400">A + B + C − D</span></td><td class="r" id="ttl-psc">R$ 0</td></tr>
     </tbody>
   </table>
+  </div>
+
+  <!-- 2.2 Consolidação — adicionado na Fase 2 (sincronização com aba Md 2 - 2.2 Consolidação do Excel) -->
+  <div class="sh" style="margin-top:30px"><span class="sh-accent"></span><span class="sh-text">2.2 — Consolidação do PSC Bruto</span></div>
+  <div class="g2">
+    <div class="ct-wrap">
+      <table class="ct">
+        <thead><tr><th>Categoria</th><th class="r">Subtotal anual (R$)</th><th class="r">% do PSC Bruto</th></tr></thead>
+        <tbody>
+          <tr><td>CAT A · CAPEX anualizado</td><td class="r" id="cs-a-v">R$ 0</td><td class="r" id="cs-a-p">—</td></tr>
+          <tr><td>CAT B · OPEX</td><td class="r" id="cs-b-v">R$ 0</td><td class="r" id="cs-b-p">—</td></tr>
+          <tr><td>CAT C · Gestão e fiscalização</td><td class="r" id="cs-c-v">R$ 0</td><td class="r" id="cs-c-p">—</td></tr>
+          <tr><td>CAT D · (−) Receitas / deduções</td><td class="r" id="cs-d-v">R$ 0</td><td class="r" id="cs-d-p">—</td></tr>
+          <tr class="ttl"><td><strong>PSC Bruto</strong></td><td class="r" id="cs-tot-v">R$ 0</td><td class="r">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ct-wrap">
+      <table class="ct">
+        <thead><tr><th>Modalidade de execução</th><th class="r">Subtotal anual (R$)</th><th class="r">% do PSC Bruto</th></tr></thead>
+        <tbody>
+          <tr><td>Administração Direta</td><td class="r" id="cm-direta-v">R$ 0</td><td class="r" id="cm-direta-p">—</td></tr>
+          <tr><td>Administração Indireta</td><td class="r" id="cm-indireta-v">R$ 0</td><td class="r" id="cm-indireta-p">—</td></tr>
+          <tr><td>Contrato Licitado</td><td class="r" id="cm-licitado-v">R$ 0</td><td class="r" id="cm-licitado-p">—</td></tr>
+          <tr class="ttl"><td><strong>Total (sem deduções)</strong></td><td class="r" id="cm-tot-v">R$ 0</td><td class="r">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="pbox" style="margin-top:22px">
@@ -1571,14 +1607,21 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
   <table class="ct">
     <thead><tr><th>Cód.</th><th>Dimensão</th><th>Descrição da falha / limitação</th><th>Evidência</th><th>Melhoria PPP (M4)</th></tr></thead>
     <tbody>
+      <tr class="cat-r"><td colspan="5">OPERACIONAL</td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X1</td><td>Disponibilidade e continuidade</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="OS/relatórios"></td><td><input type="text" placeholder="M4 ref."></td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X2</td><td>Velocidade de resposta corretiva</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Registros"></td><td><input type="text" placeholder="M4 ref."></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X3</td><td>Capacidade de reposição de ativos</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Inventário"></td><td><input type="text" placeholder="M4 ref."></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X4</td><td>Planejamento da manutenção preventiva</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Plano"></td><td><input type="text" placeholder="M4 ref."></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X5</td><td>Passivo de manutenção acumulado</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Laudos"></td><td><input type="text" placeholder="M4 ref."></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X6</td><td>Qualidade da manutenção no ciclo de vida</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Histórico"></td><td><input type="text" placeholder="M4 ref."></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X7</td><td>Defasagem tecnológica dos equipamentos</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Inventário"></td><td><input type="text" placeholder="M4 ref."></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X8</td><td>Responsabilidade contratual e prestação de contas</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Processos"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X3</td><td>Capacidade de reposição de ativos</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Inventário / laudos"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr class="cat-r r"><td colspan="5">MANUTENÇÃO</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X4</td><td>Planejamento da manutenção preventiva</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Plano de manutenção / execução"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X5</td><td>Passivo de manutenção acumulado</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Laudo técnico / vistoria"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X6</td><td>Qualidade da manutenção ao longo do ciclo de vida</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Histórico de deterioração"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr class="cat-r a"><td colspan="5">TECNOLOGIA E INOVAÇÃO</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X7</td><td>Defasagem tecnológica dos equipamentos</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Inventário / comparativo"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X8</td><td>Capacidade de registro e monitoramento dos dados</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Sistemas de TI / relatórios"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr class="cat-r"><td colspan="5">GOVERNANÇA E GESTÃO</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X9</td><td>Integração entre projeto, obra e execução</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Relatórios"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X10</td><td>Responsabilidade contratual e prestação de contas</td><td><input type="text" placeholder="Descrever..."></td><td><input type="text" placeholder="Processos administrativos / auditorias"></td><td><input type="text" placeholder="M4 ref."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px;color:var(--ink4)">X11</td><td>Outras limitações identificadas</td><td><input type="text" placeholder="Especificar..."></td><td><input type="text" placeholder="Especificar"></td><td><input type="text" placeholder="M4 ref."></td></tr>
     </tbody>
   </table>
   </div>
@@ -1689,9 +1732,14 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
       <div class="vunit">VPL PPP (R$)</div>
     </div>
     <div class="vbox">
+      <div class="vbox-l">Diferencial absoluto (PSC Bruto − PPP)</div>
+      <div class="vnum r" id="v-dif-abs">—</div>
+      <div class="vunit">VPL — Negativo: PPP mais cara</div>
+    </div>
+    <div class="vbox">
       <div class="vbox-l">Diferencial relativo (% sobre custo atual)</div>
       <div class="vnum r" id="v-dif">—</div>
-      <div class="vunit">% sobre VPL PSC Bruto</div>
+      <div class="vunit">% sobre VPL PSC Bruto · Negativo: PPP mais cara</div>
     </div>
     <div class="vresult">
       <div>
@@ -1739,9 +1787,10 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
   <table class="ct">
     <thead><tr><th>Módulo</th><th>Dimensão</th><th>Resultado resumido</th></tr></thead>
     <tbody>
-      <tr><td style="font-family:var(--mono);font-size:10px">Md 2</td><td>Custo público atual</td><td id="syn-m2">—</td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px">Md 3</td><td>Padrão atual</td><td><input type="text" id="syn-m3" placeholder="Síntese das principais falhas e limitações..."></td></tr>
-      <tr><td style="font-family:var(--mono);font-size:10px">Md 4–5</td><td>Melhorias qualitativas</td><td id="syn-m45">—</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 2</td><td>Custo público atual (PSC Bruto)</td><td id="syn-m2">—</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 3</td><td>Padrão atual de prestação</td><td><input type="text" id="syn-m3" placeholder="Síntese das principais falhas e limitações..."></td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 4</td><td>Conjunto de melhorias qualitativas</td><td id="syn-m4">—</td></tr>
+      <tr><td style="font-family:var(--mono);font-size:10px">Md 5</td><td>Força do argumento qualitativo</td><td id="syn-m5">—</td></tr>
       <tr><td style="font-family:var(--mono);font-size:10px">Md 6</td><td>Diferencial preço × qualidade</td><td id="syn-m6">—</td></tr>
     </tbody>
   </table>
@@ -1899,8 +1948,38 @@ function recalcPSC() {
   document.getElementById('lv-b').textContent = fR(b);
   document.getElementById('lv-c').textContent = fR(c);
   document.getElementById('lv-tot').textContent = fR(tot);
+
+  // ── 2.2 Consolidação — Resumo por categoria (% do PSC Bruto) ──
+  const pct = (v) => tot>0 ? (v/tot*100).toFixed(1).replace('.',',')+'%' : '—';
+  const setIf = (id, txt) => { const el=document.getElementById(id); if (el) el.textContent = txt; };
+  setIf('cs-a-v', fR(a));   setIf('cs-a-p', pct(a));
+  setIf('cs-b-v', fR(b));   setIf('cs-b-p', pct(b));
+  setIf('cs-c-v', fR(c));   setIf('cs-c-p', pct(c));
+  setIf('cs-d-v', d>0 ? '−'+fR(d) : fR(0)); setIf('cs-d-p', tot>0 ? '−'+(d/tot*100).toFixed(1).replace('.',',')+'%' : '—');
+  setIf('cs-tot-v', fR(tot));
+
+  // ── 2.2 Consolidação — Subtotais por modalidade (SUMIF) ──
+  // Itera pelas linhas das categorias A/B/C (deduções são tratadas separadamente)
+  const modalSubtotal = { 'Adm. Direta': 0, 'Adm. Indireta': 0, 'Contrato Licitado': 0 };
+  document.querySelectorAll('.ca, .cb, .cc').forEach(input => {
+    const tr = input.closest('tr');
+    if (!tr) return;
+    const sel = tr.querySelector('select.msel');
+    const valor = parseFloat(input.value) || 0;
+    if (!sel || !valor) return;
+    const mod = sel.value;
+    if (modalSubtotal[mod] !== undefined) modalSubtotal[mod] += valor;
+  });
+  const totSemDed = modalSubtotal['Adm. Direta'] + modalSubtotal['Adm. Indireta'] + modalSubtotal['Contrato Licitado'];
+  const pctMod = (v) => totSemDed>0 ? (v/totSemDed*100).toFixed(1).replace('.',',')+'%' : '—';
+  setIf('cm-direta-v',   fR(modalSubtotal['Adm. Direta']));   setIf('cm-direta-p',   pctMod(modalSubtotal['Adm. Direta']));
+  setIf('cm-indireta-v', fR(modalSubtotal['Adm. Indireta'])); setIf('cm-indireta-p', pctMod(modalSubtotal['Adm. Indireta']));
+  setIf('cm-licitado-v', fR(modalSubtotal['Contrato Licitado'])); setIf('cm-licitado-p', pctMod(modalSubtotal['Contrato Licitado']));
+  setIf('cm-tot-v', fR(totSemDed));
 }
 document.querySelectorAll('.ca,.cb,.cc,.cd').forEach(e=>e.addEventListener('input',recalcPSC));
+// Mudança de modalidade também precisa recalcular o SUMIF
+document.querySelectorAll('select.msel').forEach(s=>s.addEventListener('change',recalcPSC));
 
 function syncPrint() {
   const v = id => document.getElementById(id)?.value || '___';
@@ -2020,13 +2099,16 @@ function buildM5() {
     return `<tr><td style="font-family:var(--mono);font-size:10px">${m.code}</td><td>${m.nome||'(sem nome)'}</td><td>${r}</td><td>${e}</td><td>${b}</td><td style="font-size:12px">${j}</td></tr>`;
   }).join('');
   c.innerHTML=`<div class="mtbl-wrap"><table class="mtbl"><thead><tr><th>Cód.</th><th>Melhoria qualitativa</th><th>Relevância</th><th>Evidência</th><th>Classificação</th><th>Justifica pagar mais?</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-  const score = n>0 ? (ess/n)*.5+(rm/n)*.5 : 0;
-  let forca, fc;
-  if(score>=.55){forca='FORTE';fc='var(--cage-mid)'}
-  else if(score>=.3){forca='MODERADO';fc='var(--rs-ambar-dk)'}
-  else{forca='FRACO — revisar melhorias';fc='var(--rs-vermelho)'}
+  // Força do argumento — regra canônica da planilha (Md 5, célula D34):
+  //   FORTE   se ≥3 essenciais E ≥3 com evidência robusta/moderada
+  //   FRACO   se ≤1 essencial
+  //   MODERADO caso contrário
+  let forca, fc, score;
+  if(ess>=3 && rm>=3){forca='FORTE';fc='var(--cage-mid)';score=1}
+  else if(ess<=1){forca='FRACO — revisar melhorias';fc='var(--rs-vermelho)';score=.15}
+  else{forca='MODERADO';fc='var(--rs-ambar-dk)';score=.55}
   const sv=document.getElementById('st-val');
-  sv.textContent=forca; sv.className='stv '+(score>=.55?'forte':score>=.3?'mod':'fraco');
+  sv.textContent=forca; sv.className='stv '+(forca.startsWith('FORTE')?'forte':forca.startsWith('MODERADO')?'mod':'fraco');
   document.getElementById('st-fill').style.cssText=`width:${score*100}%;background:${fc}`;
   document.getElementById('sn-tot').textContent=n;
   document.getElementById('sn-ess').textContent=ess;
@@ -2044,8 +2126,11 @@ function buildM6() {
   document.getElementById('v-psc-adj').textContent=va?fR(va):'—';
   document.getElementById('v-ppp').textContent=vp?fR(vp):'—';
   if(vb&&vp){
-    const d=(vp-vb)/vb*100;
-    document.getElementById('v-dif').textContent=(d>0?'+':'')+d.toFixed(1).replace('.',',')+' %';
+    // Convenção da planilha canônica: Diferencial = PSC Bruto − PPP (positivo: PPP mais barata)
+    const dAbs=vb-vp;
+    const dRel=(vb-vp)/vb*100;
+    document.getElementById('v-dif-abs').textContent=(dAbs>0?'+':'')+fR(dAbs);
+    document.getElementById('v-dif').textContent=(dRel>0?'+':'')+dRel.toFixed(1).replace('.',',')+' %';
   }
   if(va&&vp){
     const vfm=va-vp;
@@ -2082,8 +2167,11 @@ function buildM7() {
   const ess=S.mels.filter(m=>m.classif==='essencial').length;
   const rm=S.mels.filter(m=>m.ev==='robusta'||m.ev==='moderada').length;
   const sj=S.mels.filter(m=>m.just==='sim'||m.just==='parcial').length;
-  const score=n>0?(ess/n)*.5+(rm/n)*.5:0;
-  const forca=score>=.55?'FORTE':score>=.3?'MODERADO':'FRACO';
+  // Regra canônica da planilha (Md 5, célula D34) — limiares absolutos
+  let forca, score;
+  if(ess>=3 && rm>=3){forca='FORTE';score=1}
+  else if(ess<=1){forca='FRACO';score=.15}
+  else{forca='MODERADO';score=.55}
   const pscAnual=sum('ca')+sum('cb')+sum('cc')-sum('cd');
 
   let txt;
@@ -2102,7 +2190,7 @@ function buildM7() {
 
   document.getElementById('v7-txt').innerHTML=txt;
 
-  const fc=score>=.55?'p':score>=.3?'w':'n';
+  const fc=forca==='FORTE'?'p':forca==='MODERADO'?'w':'n';
   const vfmCls=vfm===null?'':vfm>0?'p':'n';
   document.getElementById('v7-dims').innerHTML=`
     <div class="cdim ${vfmCls}"><div class="cdim-l">VfM Quantitativo</div><div class="cdim-v">${vfm!==null?(fR(vfm)+(vfm>0?' — positivo':' — negativo')):'—'}</div></div>
@@ -2111,7 +2199,11 @@ function buildM7() {
     <div class="cdim ${sj>n*.5&&n>0?'p':'w'}"><div class="cdim-l">Justificam pagar mais</div><div class="cdim-v">${n>0?sj+' de '+n:'—'}</div></div>`;
 
   document.getElementById('syn-m2').textContent = pscAnual ? 'PSC Bruto anual: '+fR(pscAnual)+(vb?' | VPL: '+fR(vb):'') : '—';
-  document.getElementById('syn-m45').textContent = n>0 ? n+' melhoria(s) — '+ess+' Essencial(is), '+S.mels.filter(m=>m.classif==='relevante').length+' Relevante(s), força: '+forca : '—';
+  const rel = S.mels.filter(m=>m.classif==='relevante').length;
+  const m4El = document.getElementById('syn-m4');
+  if (m4El) m4El.textContent = n>0 ? n+' melhoria(s) — '+ess+' Essencial(is), '+rel+' Relevante(s)' : '—';
+  const m5El = document.getElementById('syn-m5');
+  if (m5El) m5El.textContent = n>0 ? 'Força do argumento: '+forca+(sj>0?' · '+sj+' justifica(m) pagar mais':'') : '—';
   document.getElementById('syn-m6').textContent = vfm!==null ? 'VfM = '+fR(vfm)+(vfm>0?' (positivo)':' (negativo)') : '—';
 
   const rq = document.getElementById('r-qual');
