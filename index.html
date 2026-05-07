@@ -1797,25 +1797,25 @@ body {
     <span class="tab-num">01</span>
     <span>PSC — Custo Público</span>
   </button>
-  <button class="mod-tab" data-mod="2" onclick="switchModule(2)" role="tab">
+  <button class="mod-tab" data-mod="2" onclick="switchModule(2)" role="tab" aria-selected="false">
     <!-- Escudo — Riscos -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
     <span class="tab-num">02</span>
     <span>Matriz de Riscos PPP</span>
   </button>
-  <button class="mod-tab" data-mod="3" onclick="switchModule(3)" role="tab">
+  <button class="mod-tab" data-mod="3" onclick="switchModule(3)" role="tab" aria-selected="false">
     <!-- Régua/Construção — Precificação de Obras -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
     <span class="tab-num">03</span>
     <span>Precificação de Obras</span>
   </button>
-  <button class="mod-tab" data-mod="4" onclick="switchModule(4)" role="tab">
+  <button class="mod-tab" data-mod="4" onclick="switchModule(4)" role="tab" aria-selected="false">
     <!-- Lupa/Lista — Checklist de Custos -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><polyline points="8 9 10 11 14 7"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="14" y2="18"/></svg>
     <span class="tab-num">04</span>
     <span>Checklist de Custos</span>
   </button>
-  <button class="mod-tab" data-mod="5" onclick="switchModule(5)" role="tab">
+  <button class="mod-tab" data-mod="5" onclick="switchModule(5)" role="tab" aria-selected="false">
     <!-- Balança — Evidência Comparativa / VfM -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M5 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M19 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M8 21h8"/></svg>
     <span class="tab-num">05</span>
@@ -1825,7 +1825,7 @@ body {
   <!-- Separador visual antes da aba de relatórios -->
   <div class="mod-tab-spacer" aria-hidden="true"></div>
 
-  <button class="mod-tab mod-tab-report" data-mod="6" onclick="switchModule(6)" role="tab">
+  <button class="mod-tab mod-tab-report" data-mod="6" onclick="switchModule(6)" role="tab" aria-selected="false">
     <!-- Documento — Relatórios consolidados -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
     <span class="tab-num">06</span>
@@ -1941,7 +1941,8 @@ body {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1"
-    title="PSC — Custo Público" onload="onFrameLoad(1)"></iframe>
+    title="PSC — Custo Público" role="tabpanel" aria-label="Módulo 1 — PSC Custo Público"
+    onload="onFrameLoad(1)" onerror="onFrameError(1)"></iframe>
 
   <!-- Módulo 2 — Matriz de Riscos -->
   <div class="loading-overlay hidden" id="load2">
@@ -1950,7 +1951,8 @@ body {
   </div>
   <iframe class="mod-frame" id="frame2" src=""
     data-src="m2-matriz-riscos.html?embed=1"
-    title="Matriz de Riscos PPP" onload="onFrameLoad(2)"></iframe>
+    title="Matriz de Riscos PPP" role="tabpanel" aria-label="Módulo 2 — Matriz de Riscos PPP"
+    onload="onFrameLoad(2)" onerror="onFrameError(2)"></iframe>
 
   <!-- Módulo 3 — Precificação de Obras -->
   <div class="loading-overlay hidden" id="load3">
@@ -1959,7 +1961,8 @@ body {
   </div>
   <iframe class="mod-frame" id="frame3" src=""
     data-src="m3-precificacao.html?embed=1"
-    title="Precificação de Obras" onload="onFrameLoad(3)"></iframe>
+    title="Precificação de Obras" role="tabpanel" aria-label="Módulo 3 — Precificação de Obras"
+    onload="onFrameLoad(3)" onerror="onFrameError(3)"></iframe>
 
   <!-- Módulo 4 — Checklist de Identificação de Custos em PPPs -->
   <div class="loading-overlay hidden" id="load4">
@@ -1968,7 +1971,8 @@ body {
   </div>
   <iframe class="mod-frame" id="frame4" src=""
     data-src="m4-checklist-custos.html?embed=1"
-    title="Checklist de Custos PPP" onload="onFrameLoad(4)"></iframe>
+    title="Checklist de Custos PPP" role="tabpanel" aria-label="Módulo 4 — Checklist de Custos PPP"
+    onload="onFrameLoad(4)" onerror="onFrameError(4)"></iframe>
 
   <!-- Módulo 5 — Evidência Comparativa / VfM -->
   <div class="loading-overlay hidden" id="load5">
@@ -1977,7 +1981,8 @@ body {
   </div>
   <iframe class="mod-frame" id="frame5" src=""
     data-src="m5-vfm.html?embed=1"
-    title="Evidência Comparativa" onload="onFrameLoad(5)"></iframe>
+    title="Evidência Comparativa" role="tabpanel" aria-label="Módulo 5 — Evidência Comparativa (VfM)"
+    onload="onFrameLoad(5)" onerror="onFrameError(5)"></iframe>
 
   <!-- ════════════ PAINEL DE RELATÓRIOS (Módulo 6) ════════════ -->
   <div class="report-panel" id="reportPanel" role="tabpanel" aria-label="Relatórios consolidados">
@@ -2131,7 +2136,7 @@ body {
   </span>
   <span class="sb-divider"></span>
   <span class="sb-item" id="sbStatus">● Pronto</span>
-  <span class="sb-right">CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.3</span>
+  <span class="sb-right">CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.5</span>
 </div>
 
 <script>
@@ -2231,7 +2236,11 @@ function switchModule(num) {
   }
 
   // Desativa tab e iframe/painel anterior
-  document.querySelector(`.mod-tab[data-mod="${activeMod}"]`).classList.remove('active');
+  const prevTab = document.querySelector(`.mod-tab[data-mod="${activeMod}"]`);
+  if (prevTab) {
+    prevTab.classList.remove('active');
+    prevTab.setAttribute('aria-selected', 'false');
+  }
   if (activeMod === 0) {
     document.getElementById('homePanel').classList.remove('active');
   } else if (activeMod === MOD_REPORT) {
@@ -2241,7 +2250,11 @@ function switchModule(num) {
   }
 
   // Ativa novo módulo
-  document.querySelector(`.mod-tab[data-mod="${num}"]`).classList.add('active');
+  const newTab = document.querySelector(`.mod-tab[data-mod="${num}"]`);
+  if (newTab) {
+    newTab.classList.add('active');
+    newTab.setAttribute('aria-selected', 'true');
+  }
 
   if (num === 0) {
     // Hub inicial — atualiza dados antes de exibir
@@ -2501,6 +2514,21 @@ window.addEventListener('message', (e) => {
 });
 
 /* ── Ocultar loading quando iframe carrega ── */
+function onFrameError(num) {
+  const overlay = document.getElementById(`load${num}`);
+  if (overlay) {
+    overlay.classList.remove('hidden');
+    const txt = overlay.querySelector('.loading-text');
+    if (txt) {
+      txt.innerHTML = `<strong>Falha ao carregar o Módulo ${num}.</strong><br>Verifique se o arquivo do módulo existe na mesma pasta.`;
+      txt.style.color = '#B91C1C';
+    }
+    const sp = overlay.querySelector('.loading-spinner');
+    if (sp) sp.style.display = 'none';
+  }
+  console.error('[shell] Falha ao carregar frame'+num);
+}
+
 function onFrameLoad(num) {
   const overlay = document.getElementById(`load${num}`);
   overlay.classList.add('hidden');
@@ -2510,6 +2538,14 @@ function onFrameLoad(num) {
   try {
     injectBridge(frame.contentWindow, num);
   } catch(e) {}
+
+  // Detecta erro de carregamento (404, rede). O evento `error` em iframes
+  // é raro disparar em mesma origem; checamos via contentDocument após load.
+  try {
+    const cd = frame.contentDocument;
+    const titleOk = cd && cd.title && cd.title !== '' && cd.title !== 'about:blank';
+    if (!titleOk) onFrameError(num);
+  } catch(e) { onFrameError(num); }
 
   // Sincronização proativa: envia o projeto atual para o iframe assim que carregar.
   // Cobre o caso em que o módulo carrega depois que o usuário já preencheu na Home.
@@ -2529,7 +2565,20 @@ function onFrameLoad(num) {
 ══════════════════════════════════════════════════════════ */
 
 // Estado: quais módulos estão selecionados para o relatório consolidado
-let modulosSelecionados = { 1: true, 2: true, 3: true, 4: true, 5: true };
+let modulosSelecionados = (function() {
+  // Persiste seleção dos módulos no painel de Relatórios entre sessões
+  try {
+    const raw = localStorage.getItem('gtsefaz_modulos_relatorio');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        // Garante que todas as chaves esperadas existem (default true)
+        return { 1: true, 2: true, 3: true, 4: true, 5: true, ...parsed };
+      }
+    }
+  } catch(e) {}
+  return { 1: true, 2: true, 3: true, 4: true, 5: true };
+})();
 
 // Estado do wizard de exportação
 let wizardState = {
@@ -2890,6 +2939,8 @@ function toggleModuloRelatorio(n) {
   modulosSelecionados[n] = !modulosSelecionados[n];
   const item = document.querySelector(`.rp-mod-item[data-mod="${n}"]`);
   if (item) item.classList.toggle('checked', modulosSelecionados[n]);
+  // Persiste seleção
+  try { localStorage.setItem('gtsefaz_modulos_relatorio', JSON.stringify(modulosSelecionados)); } catch(e) {}
   atualizarSummary();
 }
 
@@ -2982,7 +3033,24 @@ async function iniciarExportacaoUnificada() {
       }
     }
 
-    // 2. Captura snapshot HTML de cada iframe (com form values materializados)
+    // 2. Pré-renderiza panels que dependem de JS (M5: cards de Melhoria,
+    //    matriz 5.1, VfM 6, conclusão 7 só são populados após goTo).
+    //    Forçamos uma passagem por cada sub-panel do M5 para garantir
+    //    que o DOM esteja completo antes do snapshot.
+    if (selecionados.includes(5)) {
+      const f5 = document.getElementById('frame5');
+      try {
+        const w5 = f5 && f5.contentWindow;
+        if (w5 && typeof w5.goTo === 'function') {
+          for (let i = 0; i <= 6; i++) {
+            try { w5.goTo(i); } catch(e) {}
+            await new Promise(r => setTimeout(r, 100));
+          }
+        }
+      } catch(e) { /* same-origin esperado */ }
+    }
+
+    // 3. Captura snapshot HTML de cada iframe (com form values materializados)
     const snapshots = selecionados.map(n => {
       const f = document.getElementById(`frame${n}`);
       return {
@@ -3329,10 +3397,18 @@ function avancarWizard() {
 
 function finalizarExportacao() {
   document.getElementById('rpWizTitle').textContent = 'Exportação concluída';
+  // Constrói o hint qpdf dinamicamente, refletindo apenas os módulos
+  // efetivamente selecionados (antes era hardcoded 01-05 mesmo se o
+  // usuário tivesse escolhido subset).
+  const modulosNoWizard = wizardState.steps
+    .filter(s => s.kind === 'modulo')
+    .map(s => `${String(s.mod).padStart(2,'0')}-*.pdf`)
+    .join(' ');
+  const qpdfHint = `qpdf --empty --pages 00-capa.pdf ${modulosNoWizard} -- relatorio-consolidado.pdf`;
   document.getElementById('rpWizDesc').innerHTML =
     `<strong>Pronto.</strong> Você gerou ${wizardState.steps.length} PDFs (1 capa + ${wizardState.steps.length - 1} ${wizardState.steps.length - 1 === 1 ? 'módulo' : 'módulos'}).<br><br>` +
     `Combine-os na ordem usando ferramentas como Adobe Acrobat, PDFsam ou qpdf:<br>` +
-    `<code style="font-family:var(--mono);font-size:11px;background:var(--cinza-header);padding:2px 6px;border-radius:3px">qpdf --empty --pages 00-capa.pdf 01-*.pdf 02-*.pdf 03-*.pdf 04-*.pdf 05-*.pdf -- relatorio-consolidado.pdf</code>`;
+    `<code style="font-family:var(--mono);font-size:11px;background:var(--cinza-header);padding:2px 6px;border-radius:3px">${qpdfHint}</code>`;
 
   document.getElementById('rpWizProgress').style.width = '100%';
   // Marca todas como done
@@ -3481,7 +3557,7 @@ function renderizarCapaImprimivel() {
       </div>
 
       <div class="rp-capa-doc-footer">
-        <span>CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.3</span>
+        <span>CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.5</span>
         <span>Documento gerado em ${new Date().toLocaleDateString('pt-BR')}</span>
       </div>
     </div>
