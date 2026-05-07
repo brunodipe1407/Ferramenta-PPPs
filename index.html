@@ -719,6 +719,60 @@ body {
   box-shadow: none;
 }
 .rp-btn-export svg { width: 16px; height: 16px; }
+.rp-summary-line { padding: 2px 0; }
+.rp-summary-proj { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--rule); font-size: 12px; }
+
+.rp-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: stretch;
+}
+.rp-btn-export-primary { background: var(--cage-navy); }
+.rp-btn-export-primary:hover { background: var(--cage-blue); }
+.rp-btn-export-secondary {
+  background: #fff;
+  color: var(--cage-navy);
+  border: 1.5px solid var(--cage-mid);
+  box-shadow: none;
+}
+.rp-btn-export-secondary:hover {
+  background: var(--cage-light);
+  color: var(--cage-navy);
+  box-shadow: 0 2px 8px rgba(31,139,124,.15);
+}
+
+/* ── PDF Unificado: estilos do popup de impressão ── */
+@media print {
+  body.printing-unified .app-header,
+  body.printing-unified .module-tabs,
+  body.printing-unified .subtab-bar,
+  body.printing-unified .status-bar,
+  body.printing-unified .rp-wizard,
+  body.printing-unified .home-panel,
+  body.printing-unified .report-panel {
+    display: none !important;
+  }
+  body.printing-unified .content-area {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body.printing-unified .mod-frame {
+    display: none !important;
+  }
+  body.printing-unified .mod-frame.unified-print {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    border: 0 !important;
+    page-break-before: always;
+    page-break-inside: auto;
+  }
+  body.printing-unified .rp-capa-print {
+    display: block !important;
+  }
+}
 
 /* Wizard modal */
 .rp-wizard {
@@ -1772,31 +1826,37 @@ body {
     <span>PSC — Custo Público</span>
   </button>
   <button class="mod-tab" data-mod="2" onclick="switchModule(2)" role="tab">
-    <!-- Balança — Evidência Comparativa / VfM -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M5 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M19 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M8 21h8"/></svg>
-    <span class="tab-num">02</span>
-    <span>Evidência Comparativa</span>
-  </button>
-  <button class="mod-tab" data-mod="3" onclick="switchModule(3)" role="tab">
     <!-- Escudo — Riscos -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-    <span class="tab-num">03</span>
+    <span class="tab-num">02</span>
     <span>Matriz de Riscos PPP</span>
   </button>
-  <button class="mod-tab" data-mod="4" onclick="switchModule(4)" role="tab">
+  <button class="mod-tab" data-mod="3" onclick="switchModule(3)" role="tab">
     <!-- Régua/Construção — Precificação de Obras -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>
-    <span class="tab-num">04</span>
+    <span class="tab-num">03</span>
     <span>Precificação de Obras</span>
+  </button>
+  <button class="mod-tab" data-mod="4" onclick="switchModule(4)" role="tab">
+    <!-- Lupa/Lista — Checklist de Custos -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><polyline points="8 9 10 11 14 7"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="14" y2="18"/></svg>
+    <span class="tab-num">04</span>
+    <span>Checklist de Custos</span>
+  </button>
+  <button class="mod-tab" data-mod="5" onclick="switchModule(5)" role="tab">
+    <!-- Balança — Evidência Comparativa / VfM -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M5 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M19 8l-3 7c0 1.7 1.3 3 3 3s3-1.3 3-3l-3-7z"/><path d="M8 21h8"/></svg>
+    <span class="tab-num">05</span>
+    <span>Evidência Comparativa</span>
   </button>
 
   <!-- Separador visual antes da aba de relatórios -->
   <div class="mod-tab-spacer" aria-hidden="true"></div>
 
-  <button class="mod-tab mod-tab-report" data-mod="5" onclick="switchModule(5)" role="tab">
+  <button class="mod-tab mod-tab-report" data-mod="6" onclick="switchModule(6)" role="tab">
     <!-- Documento — Relatórios consolidados -->
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-    <span class="tab-num">05</span>
+    <span class="tab-num">06</span>
     <span>Relatórios</span>
   </button>
 </nav>
@@ -1879,14 +1939,14 @@ body {
 
         <!-- CARD DE RELATÓRIOS (destaque) -->
         <section class="hp-report-card-wrap">
-          <div class="hp-report-card" onclick="switchModule(5)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')switchModule(5)">
+          <div class="hp-report-card" onclick="switchModule(6)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')switchModule(6)">
             <div class="hp-report-card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             </div>
             <div class="hp-report-card-info">
-              <span class="hp-report-card-eyebrow">05 · Relatórios</span>
+              <span class="hp-report-card-eyebrow">06 · Relatórios</span>
               <h3 class="hp-report-card-title">Geração de Relatório Consolidado</h3>
-              <p class="hp-report-card-desc">Reúna a capa institucional e os módulos selecionados em um relatório único para anexar ao parecer técnico.</p>
+              <p class="hp-report-card-desc">Reúna a capa institucional e os módulos selecionados em um único relatório (PDF unificado) ou em PDFs sequenciais, para anexar ao parecer técnico.</p>
             </div>
             <div class="hp-report-card-arrow">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -1903,7 +1963,7 @@ body {
     </div>
   </div>
 
-  <!-- Módulo 1 -->
+  <!-- Módulo 1 — PSC Custo Público -->
   <div class="loading-overlay hidden" id="load1">
     <div class="loading-spinner"></div>
     <div class="loading-text">Carregando módulo…</div>
@@ -1911,34 +1971,43 @@ body {
   <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1"
     title="PSC — Custo Público" onload="onFrameLoad(1)"></iframe>
 
-  <!-- Módulo 2 -->
+  <!-- Módulo 2 — Matriz de Riscos -->
   <div class="loading-overlay hidden" id="load2">
     <div class="loading-spinner"></div>
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame2" src=""
-    data-src="m2-vfm.html?embed=1"
-    title="Evidência Comparativa" onload="onFrameLoad(2)"></iframe>
+    data-src="m2-matriz-riscos.html?embed=1"
+    title="Matriz de Riscos PPP" onload="onFrameLoad(2)"></iframe>
 
-  <!-- Módulo 3 -->
+  <!-- Módulo 3 — Precificação de Obras -->
   <div class="loading-overlay hidden" id="load3">
     <div class="loading-spinner"></div>
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame3" src=""
-    data-src="m3-matriz-riscos.html?embed=1"
-    title="Matriz de Riscos PPP" onload="onFrameLoad(3)"></iframe>
+    data-src="m3-precificacao.html?embed=1"
+    title="Precificação de Obras" onload="onFrameLoad(3)"></iframe>
 
-  <!-- Módulo 4 -->
+  <!-- Módulo 4 — Checklist de Identificação de Custos em PPPs -->
   <div class="loading-overlay hidden" id="load4">
     <div class="loading-spinner"></div>
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame4" src=""
-    data-src="m4-precificacao.html?embed=1"
-    title="Precificação de Obras" onload="onFrameLoad(4)"></iframe>
+    data-src="m4-checklist-custos.html?embed=1"
+    title="Checklist de Custos PPP" onload="onFrameLoad(4)"></iframe>
 
-  <!-- ════════════ PAINEL DE RELATÓRIOS (Módulo 5) ════════════ -->
+  <!-- Módulo 5 — Evidência Comparativa / VfM -->
+  <div class="loading-overlay hidden" id="load5">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Carregando módulo…</div>
+  </div>
+  <iframe class="mod-frame" id="frame5" src=""
+    data-src="m5-vfm.html?embed=1"
+    title="Evidência Comparativa" onload="onFrameLoad(5)"></iframe>
+
+  <!-- ════════════ PAINEL DE RELATÓRIOS (Módulo 6) ════════════ -->
   <div class="report-panel" id="reportPanel" role="tabpanel" aria-label="Relatórios consolidados">
     <div class="rp-scroll">
       <div class="rp-container">
@@ -1951,7 +2020,7 @@ body {
           <div class="rp-header-titles">
             <span class="rp-header-eyebrow">GT-PPPs · CAGE/SEFAZ-RS</span>
             <h1 class="rp-header-title">Geração de Relatório Consolidado</h1>
-            <p class="rp-header-desc">Monte o conjunto de documentos a anexar ao parecer técnico. A capa institucional e os módulos selecionados serão impressos em sequência — você salva cada um como PDF e depois os combina em um único documento.</p>
+            <p class="rp-header-desc">Monte o conjunto de documentos a anexar ao parecer técnico. Você pode gerar um único <strong>PDF unificado</strong> (capa + módulos em sequência) ou usar o <strong>modo sequencial</strong> (N PDFs separados que você combina depois).</p>
           </div>
         </header>
 
@@ -2020,17 +2089,23 @@ body {
             <span class="rp-step-num">03</span>
             <div>
               <h2 class="rp-section-title">Exportar</h2>
-              <p class="rp-section-sub">Você imprimirá em sequência a capa e cada módulo selecionado. Salve cada PDF e combine-os depois (Adobe Acrobat, PDFsam, qpdf).</p>
+              <p class="rp-section-sub">Escolha o formato: <strong>PDF unificado</strong> gera um único arquivo com capa e módulos em sequência (recomendado para anexar ao parecer); o <strong>modo sequencial</strong> gera N PDFs que você combina depois com Acrobat/PDFsam/qpdf.</p>
             </div>
           </div>
           <div class="rp-section-body">
             <div class="rp-summary" id="rpSummary">
               <!-- Resumo dinâmico — quantos PDFs serão gerados -->
             </div>
-            <button class="rp-btn-export" id="rpBtnExport" onclick="iniciarExportacaoConsolidada()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-              Iniciar exportação sequencial
-            </button>
+            <div class="rp-export-actions">
+              <button class="rp-btn-export rp-btn-export-primary" id="rpBtnExportUnificado" onclick="iniciarExportacaoUnificada()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+                Gerar PDF único (consolidado)
+              </button>
+              <button class="rp-btn-export rp-btn-export-secondary" id="rpBtnExport" onclick="iniciarExportacaoConsolidada()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                Modo sequencial (N PDFs)
+              </button>
+            </div>
           </div>
         </section>
 
@@ -2084,7 +2159,7 @@ body {
   </span>
   <span class="sb-divider"></span>
   <span class="sb-item" id="sbStatus">● Pronto</span>
-  <span class="sb-right">CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.1</span>
+  <span class="sb-right">CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.3</span>
 </div>
 
 <script>
@@ -2103,18 +2178,6 @@ const MODULES = {
     subtabs: []   // módulo 1 usa rolagem contínua, sem sub-abas
   },
   2: {
-    name: 'Evidência Comparativa (VfM)',
-    subtabs: [
-      { num: '01', label: 'Identificação' },
-      { num: '02', label: 'PSC Bruto' },
-      { num: '03', label: 'Diagnóstico' },
-      { num: '04', label: 'Melhorias' },
-      { num: '05', label: 'Matriz' },
-      { num: '06', label: 'VfM' },
-      { num: '07', label: 'Conclusão' },
-    ]
-  },
-  3: {
     name: 'Matriz de Riscos PPP',
     subtabs: [
       { num: '01', label: 'Identificação' },
@@ -2124,7 +2187,7 @@ const MODULES = {
       { num: '05', label: 'Metodologia' },
     ]
   },
-  4: {
+  3: {
     name: 'Precificação de Obras',
     subtabs: [
       { num: 'i',  label: 'Instruções' },
@@ -2140,11 +2203,31 @@ const MODULES = {
       { num: '09', label: 'Dashboard' },
     ]
   },
+  4: {
+    name: 'Checklist de Custos PPP',
+    subtabs: []   // checklist usa rolagem contínua
+  },
   5: {
+    name: 'Evidência Comparativa (VfM)',
+    subtabs: [
+      { num: '01', label: 'Identificação' },
+      { num: '02', label: 'PSC Bruto' },
+      { num: '03', label: 'Diagnóstico' },
+      { num: '04', label: 'Melhorias' },
+      { num: '05', label: 'Matriz' },
+      { num: '06', label: 'VfM' },
+      { num: '07', label: 'Conclusão' },
+    ]
+  },
+  6: {
     name: 'Relatórios Consolidados',
     subtabs: []   // painel próprio, sem sub-abas
   }
 };
+
+// Lista de IDs dos módulos de conteúdo (1..5). Centralizar aqui evita laços hard-coded.
+const MOD_NUMS = [1, 2, 3, 4, 5];
+const MOD_REPORT = 6;
 
 let activeMod = 0;
 let activeSubtab = {};   // { modNum: subtabIndex }
@@ -2168,7 +2251,7 @@ function switchModule(num) {
   if (num === activeMod) return;
 
   // Persiste último módulo visitado (exceto Home — Home é o ponto de retorno, não destino)
-  if (activeMod !== 0 && activeMod !== 5) {
+  if (activeMod !== 0 && activeMod !== MOD_REPORT) {
     ultimoModuloVisitado = { mod: activeMod, subtab: activeSubtab[activeMod] || 0 };
     try {
       localStorage.setItem('gtsefaz_ultimo_modulo', JSON.stringify(ultimoModuloVisitado));
@@ -2179,7 +2262,7 @@ function switchModule(num) {
   document.querySelector(`.mod-tab[data-mod="${activeMod}"]`).classList.remove('active');
   if (activeMod === 0) {
     document.getElementById('homePanel').classList.remove('active');
-  } else if (activeMod === 5) {
+  } else if (activeMod === MOD_REPORT) {
     document.getElementById('reportPanel').classList.remove('active');
   } else {
     document.getElementById(`frame${activeMod}`).classList.remove('active');
@@ -2192,7 +2275,7 @@ function switchModule(num) {
     // Hub inicial — atualiza dados antes de exibir
     document.getElementById('homePanel').classList.add('active');
     renderHomePanel();
-  } else if (num === 5) {
+  } else if (num === MOD_REPORT) {
     // Painel de Relatórios
     document.getElementById('reportPanel').classList.add('active');
     atualizarStatusModulosCarregados();
@@ -2224,10 +2307,10 @@ function carregarUltimoModulo() {
 
 /* ── Estado dos botões do header conforme módulo ativo ── */
 function atualizarBotoesHeader(modNum) {
-  // Em "Início" (0) e "Relatórios" (5), os botões Salvar/Imprimir/Limpar
+  // Em "Início" (0) e "Relatórios" (MOD_REPORT), os botões Salvar/Imprimir/Limpar
   // não fazem sentido (não há módulo individual para salvar/imprimir/limpar)
   const btns = document.querySelectorAll('.header-actions .hbtn');
-  const disable = (modNum === 0 || modNum === 5);
+  const disable = (modNum === 0 || modNum === MOD_REPORT);
   btns.forEach(b => {
     b.disabled = disable;
     b.style.opacity = disable ? '.45' : '';
@@ -2377,12 +2460,12 @@ function limparAtivo() {
 }
 
 function pingAutoSave() {
-  for (let m = 1; m <= 4; m++) {
+  MOD_NUMS.forEach(m => {
     const frame = document.getElementById(`frame${m}`);
-    if (frame.src && frame.src !== 'about:blank') {
+    if (frame && frame.src && frame.src !== 'about:blank') {
       try { frame.contentWindow.postMessage({ type: 'gtsefaz_save' }, '*'); } catch(e) {}
     }
-  }
+  });
 }
 
 /* ── Receber mensagens dos iframes ── */
@@ -2421,13 +2504,13 @@ window.addEventListener('message', (e) => {
           localStorage.setItem('gtsefaz_projeto_atual', JSON.stringify(merged));
         } catch(err) {}
         // propaga para os outros iframes
-        for (let m = 1; m <= 4; m++) {
-          if (m === e.data.mod) continue;
+        MOD_NUMS.forEach(m => {
+          if (m === e.data.mod) return;
           const f = document.getElementById(`frame${m}`);
-          if (f.src && f.src !== 'about:blank') {
+          if (f && f.src && f.src !== 'about:blank') {
             try { f.contentWindow.postMessage({ type: 'gtsefaz_projeto_set', dados: merged }, '*'); } catch(err) {}
           }
-        }
+        });
       }
       break;
     case 'gtsefaz_projeto_request':
@@ -2474,7 +2557,7 @@ function onFrameLoad(num) {
 ══════════════════════════════════════════════════════════ */
 
 // Estado: quais módulos estão selecionados para o relatório consolidado
-let modulosSelecionados = { 1: true, 2: true, 3: true, 4: true };
+let modulosSelecionados = { 1: true, 2: true, 3: true, 4: true, 5: true };
 
 // Estado do wizard de exportação
 let wizardState = {
@@ -2485,9 +2568,10 @@ let wizardState = {
 
 const MOD_DESC = {
   1: 'Public Sector Comparator — levantamento de custos públicos.',
-  2: 'Evidência comparativa PSC × PPP, Value for Money.',
-  3: 'Matriz de alocação de riscos (público / privado / compartilhado).',
-  4: 'Análise crítica de precificação de obras e serviços.'
+  2: 'Matriz de alocação de riscos (público / privado / compartilhado).',
+  3: 'Análise crítica de precificação de obras e serviços.',
+  4: 'Checklist transversal e setorial de custos típicos em PPPs.',
+  5: 'Evidência comparativa PSC × PPP, Value for Money.'
 };
 
 /* ══════════════════════════════════════════════════════════
@@ -2495,17 +2579,19 @@ const MOD_DESC = {
 ══════════════════════════════════════════════════════════ */
 
 const HOME_MOD_DESC = {
-  1: 'Levantamento de custos públicos para construir o Public Sector Comparator (PSC).',
-  2: 'Comparação PSC × PPP para apurar Value for Money e fundamentar a vantagem econômica.',
-  3: 'Alocação de riscos entre Poder Público, Concessionário e compartilhados.',
-  4: 'Análise crítica de precificação de obras em estudos, modelagens, projetos e editais.'
+  1: 'Levantamento de custos públicos para construir o Public Sector Comparator (PSC) — baseline quantitativo do modelo atual.',
+  2: 'Alocação de riscos entre Poder Público, Concessionário e compartilhados, com classificação de probabilidade e impacto.',
+  3: 'Análise crítica de precificação de obras em estudos, modelagens, projetos e editais (BDI, composições, regionalização).',
+  4: 'Checklist para identificação de custos transversais e setoriais em PPPs — mitiga o risco de custos não capturados no VfM.',
+  5: 'Comparação PSC × PPP para apurar Value for Money e fundamentar a vantagem econômica (art. 10, I, "a", da Lei 11.079/2004).'
 };
 
 const HOME_MOD_THUMBS = {
-  1: 'assets/card-01.jpg',
-  2: 'assets/card-02.jpg',
-  3: 'assets/card-03.jpg',
-  4: 'assets/card-04.jpg'
+  1: 'assets/card-01.jpg',  // PSC
+  2: 'assets/card-03.jpg',  // Matriz de Riscos (era M3)
+  3: 'assets/card-04.jpg',  // Precificação (era M4)
+  4: 'assets/card-05.jpg',  // Checklist (novo — placeholder)
+  5: 'assets/card-02.jpg'   // VfM (era M2)
 };
 
 function inicializarHomePanel() {
@@ -2561,14 +2647,14 @@ function salvarFormHome() {
   setProjetoLabel(dados);
 
   // Propaga para iframes carregados (sync com módulos)
-  for (let m = 1; m <= 4; m++) {
+  MOD_NUMS.forEach(m => {
     const frame = document.getElementById(`frame${m}`);
     if (frame && frame.src && frame.src !== 'about:blank') {
       try {
         frame.contentWindow.postMessage({ type: 'gtsefaz_projeto_set', dados: dados }, '*');
       } catch(e) {}
     }
-  }
+  });
 
   // Re-renderiza o hero (sem reescrever o form, evita perda de foco)
   renderHomeHero(false);
@@ -2681,7 +2767,7 @@ function renderHomeContinue() {
     return;
   }
   const m = ultimoModuloVisitado.mod;
-  if (!MODULES[m] || m === 0 || m === 5) {
+  if (!MODULES[m] || m === 0 || m === MOD_REPORT) {
     cont.hidden = true;
     return;
   }
@@ -2707,7 +2793,7 @@ function renderHomeContinue() {
 function renderHomeCards() {
   const wrap = document.getElementById('hpCards');
   if (!wrap) return;
-  wrap.innerHTML = [1,2,3,4].map(n => {
+  wrap.innerHTML = MOD_NUMS.map(n => {
     const status = obterStatusModulo(n);
     const statusLabel = status === 'ready' ? 'Pronto' : (status === 'in-progress' ? 'Em uso' : 'Não iniciado');
     const action = status === 'empty' ? 'Iniciar' : 'Continuar';
@@ -2766,7 +2852,7 @@ function inicializarPainelRelatorios() {
   const list = document.getElementById('rpModlist');
   if (!list) return;
 
-  list.innerHTML = [1,2,3,4].map(n => `
+  list.innerHTML = MOD_NUMS.map(n => `
     <div class="rp-mod-item ${modulosSelecionados[n] ? 'checked' : ''}" data-mod="${n}" onclick="toggleModuloRelatorio(${n})">
       <div class="rp-mod-checkbox">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
@@ -2836,9 +2922,9 @@ function toggleModuloRelatorio(n) {
 }
 
 function atualizarStatusModulosCarregados() {
-  for (let n = 1; n <= 4; n++) {
+  MOD_NUMS.forEach(n => {
     const status = document.querySelector(`[data-status-for="${n}"]`);
-    if (!status) continue;
+    if (!status) return;
     const frame = document.getElementById(`frame${n}`);
     const loaded = frame && frame.src && frame.src !== 'about:blank' && frame.src !== window.location.href;
     if (loaded) {
@@ -2848,30 +2934,118 @@ function atualizarStatusModulosCarregados() {
       status.textContent = 'não carregado';
       status.classList.remove('loaded');
     }
-  }
+  });
 }
 
 function atualizarSummary() {
   const summary = document.getElementById('rpSummary');
-  const btn = document.getElementById('rpBtnExport');
-  if (!summary || !btn) return;
+  const btnSeq = document.getElementById('rpBtnExport');
+  const btnUni = document.getElementById('rpBtnExportUnificado');
+  if (!summary) return;
 
-  const selecionados = [1,2,3,4].filter(n => modulosSelecionados[n]);
+  const selecionados = MOD_NUMS.filter(n => modulosSelecionados[n]);
   const totalPdfs = 1 + selecionados.length; // capa + módulos
   const projeto = (document.getElementById('capProjeto') || {}).value || '';
 
   if (selecionados.length === 0) {
     summary.innerHTML = `<strong>Nenhum módulo selecionado.</strong> Marque ao menos um módulo para gerar o relatório.`;
-    btn.disabled = true;
+    if (btnSeq) btnSeq.disabled = true;
+    if (btnUni) btnUni.disabled = true;
     return;
   }
 
   summary.innerHTML = `
-    Serão gerados <strong>${totalPdfs} PDFs</strong> em sequência: 1 capa institucional + ${selecionados.length} ${selecionados.length === 1 ? 'módulo' : 'módulos'}
-    ${projeto ? `referente${selecionados.length > 1 ? 's' : ''} ao projeto <strong>${escapeHtml(projeto)}</strong>` : ''}.
-    Salve cada um e combine-os depois (ex.: Adobe Acrobat, PDFsam).
+    <div class="rp-summary-line"><strong>Modo sequencial:</strong> ${totalPdfs} PDFs (1 capa + ${selecionados.length} ${selecionados.length === 1 ? 'módulo' : 'módulos'}) — você combina depois.</div>
+    <div class="rp-summary-line"><strong>Modo unificado:</strong> 1 PDF único contendo capa e módulos em sequência.</div>
+    ${projeto ? `<div class="rp-summary-proj">Projeto: <strong>${escapeHtml(projeto)}</strong></div>` : ''}
   `;
-  btn.disabled = false;
+  if (btnSeq) btnSeq.disabled = false;
+  if (btnUni) btnUni.disabled = false;
+}
+
+/* ══════════════════════════════════════
+   EXPORTAÇÃO UNIFICADA — capa + módulos em um único PDF
+   Estratégia: pré-carrega iframes selecionados; renderiza a capa imprimível;
+   estende temporariamente a altura de cada iframe para o scrollHeight do conteúdo
+   (caso contrário o navegador imprime apenas o viewport visível); ativa
+   `body.printing-unified` (ver @media print) e dispara window.print().
+══════════════════════════════════════ */
+
+async function iniciarExportacaoUnificada() {
+  const selecionados = MOD_NUMS.filter(n => modulosSelecionados[n]);
+  if (selecionados.length === 0) return;
+
+  const btn = document.getElementById('rpBtnExportUnificado');
+  if (btn) { btn.disabled = true; btn.textContent = 'Preparando…'; }
+
+  try {
+    // 1. Pré-carrega iframes selecionados e aguarda load
+    for (const n of selecionados) {
+      const f = document.getElementById(`frame${n}`);
+      if (!f) continue;
+      const naoCarregado = !f.src || f.src === 'about:blank' || f.src === window.location.href;
+      if (naoCarregado) {
+        const p = new Promise(res => { f.addEventListener('load', res, { once: true }); });
+        f.src = f.dataset.src;
+        await p;
+        // Pequeno delay para permitir hidratação do localStorage no módulo
+        await new Promise(res => setTimeout(res, 400));
+      }
+    }
+
+    // 2. Renderiza a capa imprimível
+    renderizarCapaImprimivel();
+
+    // 3. Marca os iframes selecionados e estende altura ao conteúdo
+    const restaurar = [];
+    document.querySelectorAll('.mod-frame').forEach(f => {
+      const num = parseInt((f.id || '').replace('frame','') || '0', 10);
+      f.classList.remove('unified-print');
+      if (selecionados.includes(num)) {
+        f.classList.add('unified-print');
+        // Captura estilo original antes de modificar
+        restaurar.push({ f, height: f.style.height, minHeight: f.style.minHeight });
+        try {
+          const cd = f.contentDocument;
+          if (cd && cd.documentElement) {
+            const h = Math.max(
+              cd.documentElement.scrollHeight,
+              cd.body ? cd.body.scrollHeight : 0
+            );
+            // 50px de folga para evitar corte do rodapé
+            f.style.height    = (h + 50) + 'px';
+            f.style.minHeight = (h + 50) + 'px';
+          }
+        } catch(e) { /* same-origin esperado */ }
+      }
+    });
+
+    // 4. Ativa o modo de impressão unificada e imprime
+    document.body.classList.add('printing-unified');
+
+    // Pequena espera para layout estabilizar antes do print
+    await new Promise(res => setTimeout(res, 300));
+
+    window.print();
+
+    // 5. Limpeza após o diálogo de print fechar
+    setTimeout(() => {
+      document.body.classList.remove('printing-unified');
+      restaurar.forEach(r => {
+        r.f.classList.remove('unified-print');
+        r.f.style.height    = r.height || '';
+        r.f.style.minHeight = r.minHeight || '';
+      });
+    }, 600);
+  } catch (err) {
+    console.error('Falha ao gerar relatório unificado:', err);
+    alert('Não foi possível gerar o PDF unificado. Tente o modo sequencial.');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg> Gerar PDF único (consolidado)';
+    }
+  }
 }
 
 /* ══════════════════════════════════════
@@ -2879,7 +3053,7 @@ function atualizarSummary() {
 ══════════════════════════════════════ */
 
 function iniciarExportacaoConsolidada() {
-  const selecionados = [1,2,3,4].filter(n => modulosSelecionados[n]);
+  const selecionados = MOD_NUMS.filter(n => modulosSelecionados[n]);
   if (selecionados.length === 0) return;
 
   // Monta sequência de etapas
@@ -2977,7 +3151,7 @@ function finalizarExportacao() {
   document.getElementById('rpWizDesc').innerHTML =
     `<strong>Pronto.</strong> Você gerou ${wizardState.steps.length} PDFs (1 capa + ${wizardState.steps.length - 1} ${wizardState.steps.length - 1 === 1 ? 'módulo' : 'módulos'}).<br><br>` +
     `Combine-os na ordem usando ferramentas como Adobe Acrobat, PDFsam ou qpdf:<br>` +
-    `<code style="font-family:var(--mono);font-size:11px;background:var(--cinza-header);padding:2px 6px;border-radius:3px">qpdf --empty --pages 00-capa.pdf 01-*.pdf 02-*.pdf 03-*.pdf 04-*.pdf -- relatorio-consolidado.pdf</code>`;
+    `<code style="font-family:var(--mono);font-size:11px;background:var(--cinza-header);padding:2px 6px;border-radius:3px">qpdf --empty --pages 00-capa.pdf 01-*.pdf 02-*.pdf 03-*.pdf 04-*.pdf 05-*.pdf -- relatorio-consolidado.pdf</code>`;
 
   document.getElementById('rpWizProgress').style.width = '100%';
   // Marca todas como done
@@ -3024,9 +3198,10 @@ function imprimirModulo(num) {
   const reportPanel = document.getElementById('reportPanel');
   reportPanel.classList.remove('active');
   // Desativa qualquer outro frame ativo, ativa o do módulo a imprimir
-  for (let m = 1; m <= 4; m++) {
-    document.getElementById(`frame${m}`).classList.remove('active');
-  }
+  MOD_NUMS.forEach(m => {
+    const fr = document.getElementById(`frame${m}`);
+    if (fr) fr.classList.remove('active');
+  });
   frame.classList.add('active');
 
   // Pequeno delay para garantir layout antes do print
@@ -3063,7 +3238,7 @@ function renderizarCapaImprimivel() {
     } catch(e) { dataFormatada = dataStr; }
   }
 
-  const selecionados = [1,2,3,4].filter(n => modulosSelecionados[n]);
+  const selecionados = MOD_NUMS.filter(n => modulosSelecionados[n]);
   const tocItems = selecionados.map((n, i) => `
     <div class="rp-capa-doc-toc-item">
       <span class="rp-capa-doc-toc-num">Anexo ${String.fromCharCode(64 + i + 1)}</span>
@@ -3125,7 +3300,7 @@ function renderizarCapaImprimivel() {
       </div>
 
       <div class="rp-capa-doc-footer">
-        <span>CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.2</span>
+        <span>CAGE-RS · SEFAZ-RS · Ferramentas PPP v1.3</span>
         <span>Documento gerado em ${new Date().toLocaleDateString('pt-BR')}</span>
       </div>
     </div>
