@@ -897,16 +897,32 @@ function renderInstr(){
     "<strong>9. Dashboard</strong> — visão consolidada da análise crítica."
   ], true));
 
+  body.appendChild(instrBlock("Campos obrigatórios", [
+    "Campos em fundo amarelo (na planilha original) ou marcados com asterisco (nesta ferramenta) indicam preenchimento obrigatório.",
+    "Campos com lista suspensa devem ser preenchidos selecionando uma das opções disponíveis."
+  ]));
+
+  body.appendChild(instrBlock("Uso das fórmulas e dos cálculos automáticos", [
+    "Os indicadores derivados (% de conformidade, distribuição de risco, matriz Avaliação × Risco) são calculados automaticamente a partir das suas avaliações na aba <strong>6. Análise Crítica</strong>.",
+    "Esta ferramenta web não permite alterar as fórmulas; se precisar adaptá-las para um caso específico, use a planilha-fonte (em cópia, para preservar o modelo) e registre o desvio na aba <strong>5. Justificativa</strong>."
+  ]));
+
   body.appendChild(instrBlock("Boas práticas", [
     "Preencha seções descritivas com frases objetivas e claras — o texto segue para o relatório automatizado.",
     "Indique sempre a fonte documental das informações (processo, página, item) para rastreabilidade.",
     "Ao concluir, revise a aba Relatório e edite o texto-base antes da emissão formal.",
-    "Os dados são salvos automaticamente no seu navegador (rascunho). Não há envio externo."
+    "Os dados são salvos automaticamente no seu navegador (rascunho). Não há envio externo.",
+    "Identifique o rascunho com o caso (ex.: <em>precificacao_obras_&lt;projeto&gt;_&lt;data&gt;</em>) usando o campo de identificação na Capa."
   ]));
 
   body.appendChild(instrBlock("Aproveitamento para o relatório", [
     "O texto da aba <strong>Relatório</strong> contempla: identificação do caso, metodologia, referências, parâmetros, justificativa, análise crítica, fragilidades, recomendações e conclusão.",
     "Os indicadores automatizados (conformidade e risco) podem ser utilizados como anexo ao parecer."
+  ]));
+
+  body.appendChild(instrBlock("Manutenção da ferramenta", [
+    "Recomenda-se revisão periódica do instrumento para incorporar atualizações de normas, jurisprudência (TCU/TCE) e novas referências de preços públicas.",
+    "Sugestões de melhoria devem ser encaminhadas à CAGE/SEFAZ-RS por meio dos canais institucionais."
   ]));
 
   const callout = el("div", {class:"callout"});
@@ -1311,6 +1327,27 @@ function fmtNum(n, decimals = 0){
 }
 
 /* ---------- ABA: JUSTIFICATIVA ---------- */
+// Para cada tópico de Justificativa, devolve uma string-sugestão derivada de outras abas
+// (espelha a auto-população de fórmulas da aba "5. Justificativa" do Excel canônico).
+// Retorna string vazia se não houver derivação aplicável ou se o valor de origem estiver vazio.
+function sugerirObjetoJustif(idx) {
+  const m = (state.comps && state.comps.metricas) || {};
+  const id = (state.identif) || {};
+  const metr = (k) => (m[k] && m[k].valor) ? String(m[k].valor) : "";
+  switch (idx) {
+    case 1: { // base de preços (lista de bases preenchidas em 3. Referências)
+      const bs = ((state.refs && state.refs.bases) || []).map(b => (b && b.base) || "").filter(Boolean);
+      return bs.length ? bs.join(" · ") : "";
+    }
+    case 2: return id.databasePrecos || "";                                  // data-base
+    case 3: { const v = metr("bdi");           return v ? v + "%" : ""; }    // BDI
+    case 4: { const v = metr("incremCub");     return v ? v + "%" : ""; }    // incremento CUB
+    case 6: { const v = metr("custoM2") || metr("areaTotal"); return v || ""; } // parâmetros m²
+    case 7: { const v = metr("contingencia");  return v ? v + "%" : ""; }    // contingência
+    default: return "";
+  }
+}
+
 function renderJustif(){
   const root = el("div", {class:"tab-panel", id:"panel-justif"});
   root.appendChild(panelHeader("Aba 5", "Justificativa técnica da precificação", "Transcrição, síntese e avaliação da justificativa técnica apresentada nos documentos analisados. Examina se a justificativa é explícita, suficiente e fundamentada."));
@@ -1330,8 +1367,10 @@ function renderJustif(){
   JUSTIFICATIVAS_TOPICOS.forEach((t,i) => {
     const tr = el("tr");
     tr.appendChild(el("td", {class:"row-label"}, t));
-    const tdO = el("td"); tdO.appendChild(tblInp(state.justif.tops[i].objeto, v => state.justif.tops[i].objeto = v)); tr.appendChild(tdO);
-    const tdJ = el("td"); tdJ.appendChild(tblInp(state.justif.tops[i].justif, v => state.justif.tops[i].justif = v)); tr.appendChild(tdJ);
+    const sugerido = sugerirObjetoJustif(i);
+    const phObj = sugerido ? `Sugestão (de outras abas): ${sugerido}` : "Descreva o que foi identificado nos documentos";
+    const tdO = el("td"); tdO.appendChild(tblInp(state.justif.tops[i].objeto, v => state.justif.tops[i].objeto = v, {ph: phObj})); tr.appendChild(tdO);
+    const tdJ = el("td"); tdJ.appendChild(tblInp(state.justif.tops[i].justif, v => state.justif.tops[i].justif = v, {ph: "Transcrição/síntese da justificativa apresentada"})); tr.appendChild(tdJ);
     const tdQ = el("td"); tdQ.appendChild(tblSel(state.justif.tops[i].qual, ENUMS.qualidadeJustif, v => state.justif.tops[i].qual = v)); tr.appendChild(tdQ);
     tb.appendChild(tr);
   });
