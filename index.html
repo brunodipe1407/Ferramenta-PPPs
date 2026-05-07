@@ -2539,13 +2539,11 @@ function onFrameLoad(num) {
     injectBridge(frame.contentWindow, num);
   } catch(e) {}
 
-  // Detecta erro de carregamento (404, rede). O evento `error` em iframes
-  // é raro disparar em mesma origem; checamos via contentDocument após load.
-  try {
-    const cd = frame.contentDocument;
-    const titleOk = cd && cd.title && cd.title !== '' && cd.title !== 'about:blank';
-    if (!titleOk) onFrameError(num);
-  } catch(e) { onFrameError(num); }
+  // Nota (Fase 3): a checagem heurística de contentDocument.title foi removida
+  // porque dava falso-positivo em file:// (Edge bloqueia same-origin em alguns
+  // arquivos locais, então cd === null mesmo com módulo carregando OK).
+  // Se o iframe falhar de verdade (404), o evento `error` do <iframe> dispara
+  // onFrameError diretamente.
 
   // Sincronização proativa: envia o projeto atual para o iframe assim que carregar.
   // Cobre o caso em que o módulo carrega depois que o usuário já preencheu na Home.
