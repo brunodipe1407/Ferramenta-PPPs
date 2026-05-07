@@ -1809,6 +1809,17 @@ body {
   </div>
 
   <div class="card">
+    <h3 class="card-title">Como usar esta ferramenta</h3>
+    <ol style="font-size: 14px; line-height: 1.7; color: var(--ink-soft); margin: 0; padding-left: 22px;">
+      <li>Consulte o <strong>Núcleo Comum</strong> para ver as 16 categorias de risco padrão e as alocações típicas recomendadas.</li>
+      <li>Consulte os <strong>ajustes setoriais</strong> aplicáveis ao seu projeto (Rodovias, Saúde, Educação, Saneamento) — eles refinam ou substituem o tratamento padrão.</li>
+      <li>Preencha a <strong>Ficha de Projeto</strong> com a identificação básica e, em seguida, a <strong>Alocação Proposta</strong> de cada risco/subcategoria.</li>
+      <li>A coluna "Alocação Proposta" é editável — ajuste-a conforme as circunstâncias específicas do projeto, sempre que houver razão técnica para divergir da alocação típica.</li>
+      <li>Documente a <strong>justificativa</strong> para qualquer desvio em relação à alocação típica recomendada e registre as <strong>medidas de mitigação</strong> aplicáveis.</li>
+    </ol>
+  </div>
+
+  <div class="card">
     <h3 class="card-title">Particularidades do RS</h3>
     <p style="font-size: 14px; line-height: 1.7; color: var(--ink-soft);">A ferramenta incorpora riscos específicos do Rio Grande do Sul: eventos climáticos extremos (enchentes, estiagem, vendavais); estrutura fundiária complexa (comunidades indígenas Kaingang e Guarani, quilombolas, assentamentos); capacidade fiscal do Estado (garantias via fundo especial, art. 15 da Lei 12.234/2005); arcabouço regulatório próprio (AGERGS como agência reguladora, FEPAM no licenciamento ambiental).</p>
   </div>
@@ -1822,10 +1833,18 @@ body {
       <dd style="color: var(--ink-soft); padding-left: 16px;">Pessoa jurídica ou consórcio contratado para executar o projeto de PPP ou concessão.</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Evento de Compensação</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Evento cujo risco é alocado à AC e que dá ao PP direito a compensação, de prazo e/ou custo.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Evento Isento</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Evento que isenta o PP de suas obrigações afetadas, mas sem direito a compensação financeira integral.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Risco Político/Soberano</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Ato do poder público que afeta adversamente o projeto e pode gerar compensação integral ao PP.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Força Maior</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Evento além do controle das partes que impede ou atrasa o desempenho, sendo um risco tipicamente compartilhado.</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Reequilíbrio Econômico-Financeiro</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Restauração da equação econômico-financeira do contrato (art. 45 do Decreto 53.490/2017).</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">AGERGS</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Agência Estadual de Regulação dos Serviços Públicos Delegados do RS.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">PER</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Programa de Exploração Rodoviária.</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Value for Money (VfM)</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Análise comparativa destinada a verificar se a estruturação do projeto como PPP proporciona a melhor combinação entre custo, risco e desempenho para a Administração Pública, em relação à execução por meio da contratação pública tradicional.</dd>
     </dl>
@@ -1891,7 +1910,7 @@ const NUCLEO_COMUM = [
     subcategorias: [
       { titulo: "Comunidades e negócios afetados", tipica: "Compartilhado", fund: "AC gerencia engajamento com comunidades; PP cumpre obrigações contratuais de impacto social." },
       { titulo: "Reassentamento", tipica: "Público", fund: "AC assume integralmente custos e gestão de reassentamento involuntário." },
-      { titulo: "Direitos de terras indígenas", tipica: "Público", fund: "Consulta prévia obrigatória, conforme Convenção 169 da OIT." },
+      { titulo: "Direitos de terras indígenas", tipica: "Público", fund: "AC assume. Consulta prévia obrigatória, conforme Convenção 169 da OIT." },
       { titulo: "Greves e manifestações", tipica: "Compartilhado", fund: "Greves do PP são risco do PP. Greves gerais ou do setor público são risco compartilhado." }
     ]
   },
@@ -1900,7 +1919,7 @@ const NUCLEO_COMUM = [
     descricao: "Risco associado a condições ambientais pré-existentes; obtenção de anuências; conformidade legal; condições causadas pelo projeto; eventos externos; e mudanças climáticas.",
     subcategorias: [
       { titulo: "Contaminação e condições pré-existentes", tipica: "Público", fund: "AC assume passivos ambientais anteriores ao projeto. No RS, atenção a áreas industriais e mineração." },
-      { titulo: "Licenciamento ambiental", tipica: "Compartilhado", fund: "AC obtém Licença Prévia e termos de referência; PP obtém Licença de Instalação e Licença de Operação junto à FEPAM." },
+      { titulo: "Licenciamento ambiental", tipica: "Compartilhado", fund: "AC obtém Licença Prévia e termos de referência; PP obtém Licença de Instalação e Licença de Operação junto à Fundação Estadual de Proteção Ambiental (FEPAM)." },
       { titulo: "Conformidade com legislação ambiental", tipica: "Privado", fund: "PP assume cumprimento integral da legislação ambiental vigente." },
       { titulo: "Condições causadas pelo projeto", tipica: "Privado", fund: "PP assume danos ambientais decorrentes de suas atividades." },
       { titulo: "Eventos climáticos extremos", tipica: "Compartilhado", fund: "ESPECÍFICO RS: enchentes, estiagem e vendavais com limiares definidos. Abaixo do limiar = PP; acima = compartilhado/força maior." },
@@ -1924,7 +1943,7 @@ const NUCLEO_COMUM = [
       { titulo: "Aumento de custos de construção", tipica: "Privado", fund: "PP assume via contrato de preço fixo com subcontratado. Exceção: variações de preço extraordinárias podem ser compartilhadas." },
       { titulo: "Atrasos na conclusão de obras", tipica: "Privado", fund: "PP assume, sujeito a eventos de compensação (atos da AC) e eventos isentos." },
       { titulo: "Gerenciamento do projeto e interface", tipica: "Privado", fund: "PP gerencia interfaces entre subcontratados e com obras da AC." },
-      { titulo: "Qualidade e conformidade técnica", tipica: "Privado", fund: "PP deve atender especificações do PER (art. 21, Decreto 53.490/2017). Fiscalização pelo Poder Concedente (art. 63)." },
+      { titulo: "Qualidade e conformidade técnica", tipica: "Privado", fund: "PP deve atender especificações do Programa de Exploração Rodoviária (PER — art. 21, Decreto 53.490/2017). Fiscalização pelo Poder Concedente (art. 63)." },
       { titulo: "Saúde e segurança ocupacional", tipica: "Privado", fund: "PP assume integralmente conforme NRs aplicáveis." },
       { titulo: "Defeitos", tipica: "Privado", fund: "PP assume retificação durante período de garantia e vida do contrato." },
       { titulo: "Vandalismo durante construção", tipica: "Privado", fund: "PP assume, com limiar acima do qual AC compartilha (definir em contrato)." }
@@ -1955,8 +1974,8 @@ const NUCLEO_COMUM = [
     id: "R08", titulo: "Risco de Demanda / Receita",
     descricao: "Risco de que os níveis de demanda/usuários sejam diferentes dos previstos; consequências para receitas e custos; e medidas de apoio governamental.",
     subcategorias: [
-      { titulo: "Volume de demanda inferior ao projetado", tipica: "Compartilhado", fund: "Variável por setor. RODOVIAS: PP assume risco de tráfego, com possível banda de compartilhamento. HOSPITAIS/ESCOLAS: AC assume (pagamento por disponibilidade). SANEAMENTO: compartilhado com mecanismo de banda." },
-      { titulo: "Volume de demanda superior ao projetado", tipica: "Compartilhado", fund: "Gatilhos de investimento conforme art. 9º, IV do Decreto 53.490/2017. Compartilhamento de receitas excedentes." },
+      { titulo: "Volume de demanda inferior ao projetado", tipica: "Variável por setor", fund: "Variável por setor. RODOVIAS: PP assume risco de tráfego, com possível banda de compartilhamento. HOSPITAIS/ESCOLAS: AC assume (pagamento por disponibilidade). SANEAMENTO: compartilhado com mecanismo de banda." },
+      { titulo: "Volume de demanda superior ao projetado", tipica: "Variável por setor", fund: "Gatilhos de investimento conforme art. 9º, IV do Decreto 53.490/2017. Compartilhamento de receitas excedentes." },
       { titulo: "Redes concorrentes ou substitutivas", tipica: "Compartilhado", fund: "AC assume se criar infraestrutura concorrente que impacte demanda do projeto." },
       { titulo: "Inadimplência de usuários", tipica: "Privado", fund: "PP assume gestão de cobrança. Em saneamento, pode haver mecanismo de compensação." }
     ]
@@ -1995,7 +2014,7 @@ const NUCLEO_COMUM = [
     id: "R12", titulo: "Risco de Força Maior",
     descricao: "Risco de eventos inesperados além do controle das partes que atrasam ou impedem o desempenho.",
     subcategorias: [
-      { titulo: "Força maior natural (enchentes, vendavais)", tipica: "Compartilhado", fund: "ESPECÍFICO RS: limiares quantitativos para enchentes (cota fluviométrica), vendavais (alerta INMET/CEMADEN) e estiagem (declaração de situação de emergência)." },
+      { titulo: "Força maior natural (enchentes, vendavais)", tipica: "Compartilhado", fund: "ESPECÍFICO RS: limiares quantitativos para enchentes (ex.: cota fluviométrica), vendavais (ex.: alerta INMET/CEMADEN) e estiagem (ex.: declaração de situação de emergência)." },
       { titulo: "Força maior causada pelo homem", tipica: "Compartilhado", fund: "Guerra, terrorismo, contaminação nuclear/biológica. Risco compartilhado com isenção ao PP." },
       { titulo: "Força maior política", tipica: "Público", fund: "Eventos políticos internos ao país podem ser alocados integralmente à AC (Risco Político/Soberano)." },
       { titulo: "Consequências da força maior", tipica: "Compartilhado", fund: "Cada parte assume suas perdas. PP recebe isenção de prazo. Rescisão após 6-12 meses de evento prolongado." }
@@ -2017,9 +2036,9 @@ const NUCLEO_COMUM = [
     subcategorias: [
       { titulo: "Conformidade com legislação vigente", tipica: "Privado", fund: "PP suporta os efeitos do descumprimento da legislação vigente e conhecida na data da proposta, relacionada às suas obrigações contratuais." },
       { titulo: "Mudança de legislação geral", tipica: "Compartilhado", fund: "Alterações legislativas, regulatórias ou normativas gerais (exceto tributárias, ambientais ou tratadas em risco específico) que afetem custos, receitas, obrigações ou desempenho do projeto." },
-      { titulo: "Mudança de legislação tributária", tipica: "Compartilhado", fund: "Impactos ordinários/previsíveis podem ser alocados ao PP. Impactos não ordinários e imprevistos podem ensejar reequilíbrio em favor do PP ou da AC, conforme matriz de riscos." },
+      { titulo: "Mudança de legislação tributária", tipica: "Compartilhado", fund: "Impactos ordinários/previsíveis podem ser alocados ao PP. Impactos não ordinários e imprevistos podem ensejar reequilíbrio em favor do PP ou da AC, conforme matriz de riscos e legislação aplicável." },
       { titulo: "Mudança de legislação específica, setorial ou discriminatória", tipica: "Público", fund: "AC assume se mudança afetar exclusivamente o projeto ou setor da PPP. Evento de compensação." },
-      { titulo: "Mudança de legislação ambiental", tipica: "Compartilhado", fund: "PP suporta o cumprimento da legislação ambiental vigente. Novas exigências podem ensejar compartilhamento de custos ou reequilíbrio." }
+      { titulo: "Mudança de legislação ambiental", tipica: "Compartilhado", fund: "PP suporta o cumprimento da legislação ambiental vigente e os custos relacionados às suas obrigações. Novas exigências ambientais poderão ensejar compartilhamento de custos ou reequilíbrio econômico-financeiro." }
     ]
   },
   {
@@ -2133,6 +2152,7 @@ function setFilterPill(el, filtro) {
 function getAlocClass(aloc) {
   if (aloc === "Público") return "pub";
   if (aloc === "Compartilhado") return "comp";
+  if (aloc === "Variável por setor") return "comp";  // R08 — variação setorial usa o estilo de Compartilhado
   if (aloc === "Privado") return "priv";
   if (aloc === "N/A") return "na";
   return "";
@@ -3007,7 +3027,7 @@ function atualizarRelatorio() {
     <p style="font-size: 11px; line-height: 1.7;">
       <strong>Federal:</strong> Lei 8.987/1995 (Concessões); Lei 11.079/2004 (PPP); Lei 14.026/2020 (Marco do Saneamento). <br>
       <strong>Estadual — RS:</strong> Lei 10.086/1994 (Concessões); Lei 12.234/2005 (PPPs); Lei 14.875/2016 (Concessões Rodoviárias); Decreto 53.490/2017 (Marco Rodoviário); Decreto 53.495/2017 (Programa CPPP/RS).<br>
-      <strong>Referencial técnico:</strong> Global Infrastructure Hub; Allen &amp; Overy. Ferramenta de Alocação de Riscos em PPPs — Edição 2019. Disponível em: <em>https://ppp-risk-allocation-tool.gihub.org</em>.<br>
+      <strong>Referencial técnico:</strong> Global Infrastructure Hub; Allen &amp; Overy. Ferramenta de Alocação de Riscos em PPPs — Edição 2019. Disponível em: <em>https://ppp-risk-allocation-tool.gihub.org</em>. Acesso em: 23 mar. 2026.<br>
       <strong>Norma geral de alocação (Art. 47, Decreto 53.490/2017):</strong> O risco deve ser alocado à parte que (I) melhor puder controlar a ocorrência do evento; (II) conseguir absorver e gerenciar o risco a custo mais baixo; e (III) possuir condições de eliminar ou compensar os danos com maior eficiência e economicidade.
     </p>
   </div>`;
