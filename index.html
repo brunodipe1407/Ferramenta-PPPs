@@ -1207,7 +1207,10 @@ body {
   margin: 0 0 14px;
   line-height: 1.15;
   max-width: 28ch;
-  color: #fff;
+  /* !important necessário porque padrao-visual.css aplica
+     'h1,h2,h3,h4 { color: var(--cage-navy) !important; }' globalmente
+     e venceria nossa cor branca aqui (sobre o gradiente verde do hero). */
+  color: #fff !important;
 }
 .hp-hero-meta {
   display: flex;
