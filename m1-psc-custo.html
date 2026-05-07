@@ -170,19 +170,9 @@
   .modal-card .mc-label { font-family: 'Roboto Slab', Georgia, serif; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: var(--cage-navy); margin-bottom: 3px; }
   .modal-card .mc-desc { font-size: 11px; color: var(--cage-muted); line-height: 1.4; padding-right: 24px; }
 
-  /* ── TRANSACTION COSTS ── */
-  .trans-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: end; }
-  .trans-result {
-    background: var(--trans-light);
-    border: 1px solid #C8B8E0;
-    border-radius: var(--radius);
-    padding: 10px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .trans-result .tr-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--trans-color); }
-  .trans-result .tr-value { font-family: 'Roboto Slab', Georgia, serif; font-size: 20px; font-weight: 800; color: var(--trans-color); }
+  /* (Estilos .trans-grid/.trans-result removidos na Fase 3 — bloco
+     "Custos de Transação" foi integrado como item C6 em CAT C · Gestão na Fase 2.
+     Variáveis --trans-color/--trans-light continuam em uso pelo .total-card.tc-licitada.) */
 
   /* ── COST TABLE ── */
   .category-block { margin-bottom: 8px; }
@@ -410,8 +400,12 @@
     body { background: #fff; font-size: 11px; }
     .app-header { position: static; }
     .header-actions, .status-bar, .btn-add, .btn-del, .note-bar { display: none !important; }
+    .col-acao { display: none !important; }
     .main-container { padding: 10px; max-width: 100%; }
     .panel { box-shadow: none; break-inside: avoid; }
+    /* Garante que categorias colapsadas sejam expandidas no print */
+    .category-table-wrap { display: block !important; }
+    .category-header { cursor: default !important; }
 
     input, select, textarea {
       border: none !important; background: transparent !important;
@@ -585,7 +579,7 @@
 
   <!-- CAPEX -->
   <div class="category-block cat-capex">
-    <div class="category-header" onclick="toggleCategory('capex')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-capex" onclick="toggleCategory('capex')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('capex');}">
       <div class="ch-left">
         <span class="ch-code">CAT A</span>
         <span class="ch-name">CAPEX — Investimentos Anualizados</span>
@@ -620,7 +614,7 @@
 
   <!-- OPEX -->
   <div class="category-block cat-opex" style="margin-top:8px">
-    <div class="category-header" onclick="toggleCategory('opex')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-opex" onclick="toggleCategory('opex')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('opex');}">
       <div class="ch-left">
         <span class="ch-code">CAT B</span>
         <span class="ch-name">OPEX — Operação e Manutenção</span>
@@ -655,7 +649,7 @@
 
   <!-- GESTÃO -->
   <div class="category-block cat-gestao" style="margin-top:8px">
-    <div class="category-header" onclick="toggleCategory('gestao')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-gestao" onclick="toggleCategory('gestao')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('gestao');}">
       <div class="ch-left">
         <span class="ch-code">CAT C</span>
         <span class="ch-name">Gestão e Fiscalização Contratual</span>
@@ -690,7 +684,7 @@
 
   <!-- RECEITAS -->
   <div class="category-block cat-receita" style="margin-top:8px">
-    <div class="category-header" onclick="toggleCategory('receita')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-receita" onclick="toggleCategory('receita')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('receita');}">
       <div class="ch-left">
         <span class="ch-code">CAT D</span>
         <span class="ch-name">Receitas — Deduções do Custo Público</span>
@@ -834,7 +828,7 @@ function makeRow(cat, data = {}) {
       </select>
     </td>
     <td class="col-obs"><textarea placeholder="Registre premissas, rateios, referências…" oninput="recalc()">${escHtml(obs)}</textarea></td>
-    <td class="col-acao"><button class="btn-del" onclick="delRow('${id}')" title="Excluir linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
+    <td class="col-acao"><button class="btn-del" onclick="delRow('${id}')" title="Excluir linha" aria-label="Excluir linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
   `;
 
   // color conf select
@@ -911,17 +905,9 @@ function calcCat(cat) {
   return total;
 }
 
-function calcByModal(modal, excludeCat) {
-  let total = 0;
-  ['capex','opex','gestao'].forEach(cat => {
-    if (cat === excludeCat) return;
-    const tbody = document.getElementById(`tbody-${cat}`);
-    Array.from(tbody?.children || []).forEach(tr => {
-      if (getRowModal(tr) === modal) total += getRowValue(tr);
-    });
-  });
-  return total;
-}
+// (Função calcByModal removida na Fase 3 — era dead code, substituída pela lógica
+// inline em recalc().)
+
 
 function recalc() {
   const cats = ['capex','opex','gestao','receita'];
@@ -995,7 +981,11 @@ function toggleCategory(cat) {
   const isHidden = wrap?.style.display === 'none';
   if (wrap) wrap.style.display = isHidden ? '' : 'none';
   if (footer) footer.style.display = isHidden ? '' : 'none';
-  if (header) header.classList.toggle('collapsed', !isHidden);
+  if (header) {
+    header.classList.toggle('collapsed', !isHidden);
+    // Acessibilidade — sincroniza aria-expanded
+    header.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+  }
 }
 
 // ── MODAL CARD TOGGLE ──
@@ -1054,7 +1044,7 @@ function addPremissa(data = {}) {
       </select>
     </td>
     <td><textarea placeholder="Descreva a premissa, limitação ou estimativa utilizada…">${escHtml(desc)}</textarea></td>
-    <td><button class="btn-del" onclick="delPremissa('${id}')" title="Excluir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
+    <td><button class="btn-del" onclick="delPremissa('${id}')" title="Excluir" aria-label="Excluir premissa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
   `;
   tbody.appendChild(tr);
 }
@@ -1089,11 +1079,9 @@ function collectData() {
     return { tipo: sel?.value || '', desc: ta?.value || '' };
   });
 
-  const confDims = ['pessoal','contratos','capital','periodo','rateio','receitas'];
+  // (Bloco 'confiabilidade' foi removido da UI — confs é mantido vazio para
+  // compatibilidade com rascunhos antigos do schema anterior. Limpo na Fase 3.)
   const confs = {};
-  confDims.forEach(d => {
-    confs[d] = { val: document.getElementById(`conf-${d}`)?.value || '', just: document.getElementById(`just-${d}`)?.value || '' };
-  });
 
   return {
     header: {
@@ -1114,18 +1102,41 @@ function collectData() {
   };
 }
 
-function salvarRascunho() {
+let m1IsHydrating = false;
+let m1SaveTimer = null;
+
+function salvarRascunho(silent) {
+  if (m1IsHydrating) return;
   try {
     const data = collectData();
     localStorage.setItem('psc_cage_rs_v1', JSON.stringify(data));
     document.getElementById('sb-status').textContent = '● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR');
+    try { parent.postMessage({ type: 'gtsefaz_saved', mod: 1 }, '*'); } catch(e) {}
   } catch(e) {
-    alert('Atenção: não foi possível salvar no localStorage deste navegador. Copie os dados manualmente ou use o Export PDF.');
+    document.getElementById('sb-status').textContent = '● Erro ao salvar (localStorage cheio?)';
+    if (!silent) alert('Atenção: não foi possível salvar no localStorage deste navegador. Copie os dados manualmente ou use o Export PDF.');
   }
 }
 
+// Auto-save com debounce — disparado por listeners globais (input, change)
+function m1ScheduleSave() {
+  if (m1IsHydrating) return;
+  clearTimeout(m1SaveTimer);
+  m1SaveTimer = setTimeout(() => salvarRascunho(true), 600);
+}
+document.addEventListener('input',  m1ScheduleSave);
+document.addEventListener('change', m1ScheduleSave);
+
 function carregarRascunho() {
+  m1IsHydrating = true;
   try {
+    // Limpa estados antes de hidratar — evita duplicação de premissas/linhas se carregarRascunho for chamado em sequência
+    ['capex','opex','gestao','receita'].forEach(cat => {
+      const tb = document.getElementById(`tbody-${cat}`);
+      if (tb) tb.innerHTML = '';
+    });
+    const tbp = document.getElementById('tbody-premissa');
+    if (tbp) tbp.innerHTML = '';
     const raw = localStorage.getItem('psc_cage_rs_v1');
     if (!raw) return false;
     const data = JSON.parse(raw);
@@ -1158,8 +1169,9 @@ function carregarRascunho() {
     }
     recalc();
     document.getElementById('sb-status').textContent = '● Rascunho carregado';
+    m1IsHydrating = false;
     return true;
-  } catch(e) { return false; }
+  } catch(e) { m1IsHydrating = false; return false; }
 }
 
 // ── EXPORT ──
@@ -1329,6 +1341,13 @@ window.addEventListener('beforeunload', () => {
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'gtsefaz_projeto_set') {
       setDados(e.data.dados);
+    } else if (e.data.type === 'gtsefaz_save') {
+      try {
+        if (typeof salvarRascunho === 'function') salvarRascunho();
+        parent.postMessage({ type: 'gtsefaz_saved', mod: MOD }, '*');
+      } catch(err) {}
+    } else if (e.data.type === 'gtsefaz_clear') {
+      try { if (typeof limparDados === 'function') limparDados(); } catch(err) {}
     }
   });
 
