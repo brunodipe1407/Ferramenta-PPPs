@@ -283,8 +283,10 @@ body {
   padding: 32px;
 }
 
-.tab-content { display: none; }
-.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+/* !important defende contra cascatas inesperadas de regras sobre <section>
+   ou .tab-content em CSS externos (padrao-visual.css). */
+.tab-content { display: none !important; }
+.tab-content.active { display: block !important; animation: fadeIn 0.3s ease; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
