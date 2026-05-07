@@ -303,6 +303,7 @@ input,textarea,select{font-family:inherit;font-size:14px;color:var(--ink)}
   padding:2px 7px;font-size:10px;letter-spacing:.04em;
   border-radius:3px;font-weight:500;
 }
+.badge-mono.badge-warn{ background:#B91C1C; color:#fff; }
 
 /* ============ CAPA ============ */
 .capa-hero{
@@ -522,8 +523,11 @@ input,textarea,select{font-family:inherit;font-size:14px;color:var(--ink)}
 @media print{
   .app-header,.app-nav,.report-actions,.modal-backdrop{display:none !important}
   .app-main{padding:0;max-width:none}
-  .tab-panel{display:block !important;page-break-after:always}
-  .tab-panel:last-child{page-break-after:auto}
+  /* Quando o usuário pede print, imprime APENAS a aba ativa.
+     Antes, todas as 11 abas saíam (Instruções, Capa, etc.) — comportamento incorreto. */
+  .tab-panel{display:none !important}
+  .tab-panel.active{display:block !important;page-break-after:auto}
+  /* Modo "imprimir-tudo" via classe no body (futuro): body.print-all .tab-panel{display:block!important;page-break-after:always} */
 }
 
 /* ============ RESPONSIVE ============ */
@@ -1257,10 +1261,15 @@ function renderComps(){
   const updateTotalsHeader = () => {
     const totals = computeParcelasTotals();
     const badge = c2.querySelector(".badge-mono");
-    if(badge) badge.textContent = `${totals.pres} presente(s) · R$ ${fmtNum(totals.valor)} · ${fmtNum(totals.pct,2)}%`;
+    if(badge) {
+      const overflow = totals.pct > 100;
+      badge.textContent = `${totals.pres} presente(s) · R$ ${fmtNum(totals.valor)} · ${fmtNum(totals.pct,2)}%${overflow ? ' · ⚠ excede 100%' : ''}`;
+      badge.classList.toggle('badge-warn', overflow);
+    }
   };
   const initialTotals = computeParcelasTotals();
-  c2.appendChild(cardHeader("4.2 Parcelas / componentes do custo", el("span", {class:"badge badge-mono"}, `${initialTotals.pres} presente(s) · R$ ${fmtNum(initialTotals.valor)} · ${fmtNum(initialTotals.pct,2)}%`)));
+  const initialOverflow = initialTotals.pct > 100;
+  c2.appendChild(cardHeader("4.2 Parcelas / componentes do custo", el("span", {class: "badge badge-mono" + (initialOverflow ? " badge-warn" : "")}, `${initialTotals.pres} presente(s) · R$ ${fmtNum(initialTotals.valor)} · ${fmtNum(initialTotals.pct,2)}%${initialOverflow ? ' · ⚠ excede 100%' : ''}`)));
   const b2 = el("div", {class:"card-body"});
   const tbl2 = el("table", {class:"tbl"});
   const th2 = el("thead");
@@ -1341,7 +1350,7 @@ function sugerirObjetoJustif(idx) {
     }
     case 2: return id.databasePrecos || "";                                  // data-base
     case 3: { const v = metr("bdi");           return v ? v + "%" : ""; }    // BDI
-    case 4: { const v = metr("incremCub");     return v ? v + "%" : ""; }    // incremento CUB
+    case 4: { const v = metr("incrCub");       return v ? v + "%" : ""; }    // incremento CUB (chave canônica em METRICAS_GLOBAIS é 'incrCub', não 'incremCub')
     case 6: { const v = metr("custoM2") || metr("areaTotal"); return v || ""; } // parâmetros m²
     case 7: { const v = metr("contingencia");  return v ? v + "%" : ""; }    // contingência
     default: return "";
@@ -1954,14 +1963,33 @@ const renderers = {
 
 function buildNav(){
   const nav = document.getElementById("navTabs");
+  nav.setAttribute("role", "tablist");
   nav.innerHTML = "";
   TABS.forEach(t => {
-    const btn = el("button", {class: "nav-tab" + (t.id === activeTab ? " active" : ""), "data-tab": t.id});
-    btn.appendChild(el("span", {class:"tab-num"}, t.num));
+    const isActive = t.id === activeTab;
+    const btn = el("button", {
+      class: "nav-tab" + (isActive ? " active" : ""),
+      "data-tab": t.id,
+      role: "tab",
+      "aria-selected": isActive ? "true" : "false",
+      "aria-controls": "panel-" + t.id,
+      tabindex: isActive ? "0" : "-1"
+    });
+    btn.appendChild(el("span", {class:"tab-num", "aria-hidden":"true"}, t.num));
     btn.appendChild(el("span", {}, t.short));
     if(isTabCompleted(t.id)) btn.classList.add("completed");
-    btn.appendChild(el("span", {class:"completion-dot"}));
+    btn.appendChild(el("span", {class:"completion-dot", "aria-hidden":"true"}));
     btn.addEventListener("click", () => switchTab(t.id));
+    btn.addEventListener("keydown", (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const tabs = Array.from(nav.querySelectorAll('.nav-tab'));
+      const i = tabs.indexOf(btn);
+      const next = e.key === 'ArrowRight' ? (i + 1) % tabs.length : (i - 1 + tabs.length) % tabs.length;
+      tabs[next].focus();
+      const nextId = tabs[next].dataset.tab;
+      if (nextId) switchTab(nextId);
+    });
     nav.appendChild(btn);
   });
 }
@@ -2045,7 +2073,7 @@ try {
   if (_mcl) _mcl.addEventListener("click", e => {
     if(e.target.id === "modalClear") document.getElementById("modalClear").classList.remove("show");
   });
-} catch(e) { console.error('[M4] erro nos handlers do modal:', e); }
+} catch(e) { console.error('[M3] erro nos handlers do modal:', e); }
 
 /* ============================================================
    INIT (com try/catch defensivo — evita que erro num botão do header
@@ -2053,11 +2081,11 @@ try {
    ============================================================ */
 try {
   buildNav();
-} catch(e) { console.error('[M4] erro em buildNav:', e); }
+} catch(e) { console.error('[M3] erro em buildNav:', e); }
 
 try {
   switchTab("instr");
-} catch(e) { console.error('[M4] erro em switchTab:', e); }
+} catch(e) { console.error('[M3] erro em switchTab:', e); }
 
 // Indicador de save inicial
 try {
@@ -2069,22 +2097,22 @@ try {
     const sp = document.getElementById("savePill");
     if (sp) sp.textContent = "Rascunho · auto-save ativo";
   }
-} catch(e) { console.error('[M4] erro no indicador de save:', e); }
+} catch(e) { console.error('[M3] erro no indicador de save:', e); }
 
 /* ══════════════════════════════════════
    Sincronização de identificação do projeto entre módulos (via shell)
    Roda apenas quando carregado dentro do shell (?embed=1)
-   M4 é caso especial: usa state.identif (objeto JS) em vez de IDs no DOM
+   M3 é caso especial: usa state.identif (objeto JS) em vez de IDs no DOM
 ══════════════════════════════════════ */
 (function() {
   if (!document.documentElement.classList.contains('embed-mode')) return;
-  const MOD = 4;
-  // M4 mantém os campos em state.identif, com chaves diferentes
+  const MOD = 3;
+  // M3 mantém os campos em state.identif, com chaves diferentes
   // Mapeamento: chave canônica → chave no state.identif
   const FIELD_MAP = {
     nome:  'nomeProjeto',
     orgao: 'orgaoEnt'
-    // periodoRef: M4 não tem campo equivalente direto
+    // periodoRef: M3 não tem campo equivalente direto
   };
   let suspendEmit = false;
   let debounceTimer = null;
@@ -2165,6 +2193,18 @@ try {
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'gtsefaz_projeto_set') {
       setDados(e.data.dados);
+    } else if (e.data.type === 'gtsefaz_save') {
+      // Save imediato + emite gtsefaz_saved para o shell
+      try {
+        if (typeof saveState === 'function') saveState();
+        else if (typeof scheduleSave === 'function') scheduleSave();
+        parent.postMessage({ type: 'gtsefaz_saved', mod: MOD }, '*');
+      } catch(err) {}
+    } else if (e.data.type === 'gtsefaz_clear') {
+      try {
+        if (typeof STORAGE_KEY !== 'undefined') localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      } catch(err) {}
     }
   });
 
