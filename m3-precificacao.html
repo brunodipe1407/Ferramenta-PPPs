@@ -172,8 +172,10 @@ input,textarea,select{font-family:inherit;font-size:14px;color:var(--ink)}
 .app-main{
   max-width:1280px;margin:0 auto;padding:28px 32px 64px;
 }
-.tab-panel{display:none}
-.tab-panel.active{display:block;animation:fadeIn .25s ease}
+/* !important defende contra cascatas externas (padrao-visual.css) e
+   contra style.display='' setado dinamicamente em outras rotinas. */
+.tab-panel{display:none !important}
+.tab-panel.active{display:block !important;animation:fadeIn .25s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 .panel-header{

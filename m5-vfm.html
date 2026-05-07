@@ -256,8 +256,12 @@ body{
 }
 
 /* Panels */
-.panel{display:none}
-.panel.active{display:block;animation:fadeUp .3s ease}
+/* !important defende contra cascatas externas (padrao-visual.css). O
+   modo de impressão usa @media print + .panel{display:block!important}
+   para sobrepor; printReport() limpa estilos inline antes de imprimir
+   e restaura goTo(cur) depois. */
+.panel{display:none !important}
+.panel.active{display:block !important;animation:fadeUp .3s ease}
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(10px)}
   to{opacity:1;transform:none}
@@ -2266,6 +2270,9 @@ function printReport() {
     return;
   }
   buildM5(); buildM6(); buildM7();
+  // Limpa style inline (defesa contra remanescentes de iterações anteriores).
+  // Para o print propriamente, a regra @media print + .panel{display:block!important}
+  // garante que todos os painéis apareçam.
   document.querySelectorAll('.panel').forEach(p => p.style.display = '');
   window.print();
   setTimeout(() => {
