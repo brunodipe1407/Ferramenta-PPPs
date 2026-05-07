@@ -283,8 +283,10 @@ body {
   padding: 32px;
 }
 
-.tab-content { display: none; }
-.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+/* !important defende contra cascatas inesperadas de regras sobre <section>
+   ou .tab-content em CSS externos (padrao-visual.css). */
+.tab-content { display: none !important; }
+.tab-content.active { display: block !important; animation: fadeIn 0.3s ease; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
@@ -667,6 +669,8 @@ body {
 .badge-pub { background: var(--pub-bg); color: var(--pub); }
 .badge-comp { background: var(--comp-bg); color: var(--comp); }
 .badge-priv { background: var(--priv-bg); color: var(--priv); }
+.badge-var { background: #FFF4E5; color: #B45309; }
+.radio-option.checked-var { background: #FFF4E5; border-color: #B45309; color: #B45309; }
 .badge-na { background: var(--na-bg); color: var(--na); }
 
 .badge-desvio {
@@ -1569,11 +1573,28 @@ body {
     <p class="card-subtitle">Informações de identificação e enquadramento institucional</p>
 
     <div class="form-grid">
+      <!-- Campos comuns ao Hub (Início) — sincronizados via bridge -->
       <div class="field form-grid-full">
-        <label class="field-label" for="proj-nome">Nome do Projeto <span class="req">*</span></label>
-        <input type="text" id="proj-nome" class="field-input" placeholder="Ex.: Concessão da BR-XXX/RS — Lote Norte">
+        <label class="field-label" for="proj-nome">Nome / Identificação do Projeto <span class="req">*</span></label>
+        <input type="text" id="proj-nome" class="field-input" placeholder="Ex.: Concessão Administrativa do CAFF">
       </div>
 
+      <div class="field form-grid-full">
+        <label class="field-label" for="proj-secretaria">Órgão / Secretaria Responsável</label>
+        <input type="text" id="proj-secretaria" class="field-input" placeholder="Ex.: Secretaria de Logística e Transportes — SELT/RS">
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="proj-periodo">Período de Referência</label>
+        <input type="text" id="proj-periodo" class="field-input" placeholder="Ex.: 2026">
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="proj-proa">Nº do Processo (PROA / SEI)</label>
+        <input type="text" id="proj-proa" class="field-input" placeholder="Ex.: 23/0500-0001234-5">
+      </div>
+
+      <!-- Campos específicos da Matriz de Riscos -->
       <div class="field">
         <label class="field-label" for="proj-setor">Setor <span class="req">*</span></label>
         <select id="proj-setor" class="field-select" onchange="atualizarSetor()">
@@ -1598,11 +1619,6 @@ body {
         </select>
       </div>
 
-      <div class="field form-grid-full">
-        <label class="field-label" for="proj-secretaria">Secretaria/Órgão Responsável</label>
-        <input type="text" id="proj-secretaria" class="field-input" placeholder="Ex.: Secretaria de Logística e Transportes — SELT/RS">
-      </div>
-
       <div class="field">
         <label class="field-label" for="proj-valor">Valor Estimado do Contrato (R$)</label>
         <input type="text" id="proj-valor" class="field-input" placeholder="Ex.: 1.250.000.000,00">
@@ -1619,8 +1635,8 @@ body {
       </div>
 
       <div class="field">
-        <label class="field-label" for="proj-responsavel">Responsável pela Avaliação</label>
-        <input type="text" id="proj-responsavel" class="field-input" placeholder="Nome / cargo / matrícula">
+        <label class="field-label" for="proj-responsavel">Responsável Técnico</label>
+        <input type="text" id="proj-responsavel" class="field-input" placeholder="Nome, cargo e matrícula">
       </div>
 
       <div class="field form-grid-full">
@@ -1679,10 +1695,10 @@ body {
   <div class="filter-bar">
     <input type="text" class="field-input" id="filter-busca" placeholder="Buscar por código, título, palavra-chave..." oninput="aplicarFiltros()">
     <span style="font-size: 11px; color: var(--ink-light); margin-left: auto;">Filtrar por status:</span>
-    <span class="filter-pill active" data-filter="todos" onclick="setFilterPill(this, 'todos')">Todos</span>
-    <span class="filter-pill" data-filter="pendentes" onclick="setFilterPill(this, 'pendentes')">Pendentes</span>
-    <span class="filter-pill" data-filter="desvios" onclick="setFilterPill(this, 'desvios')">Com desvio</span>
-    <span class="filter-pill" data-filter="setorial" onclick="setFilterPill(this, 'setorial')">Com ajuste setorial</span>
+    <span class="filter-pill active" role="button" tabindex="0" data-filter="todos" onclick="setFilterPill(this, 'todos')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'todos');}">Todos</span>
+    <span class="filter-pill" role="button" tabindex="0" data-filter="pendentes" onclick="setFilterPill(this, 'pendentes')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'pendentes');}">Pendentes</span>
+    <span class="filter-pill" role="button" tabindex="0" data-filter="desvios" onclick="setFilterPill(this, 'desvios')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'desvios');}">Com desvio</span>
+    <span class="filter-pill" role="button" tabindex="0" data-filter="setorial" onclick="setFilterPill(this, 'setorial')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'setorial');}">Com ajuste setorial</span>
     <button class="btn btn-secondary" onclick="expandirTodos()" style="margin-left: 8px;">Expandir todos</button>
     <button class="btn btn-secondary" onclick="abrirModalNovoRisco()" style="background: var(--cage-azul); color: white; border-color: var(--cage-azul);">+ Novo risco</button>
   </div>
@@ -1809,6 +1825,17 @@ body {
   </div>
 
   <div class="card">
+    <h3 class="card-title">Como usar esta ferramenta</h3>
+    <ol style="font-size: 14px; line-height: 1.7; color: var(--ink-soft); margin: 0; padding-left: 22px;">
+      <li>Consulte o <strong>Núcleo Comum</strong> para ver as 16 categorias de risco padrão e as alocações típicas recomendadas.</li>
+      <li>Consulte os <strong>ajustes setoriais</strong> aplicáveis ao seu projeto (Rodovias, Saúde, Educação, Saneamento) — eles refinam ou substituem o tratamento padrão.</li>
+      <li>Preencha a <strong>Ficha de Projeto</strong> com a identificação básica e, em seguida, a <strong>Alocação Proposta</strong> de cada risco/subcategoria.</li>
+      <li>A coluna "Alocação Proposta" é editável — ajuste-a conforme as circunstâncias específicas do projeto, sempre que houver razão técnica para divergir da alocação típica.</li>
+      <li>Documente a <strong>justificativa</strong> para qualquer desvio em relação à alocação típica recomendada e registre as <strong>medidas de mitigação</strong> aplicáveis.</li>
+    </ol>
+  </div>
+
+  <div class="card">
     <h3 class="card-title">Particularidades do RS</h3>
     <p style="font-size: 14px; line-height: 1.7; color: var(--ink-soft);">A ferramenta incorpora riscos específicos do Rio Grande do Sul: eventos climáticos extremos (enchentes, estiagem, vendavais); estrutura fundiária complexa (comunidades indígenas Kaingang e Guarani, quilombolas, assentamentos); capacidade fiscal do Estado (garantias via fundo especial, art. 15 da Lei 12.234/2005); arcabouço regulatório próprio (AGERGS como agência reguladora, FEPAM no licenciamento ambiental).</p>
   </div>
@@ -1822,10 +1849,18 @@ body {
       <dd style="color: var(--ink-soft); padding-left: 16px;">Pessoa jurídica ou consórcio contratado para executar o projeto de PPP ou concessão.</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Evento de Compensação</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Evento cujo risco é alocado à AC e que dá ao PP direito a compensação, de prazo e/ou custo.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Evento Isento</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Evento que isenta o PP de suas obrigações afetadas, mas sem direito a compensação financeira integral.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Risco Político/Soberano</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Ato do poder público que afeta adversamente o projeto e pode gerar compensação integral ao PP.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Força Maior</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Evento além do controle das partes que impede ou atrasa o desempenho, sendo um risco tipicamente compartilhado.</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Reequilíbrio Econômico-Financeiro</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Restauração da equação econômico-financeira do contrato (art. 45 do Decreto 53.490/2017).</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">AGERGS</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Agência Estadual de Regulação dos Serviços Públicos Delegados do RS.</dd>
+      <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">PER</dt>
+      <dd style="color: var(--ink-soft); padding-left: 16px;">Programa de Exploração Rodoviária.</dd>
       <dt style="font-weight: 600; color: var(--cage-navy); margin-top: 10px;">Value for Money (VfM)</dt>
       <dd style="color: var(--ink-soft); padding-left: 16px;">Análise comparativa destinada a verificar se a estruturação do projeto como PPP proporciona a melhor combinação entre custo, risco e desempenho para a Administração Pública, em relação à execução por meio da contratação pública tradicional.</dd>
     </dl>
@@ -1838,9 +1873,9 @@ body {
 <div class="toast" id="toast"></div>
 
 <!-- ============ MODAL NOVO RISCO ============ -->
-<div class="modal-overlay" id="modal-novo-risco">
-  <div class="modal">
-    <h3 class="modal-title">Novo Risco Customizado</h3>
+<div class="modal-overlay" id="modal-novo-risco" onclick="if(event.target===this)fecharModal('modal-novo-risco')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-novo-risco-titulo">
+    <h3 class="modal-title" id="modal-novo-risco-titulo">Novo Risco Customizado</h3>
     <p class="modal-subtitle">Inclua um risco específico do seu projeto que não esteja contemplado nas 16 categorias do núcleo comum.</p>
 
     <div class="form-grid" style="grid-template-columns: 1fr;">
@@ -1891,7 +1926,7 @@ const NUCLEO_COMUM = [
     subcategorias: [
       { titulo: "Comunidades e negócios afetados", tipica: "Compartilhado", fund: "AC gerencia engajamento com comunidades; PP cumpre obrigações contratuais de impacto social." },
       { titulo: "Reassentamento", tipica: "Público", fund: "AC assume integralmente custos e gestão de reassentamento involuntário." },
-      { titulo: "Direitos de terras indígenas", tipica: "Público", fund: "Consulta prévia obrigatória, conforme Convenção 169 da OIT." },
+      { titulo: "Direitos de terras indígenas", tipica: "Público", fund: "AC assume. Consulta prévia obrigatória, conforme Convenção 169 da OIT." },
       { titulo: "Greves e manifestações", tipica: "Compartilhado", fund: "Greves do PP são risco do PP. Greves gerais ou do setor público são risco compartilhado." }
     ]
   },
@@ -1900,7 +1935,7 @@ const NUCLEO_COMUM = [
     descricao: "Risco associado a condições ambientais pré-existentes; obtenção de anuências; conformidade legal; condições causadas pelo projeto; eventos externos; e mudanças climáticas.",
     subcategorias: [
       { titulo: "Contaminação e condições pré-existentes", tipica: "Público", fund: "AC assume passivos ambientais anteriores ao projeto. No RS, atenção a áreas industriais e mineração." },
-      { titulo: "Licenciamento ambiental", tipica: "Compartilhado", fund: "AC obtém Licença Prévia e termos de referência; PP obtém Licença de Instalação e Licença de Operação junto à FEPAM." },
+      { titulo: "Licenciamento ambiental", tipica: "Compartilhado", fund: "AC obtém Licença Prévia e termos de referência; PP obtém Licença de Instalação e Licença de Operação junto à Fundação Estadual de Proteção Ambiental (FEPAM)." },
       { titulo: "Conformidade com legislação ambiental", tipica: "Privado", fund: "PP assume cumprimento integral da legislação ambiental vigente." },
       { titulo: "Condições causadas pelo projeto", tipica: "Privado", fund: "PP assume danos ambientais decorrentes de suas atividades." },
       { titulo: "Eventos climáticos extremos", tipica: "Compartilhado", fund: "ESPECÍFICO RS: enchentes, estiagem e vendavais com limiares definidos. Abaixo do limiar = PP; acima = compartilhado/força maior." },
@@ -1924,7 +1959,7 @@ const NUCLEO_COMUM = [
       { titulo: "Aumento de custos de construção", tipica: "Privado", fund: "PP assume via contrato de preço fixo com subcontratado. Exceção: variações de preço extraordinárias podem ser compartilhadas." },
       { titulo: "Atrasos na conclusão de obras", tipica: "Privado", fund: "PP assume, sujeito a eventos de compensação (atos da AC) e eventos isentos." },
       { titulo: "Gerenciamento do projeto e interface", tipica: "Privado", fund: "PP gerencia interfaces entre subcontratados e com obras da AC." },
-      { titulo: "Qualidade e conformidade técnica", tipica: "Privado", fund: "PP deve atender especificações do PER (art. 21, Decreto 53.490/2017). Fiscalização pelo Poder Concedente (art. 63)." },
+      { titulo: "Qualidade e conformidade técnica", tipica: "Privado", fund: "PP deve atender especificações do Programa de Exploração Rodoviária (PER — art. 21, Decreto 53.490/2017). Fiscalização pelo Poder Concedente (art. 63)." },
       { titulo: "Saúde e segurança ocupacional", tipica: "Privado", fund: "PP assume integralmente conforme NRs aplicáveis." },
       { titulo: "Defeitos", tipica: "Privado", fund: "PP assume retificação durante período de garantia e vida do contrato." },
       { titulo: "Vandalismo durante construção", tipica: "Privado", fund: "PP assume, com limiar acima do qual AC compartilha (definir em contrato)." }
@@ -1955,8 +1990,8 @@ const NUCLEO_COMUM = [
     id: "R08", titulo: "Risco de Demanda / Receita",
     descricao: "Risco de que os níveis de demanda/usuários sejam diferentes dos previstos; consequências para receitas e custos; e medidas de apoio governamental.",
     subcategorias: [
-      { titulo: "Volume de demanda inferior ao projetado", tipica: "Compartilhado", fund: "Variável por setor. RODOVIAS: PP assume risco de tráfego, com possível banda de compartilhamento. HOSPITAIS/ESCOLAS: AC assume (pagamento por disponibilidade). SANEAMENTO: compartilhado com mecanismo de banda." },
-      { titulo: "Volume de demanda superior ao projetado", tipica: "Compartilhado", fund: "Gatilhos de investimento conforme art. 9º, IV do Decreto 53.490/2017. Compartilhamento de receitas excedentes." },
+      { titulo: "Volume de demanda inferior ao projetado", tipica: "Variável por setor", fund: "Variável por setor. RODOVIAS: PP assume risco de tráfego, com possível banda de compartilhamento. HOSPITAIS/ESCOLAS: AC assume (pagamento por disponibilidade). SANEAMENTO: compartilhado com mecanismo de banda." },
+      { titulo: "Volume de demanda superior ao projetado", tipica: "Variável por setor", fund: "Gatilhos de investimento conforme art. 9º, IV do Decreto 53.490/2017. Compartilhamento de receitas excedentes." },
       { titulo: "Redes concorrentes ou substitutivas", tipica: "Compartilhado", fund: "AC assume se criar infraestrutura concorrente que impacte demanda do projeto." },
       { titulo: "Inadimplência de usuários", tipica: "Privado", fund: "PP assume gestão de cobrança. Em saneamento, pode haver mecanismo de compensação." }
     ]
@@ -1995,7 +2030,7 @@ const NUCLEO_COMUM = [
     id: "R12", titulo: "Risco de Força Maior",
     descricao: "Risco de eventos inesperados além do controle das partes que atrasam ou impedem o desempenho.",
     subcategorias: [
-      { titulo: "Força maior natural (enchentes, vendavais)", tipica: "Compartilhado", fund: "ESPECÍFICO RS: limiares quantitativos para enchentes (cota fluviométrica), vendavais (alerta INMET/CEMADEN) e estiagem (declaração de situação de emergência)." },
+      { titulo: "Força maior natural (enchentes, vendavais)", tipica: "Compartilhado", fund: "ESPECÍFICO RS: limiares quantitativos para enchentes (ex.: cota fluviométrica), vendavais (ex.: alerta INMET/CEMADEN) e estiagem (ex.: declaração de situação de emergência)." },
       { titulo: "Força maior causada pelo homem", tipica: "Compartilhado", fund: "Guerra, terrorismo, contaminação nuclear/biológica. Risco compartilhado com isenção ao PP." },
       { titulo: "Força maior política", tipica: "Público", fund: "Eventos políticos internos ao país podem ser alocados integralmente à AC (Risco Político/Soberano)." },
       { titulo: "Consequências da força maior", tipica: "Compartilhado", fund: "Cada parte assume suas perdas. PP recebe isenção de prazo. Rescisão após 6-12 meses de evento prolongado." }
@@ -2017,9 +2052,9 @@ const NUCLEO_COMUM = [
     subcategorias: [
       { titulo: "Conformidade com legislação vigente", tipica: "Privado", fund: "PP suporta os efeitos do descumprimento da legislação vigente e conhecida na data da proposta, relacionada às suas obrigações contratuais." },
       { titulo: "Mudança de legislação geral", tipica: "Compartilhado", fund: "Alterações legislativas, regulatórias ou normativas gerais (exceto tributárias, ambientais ou tratadas em risco específico) que afetem custos, receitas, obrigações ou desempenho do projeto." },
-      { titulo: "Mudança de legislação tributária", tipica: "Compartilhado", fund: "Impactos ordinários/previsíveis podem ser alocados ao PP. Impactos não ordinários e imprevistos podem ensejar reequilíbrio em favor do PP ou da AC, conforme matriz de riscos." },
+      { titulo: "Mudança de legislação tributária", tipica: "Compartilhado", fund: "Impactos ordinários/previsíveis podem ser alocados ao PP. Impactos não ordinários e imprevistos podem ensejar reequilíbrio em favor do PP ou da AC, conforme matriz de riscos e legislação aplicável." },
       { titulo: "Mudança de legislação específica, setorial ou discriminatória", tipica: "Público", fund: "AC assume se mudança afetar exclusivamente o projeto ou setor da PPP. Evento de compensação." },
-      { titulo: "Mudança de legislação ambiental", tipica: "Compartilhado", fund: "PP suporta o cumprimento da legislação ambiental vigente. Novas exigências podem ensejar compartilhamento de custos ou reequilíbrio." }
+      { titulo: "Mudança de legislação ambiental", tipica: "Compartilhado", fund: "PP suporta o cumprimento da legislação ambiental vigente e os custos relacionados às suas obrigações. Novas exigências ambientais poderão ensejar compartilhamento de custos ou reequilíbrio econômico-financeiro." }
     ]
   },
   {
@@ -2133,9 +2168,17 @@ function setFilterPill(el, filtro) {
 function getAlocClass(aloc) {
   if (aloc === "Público") return "pub";
   if (aloc === "Compartilhado") return "comp";
+  if (aloc === "Variável por setor") return "var";  // R08 — variação setorial: classe dedicada
   if (aloc === "Privado") return "priv";
   if (aloc === "N/A") return "na";
   return "";
+}
+
+// Opções de alocação proposta — adiciona "Variável por setor" se a típica for esta
+function getOpcoesAloc(tipica) {
+  const base = ["Público","Compartilhado","Privado"];
+  if (tipica === "Variável por setor") return ["Variável por setor", ...base];
+  return base;
 }
 
 /* ==================== INICIALIZAÇÃO ==================== */
@@ -2179,7 +2222,7 @@ function carregarRascunho() {
 }
 
 function preencherIdentificacao() {
-  const ids = ["proj-nome","proj-setor","proj-modalidade","proj-secretaria","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
+  const ids = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
   ids.forEach(id => {
     const el = document.getElementById(id);
     const key = id.replace("proj-","");
@@ -2190,7 +2233,7 @@ function preencherIdentificacao() {
 }
 
 function coletarIdentificacao() {
-  const ids = ["proj-nome","proj-setor","proj-modalidade","proj-secretaria","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
+  const ids = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
   ids.forEach(id => {
     const el = document.getElementById(id);
     const key = id.replace("proj-","");
@@ -2292,9 +2335,23 @@ function renderMatriz(preservarAbertos = false) {
 
   // Bind toggle (apenas no header — ignora cliques em controles de form)
   container.querySelectorAll(".risco-header").forEach(h => {
-    h.addEventListener("click", (e) => {
+    // Acessibilidade — torna o header operável por teclado e expõe estado expandido
+    if (!h.hasAttribute('role')) {
+      h.setAttribute('role', 'button');
+      h.setAttribute('tabindex', '0');
+      h.setAttribute('aria-expanded', h.parentElement.classList.contains('open') ? 'true' : 'false');
+    }
+    const toggleHandler = (e) => {
       if (e.target.closest("button") || e.target.closest("input") || e.target.closest("label") || e.target.closest("textarea") || e.target.closest("select") || e.target.closest(".risco-body")) return;
-      h.parentElement.classList.toggle("open");
+      const isOpen = h.parentElement.classList.toggle("open");
+      h.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+    h.addEventListener("click", toggleHandler);
+    h.addEventListener("keydown", (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleHandler(e);
+      }
     });
   });
 
@@ -2368,7 +2425,7 @@ function renderRisco(r, ajustesSetor) {
         <div>
           <div class="alocacao-tipica-label">Alocação proposta</div>
           <div class="radio-group" style="margin-top:4px">
-            ${["Público","Compartilhado","Privado"].map(opt => `
+            ${getOpcoesAloc(s.tipica).map(opt => `
               <label class="radio-option ${dadosSub.aloc === opt ? "checked-" + getAlocClass(opt) : ""}">
                 <input type="radio" name="aloc-${r.id}-${i}" value="${opt}" ${dadosSub.aloc === opt ? "checked" : ""} onchange="atualizarAloc('${r.id}',${i},'${opt}')">
                 ${opt}
@@ -2479,12 +2536,14 @@ function renderRiscoCustomizado(r, idx) {
 function atualizarAloc(rid, idx, valor) {
   estado.riscos[rid].sub[idx].aloc = valor;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
 function atualizarJust(rid, idx, valor) {
   estado.riscos[rid].sub[idx].just = valor;
   salvarAutomatico();
+  atualizarProgresso();
   // Re-render para atualizar badges (preservando estado aberto)
   renderMatriz(true);
 }
@@ -2498,18 +2557,21 @@ function atualizarMit(rid, idx, valor) {
 function toggleExcluido(rid, idx) {
   estado.riscos[rid].sub[idx].excluido = !estado.riscos[rid].sub[idx].excluido;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
 function atualizarNovoAloc(idx, valor) {
   estado.novos[idx].aloc = valor;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
 function atualizarNovoJust(idx, valor) {
   estado.novos[idx].just = valor;
   salvarAutomatico();
+  atualizarProgresso();
   renderMatriz(true);
 }
 
@@ -2532,7 +2594,18 @@ function abrirModalNovoRisco() {
   document.getElementById("novo-risco-desc").value = "";
   document.getElementById("novo-risco-tipica").value = "Compartilhado";
   abrirModal("modal-novo-risco");
+  // Foco automático no campo de título — acessibilidade
+  setTimeout(() => {
+    const t = document.getElementById("novo-risco-titulo");
+    if (t) t.focus();
+  }, 50);
 }
+
+// Esc fecha qualquer modal aberto
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+});
 
 function adicionarNovoRisco() {
   const titulo = document.getElementById("novo-risco-titulo").value.trim();
@@ -2643,6 +2716,9 @@ function calcularEstatisticas() {
       if (s.aloc === "Público") { stats.pub++; porCategoria[r.id].pub++; }
       else if (s.aloc === "Compartilhado") { stats.comp++; porCategoria[r.id].comp++; }
       else if (s.aloc === "Privado") { stats.priv++; porCategoria[r.id].priv++; }
+      else if (s.aloc === "Variável por setor") { stats.comp++; porCategoria[r.id].comp++; }
+      // Nota: "Variável por setor" agrega visualmente em Compartilhado nos contadores
+      // do dashboard, alinhado com o tratamento da planilha canônica.
 
       if (s.aloc !== tipica) {
         stats.desvios++;
@@ -3007,7 +3083,7 @@ function atualizarRelatorio() {
     <p style="font-size: 11px; line-height: 1.7;">
       <strong>Federal:</strong> Lei 8.987/1995 (Concessões); Lei 11.079/2004 (PPP); Lei 14.026/2020 (Marco do Saneamento). <br>
       <strong>Estadual — RS:</strong> Lei 10.086/1994 (Concessões); Lei 12.234/2005 (PPPs); Lei 14.875/2016 (Concessões Rodoviárias); Decreto 53.490/2017 (Marco Rodoviário); Decreto 53.495/2017 (Programa CPPP/RS).<br>
-      <strong>Referencial técnico:</strong> Global Infrastructure Hub; Allen &amp; Overy. Ferramenta de Alocação de Riscos em PPPs — Edição 2019. Disponível em: <em>https://ppp-risk-allocation-tool.gihub.org</em>.<br>
+      <strong>Referencial técnico:</strong> Global Infrastructure Hub; Allen &amp; Overy. Ferramenta de Alocação de Riscos em PPPs — Edição 2019. Disponível em: <em>https://ppp-risk-allocation-tool.gihub.org</em>. Acesso em: 23 mar. 2026.<br>
       <strong>Norma geral de alocação (Art. 47, Decreto 53.490/2017):</strong> O risco deve ser alocado à parte que (I) melhor puder controlar a ocorrência do evento; (II) conseguir absorver e gerenciar o risco a custo mais baixo; e (III) possuir condições de eliminar ou compensar os danos com maior eficiência e economicidade.
     </p>
   </div>`;
@@ -3076,10 +3152,15 @@ document.querySelectorAll(".nav-tab").forEach(tab => {
 
 function limparFormulario() {
   if (confirm("Tem certeza que deseja limpar todos os campos? Esta ação não pode ser desfeita.")) {
-    localStorage.removeItem("matriz_riscos_data");
+    // BUG corrigido na Fase 3: a chave correta é STORAGE_KEY ('matriz_riscos_ppp_rs_v1'),
+    // não 'matriz_riscos_data'. Antes desta correção, "Limpar Campos" não fazia nada.
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
     location.reload();
   }
 }
+
+// Alias para o contrato genérico do shell (gtsefaz_clear)
+function limparDados() { limparFormulario(); }
 
 /* ==================== INIT ==================== */
 
@@ -3108,12 +3189,16 @@ document.addEventListener("DOMContentLoaded", () => {
 ══════════════════════════════════════ */
 (function() {
   if (!document.documentElement.classList.contains('embed-mode')) return;
-  const MOD = 3;
-  // M3 usa prefixo proj- (não tem campo de período de referência)
+  const MOD = 2;
+  // M2 — campos comuns sincronizados com o Hub (Início). A Fase 3 alinhou os
+  // campos visuais; esta tabela mapeia cada chave canônica para o ID no DOM.
   const FIELDS = {
-    nome:  'proj-nome',
-    orgao: 'proj-secretaria'
-    // periodoRef: não existe no M3
+    nome:        'proj-nome',
+    orgao:       'proj-secretaria',
+    periodoRef:  'proj-periodo',
+    proa:        'proj-proa',
+    responsavel: 'proj-responsavel',
+    data:        'proj-data'
   };
   let suspendEmit = false;
   let debounceTimer = null;
@@ -3138,7 +3223,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = dados[k] || '';
-      if (!el.value || el.value.trim() === '') {
+      // Antes da Fase 3 só sobrescrevíamos campos vazios — quebrava a
+      // sincronização do Hub a partir da 2ª keystroke ('S' chegava, depois
+      // 'Sp' era ignorado por já existir 'S'). Agora aceitamos qualquer
+      // atualização autoritativa do shell, contanto que o valor mude.
+      if (el.value !== novoValor) {
+        // Preserva foco/cursor: só atualiza o input se ele não estiver
+        // sendo editado pelo usuário neste módulo
+        if (document.activeElement === el) continue;
         el.value = novoValor;
       }
     }
@@ -3169,6 +3261,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'gtsefaz_projeto_set') {
       setDados(e.data.dados);
+    } else if (e.data.type === 'gtsefaz_save') {
+      // Save imediato + emite gtsefaz_saved para o shell
+      try {
+        if (typeof salvarAutomatico === 'function') salvarAutomatico();
+        parent.postMessage({ type: 'gtsefaz_saved', mod: MOD }, '*');
+      } catch(err) {}
+    } else if (e.data.type === 'gtsefaz_clear') {
+      try { if (typeof limparFormulario === 'function') limparFormulario(); } catch(err) {}
     }
   });
 

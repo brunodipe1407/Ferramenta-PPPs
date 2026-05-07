@@ -154,35 +154,13 @@
     background: #fff;
   }
 
-  /* ── MODALIDADE PANEL ── */
-  .modal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .modal-card {
-    border: 2px solid var(--cage-border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: all 0.15s;
-    position: relative;
-  }
-  .modal-card:hover { border-color: var(--cage-sky); background: #F8FAFC; }
-  .modal-card.active { border-color: var(--cage-blue); background: var(--cage-light); }
-  .modal-card input[type=checkbox] { position: absolute; top: 14px; right: 14px; width: 16px; height: 16px; accent-color: var(--cage-blue); cursor: pointer; }
-  .modal-card .mc-label { font-family: 'Roboto Slab', Georgia, serif; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: var(--cage-navy); margin-bottom: 3px; }
-  .modal-card .mc-desc { font-size: 11px; color: var(--cage-muted); line-height: 1.4; padding-right: 24px; }
+  /* (Estilos .modal-grid/.modal-card removidos na Fase 3 — bloco "Modalidade
+     de Prestação do Serviço" foi suprimido por ser redundante com a coluna
+     Modalidade da Tabela de Levantamento de Custos.) */
 
-  /* ── TRANSACTION COSTS ── */
-  .trans-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: end; }
-  .trans-result {
-    background: var(--trans-light);
-    border: 1px solid #C8B8E0;
-    border-radius: var(--radius);
-    padding: 10px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .trans-result .tr-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--trans-color); }
-  .trans-result .tr-value { font-family: 'Roboto Slab', Georgia, serif; font-size: 20px; font-weight: 800; color: var(--trans-color); }
+  /* (Estilos .trans-grid/.trans-result removidos na Fase 3 — bloco
+     "Custos de Transação" foi integrado como item C6 em CAT C · Gestão na Fase 2.
+     Variáveis --trans-color/--trans-light continuam em uso pelo .total-card.tc-licitada.) */
 
   /* ── COST TABLE ── */
   .category-block { margin-bottom: 8px; }
@@ -257,7 +235,7 @@
   .col-fonte-sug { width: 180px; }
   .col-fonte-used { width: 150px; }
   .col-valor { width: 130px; }
-  .col-conf { width: 90px; }
+  /* (.col-conf removido na Fase 3 — coluna Confiabilidade suprimida.) */
   .col-obs { min-width: 140px; }
   .col-acao { width: 44px; text-align: center; }
 
@@ -371,7 +349,8 @@
   .tipo-L { background: #FDE8D8; color: var(--amber); }
   .tipo-E { background: #FFE8E6; color: var(--red); }
 
-  .premissa-footer { padding: 10px 16px; border-top: 1px solid var(--cage-border); display: flex; justify-content: flex-end; }
+  /* Alinhado à esquerda para combinar com os footers das categorias (CAPEX/OPEX/Gestão/Receita). */
+  .premissa-footer { padding: 10px 16px; border-top: 1px solid var(--cage-border); display: flex; justify-content: flex-start; }
 
   /* ── FONTES ── */
   .fontes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -410,8 +389,12 @@
     body { background: #fff; font-size: 11px; }
     .app-header { position: static; }
     .header-actions, .status-bar, .btn-add, .btn-del, .note-bar { display: none !important; }
+    .col-acao { display: none !important; }
     .main-container { padding: 10px; max-width: 100%; }
     .panel { box-shadow: none; break-inside: avoid; }
+    /* Garante que categorias colapsadas sejam expandidas no print */
+    .category-table-wrap { display: block !important; }
+    .category-header { cursor: default !important; }
 
     input, select, textarea {
       border: none !important; background: transparent !important;
@@ -419,10 +402,7 @@
       font-size: 11px !important;
       pointer-events: none;
     }
-    .modal-card input[type=checkbox] { display: none; }
-    .modal-card { border: 1px solid #ccc; }
-    .modal-card.active { background: #EEF4FF; border-color: #4A90C4; }
-    .modal-card:not(.active) { opacity: 0.4; }
+    /* (Print styles de .modal-card removidos na Fase 3 — bloco suprimido.) */
 
     .totals-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
     .tc-value { font-size: 18px !important; }
@@ -518,7 +498,7 @@
 
   <!-- IDENTIFICAÇÃO -->
   <div class="panel">
-    <div class="panel-header"><span class="ph-dot"></span>Identificação do Projeto e Período de Referência</div>
+    <div class="panel-header"><span class="ph-dot"></span>Identificação do Projeto</div>
     <div class="panel-body">
       <div class="id-grid">
         <div class="field-group">
@@ -530,8 +510,12 @@
           <input type="text" id="orgao" placeholder="Ex.: Secretaria da Educação — SEDUC/RS">
         </div>
         <div class="field-group">
-          <label>Período de Referência (Ano-base)</label>
+          <label>Exercício de Referência (Ano-base)</label>
           <input type="text" id="periodoRef" placeholder="Ex.: 2024">
+        </div>
+        <div class="field-group">
+          <label>Período Abrangido pelo Levantamento</label>
+          <input type="text" id="periodoAbrang" placeholder="Ex.: jan/2023 a dez/2024 (média)">
         </div>
         <div class="field-group">
           <label>Responsável pelo Preenchimento</label>
@@ -549,58 +533,17 @@
     </div>
   </div>
 
-  <!-- MODALIDADE -->
-  <div class="panel">
-    <div class="panel-header"><span class="ph-dot"></span>Modalidade de Prestação do Serviço</div>
-    <div class="panel-body">
-      <p style="font-size:12px; color:var(--cage-muted); margin-bottom:14px;">Selecione a(s) modalidade(s) identificada(s). Em projetos mistos, marque todas as que se aplicam. As modalidades não selecionadas serão ocultadas no relatório, mas os valores preenchidos entram na consolidação total.</p>
-      <div class="modal-grid">
-        <label class="modal-card active" id="card-A">
-          <input type="checkbox" id="modal-A" checked onchange="toggleModalCard('A')">
-          <div class="mc-label">A — Administração Direta</div>
-          <div class="mc-desc">Serviço prestado diretamente pelo órgão/secretaria com servidores do quadro estadual</div>
-        </label>
-        <label class="modal-card active" id="card-B">
-          <input type="checkbox" id="modal-B" checked onchange="toggleModalCard('B')">
-          <div class="mc-label">B — Administração Indireta</div>
-          <div class="mc-desc">Serviço prestado por autarquia, fundação, EP ou SEM vinculada</div>
-        </label>
-        <label class="modal-card active" id="card-C">
-          <input type="checkbox" id="modal-C" checked onchange="toggleModalCard('C')">
-          <div class="mc-label">C — Contratação Licitada</div>
-          <div class="mc-desc">Serviço prestado integralmente por empresa contratada via licitação</div>
-        </label>
-      </div>
-    </div>
-  </div>
+  <!-- Bloco "Modalidade de Prestação do Serviço" removido (Fase 3): redundante com a coluna Modalidade
+       da Tabela de Levantamento de Custos, onde cada linha já é classificada como A/B/C. -->
 
-  <!-- TRANSAÇÃO -->
-  <div class="panel">
-    <div class="panel-header"><span class="ph-dot"></span>Custos de Transação — Processos Licitatórios</div>
-    <div class="panel-body">
-      <div class="trans-grid">
-        <div class="field-group">
-          <label>Número de Contratos a Licitar</label>
-          <input type="number" id="numContratos" min="0" value="0" placeholder="0" oninput="calcTransacao()">
-        </div>
-        <div class="field-group">
-          <label>Custo Estimado por Processo Licitatório (R$)</label>
-          <input type="number" id="custoLicit" min="0" value="0" placeholder="0,00" oninput="calcTransacao()">
-        </div>
-        <div class="trans-result">
-          <span class="tr-label">Subtotal — Custo de Transação Anual</span>
-          <span class="tr-value" id="totalTransacao">R$ 0,00</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Bloco "Custos de Transação" foi integrado como item C6 em CAT C · Gestão (Fase 2 — sincronização com Excel canônico). -->
 
   <!-- TABELAS DE CUSTO -->
   <div class="section-label">Tabela de Levantamento de Custos</div>
 
   <!-- CAPEX -->
   <div class="category-block cat-capex">
-    <div class="category-header" onclick="toggleCategory('capex')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-capex" onclick="toggleCategory('capex')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('capex');}">
       <div class="ch-left">
         <span class="ch-code">CAT A</span>
         <span class="ch-name">CAPEX — Investimentos Anualizados</span>
@@ -619,7 +562,6 @@
           <th class="col-fonte-sug">Fontes Sugeridas</th>
           <th class="col-fonte-used">Fonte Utilizada</th>
           <th class="col-valor">Valor Anual (R$)</th>
-          <th class="col-conf">Confiabilidade</th>
           <th class="col-obs">Observações</th>
           <th class="col-acao"></th>
         </tr></thead>
@@ -635,7 +577,7 @@
 
   <!-- OPEX -->
   <div class="category-block cat-opex" style="margin-top:8px">
-    <div class="category-header" onclick="toggleCategory('opex')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-opex" onclick="toggleCategory('opex')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('opex');}">
       <div class="ch-left">
         <span class="ch-code">CAT B</span>
         <span class="ch-name">OPEX — Operação e Manutenção</span>
@@ -654,7 +596,6 @@
           <th class="col-fonte-sug">Fontes Sugeridas</th>
           <th class="col-fonte-used">Fonte Utilizada</th>
           <th class="col-valor">Valor Anual (R$)</th>
-          <th class="col-conf">Confiabilidade</th>
           <th class="col-obs">Observações</th>
           <th class="col-acao"></th>
         </tr></thead>
@@ -670,7 +611,7 @@
 
   <!-- GESTÃO -->
   <div class="category-block cat-gestao" style="margin-top:8px">
-    <div class="category-header" onclick="toggleCategory('gestao')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-gestao" onclick="toggleCategory('gestao')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('gestao');}">
       <div class="ch-left">
         <span class="ch-code">CAT C</span>
         <span class="ch-name">Gestão e Fiscalização Contratual</span>
@@ -689,7 +630,6 @@
           <th class="col-fonte-sug">Fontes Sugeridas</th>
           <th class="col-fonte-used">Fonte Utilizada</th>
           <th class="col-valor">Valor Anual (R$)</th>
-          <th class="col-conf">Confiabilidade</th>
           <th class="col-obs">Observações</th>
           <th class="col-acao"></th>
         </tr></thead>
@@ -705,7 +645,7 @@
 
   <!-- RECEITAS -->
   <div class="category-block cat-receita" style="margin-top:8px">
-    <div class="category-header" onclick="toggleCategory('receita')">
+    <div class="category-header" role="button" tabindex="0" aria-expanded="true" aria-controls="wrap-receita" onclick="toggleCategory('receita')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCategory('receita');}">
       <div class="ch-left">
         <span class="ch-code">CAT D</span>
         <span class="ch-name">Receitas — Deduções do Custo Público</span>
@@ -724,7 +664,6 @@
           <th class="col-fonte-sug">Fontes Sugeridas</th>
           <th class="col-fonte-used">Fonte Utilizada</th>
           <th class="col-valor">Valor Anual (R$)</th>
-          <th class="col-conf">Confiabilidade</th>
           <th class="col-obs">Observações</th>
           <th class="col-acao"></th>
         </tr></thead>
@@ -744,7 +683,7 @@
     <div class="total-card tc-main">
       <div class="tc-label">Custo Público Anual Total (PSC Bruto)</div>
       <div class="tc-value" id="total-geral">R$ 0,00</div>
-      <div class="tc-sublabel">(CAPEX + OPEX + Gestão) − Receitas + Transação</div>
+      <div class="tc-sublabel">CAPEX + OPEX + Gestão − Receitas</div>
     </div>
     <div class="total-card tc-direta">
       <div class="tc-label">Administração Direta</div>
@@ -757,7 +696,7 @@
       <div class="tc-pct" id="pct-indireta">—</div>
     </div>
     <div class="total-card tc-licitada">
-      <div class="tc-label">Contratos Licitados + Transação</div>
+      <div class="tc-label">Contrato Licitado</div>
       <div class="tc-value" id="total-licitada">R$ 0,00</div>
       <div class="tc-pct" id="pct-licitada">—</div>
     </div>
@@ -828,7 +767,8 @@ function makeRow(cat, data = {}) {
   const fonteSug = FONTES_SUG;
   const fonteUsed = data.fonteUsed || '';
   const valor   = data.valor !== undefined ? data.valor : '';
-  const conf    = data.conf || '';
+  // (Campo data.conf é ignorado — coluna Confiabilidade removida na Fase 3.
+  //  Rascunhos antigos com 'conf' continuam carregando, apenas sem efeito.)
   const obs     = data.obs || '';
 
   tr.innerHTML = `
@@ -843,18 +783,9 @@ function makeRow(cat, data = {}) {
     </td>
     <td class="col-fonte-used"><input type="text" placeholder="Informe a fonte consultada" value="${escHtml(fonteUsed)}" oninput="recalc()"></td>
     <td class="col-valor"><input type="number" min="0" step="0.01" placeholder="0,00" value="${valor !== '' ? valor : ''}" oninput="recalc()"></td>
-    <td class="col-conf">
-      <select onchange="recalc(); updateConfColor(this)">
-        ${buildConfOptions(conf)}
-      </select>
-    </td>
     <td class="col-obs"><textarea placeholder="Registre premissas, rateios, referências…" oninput="recalc()">${escHtml(obs)}</textarea></td>
-    <td class="col-acao"><button class="btn-del" onclick="delRow('${id}')" title="Excluir linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
+    <td class="col-acao"><button class="btn-del" onclick="delRow('${id}')" title="Excluir linha" aria-label="Excluir linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
   `;
-
-  // color conf select
-  const sel = tr.querySelector('select:last-of-type');
-  updateConfColor(sel);
 
   return tr;
 }
@@ -865,23 +796,11 @@ function buildModalOptions(selected) {
   ).join('');
 }
 
-function buildConfOptions(selected) {
-  return [['','—'],['Alta','Alta'],['Média','Média'],['Baixa','Baixa'],['Estimativa','Estimativa']].map(([v,l]) =>
-    `<option value="${v}"${v === selected ? ' selected' : ''}>${l}</option>`
-  ).join('');
-}
+// (Funções buildConfOptions / updateConfColor removidas na Fase 3 — coluna
+// Confiabilidade foi suprimida da Tabela de Levantamento de Custos.)
 
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function updateConfColor(sel) {
-  sel.className = '';
-  const v = sel.value;
-  if (v === 'Alta') sel.style.color = 'var(--green)';
-  else if (v === 'Média') sel.style.color = 'var(--amber)';
-  else if (v === 'Baixa' || v === 'Estimativa') sel.style.color = 'var(--red)';
-  else sel.style.color = '';
 }
 
 function addRow(cat, data = {}) {
@@ -926,25 +845,9 @@ function calcCat(cat) {
   return total;
 }
 
-function calcByModal(modal, excludeCat) {
-  let total = 0;
-  ['capex','opex','gestao'].forEach(cat => {
-    if (cat === excludeCat) return;
-    const tbody = document.getElementById(`tbody-${cat}`);
-    Array.from(tbody?.children || []).forEach(tr => {
-      if (getRowModal(tr) === modal) total += getRowValue(tr);
-    });
-  });
-  return total;
-}
+// (Função calcByModal removida na Fase 3 — era dead code, substituída pela lógica
+// inline em recalc().)
 
-function calcTransacao() {
-  const n = parseFloat(document.getElementById('numContratos')?.value) || 0;
-  const c = parseFloat(document.getElementById('custoLicit')?.value) || 0;
-  const t = n * c;
-  document.getElementById('totalTransacao').textContent = fmt(t);
-  recalc();
-}
 
 function recalc() {
   const cats = ['capex','opex','gestao','receita'];
@@ -960,17 +863,23 @@ function recalc() {
     });
     subs[cat] = sub;
     document.getElementById(`sub-${cat}`).textContent = fmt(sub);
-    document.getElementById(`foot-${cat}`).textContent =
-      cat === 'receita' ? `Total Deduções: ${fmt(sub)}` : `Subtotal: ${fmt(sub)}`;
     const countEl = document.getElementById(`count-${cat}`);
     if (countEl) countEl.textContent = `(${count} ${count === 1 ? 'item' : 'itens'})`;
   });
 
-  const trans = parseFloat(document.getElementById('numContratos')?.value || 0) *
-                parseFloat(document.getElementById('custoLicit')?.value || 0) || 0;
-
-  const totalBruto = subs.capex + subs.opex + subs.gestao - subs.receita + trans;
+  const totalBruto = subs.capex + subs.opex + subs.gestao - subs.receita;
   document.getElementById('total-geral').textContent = fmt(totalBruto);
+
+  // % do PSC bruto por categoria (alinha com aba 2.2 Consolidação do Excel)
+  const pctCat = (v, label) => totalBruto > 0
+    ? `${label}: ${fmt(v)} · ${((v/totalBruto)*100).toFixed(1)}% do PSC`
+    : `${label}: ${fmt(v)}`;
+  document.getElementById('foot-capex').textContent   = pctCat(subs.capex,   'Subtotal');
+  document.getElementById('foot-opex').textContent    = pctCat(subs.opex,    'Subtotal');
+  document.getElementById('foot-gestao').textContent  = pctCat(subs.gestao,  'Subtotal');
+  document.getElementById('foot-receita').textContent = totalBruto > 0
+    ? `Total Deduções: ${fmt(subs.receita)} · ${((subs.receita/totalBruto)*100).toFixed(1)}% do PSC`
+    : `Total Deduções: ${fmt(subs.receita)}`;
 
   // by modal
   const modals = { 'Administração Direta': 0, 'Administração Indireta': 0, 'Contrato Licitado': 0 };
@@ -981,7 +890,6 @@ function recalc() {
       if (modals[m] !== undefined) modals[m] += getRowValue(tr);
     });
   });
-  modals['Contrato Licitado'] += trans;
 
   const tDir   = modals['Administração Direta'];
   const tInd   = modals['Administração Indireta'];
@@ -1013,15 +921,16 @@ function toggleCategory(cat) {
   const isHidden = wrap?.style.display === 'none';
   if (wrap) wrap.style.display = isHidden ? '' : 'none';
   if (footer) footer.style.display = isHidden ? '' : 'none';
-  if (header) header.classList.toggle('collapsed', !isHidden);
+  if (header) {
+    header.classList.toggle('collapsed', !isHidden);
+    // Acessibilidade — sincroniza aria-expanded
+    header.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+  }
 }
 
-// ── MODAL CARD TOGGLE ──
-function toggleModalCard(letter) {
-  const card = document.getElementById(`card-${letter}`);
-  const cb = document.getElementById(`modal-${letter}`);
-  if (card && cb) card.classList.toggle('active', cb.checked);
-}
+// (Função toggleModalCard removida na Fase 3 — bloco "Modalidade de Prestação do
+// Serviço" foi suprimido por ser redundante com a coluna Modalidade da Tabela de
+// Levantamento de Custos.)
 
 // ── CONFIABILIDADE ──
 function updateConfBadge(dim) {
@@ -1072,7 +981,7 @@ function addPremissa(data = {}) {
       </select>
     </td>
     <td><textarea placeholder="Descreva a premissa, limitação ou estimativa utilizada…">${escHtml(desc)}</textarea></td>
-    <td><button class="btn-del" onclick="delPremissa('${id}')" title="Excluir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
+    <td><button class="btn-del" onclick="delPremissa('${id}')" title="Excluir" aria-label="Excluir premissa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
   `;
   tbody.appendChild(tr);
 }
@@ -1107,46 +1016,61 @@ function collectData() {
     return { tipo: sel?.value || '', desc: ta?.value || '' };
   });
 
-  const confDims = ['pessoal','contratos','capital','periodo','rateio','receitas'];
+  // (Bloco 'confiabilidade' foi removido da UI — confs é mantido vazio para
+  // compatibilidade com rascunhos antigos do schema anterior. Limpo na Fase 3.)
   const confs = {};
-  confDims.forEach(d => {
-    confs[d] = { val: document.getElementById(`conf-${d}`)?.value || '', just: document.getElementById(`just-${d}`)?.value || '' };
-  });
 
   return {
     header: {
       nomeProjeto: document.getElementById('nomeProjeto')?.value,
       orgao: document.getElementById('orgao')?.value,
       periodoRef: document.getElementById('periodoRef')?.value,
+      periodoAbrang: document.getElementById('periodoAbrang')?.value,
       responsavel: document.getElementById('responsavel')?.value,
       dataPreench: document.getElementById('dataPreench')?.value,
       versao: document.getElementById('versao')?.value,
     },
-    modalidades: {
-      A: document.getElementById('modal-A')?.checked,
-      B: document.getElementById('modal-B')?.checked,
-      C: document.getElementById('modal-C')?.checked,
-    },
-    transacao: {
-      numContratos: document.getElementById('numContratos')?.value,
-      custoLicit: document.getElementById('custoLicit')?.value,
-    },
+    // (Bloco 'modalidades' removido na Fase 3 — agora a modalidade é definida
+    // por linha na Tabela de Levantamento de Custos, sem necessidade do toggle global.)
     rows, premissas, confs
   };
 }
 
-function salvarRascunho() {
+let m1IsHydrating = false;
+let m1SaveTimer = null;
+
+function salvarRascunho(silent) {
+  if (m1IsHydrating) return;
   try {
     const data = collectData();
     localStorage.setItem('psc_cage_rs_v1', JSON.stringify(data));
     document.getElementById('sb-status').textContent = '● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR');
+    try { parent.postMessage({ type: 'gtsefaz_saved', mod: 1 }, '*'); } catch(e) {}
   } catch(e) {
-    alert('Atenção: não foi possível salvar no localStorage deste navegador. Copie os dados manualmente ou use o Export PDF.');
+    document.getElementById('sb-status').textContent = '● Erro ao salvar (localStorage cheio?)';
+    if (!silent) alert('Atenção: não foi possível salvar no localStorage deste navegador. Copie os dados manualmente ou use o Export PDF.');
   }
 }
 
+// Auto-save com debounce — disparado por listeners globais (input, change)
+function m1ScheduleSave() {
+  if (m1IsHydrating) return;
+  clearTimeout(m1SaveTimer);
+  m1SaveTimer = setTimeout(() => salvarRascunho(true), 600);
+}
+document.addEventListener('input',  m1ScheduleSave);
+document.addEventListener('change', m1ScheduleSave);
+
 function carregarRascunho() {
+  m1IsHydrating = true;
   try {
+    // Limpa estados antes de hidratar — evita duplicação de premissas/linhas se carregarRascunho for chamado em sequência
+    ['capex','opex','gestao','receita'].forEach(cat => {
+      const tb = document.getElementById(`tbody-${cat}`);
+      if (tb) tb.innerHTML = '';
+    });
+    const tbp = document.getElementById('tbody-premissa');
+    if (tbp) tbp.innerHTML = '';
     const raw = localStorage.getItem('psc_cage_rs_v1');
     if (!raw) return false;
     const data = JSON.parse(raw);
@@ -1154,19 +1078,9 @@ function carregarRascunho() {
     if (data.header) {
       Object.entries(data.header).forEach(([k,v]) => { const el = document.getElementById(k); if (el) el.value = v || ''; });
     }
-    // modalidades
-    if (data.modalidades) {
-      ['A','B','C'].forEach(l => {
-        const cb = document.getElementById(`modal-${l}`);
-        if (cb) { cb.checked = !!data.modalidades[l]; toggleModalCard(l); }
-      });
-    }
-    // transacao
-    if (data.transacao) {
-      const nc = document.getElementById('numContratos'); if (nc) nc.value = data.transacao.numContratos || 0;
-      const cl = document.getElementById('custoLicit'); if (cl) cl.value = data.transacao.custoLicit || 0;
-      calcTransacao();
-    }
+    // (Blocos 'modalidades' e 'transacao' do schema antigo são ignorados.
+    //  - 'modalidades' foi removido na Fase 3 — modalidade agora vai por linha na tabela de custos.
+    //  - 'transacao' foi integrado como item C6 em CAT C · Gestão na Fase 2.)
     // rows
     if (data.rows) {
       ['capex','opex','gestao','receita'].forEach(cat => {
@@ -1184,8 +1098,9 @@ function carregarRascunho() {
     }
     recalc();
     document.getElementById('sb-status').textContent = '● Rascunho carregado';
+    m1IsHydrating = false;
     return true;
-  } catch(e) { return false; }
+  } catch(e) { m1IsHydrating = false; return false; }
 }
 
 // ── EXPORT ──
@@ -1206,49 +1121,56 @@ function limparDados() {
   document.getElementById('nomeProjeto').value = '';
   document.getElementById('orgao').value = '';
   document.getElementById('periodoRef').value = '';
+  const pa = document.getElementById('periodoAbrang'); if (pa) pa.value = '';
   document.getElementById('responsavel').value = '';
   document.getElementById('dataPreench').value = '';
   document.getElementById('versao').value = 'v1.0';
-  document.getElementById('numContratos').value = 0;
-  document.getElementById('custoLicit').value = 0;
   ['pessoal','contratos','capital','periodo','rateio','receitas'].forEach(d => {
     const sel = document.getElementById(`conf-${d}`); if (sel) sel.value = '';
     const just = document.getElementById(`just-${d}`); if (just) just.value = '';
     updateConfBadge(d);
   });
-  calcTransacao();
   carregarExemplos();
   document.getElementById('sb-status').textContent = '● Rascunho não salvo';
 }
 
 // ── TEMPLATE DATA ──
 function carregarExemplos() {
-  // CAPEX
-  addRow('capex', { item: 'Obras e instalações — adequação de infraestrutura', modal: 'Contrato Licitado', fonteUsed: '', valor: 850000, conf: 'Baixa', obs: 'Custo anualizado: valor total ÷ vida útil estimada (25 anos). Dados do setor de patrimônio.' });
-  addRow('capex', { item: 'Equipamentos e material permanente (depreciação anual)', modal: 'Administração Direta', fonteUsed: '', valor: 120000, conf: 'Baixa', obs: 'Taxa de depreciação conforme NBC TSP 34 / MCASP. Dados de patrimônio do órgão.' });
-  addRow('capex', { item: 'Sistemas de TI e licenças de software específicos', modal: 'Contrato Licitado', fonteUsed: '', valor: 95000, conf: 'Médio', obs: 'Contratos de licença e manutenção de sistemas. Verificar no CAGE Gerencial / IEF.' });
-  addRow('capex', { item: 'Veículos — depreciação anual (frota alocada ao serviço)', modal: 'Administração Direta', fonteUsed: '', valor: 48000, conf: 'Baixa', obs: 'Vida útil de veículos: 5 anos (MCASP). Solicitar ao setor de patrimônio.' });
+  // Itens-tipo alinhados com a aba 'Md 2 - 2.1 Levantamento' do Excel canônico.
+  // CAPEX (5 itens)
+  addRow('capex', { item: 'Obras e instalações — adequação de infraestrutura', modal: 'Administração Direta', fonteUsed: '', valor: 850000, obs: 'Custo anualizado: valor total ÷ vida útil estimada. Conforme NBC TSP/MCASP.' });
+  addRow('capex', { item: 'Equipamentos e material permanente', modal: 'Administração Direta', fonteUsed: '', valor: 120000, obs: 'Taxa de depreciação conforme NBC TSP 34 / MCASP. Dados de patrimônio do órgão.' });
+  addRow('capex', { item: 'Sistemas de TI e licenças de software específicos do serviço', modal: 'Administração Indireta', fonteUsed: '', valor: 95000, obs: 'Incluir gastos com ativos de TI gerados internamente. Contratos de licença e manutenção. Verificar no CAGE Gerencial / IEF.' });
+  addRow('capex', { item: 'Veículos (frota alocada)', modal: 'Administração Direta', fonteUsed: '', valor: 48000, obs: 'Vida útil de veículos: 5 anos (MCASP). Solicitar ao setor de patrimônio.' });
+  addRow('capex', { item: 'Custos tributários', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Considerar possíveis impactos tributários sobre o CAPEX (imposto de importação, CIDE, imposto seletivo etc.). Avaliar imunidade tributária aplicável (ex.: hospital 100% SUS).' });
 
-  // OPEX
-  addRow('opex', { item: 'Remuneração bruta de servidores (custo total do empregador)', modal: 'Administração Direta', fonteUsed: '', valor: 3200000, conf: 'Alta', obs: 'Incluir remuneração + contribuição patronal RPPS/IPE Prev (~23,75%). Fonte: Painel de Informações de Pessoal / pi.sefaz.rs.gov.br. Aplicar fator de rateio pelo gestor.' });
-  addRow('opex', { item: 'Contribuição patronal ao RPPS / IPE Prev (FUNDOPREV)', modal: 'Administração Direta', fonteUsed: '', valor: 0, conf: 'Alta', obs: 'Se já consolidado na linha de remuneração acima, manter como zero e registrar aqui.' });
-  addRow('opex', { item: 'Diárias e passagens — pessoal alocado ao serviço (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 18000, conf: 'Médio', obs: 'Aplicar mesmo fator de rateio do pessoal. Portal Transparência/RS → Natureza: Diárias.' });
-  addRow('opex', { item: 'Capacitação e treinamento (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 22000, conf: 'Baixa', obs: 'Estimativa: separar contratos de capacitação do total de Outros Serviços de Terceiros PJ.' });
-  addRow('opex', { item: 'Contratos terceirizados de limpeza e conservação', modal: 'Contrato Licitado', fonteUsed: '', valor: 480000, conf: 'Alta', obs: 'Somar valores anualizados dos contratos vigentes. CAGE Gerencial → CUSTOS-RS (TERC).' });
-  addRow('opex', { item: 'Contratos de manutenção de equipamentos e instalações', modal: 'Contrato Licitado', fonteUsed: '', valor: 210000, conf: 'Alta', obs: 'Incluir manutenção predial, equipamentos e TI. Portal Transparência/RS → Contratos de Serviços.' });
-  addRow('opex', { item: 'Energia elétrica e água/esgoto (rateio por uso)', modal: 'Administração Direta', fonteUsed: '', valor: 95000, conf: 'Médio', obs: 'Estimar com base em m² ocupados. IEF não permite rateio percentual por CC — consolidar no CC superior.' });
-  addRow('opex', { item: 'Locação de imóveis utilizados pelo serviço', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, conf: 'Alta', obs: 'Incluir apenas imóveis utilizados pelo serviço. CAGE Gerencial → CUSTOS-RS (LOC).' });
-  addRow('opex', { item: 'Rateio de despesas operacionais da entidade vinculada', modal: 'Administração Indireta', fonteUsed: '', valor: 620000, conf: 'Baixa', obs: 'Fonte: Demonstrações Financeiras da entidade (DRE/Notas Explicativas). Aplicar % de atividade.' });
-  addRow('opex', { item: 'Transferências do Estado para a entidade vinculada (repasses)', modal: 'Administração Indireta', fonteUsed: '', valor: 0, conf: 'Alto', obs: 'Portal Transparência/RS → Convênios e Parcerias. Verificar se o repasse cobre só este serviço.' });
-  addRow('opex', { item: 'Fornecimento de bens / insumos recorrentes (almoxarifado)', modal: 'Administração Direta', fonteUsed: '', valor: 68000, conf: 'Médio', obs: 'CAGE Gerencial → CUSTOS-RS (SAM — materiais de consumo). Saída do almoxarifado por CC.' });
+  // OPEX (13 itens)
+  addRow('opex', { item: 'Remuneração bruta de servidores (custo total do empregador)', modal: 'Administração Direta', fonteUsed: '', valor: 3200000, obs: 'Painel de Informações de Pessoal / pi.sefaz.rs.gov.br. Se aplicável rateio, informar critério (ex.: 40% dos servidores da unidade alocados ao objeto).' });
+  addRow('opex', { item: 'Contribuição patronal ao RPPS / RGPS / IPE Prev / RS-Prev', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Inclui Contribuição Patronal, FGTS, Sistema S, SAT/RAT, previdência complementar patrocinada. Se já consolidado na linha de remuneração, manter zero.' });
+  addRow('opex', { item: 'Diárias e passagens', modal: 'Administração Direta', fonteUsed: '', valor: 18000, obs: 'Portal Transparência/RS → Natureza: Diárias. Aplicar mesmo fator de rateio do pessoal.' });
+  addRow('opex', { item: 'Capacitação e treinamento', modal: 'Administração Direta', fonteUsed: '', valor: 22000, obs: 'Separar contratos de capacitação do total de Outros Serviços de Terceiros PJ. Aplicar critério de rateio se necessário.' });
+  addRow('opex', { item: 'Contratos terceirizados de limpeza e conservação', modal: 'Contrato Licitado', fonteUsed: '', valor: 480000, obs: 'Somar valores anualizados dos contratos vigentes. CAGE Gerencial → CUSTOS-RS (TERC).' });
+  addRow('opex', { item: 'Contratos de manutenção de equipamentos e instalações', modal: 'Contrato Licitado', fonteUsed: '', valor: 210000, obs: 'Incluir manutenção predial, equipamentos, TI e veículos. Atenção para não duplicar com Capex.' });
+  addRow('opex', { item: 'Energia elétrica e água/esgoto (rateio pelo uso)', modal: 'Administração Direta', fonteUsed: '', valor: 95000, obs: 'Estimativa com base em m² ocupados ou nº de pontos de consumo. IEF não permite rateio percentual por CC.' });
+  addRow('opex', { item: 'Contratos de locação de imóveis', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Incluir apenas imóveis utilizados no objeto da PPP. Informar critério de rateio se aplicável.' });
+  addRow('opex', { item: 'Rateio de despesas operacionais da entidade vinculada', modal: 'Administração Indireta', fonteUsed: '', valor: 620000, obs: 'Fonte: Demonstrações Financeiras da entidade (DRE/Notas Explicativas). Aplicar % de atividade.' });
+  addRow('opex', { item: 'Transferências do Estado para a entidade vinculada (repasses)', modal: 'Administração Indireta', fonteUsed: '', valor: 0, obs: 'Portal Transparência/RS → Convênios e Parcerias. Verificar se o repasse é exclusivo ao serviço ou global (rateio).' });
+  addRow('opex', { item: 'Fornecimento de bens / insumos recorrentes (almoxarifado)', modal: 'Administração Direta', fonteUsed: '', valor: 68000, obs: 'CAGE Gerencial → CUSTOS-RS (SAM — materiais de consumo). Saída do almoxarifado por CC.' });
+  addRow('opex', { item: 'Outros custos de pessoal (EPIs, uniformes, vale-alimentação)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Incluir somente o valor custeado pelo órgão, deduzindo a contrapartida descontada em folha.' });
+  addRow('opex', { item: 'Custos tributários', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Considerar possíveis impactos tributários sobre o OPEX (imposto de importação, CIDE, imposto seletivo etc.). Avaliar imunidade tributária aplicável (ex.: hospital 100% SUS).' });
 
-  // GESTÃO
-  addRow('gestao', { item: 'Pessoal interno alocado à fiscalização contratual (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 140000, conf: 'Baixa', obs: 'Estimar nº de servidores equivalentes × custo médio. Registrar metodologia de rateio.' });
-  addRow('gestao', { item: 'Fiscalização técnica terceirizada (assessoria/consultoria)', modal: 'Contrato Licitado', fonteUsed: '', valor: 85000, conf: 'Médio', obs: 'Contratos de empresa de fiscalização ou consultoria para gestão do contrato principal.' });
-  addRow('gestao', { item: 'Custos jurídicos — gestão contratual (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 30000, conf: 'Baixa', obs: 'Estimativa de horas da área jurídica alocadas à gestão dos contratos do serviço.' });
+  // GESTÃO E FISCALIZAÇÃO CONTRATUAL (7 itens)
+  addRow('gestao', { item: 'Pessoal interno alocado à fiscalização contratual (rateio)', modal: 'Administração Indireta', fonteUsed: '', valor: 140000, obs: 'Estimar nº de servidores equivalentes × custo médio. Registrar metodologia de rateio.' });
+  addRow('gestao', { item: 'Fiscalização técnica terceirizada (assessoria/consultoria)', modal: 'Contrato Licitado', fonteUsed: '', valor: 85000, obs: 'Contratos de empresa de fiscalização ou consultoria para gestão do contrato principal.' });
+  addRow('gestao', { item: 'Custos jurídicos (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 30000, obs: 'Estimativa de horas da área jurídica alocadas à gestão dos contratos do serviço.' });
+  addRow('gestao', { item: 'Custo de sobrecarga do quadro funcional na gestão operacional do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Equipe dedicada à gestão e ao acompanhamento operacional do serviço — além da fiscalização formal (C1). Inclui materiais, sistemas e ferramentas. Ex.: nº servidores × % dedicação × custo/hora × horas anuais.' });
+  addRow('gestao', { item: 'Custos de judicialização e contencioso administrativo do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Sentenças condenatórias pagas/provisionadas, precatórios, perícias, honorários sucumbenciais, atuação da PGE/Procuradoria (rateio).' });
+  addRow('gestao', { item: 'Custos com processo licitatório', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Substitui o antigo bloco "Custos de Transação". Estimar nº de contratos a licitar × custo médio por processo. Se aplicável rateio, informar critério.' });
+  addRow('gestao', { item: 'Reajustes / reequilíbrios e aditivos aplicados no período', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Informar índice de reajuste aplicado e data. Não incluir se o valor contratual já refletir o reajuste (evita duplicidade).' });
 
-  // RECEITAS
-  addRow('receita', { item: 'Receitas tarifárias / arrecadação direta do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 120000, conf: 'Média', obs: 'Receitas que reduzem o custo líquido público. Informar fonte e periodicidade.' });
+  // RECEITAS (2 itens)
+  addRow('receita', { item: 'Receitas tarifárias / arrecadação direta do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 120000, obs: 'Receitas que reduzem o custo líquido público. Informar fonte e periodicidade.' });
+  addRow('receita', { item: 'Outras receitas geradas pelo serviço (aluguéis, cessões)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Receitas acessórias geradas pela operação do serviço.' });
 
   // PREMISSAS
   addPremissa({ tipo: 'Limitação', desc: 'Painel APE (CUSTOS-RS) não disponível no CAGE Gerencial (situação em mar/2025). Dados de depreciação e patrimônio foram obtidos junto ao setor de patrimônio do órgão ou estimados.' });
@@ -1315,8 +1237,12 @@ window.addEventListener('beforeunload', () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = dados[k] || '';
-      // Só preenche se o campo está vazio (não sobrescreve trabalho do usuário)
-      if (!el.value || el.value.trim() === '') {
+      // Antes da Fase 3, só sobrescrevíamos campos vazios — quebrava a
+      // sincronização a partir da 2ª keystroke vinda do Hub ('S' chegava,
+      // 'Sp' era ignorado por já existir 'S'). Agora aceitamos atualização
+      // autoritativa do shell sempre que o valor muda, exceto quando o
+      // input está sob foco do usuário (preserva edição local em curso).
+      if (el.value !== novoValor && document.activeElement !== el) {
         el.value = novoValor;
       }
     }
@@ -1348,6 +1274,13 @@ window.addEventListener('beforeunload', () => {
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'gtsefaz_projeto_set') {
       setDados(e.data.dados);
+    } else if (e.data.type === 'gtsefaz_save') {
+      try {
+        if (typeof salvarRascunho === 'function') salvarRascunho();
+        parent.postMessage({ type: 'gtsefaz_saved', mod: MOD }, '*');
+      } catch(err) {}
+    } else if (e.data.type === 'gtsefaz_clear') {
+      try { if (typeof limparDados === 'function') limparDados(); } catch(err) {}
     }
   });
 

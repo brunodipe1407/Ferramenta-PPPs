@@ -22,22 +22,24 @@ Consolidação de quatro instrumentos articulados que subsidiam o início da an�
 
 | # | Módulo | Finalidade |
 |---|---|---|
-| 01 | **PSC — Custo Público** | Levantamento estruturado de custos para construir o *Public Sector Comparator* (linha de base de custo público anual). |
-| 02 | **Evidência Comparativa (VfM)** | Comparação entre PSC e proposta PPP, apuração de *Value for Money* e fundamentação da vantagem econômica (art. 10, I, "a", da Lei 11.079/2004). |
-| 03 | **Matriz de Riscos** | Alocação de riscos entre Poder Público, Concessionário e compartilhados, com classificação de probabilidade e impacto. |
-| 04 | **Precificação de Obras** | Análise crítica de precificação de obras em estudos, modelagens, projetos e editais (BDI, composições, regionalização, atualização). |
-| 05 | **Relatórios** | Geração de capa institucional e exportação consolidada dos módulos selecionados como anexos do parecer técnico. |
+| 01 | **PSC — Custo Público** | Levantamento estruturado de custos para construir o *Public Sector Comparator* (linha de base de custo público anual do modelo atual de execução). |
+| 02 | **Matriz de Riscos** | Alocação de riscos entre Poder Público, Concessionário e compartilhados, com classificação de probabilidade e impacto. |
+| 03 | **Precificação de Obras** | Análise crítica de precificação de obras em estudos, modelagens, projetos e editais (BDI, composições, regionalização, atualização). |
+| 04 | **Checklist de Custos PPP** | Identificação sistemática de custos transversais (estruturação, implantação, operação, governança, riscos, fiscais) e setoriais — mitiga o risco de existirem custos não capturados no modelo de VfM, sem substituir a modelagem financeira detalhada. |
+| 05 | **Evidência Comparativa (VfM)** | Comparação entre PSC e proposta PPP, apuração de *Value for Money* e fundamentação da vantagem econômica (art. 10, I, "a", da Lei 11.079/2004). |
+| 06 | **Relatórios** | Geração de capa institucional + exportação consolidada (PDF unificado ou sequencial) dos módulos selecionados como anexos do parecer técnico. |
 
-A tela de **Início** centraliza a identificação do projeto e o acesso aos módulos.
+A tela de **Início** centraliza a identificação do projeto e o acesso aos módulos. A ordem reflete o fluxo natural de análise: caracterizar o custo público (M1) → mapear riscos (M2) → validar o custo privado das obras (M3) → garantir cobertura de custos via checklist (M4) → consolidar a evidência comparativa (M5) → gerar relatório (M6).
 
 ---
 
 ## Fluxo típico de uso
 
 1. **Tela Início** — preencha a identificação do projeto (nome, órgão concedente, período, processo PROA/SEI, responsável). Esses dados alimentam os módulos seguintes.
-2. **Módulos 01 a 04** — trabalhe os instrumentos pertinentes ao caso. Os módulos podem ser usados de forma independente ou consolidados no Relatório.
-3. **Tela Relatórios** — selecione os módulos a anexar, revise a capa institucional e gere o pacote de PDFs em sequência.
-4. **Combine os PDFs** com ferramenta equivalente, para anexar a documentação.
+2. **Módulos 01 a 05** — trabalhe os instrumentos pertinentes ao caso. Os módulos podem ser usados de forma independente ou consolidados no Relatório.
+3. **Tela Relatórios** — selecione os módulos a anexar, revise a capa institucional e gere o relatório:
+   - **PDF unificado** (recomendado): um único arquivo com capa + módulos em sequência, pronto para anexar ao parecer.
+   - **Modo sequencial**: gera N PDFs separados (capa + 1 por módulo) para você combinar depois com Acrobat / PDFsam / qpdf.
 
 A ferramenta salva automaticamente cada alteração no navegador (rascunho local). Pressione `Esc` ou `H` em qualquer módulo para voltar à tela inicial.
 
@@ -73,14 +75,19 @@ O propósito desta versão é **coletar críticas, sugestões e relatos de bugs*
 
 - A combinação dos PDFs ao final da exportação é **manual** (você gera N PDFs e combina externamente).
 - Os logos institucionais da CAGE e SEFAZ-RS estão em formato de placeholder tipográfico nesta versão de teste.
-- O Módulo 03 (Matriz de Riscos) carrega lentamente no primeiro acesso devido a dados de referência embarcados.
+- O Módulo 02 (Matriz de Riscos) carrega lentamente no primeiro acesso devido a dados de referência embarcados.
+- A geração de **PDF unificado** depende do navegador (testado em Chrome e Edge): se o PDF sair com módulos cortados, prefira o modo sequencial.
 - A ferramenta foi testada nos navegadores Chrome e Edge. Em outros navegadores pode haver inconsistências.
 
 ---
 
 ## Ficha técnica
 
-**Versão:** 1.2 (avaliação interna — `2026-05`)
+**Versão:** 1.5 (avaliação interna — `2026-05`) — varredura sistemática de bugs, integridade de dados e acessibilidade básica em todos os módulos. Destaques: (a) **persistência completa do M5** — antes o módulo não tinha localStorage e perdia tudo a cada reload; (b) **M2 "Limpar Campos" agora limpa de verdade** — chave do localStorage estava errada; (c) **R08 "Variável por setor" finalizado** — opção dedicada no radio, classe visual própria, contadores tratam corretamente; (d) **bridge completa em todos os módulos** — todos respondem a `gtsefaz_save`/`gtsefaz_clear` e emitem `gtsefaz_saved`/`gtsefaz_projeto`; (e) **bug `incremCub` corrigido** no auto-fill do M3; (f) **aviso quando soma de parcelas excede 100%** no M3; (g) **PDF unificado** pré-renderiza panels do M5 antes do snapshot (antes saía com placeholders se o usuário não tivesse aberto a aba); (h) **acessibilidade básica**: `role="tablist"/"tab"/"tabpanel"`, `aria-selected` sincronizado, navegação por teclado em radios custom e tabs do M3, modal com `role="dialog"` + Esc, `aria-expanded` em accordions, `aria-live` no resumo do M4; (i) **print escopado** no M3 (antes imprimia todas as 11 abas); (j) `modulosSelecionados` do painel de Relatórios agora persiste entre sessões.
+
+**Versão 1.4:** sincroniza M1, M2, M3 e M5 com as planilhas Excel canônicas e refatora o gerador de PDF unificado para usar janela popup.
+
+**Versão 1.3:** adiciona Módulo 04 (Checklist de Custos), reordena módulos para refletir o fluxo de análise e introduz exportação de relatório em PDF unificado.
 **Tipo:** Aplicação web estática (HTML/CSS/JavaScript), sem dependências de servidor
 **Compatibilidade:** Chrome, Edge, em versões recentes
 **Persistência:** `localStorage` do navegador (cada usuário, cada navegador)
@@ -102,12 +109,15 @@ O propósito desta versão é **coletar críticas, sugestões e relatos de bugs*
 
 ```
 .
-├── index.html                  # Shell: tela inicial, navegação, capa, relatórios
-├── m1-psc-custo.html           # Módulo 01 — PSC Custo Público
-├── m2-vfm.html                 # Módulo 02 — Evidência Comparativa / VfM
-├── m3-matriz-riscos.html       # Módulo 03 — Matriz de Riscos
-├── m4-precificacao.html        # Módulo 04 — Precificação de Obras
-└── padrao-visual.css           # Padronização visual transversal
+├── index.html                    # Shell: tela inicial, navegação, capa, relatórios
+├── m1-psc-custo.html             # Módulo 01 — PSC Custo Público
+├── m2-matriz-riscos.html         # Módulo 02 — Matriz de Riscos
+├── m3-precificacao.html          # Módulo 03 — Precificação de Obras
+├── m4-checklist-custos.html      # Módulo 04 — Checklist de Custos PPP (transversal + setores)
+├── m5-vfm.html                   # Módulo 05 — Evidência Comparativa / VfM
+├── padrao-visual.css             # Padronização visual transversal
+├── assets/                       # Imagens dos cards da home (card-01 … card-05)
+└── referencias/                  # Planilhas Excel de referência (fonte canônica)
 ```
 
 ---
