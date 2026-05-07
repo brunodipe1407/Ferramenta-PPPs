@@ -290,12 +290,20 @@
   .ck-summary-value { font-family: var(--slab); font-size: 22px; font-weight: 700; }
   .ck-summary-value.mono { font-family: var(--mono); font-size: 18px; }
 
-  /* PRINT */
+  /* PRINT — limpeza completa para uso standalone */
   @media print {
-    .app-header, .header-actions, .ck-summary { break-inside: avoid; }
+    /* Esconde cromos: header com botões, status-bar, resumo dinâmico (UI, não dado) */
+    .app-header, .header-actions, .status-bar, .note-bar { display: none !important; }
+    /* Resumo dinâmico tem fundo gradiente que não imprime bem em P&B; oculta */
+    .ck-summary { display: none !important; }
+    body { background: #fff; padding-top: 0 !important; }
+    .panel { box-shadow: none; break-inside: avoid; }
     .ck-block { break-inside: avoid; page-break-inside: avoid; }
-    body { background: #fff; }
-    .panel { box-shadow: none; }
+    /* Garante que cabeçalhos coloridos saiam em P&B */
+    .panel-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* Linhas marcadas como aplicáveis: borda esquerda discreta no print */
+    .ck-row.is-aplicavel { border-left: 3px solid #1F8B7C; }
+    .ck-row.is-naoaplic { opacity: 0.6; }
   }
 
   /* STATUS BAR no rodapé do módulo (esconde em embed pois shell tem própria) */
@@ -410,7 +418,7 @@
   </section>
 
   <!-- RESUMO DINÂMICO -->
-  <section class="ck-summary" id="ckSummary">
+  <section class="ck-summary" id="ckSummary" role="status" aria-live="polite" aria-label="Resumo dinâmico do checklist">
     <div class="ck-summary-item">
       <span class="ck-summary-label">Itens aplicáveis</span>
       <span class="ck-summary-value" id="sum-aplicaveis">0</span>
@@ -3897,19 +3905,26 @@ function coletarDados() {
 
 function val(id) { const e = document.getElementById(id); return e ? e.value : ''; }
 
+let m4IsHydrating = false;
+
 function salvarRascunho(silent) {
+  if (m4IsHydrating) return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(coletarDados()));
     if (!silent) document.getElementById('sb-status').textContent = '● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR');
+    try { parent.postMessage({ type: 'gtsefaz_saved', mod: 4 }, '*'); } catch(e) {}
   } catch(e) {
+    // Erro silencioso (localStorage cheio, navegação privada): atualiza status mesmo em silent
+    document.getElementById('sb-status').textContent = '● Erro ao salvar (localStorage cheio?)';
     if (!silent) alert('Não foi possível salvar no localStorage: ' + e.message);
   }
 }
 
 function carregarRascunho() {
+  m4IsHydrating = true;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return false;
+    if (!raw) { m4IsHydrating = false; return false; }
     const d = JSON.parse(raw);
     if (d.header) Object.entries(d.header).forEach(([k,v]) => { const el = document.getElementById(k); if (el && v) el.value = v; });
     if (d.setores) Object.entries(d.setores).forEach(([s, on]) => {
@@ -3924,9 +3939,46 @@ function carregarRascunho() {
       onChangeAplic(id);
     });
     recalcular();
+    m4IsHydrating = false;
     return true;
-  } catch(e) { console.error(e); return false; }
+  } catch(e) { console.error(e); m4IsHydrating = false; return false; }
 }
+
+// Auto-save universal — listeners globais para campos sem handler explícito
+// (status, nota, campos do header). Debounce de 500ms.
+let m4SaveTimer = null;
+function m4ScheduleSave() {
+  if (m4IsHydrating) return;
+  clearTimeout(m4SaveTimer);
+  m4SaveTimer = setTimeout(() => salvarRascunho(true), 500);
+}
+document.addEventListener('input',  m4ScheduleSave);
+document.addEventListener('change', m4ScheduleSave);
+
+// Bridge bidirecional — emite gtsefaz_projeto quando campos do header mudam
+let m4EmitTimer = null;
+function m4EmitProjeto() {
+  if (m4IsHydrating) return;
+  if (!document.documentElement.classList.contains('embed-mode')) return;
+  clearTimeout(m4EmitTimer);
+  m4EmitTimer = setTimeout(() => {
+    try {
+      parent.postMessage({
+        type: 'gtsefaz_projeto', mod: 4,
+        dados: {
+          nome: val('nomeProjeto'),
+          orgao: val('orgao'),
+          periodoRef: val('periodoRef'),
+          responsavel: val('responsavel')
+        }
+      }, '*');
+    } catch(e) {}
+  }, 500);
+}
+['nomeProjeto','orgao','periodoRef','responsavel'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', m4EmitProjeto);
+});
 
 function exportarRelatorio() { window.print(); }
 
