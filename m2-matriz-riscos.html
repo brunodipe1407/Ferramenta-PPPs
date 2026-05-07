@@ -1571,11 +1571,28 @@ body {
     <p class="card-subtitle">Informações de identificação e enquadramento institucional</p>
 
     <div class="form-grid">
+      <!-- Campos comuns ao Hub (Início) — sincronizados via bridge -->
       <div class="field form-grid-full">
-        <label class="field-label" for="proj-nome">Nome do Projeto <span class="req">*</span></label>
-        <input type="text" id="proj-nome" class="field-input" placeholder="Ex.: Concessão da BR-XXX/RS — Lote Norte">
+        <label class="field-label" for="proj-nome">Nome / Identificação do Projeto <span class="req">*</span></label>
+        <input type="text" id="proj-nome" class="field-input" placeholder="Ex.: Concessão Administrativa do CAFF">
       </div>
 
+      <div class="field form-grid-full">
+        <label class="field-label" for="proj-secretaria">Órgão / Secretaria Responsável</label>
+        <input type="text" id="proj-secretaria" class="field-input" placeholder="Ex.: Secretaria de Logística e Transportes — SELT/RS">
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="proj-periodo">Período de Referência</label>
+        <input type="text" id="proj-periodo" class="field-input" placeholder="Ex.: 2026">
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="proj-proa">Nº do Processo (PROA / SEI)</label>
+        <input type="text" id="proj-proa" class="field-input" placeholder="Ex.: 23/0500-0001234-5">
+      </div>
+
+      <!-- Campos específicos da Matriz de Riscos -->
       <div class="field">
         <label class="field-label" for="proj-setor">Setor <span class="req">*</span></label>
         <select id="proj-setor" class="field-select" onchange="atualizarSetor()">
@@ -1600,11 +1617,6 @@ body {
         </select>
       </div>
 
-      <div class="field form-grid-full">
-        <label class="field-label" for="proj-secretaria">Secretaria/Órgão Responsável</label>
-        <input type="text" id="proj-secretaria" class="field-input" placeholder="Ex.: Secretaria de Logística e Transportes — SELT/RS">
-      </div>
-
       <div class="field">
         <label class="field-label" for="proj-valor">Valor Estimado do Contrato (R$)</label>
         <input type="text" id="proj-valor" class="field-input" placeholder="Ex.: 1.250.000.000,00">
@@ -1621,8 +1633,8 @@ body {
       </div>
 
       <div class="field">
-        <label class="field-label" for="proj-responsavel">Responsável pela Avaliação</label>
-        <input type="text" id="proj-responsavel" class="field-input" placeholder="Nome / cargo / matrícula">
+        <label class="field-label" for="proj-responsavel">Responsável Técnico</label>
+        <input type="text" id="proj-responsavel" class="field-input" placeholder="Nome, cargo e matrícula">
       </div>
 
       <div class="field form-grid-full">
@@ -2208,7 +2220,7 @@ function carregarRascunho() {
 }
 
 function preencherIdentificacao() {
-  const ids = ["proj-nome","proj-setor","proj-modalidade","proj-secretaria","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
+  const ids = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
   ids.forEach(id => {
     const el = document.getElementById(id);
     const key = id.replace("proj-","");
@@ -2219,7 +2231,7 @@ function preencherIdentificacao() {
 }
 
 function coletarIdentificacao() {
-  const ids = ["proj-nome","proj-setor","proj-modalidade","proj-secretaria","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
+  const ids = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
   ids.forEach(id => {
     const el = document.getElementById(id);
     const key = id.replace("proj-","");
@@ -3176,11 +3188,15 @@ document.addEventListener("DOMContentLoaded", () => {
 (function() {
   if (!document.documentElement.classList.contains('embed-mode')) return;
   const MOD = 2;
-  // M2 usa prefixo proj- (não tem campo de período de referência)
+  // M2 — campos comuns sincronizados com o Hub (Início). A Fase 3 alinhou os
+  // campos visuais; esta tabela mapeia cada chave canônica para o ID no DOM.
   const FIELDS = {
-    nome:  'proj-nome',
-    orgao: 'proj-secretaria'
-    // periodoRef: não existe no M2
+    nome:        'proj-nome',
+    orgao:       'proj-secretaria',
+    periodoRef:  'proj-periodo',
+    proa:        'proj-proa',
+    responsavel: 'proj-responsavel',
+    data:        'proj-data'
   };
   let suspendEmit = false;
   let debounceTimer = null;
@@ -3205,7 +3221,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = dados[k] || '';
-      if (!el.value || el.value.trim() === '') {
+      // Antes da Fase 3 só sobrescrevíamos campos vazios — quebrava a
+      // sincronização do Hub a partir da 2ª keystroke ('S' chegava, depois
+      // 'Sp' era ignorado por já existir 'S'). Agora aceitamos qualquer
+      // atualização autoritativa do shell, contanto que o valor mude.
+      if (el.value !== novoValor) {
+        // Preserva foco/cursor: só atualiza o input se ele não estiver
+        // sendo editado pelo usuário neste módulo
+        if (document.activeElement === el) continue;
         el.value = novoValor;
       }
     }

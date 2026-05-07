@@ -2134,12 +2134,13 @@ try {
     for (const k in FIELD_MAP) {
       const stateKey = FIELD_MAP[k];
       const novoValor = dados[k] || '';
-      // Só preenche se vazio (não sobrescreve trabalho do usuário)
-      if (!state.identif[stateKey] || String(state.identif[stateKey]).trim() === '') {
-        if (novoValor) {
-          state.identif[stateKey] = novoValor;
-          changed = true;
-        }
+      // Antes da Fase 3 só atualizávamos campo vazio — quebrava a
+      // sincronização do Hub a partir da 2ª keystroke. Agora aceitamos
+      // qualquer atualização autoritativa do shell, contanto que o
+      // valor mude.
+      if (String(state.identif[stateKey] || '') !== novoValor) {
+        state.identif[stateKey] = novoValor;
+        changed = true;
       }
     }
     if (changed) {

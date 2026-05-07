@@ -1236,8 +1236,12 @@ window.addEventListener('beforeunload', () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = dados[k] || '';
-      // Só preenche se o campo está vazio (não sobrescreve trabalho do usuário)
-      if (!el.value || el.value.trim() === '') {
+      // Antes da Fase 3, só sobrescrevíamos campos vazios — quebrava a
+      // sincronização a partir da 2ª keystroke vinda do Hub ('S' chegava,
+      // 'Sp' era ignorado por já existir 'S'). Agora aceitamos atualização
+      // autoritativa do shell sempre que o valor muda, exceto quando o
+      // input está sob foco do usuário (preserva edição local em curso).
+      if (el.value !== novoValor && document.activeElement !== el) {
         el.value = novoValor;
       }
     }

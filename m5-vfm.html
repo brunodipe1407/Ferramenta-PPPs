@@ -2500,9 +2500,13 @@ window.addEventListener('DOMContentLoaded', () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = dados[k] || '';
-      if (!el.value || el.value.trim() === '') {
+      // Antes da Fase 3 só atualizávamos se o campo estivesse vazio —
+      // quebrava a sincronização vinda do Hub a partir da 2ª keystroke.
+      // Agora aceitamos atualização autoritativa do shell sempre que o
+      // valor muda, exceto quando o input está sob foco local.
+      if (el.value !== novoValor && document.activeElement !== el) {
         el.value = novoValor;
-        // M2 tem syncPrint() para atualizar previews — chamar se disponível
+        // M5 tem syncPrint() para atualizar previews — chama se disponível
         try { if (typeof syncPrint === 'function') syncPrint(); } catch(e) {}
       }
     }
