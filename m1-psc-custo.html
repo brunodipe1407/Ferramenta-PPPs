@@ -1224,9 +1224,11 @@ window.addEventListener('beforeunload', () => {
   const MOD = 1;
   // Mapa de campos lógicos → IDs no DOM deste módulo
   const FIELDS = {
-    nome:       'nomeProjeto',
-    orgao:      'orgao',
-    periodoRef: 'periodoRef'
+    nome:        'nomeProjeto',
+    orgao:       'orgao',
+    periodoRef:  'periodoRef',
+    responsavel: 'responsavel',
+    data:        'dataPreench'
   };
   let suspendEmit = false;
   let debounceTimer = null;

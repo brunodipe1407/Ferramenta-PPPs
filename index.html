@@ -2521,14 +2521,11 @@ window.addEventListener('message', (e) => {
       // (compat: também aceita { mod: N, nome: "..." } no formato antigo)
       {
         const dados = e.data.dados || { nome: e.data.nome };
-        // mescla com persistido para não apagar campos vazios na transmissão parcial
+        // Mescla preservando campos que o módulo emissor não conhece
+        // (ex.: M3 só envia {nome, orgao} — responsavel/data/proa do Home
+        // ficavam zerados na merge antiga).
         const atual = getProjetoSalvo() || {};
-        const merged = {
-          nome:       (dados.nome       !== undefined) ? dados.nome       : (atual.nome       || ''),
-          orgao:      (dados.orgao      !== undefined) ? dados.orgao      : (atual.orgao      || ''),
-          periodoRef: (dados.periodoRef !== undefined) ? dados.periodoRef : (atual.periodoRef || ''),
-          ts: Date.now()
-        };
+        const merged = { ...atual, ...dados, ts: Date.now() };
         setProjetoLabel(merged);
         try {
           localStorage.setItem('gtsefaz_projeto_atual', JSON.stringify(merged));
