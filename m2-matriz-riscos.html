@@ -1486,6 +1486,24 @@ body {
   .header, .nav, .btn-row, .filter-bar, .progress-bar, .report-controls { display: none !important; }
   .container { padding: 0; max-width: none; }
   #relatorio-output { box-shadow: none; border: none; padding: 20px; }
+
+  /* Badges — força preservação de fundo no print + borda para garantir contraste
+     mesmo quando a impressora descarta cores de fundo (P&B comum). */
+  .badge {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    border: 1.5px solid currentColor !important;
+    font-weight: 700 !important;
+  }
+  .badge-pub  { background: #D6E4F0 !important; color: #14375A !important; }
+  .badge-comp { background: #FCE4D6 !important; color: #8A3D0B !important; }
+  .badge-priv { background: #E2EFDA !important; color: #2D4A1C !important; }
+  .badge-na   { background: #F3F4F6 !important; color: #374151 !important; }
+  .badge-var  { background: #FFF4E5 !important; color: #8A3D0B !important; }
+  .badge-desvio   { background: #FEF3C7 !important; color: #7A4A00 !important; }
+  .badge-pendente { background: #FEE2E2 !important; color: #7A1414 !important; }
+  .badge-ok       { background: #DCFCE7 !important; color: #2D4A1C !important; }
+  .badge-setor    { background: #EDE9FE !important; color: #4C1D95 !important; }
 }
 
 /* ============ RESPONSIVE ============ */

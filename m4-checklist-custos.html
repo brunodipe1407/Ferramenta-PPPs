@@ -226,8 +226,13 @@
 
   .ck-row { border-bottom: 1px solid var(--rule-soft); transition: background .12s; }
   .ck-row:hover { background: rgba(31,139,124,.04); }
-  .ck-row.is-aplicavel { background: rgba(46,182,165,.07); }
-  .ck-row.is-naoaplic { opacity: .55; }
+  /* Indicação não-textual atende WCAG 1.4.11 (3:1):
+     borda esquerda 3px de cor escura como marcador primário; o tint
+     de fundo é apoio visual. */
+  .ck-row.is-aplicavel { background: rgba(46,182,165,.10); }
+  .ck-row.is-aplicavel td:first-child { box-shadow: inset 3px 0 0 0 #1F8B7C; }
+  .ck-row.is-naoaplic  { opacity: .65; }
+  .ck-row.is-naoaplic td:first-child  { box-shadow: inset 3px 0 0 0 #6B7280; }
 
   .ck-row td { padding: 10px 12px; vertical-align: top; }
   .ck-cell-valor { text-align: right; }
@@ -301,9 +306,10 @@
     .ck-block { break-inside: avoid; page-break-inside: avoid; }
     /* Garante que cabeçalhos coloridos saiam em P&B */
     .panel-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    /* Linhas marcadas como aplicáveis: borda esquerda discreta no print */
-    .ck-row.is-aplicavel { border-left: 3px solid #1F8B7C; }
-    .ck-row.is-naoaplic { opacity: 0.6; }
+    /* Linhas marcadas: marcador lateral robusto no print (P&B), contraste ≥ 3:1 */
+    .ck-row.is-aplicavel td:first-child { box-shadow: inset 3px 0 0 0 #1F8B7C; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .ck-row.is-naoaplic  { opacity: 0.65; }
+    .ck-row.is-naoaplic  td:first-child  { box-shadow: inset 3px 0 0 0 #6B7280; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 
   /* STATUS BAR no rodapé do módulo (esconde em embed pois shell tem própria) */
@@ -358,27 +364,27 @@
     <div class="panel-body">
       <div class="id-grid">
         <div class="field-group">
-          <label>Nome / Identificação do Projeto</label>
+          <label for="nomeProjeto">Nome / Identificação do Projeto</label>
           <input type="text" id="nomeProjeto" placeholder="Ex.: Concessão Administrativa do CAFF">
         </div>
         <div class="field-group">
-          <label>Órgão / Secretaria Responsável</label>
+          <label for="orgao">Órgão / Secretaria Responsável</label>
           <input type="text" id="orgao" placeholder="Ex.: SEDUC, SES, SELT…">
         </div>
         <div class="field-group">
-          <label>Período de Referência</label>
+          <label for="periodoRef">Período de Referência</label>
           <input type="text" id="periodoRef" placeholder="Ex.: 2026">
         </div>
         <div class="field-group">
-          <label>Responsável pelo Preenchimento</label>
+          <label for="responsavel">Responsável pelo Preenchimento</label>
           <input type="text" id="responsavel" placeholder="Nome, cargo">
         </div>
         <div class="field-group">
-          <label>Data de Preenchimento</label>
+          <label for="dataPreench">Data de Preenchimento</label>
           <input type="text" id="dataPreench" placeholder="DD/MM/AAAA">
         </div>
         <div class="field-group">
-          <label>Versão</label>
+          <label for="versao">Versão</label>
           <input type="text" id="versao" value="v1.0">
         </div>
       </div>
@@ -450,11 +456,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -754,11 +760,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -1058,11 +1064,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -1292,11 +1298,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -1561,11 +1567,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -1935,11 +1941,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -2242,11 +2248,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -2547,11 +2553,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -2852,11 +2858,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -3157,11 +3163,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -3462,11 +3468,11 @@
         <table class="ck-table">
           <thead>
             <tr>
-              <th class="ck-th-item">Item / Descrição</th>
-              <th class="ck-th-aplic">Aplicável?</th>
-              <th class="ck-th-valor">Valor estimado (R$)</th>
-              <th class="ck-th-status">Status</th>
-              <th class="ck-th-nota">Anotações</th>
+              <th class="ck-th-item" scope="col">Item / Descrição</th>
+              <th class="ck-th-aplic" scope="col">Aplicável?</th>
+              <th class="ck-th-valor" scope="col">Valor estimado (R$)</th>
+              <th class="ck-th-status" scope="col">Status</th>
+              <th class="ck-th-nota" scope="col">Anotações</th>
             </tr>
           </thead>
           <tbody>
@@ -4019,6 +4025,11 @@ window.addEventListener('message', (e) => {
 window.addEventListener('DOMContentLoaded', () => {
   carregarRascunho();
   recalcular();
+  // Pede ao shell o estado atual do projeto (cobre o caso em que M4 carrega
+  // antes do push proativo do shell — ou em sessões só com Hub preenchido).
+  if (document.documentElement.classList.contains('embed-mode')) {
+    try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: 4 }, '*'); } catch(e) {}
+  }
 });
 </script>
 
