@@ -84,12 +84,14 @@ body {
 /* ── Logo CAGE (placeholder tipográfico até receber arquivo de imagem) ── */
 .logo-cage {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: center;
   gap: 4px;
   flex-shrink: 0;
-  height: 38px;
+  height: 44px;
+  min-width: 130px;
   background: #fff;
-  padding: 0 12px;
+  padding: 6px 14px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--rule-soft);
   box-sizing: border-box;
@@ -111,9 +113,10 @@ body {
   line-height: 38px;
 }
 .logo-cage img {
-  height: 28px;
+  height: 30px;
   width: auto;
   display: block;
+  object-fit: contain;
 }
 
 /* ── Divisor entre logos ── */
@@ -124,16 +127,18 @@ body {
   flex-shrink: 0;
 }
 
-/* ── Brasão SEFAZ/RS (placeholder tipográfico até receber arquivo) ── */
+/* ── Brasão SEFAZ/RS ── */
 .logo-sefaz {
-  background: var(--cage-blue);
+  background: #fff;
+  border: 1px solid var(--rule-soft);
   border-radius: var(--radius-sm);
-  padding: 0 14px;
+  padding: 6px 14px;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(15,107,94,.2);
-  height: 38px;
+  height: 44px;
+  min-width: 130px;
   box-sizing: border-box;
 }
 .logo-sefaz-mark {
@@ -143,12 +148,12 @@ body {
   color: #fff;
   letter-spacing: 1.2px;
 }
-.logo-sefaz img { height: 28px; width: auto; display: block; }
+.logo-sefaz img { height: 30px; width: auto; display: block; object-fit: contain; }
 .logo-sefaz .fallback {
   font-family: var(--slab);
   font-size: 13px;
   font-weight: 700;
-  color: #fff;
+  color: var(--cage-azul);
   letter-spacing: 1.2px;
   display: none;
 }
@@ -1741,9 +1746,8 @@ button:focus:not(:focus-visible) {
 }
 @media (max-width: 720px) {
   .app-header { padding: 0 12px; gap: 10px; }
-  .logo-cage { padding: 3px 6px; }
-  .logo-cage img { height: 24px; }
-  .logo-sefaz img { height: 24px; }
+  .logo-cage, .logo-sefaz { height: 38px; min-width: 100px; padding: 4px 10px; }
+  .logo-cage img, .logo-sefaz img { height: 24px; }
   .header-main { font-size: 13px; }
   .hbtn span { display: none; }
   .hbtn { padding: 6px 10px; }
