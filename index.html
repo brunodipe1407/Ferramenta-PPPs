@@ -81,34 +81,17 @@ body {
   z-index: 200;
 }
 
-/* ── Logo CAGE (placeholder tipográfico até receber arquivo de imagem) ── */
+/* ── Logo CAGE-RS ── */
 .logo-cage {
   display: flex;
-  align-items: baseline;
-  gap: 4px;
+  align-items: center;
   flex-shrink: 0;
   height: 38px;
   background: #fff;
-  padding: 0 12px;
+  padding: 4px 10px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--rule-soft);
   box-sizing: border-box;
-}
-.logo-cage-mark {
-  font-family: var(--slab);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--cage-azul);
-  letter-spacing: .5px;
-  line-height: 38px;
-}
-.logo-cage-sub {
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: .15em;
-  color: var(--cage-mid);
-  line-height: 38px;
 }
 .logo-cage img {
   height: 28px;
@@ -124,33 +107,22 @@ body {
   flex-shrink: 0;
 }
 
-/* ── Brasão SEFAZ/RS (placeholder tipográfico até receber arquivo) ── */
+/* ── Brasão SEFAZ-RS ── */
 .logo-sefaz {
-  background: var(--cage-blue);
-  border-radius: var(--radius-sm);
-  padding: 0 14px;
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(15,107,94,.2);
   height: 38px;
+  padding: 4px 10px;
+  background: #fff;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--rule-soft);
   box-sizing: border-box;
 }
-.logo-sefaz-mark {
-  font-family: var(--slab);
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 1.2px;
-}
-.logo-sefaz img { height: 28px; width: auto; display: block; }
-.logo-sefaz .fallback {
-  font-family: var(--slab);
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 1.2px;
-  display: none;
+.logo-sefaz img {
+  height: 28px;
+  width: auto;
+  display: block;
 }
 
 /* ── Títulos ── */
@@ -1741,9 +1713,8 @@ button:focus:not(:focus-visible) {
 }
 @media (max-width: 720px) {
   .app-header { padding: 0 12px; gap: 10px; }
-  .logo-cage { padding: 3px 6px; }
-  .logo-cage img { height: 24px; }
-  .logo-sefaz img { height: 24px; }
+  .logo-cage, .logo-sefaz { padding: 3px 6px; }
+  .logo-cage img, .logo-sefaz img { height: 24px; }
   .header-main { font-size: 13px; }
   .hbtn span { display: none; }
   .hbtn { padding: 6px 10px; }
@@ -1774,17 +1745,16 @@ button:focus:not(:focus-visible) {
 <!-- ══ HEADER ══ -->
 <header class="app-header">
 
-  <!-- Logo CAGE (placeholder tipográfico — substituir por <img src="assets/logo-cage.png" ...> quando arquivo estiver disponível) -->
+  <!-- Logo CAGE-RS -->
   <div class="logo-cage" title="Contadoria e Auditoria-Geral do Estado do RS">
-    <span class="logo-cage-mark">CAGE</span>
-    <span class="logo-cage-sub">RS</span>
+    <img src="assets/cage%20RS.png" alt="CAGE-RS — Contadoria e Auditoria-Geral do Estado do RS">
   </div>
 
   <div class="header-divider"></div>
 
-  <!-- Brasão SEFAZ/RS (placeholder tipográfico — substituir por <img src="assets/logo-sefaz.svg" ...> quando arquivo estiver disponível) -->
+  <!-- Brasão SEFAZ-RS -->
   <div class="logo-sefaz" title="Secretaria da Fazenda — Governo do Estado do RS">
-    <span class="logo-sefaz-mark">SEFAZ</span>
+    <img src="assets/sefaz%20rs.png" alt="SEFAZ-RS — Secretaria da Fazenda do Estado do RS">
   </div>
 
   <div class="header-divider"></div>
