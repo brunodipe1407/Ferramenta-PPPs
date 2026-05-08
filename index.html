@@ -1963,6 +1963,15 @@ button:focus:not(:focus-visible) {
     </div>
   </div>
 
+  <!-- Stubs para os onload/onerror inline das iframes abaixo: as iframes lazy
+       (src="") disparam um "load" espúrio do about:blank durante o parsing,
+       antes do script principal definir as funções reais. As declarações em
+       <script> mais abaixo sobrescrevem estes stubs. -->
+  <script>
+    window.onFrameLoad = function(){};
+    window.onFrameError = function(){};
+  </script>
+
   <!-- Módulo 1 — PSC Custo Público -->
   <div class="loading-overlay hidden" id="load1">
     <div class="loading-spinner"></div>
