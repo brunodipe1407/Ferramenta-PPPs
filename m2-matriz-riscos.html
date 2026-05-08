@@ -3261,6 +3261,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'gtsefaz_projeto_set') {
       setDados(e.data.dados);
+    } else if (e.data.type === 'gtsefaz_goto') {
+      const idx = parseInt(e.data.index, 10);
+      const tabs = document.querySelectorAll('.nav-tab');
+      if (!isNaN(idx) && tabs[idx]) tabs[idx].click();
     } else if (e.data.type === 'gtsefaz_save') {
       // Save imediato + emite gtsefaz_saved para o shell
       try {
@@ -3272,8 +3276,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  function bindTabClicks() {
+    document.querySelectorAll('.nav-tab').forEach((t, i) => {
+      if (t.dataset.gtsTabBound) return;
+      t.dataset.gtsTabBound = '1';
+      t.addEventListener('click', () => {
+        try { parent.postMessage({ type: 'gtsefaz_subtab_changed', mod: MOD, index: i }, '*'); } catch(_) {}
+      });
+    });
+  }
+
   function init() {
     bindFields();
+    bindTabClicks();
     try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: MOD }, '*'); } catch(e) {}
   }
 

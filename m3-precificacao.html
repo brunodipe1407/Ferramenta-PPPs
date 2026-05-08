@@ -2196,6 +2196,11 @@ try {
     if (!e.data || typeof e.data !== 'object') return;
     if (e.data.type === 'gtsefaz_projeto_set') {
       setDados(e.data.dados);
+    } else if (e.data.type === 'gtsefaz_goto') {
+      const idx = parseInt(e.data.index, 10);
+      if (!isNaN(idx) && typeof TABS !== 'undefined' && TABS[idx] && typeof switchTab === 'function') {
+        switchTab(TABS[idx].id);
+      }
     } else if (e.data.type === 'gtsefaz_save') {
       // Save imediato + emite gtsefaz_saved para o shell
       try {
@@ -2211,7 +2216,23 @@ try {
     }
   });
 
+  function bindTabClicks() {
+    if (window.__gtsM3TabClicksBound) return;
+    document.addEventListener('click', (ev) => {
+      const btn = ev.target.closest('.nav-tab');
+      if (!btn) return;
+      const id = btn.dataset.tab;
+      if (!id || typeof TABS === 'undefined') return;
+      const idx = TABS.findIndex(t => t.id === id);
+      if (idx >= 0) {
+        try { parent.postMessage({ type: 'gtsefaz_subtab_changed', mod: MOD, index: idx }, '*'); } catch(_) {}
+      }
+    });
+    window.__gtsM3TabClicksBound = true;
+  }
+
   function init() {
+    bindTabClicks();
     // Tenta aplicar o patch em scheduleSave; se ainda não está disponível, retenta
     let attempts = 0;
     const tryPatch = () => {
