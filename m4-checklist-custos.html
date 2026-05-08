@@ -4005,7 +4005,7 @@ window.addEventListener('message', (e) => {
   if (msg.type === 'gtsefaz_save') salvarRascunho(true);
   if (msg.type === 'gtsefaz_clear') limparDados();
   if (msg.type === 'gtsefaz_projeto_set' && msg.dados) {
-    const map = { nome: 'nomeProjeto', orgao: 'orgao', periodoRef: 'periodoRef', responsavel: 'responsavel' };
+    const map = { nome: 'nomeProjeto', orgao: 'orgao', periodoRef: 'periodoRef', responsavel: 'responsavel', data: 'dataPreench' };
     // Antes da Fase 3 só atualizávamos campo vazio — quebrava a sincronização
     // a partir da 2ª keystroke vinda do Hub. Agora aceitamos atualização
     // autoritativa do shell sempre que o valor muda, exceto quando o input

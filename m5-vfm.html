@@ -2513,9 +2513,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const MOD = 5;
   // M5 usa prefixo m1- na sub-aba 01 (Identificação) — herdado do design original
   const FIELDS = {
-    nome:       'm1-nome',
-    orgao:      'm1-sec',
-    periodoRef: 'm1-ano'
+    nome:        'm1-nome',
+    orgao:       'm1-sec',
+    periodoRef:  'm1-ano',
+    responsavel: 'm1-resp',
+    data:        'm1-data'
   };
   let suspendEmit = false;
   let debounceTimer = null;
