@@ -228,6 +228,8 @@
   .cost-table input:hover, .cost-table select:hover, .cost-table textarea:hover { border-color: var(--cage-border); background: #F8FAFC; }
   .cost-table input:focus, .cost-table select:focus, .cost-table textarea:focus { border-color: var(--cage-sky); background: #fff; box-shadow: 0 0 0 2px rgba(74,144,196,0.1); }
   .cost-table input[type=number] { text-align: right; font-variant-numeric: tabular-nums; }
+  /* Feedback visual quando o usuário tenta entrar com valor negativo (clamp temporário) */
+  .cost-table input[aria-invalid="true"] { border-color: var(--rs-vermelho, #8B1A1A) !important; background: #FEF2F2 !important; }
   .cost-table textarea { resize: none; min-height: 36px; }
 
   .col-item { min-width: 160px; }
@@ -782,7 +784,7 @@ function makeRow(cat, data = {}) {
       <span class="fonte-sug-text">${escHtml(fonteSug)}</span>
     </td>
     <td class="col-fonte-used"><input type="text" placeholder="Informe a fonte consultada" value="${escHtml(fonteUsed)}" oninput="recalc()"></td>
-    <td class="col-valor"><input type="number" min="0" step="0.01" placeholder="0,00" value="${valor !== '' ? valor : ''}" oninput="recalc()"></td>
+    <td class="col-valor"><input type="number" min="0" step="0.01" placeholder="0,00" value="${valor !== '' ? valor : ''}" oninput="clampNonNeg(this); recalc()" aria-label="Valor estimado (R$)"></td>
     <td class="col-obs"><textarea placeholder="Registre premissas, rateios, referências…" oninput="recalc()">${escHtml(obs)}</textarea></td>
     <td class="col-acao"><button class="btn-del" onclick="delRow('${id}')" title="Excluir linha" aria-label="Excluir linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
   `;
@@ -828,9 +830,21 @@ function updateEmpty(cat) {
 }
 
 // ── CALCULATION ──
+function clampNonNeg(input) {
+  // Custos não fazem sentido negativos. Coage para 0 mantendo feedback visual
+  // via :invalid (border vermelho) só na primeira tentativa — depois normaliza.
+  const v = parseFloat(input.value);
+  if (!isNaN(v) && v < 0) {
+    input.value = '0';
+    input.setAttribute('aria-invalid', 'true');
+    setTimeout(() => input.removeAttribute('aria-invalid'), 1500);
+  }
+}
+
 function getRowValue(tr) {
   const valInput = tr.querySelector('input[type=number]');
-  return parseFloat(valInput?.value || 0) || 0;
+  const v = parseFloat(valInput?.value || 0) || 0;
+  return Math.max(0, v);   // defesa em profundidade — getRowValue nunca retorna negativo
 }
 
 function getRowModal(tr) {
