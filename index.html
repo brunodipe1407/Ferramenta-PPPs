@@ -314,6 +314,30 @@ body {
 }
 .sub-tab.active .snum { opacity: 1; }
 
+/* ══ A11Y · :focus-visible consistente em todos os botões interativos ══
+   Anel duplo (escuro + claro) garante contraste tanto em fundos navy/teal
+   quanto em fundo branco. */
+.hbtn:focus-visible,
+.mod-tab:focus-visible,
+.mod-tab-home:focus-visible,
+.mod-tab-report:focus-visible,
+.sub-tab:focus-visible,
+.rp-mod-item:focus-visible,
+button:focus-visible {
+  outline: 2px solid #FFD45A;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(10,77,68,.55);
+}
+/* Remove outline padrão quando NÃO é navegação por teclado */
+.hbtn:focus:not(:focus-visible),
+.mod-tab:focus:not(:focus-visible),
+.mod-tab-home:focus:not(:focus-visible),
+.mod-tab-report:focus:not(:focus-visible),
+.sub-tab:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* ══ IFRAME CONTENT AREA ══ */
 .content-area {
   flex: 1;

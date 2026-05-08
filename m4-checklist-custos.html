@@ -226,8 +226,13 @@
 
   .ck-row { border-bottom: 1px solid var(--rule-soft); transition: background .12s; }
   .ck-row:hover { background: rgba(31,139,124,.04); }
-  .ck-row.is-aplicavel { background: rgba(46,182,165,.07); }
-  .ck-row.is-naoaplic { opacity: .55; }
+  /* Indicação não-textual atende WCAG 1.4.11 (3:1):
+     borda esquerda 3px de cor escura como marcador primário; o tint
+     de fundo é apoio visual. */
+  .ck-row.is-aplicavel { background: rgba(46,182,165,.10); }
+  .ck-row.is-aplicavel td:first-child { box-shadow: inset 3px 0 0 0 #1F8B7C; }
+  .ck-row.is-naoaplic  { opacity: .65; }
+  .ck-row.is-naoaplic td:first-child  { box-shadow: inset 3px 0 0 0 #6B7280; }
 
   .ck-row td { padding: 10px 12px; vertical-align: top; }
   .ck-cell-valor { text-align: right; }
@@ -301,9 +306,10 @@
     .ck-block { break-inside: avoid; page-break-inside: avoid; }
     /* Garante que cabeçalhos coloridos saiam em P&B */
     .panel-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    /* Linhas marcadas como aplicáveis: borda esquerda discreta no print */
-    .ck-row.is-aplicavel { border-left: 3px solid #1F8B7C; }
-    .ck-row.is-naoaplic { opacity: 0.6; }
+    /* Linhas marcadas: marcador lateral robusto no print (P&B), contraste ≥ 3:1 */
+    .ck-row.is-aplicavel td:first-child { box-shadow: inset 3px 0 0 0 #1F8B7C; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .ck-row.is-naoaplic  { opacity: 0.65; }
+    .ck-row.is-naoaplic  td:first-child  { box-shadow: inset 3px 0 0 0 #6B7280; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 
   /* STATUS BAR no rodapé do módulo (esconde em embed pois shell tem própria) */

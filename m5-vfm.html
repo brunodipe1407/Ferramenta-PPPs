@@ -1348,7 +1348,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ══ MÓDULO 1 ══ -->
-<div class="panel active" id="p1">
+<div class="panel active" id="p1" role="tabpanel" aria-labelledby="tab-p1" tabindex="0">
   <div class="ph">
     <div class="ph-overline">
       <span class="ph-num">Módulo 01</span>
@@ -1465,7 +1465,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ══ MÓDULO 2 ══ -->
-<div class="panel" id="p2">
+<div class="panel" id="p2" role="tabpanel" aria-labelledby="tab-p2" tabindex="0" hidden>
   <div class="ph">
     <div class="ph-overline">
       <span class="ph-num">Módulo 02</span>
@@ -1590,7 +1590,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ══ MÓDULO 3 ══ -->
-<div class="panel" id="p3">
+<div class="panel" id="p3" role="tabpanel" aria-labelledby="tab-p3" tabindex="0" hidden>
   <div class="ph">
     <div class="ph-overline">
       <span class="ph-num r">Módulo 03</span>
@@ -1642,7 +1642,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ══ MÓDULO 4 ══ -->
-<div class="panel" id="p4">
+<div class="panel" id="p4" role="tabpanel" aria-labelledby="tab-p4" tabindex="0" hidden>
   <div class="ph">
     <div class="ph-overline">
       <span class="ph-num a">Módulo 04</span>
@@ -1683,7 +1683,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ══ MÓDULO 5 ══ -->
-<div class="panel" id="p5">
+<div class="panel" id="p5" role="tabpanel" aria-labelledby="tab-p5" tabindex="0" hidden>
   <div class="ph">
     <div class="ph-overline">
       <span class="ph-num">Módulo 05</span>
@@ -1718,7 +1718,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ══ MÓDULO 6 ══ -->
-<div class="panel" id="p6">
+<div class="panel" id="p6" role="tabpanel" aria-labelledby="tab-p6" tabindex="0" hidden>
   <div class="ph">
     <div class="ph-overline">
       <span class="ph-num r">Módulo 06</span>
@@ -1777,7 +1777,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ══ MÓDULO 7 ══ -->
-<div class="panel" id="p7">
+<div class="panel" id="p7" role="tabpanel" aria-labelledby="tab-p7" tabindex="0" hidden>
   <div class="ph">
     <div class="ph-overline">
       <span class="ph-num k">Módulo 07 · Conclusão</span>
@@ -1871,36 +1871,36 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
 </div>
 
 <!-- ════════════════ BOTTOM TABS ════════════════ -->
-<nav class="tabbar" id="tabbar">
-  <div class="tab active" data-idx="0" onclick="goTo(0)">
+<nav class="tabbar" id="tabbar" role="tablist" aria-label="Etapas da Evidência Comparativa">
+  <div class="tab active" data-idx="0" onclick="goTo(0)" role="tab" aria-selected="true" aria-controls="p1" id="tab-p1" tabindex="0">
     <span class="tab-num">01</span><span class="tab-name">Identificação</span>
   </div>
-  <div class="tab-sep"></div>
-  <div class="tab" data-idx="1" onclick="goTo(1)">
+  <div class="tab-sep" aria-hidden="true"></div>
+  <div class="tab" data-idx="1" onclick="goTo(1)" role="tab" aria-selected="false" aria-controls="p2" id="tab-p2" tabindex="-1">
     <span class="tab-num">02</span><span class="tab-name">PSC Bruto</span>
   </div>
-  <div class="tab-sep"></div>
-  <div class="tab" data-idx="2" onclick="goTo(2)">
+  <div class="tab-sep" aria-hidden="true"></div>
+  <div class="tab" data-idx="2" onclick="goTo(2)" role="tab" aria-selected="false" aria-controls="p3" id="tab-p3" tabindex="-1">
     <span class="tab-num">03</span><span class="tab-name">Diagnóstico</span>
   </div>
-  <div class="tab-sep"></div>
-  <div class="tab" data-idx="3" onclick="goTo(3)">
+  <div class="tab-sep" aria-hidden="true"></div>
+  <div class="tab" data-idx="3" onclick="goTo(3)" role="tab" aria-selected="false" aria-controls="p4" id="tab-p4" tabindex="-1">
     <span class="tab-num">04</span><span class="tab-name">Melhorias</span>
   </div>
-  <div class="tab-sep"></div>
-  <div class="tab" data-idx="4" onclick="goTo(4)">
+  <div class="tab-sep" aria-hidden="true"></div>
+  <div class="tab" data-idx="4" onclick="goTo(4)" role="tab" aria-selected="false" aria-controls="p5" id="tab-p5" tabindex="-1">
     <span class="tab-num">05</span><span class="tab-name">Matriz</span>
   </div>
-  <div class="tab-sep"></div>
-  <div class="tab" data-idx="5" onclick="goTo(5)">
+  <div class="tab-sep" aria-hidden="true"></div>
+  <div class="tab" data-idx="5" onclick="goTo(5)" role="tab" aria-selected="false" aria-controls="p6" id="tab-p6" tabindex="-1">
     <span class="tab-num">06</span><span class="tab-name">VfM</span>
   </div>
-  <div class="tab-sep"></div>
-  <div class="tab" data-idx="6" onclick="goTo(6)">
+  <div class="tab-sep" aria-hidden="true"></div>
+  <div class="tab" data-idx="6" onclick="goTo(6)" role="tab" aria-selected="false" aria-controls="p7" id="tab-p7" tabindex="-1">
     <span class="tab-num">07</span><span class="tab-name">Conclusão</span>
   </div>
-  <div class="tab-sep"></div>
-  <div class="tab pdf-tab" onclick="printReport()">
+  <div class="tab-sep" aria-hidden="true"></div>
+  <div class="tab pdf-tab" onclick="printReport()" role="button" tabindex="0" aria-label="Gerar relatório em PDF">
     <span class="tab-num">PDF</span><span class="tab-name">Gerar Relatório</span>
   </div>
 </nav>
@@ -1913,13 +1913,19 @@ let cur = 0;
 function goTo(idx) {
   PANELS.forEach((id,i) => {
     const p = document.getElementById(id);
-    if (p) p.classList.toggle('active', i === idx);
+    if (!p) return;
+    const isActive = i === idx;
+    p.classList.toggle('active', isActive);
+    p.toggleAttribute('hidden', !isActive);
   });
   document.querySelectorAll('.tab[data-idx]').forEach(t => {
     const ti = parseInt(t.dataset.idx);
-    t.classList.toggle('active', ti === idx);
+    const isActive = ti === idx;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    t.tabIndex = isActive ? 0 : -1;
     if (ti < idx) t.classList.add('done');
-    else if (ti !== idx) t.classList.remove('done');
+    else if (!isActive) t.classList.remove('done');
   });
   const dots = document.querySelectorAll('.step-dot');
   dots.forEach((d,i) => {
@@ -1935,6 +1941,33 @@ function goTo(idx) {
   if (idx === 5) buildM6();
   if (idx === 6) buildM7();
 }
+
+/* Navegação por teclado nas sub-abas (WAI-ARIA Authoring Practices: Tabs) */
+(function() {
+  const tablist = document.getElementById('tabbar');
+  if (!tablist) return;
+  tablist.addEventListener('keydown', (e) => {
+    const tabs = Array.from(tablist.querySelectorAll('.tab[data-idx][role="tab"]'));
+    if (!tabs.length) return;
+    const current = tabs.findIndex(t => t === document.activeElement);
+    if (current < 0 && e.key !== 'Home' && e.key !== 'End') return;
+    let next = current;
+    switch (e.key) {
+      case 'ArrowRight': next = (current + 1) % tabs.length; break;
+      case 'ArrowLeft':  next = (current - 1 + tabs.length) % tabs.length; break;
+      case 'Home':       next = 0; break;
+      case 'End':        next = tabs.length - 1; break;
+      case 'Enter':
+      case ' ':
+        if (current >= 0) { e.preventDefault(); goTo(parseInt(tabs[current].dataset.idx)); }
+        return;
+      default: return;
+    }
+    e.preventDefault();
+    tabs[next].focus();
+    goTo(parseInt(tabs[next].dataset.idx));
+  });
+})();
 
 function fR(n) {
   if (!n && n !== 0) return '—';
