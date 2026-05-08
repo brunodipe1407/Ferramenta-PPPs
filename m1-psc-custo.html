@@ -783,7 +783,7 @@ function makeRow(cat, data = {}) {
     <td class="col-fonte-sug">
       <span class="fonte-sug-text">${escHtml(fonteSug)}</span>
     </td>
-    <td class="col-fonte-used"><input type="text" placeholder="Informe a fonte consultada" value="${escHtml(fonteUsed)}" oninput="recalc()"></td>
+    <td class="col-fonte-used"><input type="text" placeholder="Informe a fonte" value="${escHtml(fonteUsed)}" oninput="recalc()"></td>
     <td class="col-valor"><input type="number" min="0" step="0.01" placeholder="0,00" value="${valor !== '' ? valor : ''}" oninput="clampNonNeg(this); recalc()" aria-label="Valor estimado (R$)"></td>
     <td class="col-obs"><textarea placeholder="Registre premissas, rateios, referências…" oninput="recalc()">${escHtml(obs)}</textarea></td>
     <td class="col-acao"><button class="btn-del" onclick="delRow('${id}')" title="Excluir linha" aria-label="Excluir linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button></td>
@@ -1152,38 +1152,38 @@ function limparDados() {
 function carregarExemplos() {
   // Itens-tipo alinhados com a aba 'Md 2 - 2.1 Levantamento' do Excel canônico.
   // CAPEX (5 itens)
-  addRow('capex', { item: 'Obras e instalações — adequação de infraestrutura', modal: 'Administração Direta', fonteUsed: '', valor: 850000, obs: 'Custo anualizado: valor total ÷ vida útil estimada. Conforme NBC TSP/MCASP.' });
-  addRow('capex', { item: 'Equipamentos e material permanente', modal: 'Administração Direta', fonteUsed: '', valor: 120000, obs: 'Taxa de depreciação conforme NBC TSP 34 / MCASP. Dados de patrimônio do órgão.' });
-  addRow('capex', { item: 'Sistemas de TI e licenças de software específicos do serviço', modal: 'Administração Indireta', fonteUsed: '', valor: 95000, obs: 'Incluir gastos com ativos de TI gerados internamente. Contratos de licença e manutenção. Verificar no CAGE Gerencial / IEF.' });
-  addRow('capex', { item: 'Veículos (frota alocada)', modal: 'Administração Direta', fonteUsed: '', valor: 48000, obs: 'Vida útil de veículos: 5 anos (MCASP). Solicitar ao setor de patrimônio.' });
+  addRow('capex', { item: 'Obras e instalações — adequação de infraestrutura', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Custo anualizado: valor total ÷ vida útil estimada. Conforme NBC TSP/MCASP.' });
+  addRow('capex', { item: 'Equipamentos e material permanente', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Taxa de depreciação conforme NBC TSP 34 / MCASP. Dados de patrimônio do órgão.' });
+  addRow('capex', { item: 'Sistemas de TI e licenças de software específicos do serviço', modal: 'Administração Indireta', fonteUsed: '', valor: 0, obs: 'Incluir gastos com ativos de TI gerados internamente. Contratos de licença e manutenção. Verificar no CAGE Gerencial / IEF.' });
+  addRow('capex', { item: 'Veículos (frota alocada)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Vida útil de veículos: 5 anos (MCASP). Solicitar ao setor de patrimônio.' });
   addRow('capex', { item: 'Custos tributários', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Considerar possíveis impactos tributários sobre o CAPEX (imposto de importação, CIDE, imposto seletivo etc.). Avaliar imunidade tributária aplicável (ex.: hospital 100% SUS).' });
 
   // OPEX (13 itens)
-  addRow('opex', { item: 'Remuneração bruta de servidores (custo total do empregador)', modal: 'Administração Direta', fonteUsed: '', valor: 3200000, obs: 'Painel de Informações de Pessoal / pi.sefaz.rs.gov.br. Se aplicável rateio, informar critério (ex.: 40% dos servidores da unidade alocados ao objeto).' });
+  addRow('opex', { item: 'Remuneração bruta de servidores (custo total do empregador)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Painel de Informações de Pessoal / pi.sefaz.rs.gov.br. Se aplicável rateio, informar critério (ex.: 40% dos servidores da unidade alocados ao objeto).' });
   addRow('opex', { item: 'Contribuição patronal ao RPPS / RGPS / IPE Prev / RS-Prev', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Inclui Contribuição Patronal, FGTS, Sistema S, SAT/RAT, previdência complementar patrocinada. Se já consolidado na linha de remuneração, manter zero.' });
-  addRow('opex', { item: 'Diárias e passagens', modal: 'Administração Direta', fonteUsed: '', valor: 18000, obs: 'Portal Transparência/RS → Natureza: Diárias. Aplicar mesmo fator de rateio do pessoal.' });
-  addRow('opex', { item: 'Capacitação e treinamento', modal: 'Administração Direta', fonteUsed: '', valor: 22000, obs: 'Separar contratos de capacitação do total de Outros Serviços de Terceiros PJ. Aplicar critério de rateio se necessário.' });
-  addRow('opex', { item: 'Contratos terceirizados de limpeza e conservação', modal: 'Contrato Licitado', fonteUsed: '', valor: 480000, obs: 'Somar valores anualizados dos contratos vigentes. CAGE Gerencial → CUSTOS-RS (TERC).' });
-  addRow('opex', { item: 'Contratos de manutenção de equipamentos e instalações', modal: 'Contrato Licitado', fonteUsed: '', valor: 210000, obs: 'Incluir manutenção predial, equipamentos, TI e veículos. Atenção para não duplicar com Capex.' });
-  addRow('opex', { item: 'Energia elétrica e água/esgoto (rateio pelo uso)', modal: 'Administração Direta', fonteUsed: '', valor: 95000, obs: 'Estimativa com base em m² ocupados ou nº de pontos de consumo. IEF não permite rateio percentual por CC.' });
+  addRow('opex', { item: 'Diárias e passagens', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Portal Transparência/RS → Natureza: Diárias. Aplicar mesmo fator de rateio do pessoal.' });
+  addRow('opex', { item: 'Capacitação e treinamento', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Separar contratos de capacitação do total de Outros Serviços de Terceiros PJ. Aplicar critério de rateio se necessário.' });
+  addRow('opex', { item: 'Contratos terceirizados de limpeza e conservação', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Somar valores anualizados dos contratos vigentes. CAGE Gerencial → CUSTOS-RS (TERC).' });
+  addRow('opex', { item: 'Contratos de manutenção de equipamentos e instalações', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Incluir manutenção predial, equipamentos, TI e veículos. Atenção para não duplicar com Capex.' });
+  addRow('opex', { item: 'Energia elétrica e água/esgoto (rateio pelo uso)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Estimativa com base em m² ocupados ou nº de pontos de consumo. IEF não permite rateio percentual por CC.' });
   addRow('opex', { item: 'Contratos de locação de imóveis', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Incluir apenas imóveis utilizados no objeto da PPP. Informar critério de rateio se aplicável.' });
-  addRow('opex', { item: 'Rateio de despesas operacionais da entidade vinculada', modal: 'Administração Indireta', fonteUsed: '', valor: 620000, obs: 'Fonte: Demonstrações Financeiras da entidade (DRE/Notas Explicativas). Aplicar % de atividade.' });
+  addRow('opex', { item: 'Rateio de despesas operacionais da entidade vinculada', modal: 'Administração Indireta', fonteUsed: '', valor: 0, obs: 'Fonte: Demonstrações Financeiras da entidade (DRE/Notas Explicativas). Aplicar % de atividade.' });
   addRow('opex', { item: 'Transferências do Estado para a entidade vinculada (repasses)', modal: 'Administração Indireta', fonteUsed: '', valor: 0, obs: 'Portal Transparência/RS → Convênios e Parcerias. Verificar se o repasse é exclusivo ao serviço ou global (rateio).' });
-  addRow('opex', { item: 'Fornecimento de bens / insumos recorrentes (almoxarifado)', modal: 'Administração Direta', fonteUsed: '', valor: 68000, obs: 'CAGE Gerencial → CUSTOS-RS (SAM — materiais de consumo). Saída do almoxarifado por CC.' });
+  addRow('opex', { item: 'Fornecimento de bens / insumos recorrentes (almoxarifado)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'CAGE Gerencial → CUSTOS-RS (SAM — materiais de consumo). Saída do almoxarifado por CC.' });
   addRow('opex', { item: 'Outros custos de pessoal (EPIs, uniformes, vale-alimentação)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Incluir somente o valor custeado pelo órgão, deduzindo a contrapartida descontada em folha.' });
   addRow('opex', { item: 'Custos tributários', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Considerar possíveis impactos tributários sobre o OPEX (imposto de importação, CIDE, imposto seletivo etc.). Avaliar imunidade tributária aplicável (ex.: hospital 100% SUS).' });
 
   // GESTÃO E FISCALIZAÇÃO CONTRATUAL (7 itens)
-  addRow('gestao', { item: 'Pessoal interno alocado à fiscalização contratual (rateio)', modal: 'Administração Indireta', fonteUsed: '', valor: 140000, obs: 'Estimar nº de servidores equivalentes × custo médio. Registrar metodologia de rateio.' });
-  addRow('gestao', { item: 'Fiscalização técnica terceirizada (assessoria/consultoria)', modal: 'Contrato Licitado', fonteUsed: '', valor: 85000, obs: 'Contratos de empresa de fiscalização ou consultoria para gestão do contrato principal.' });
-  addRow('gestao', { item: 'Custos jurídicos (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 30000, obs: 'Estimativa de horas da área jurídica alocadas à gestão dos contratos do serviço.' });
+  addRow('gestao', { item: 'Pessoal interno alocado à fiscalização contratual (rateio)', modal: 'Administração Indireta', fonteUsed: '', valor: 0, obs: 'Estimar nº de servidores equivalentes × custo médio. Registrar metodologia de rateio.' });
+  addRow('gestao', { item: 'Fiscalização técnica terceirizada (assessoria/consultoria)', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Contratos de empresa de fiscalização ou consultoria para gestão do contrato principal.' });
+  addRow('gestao', { item: 'Custos jurídicos (rateio)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Estimativa de horas da área jurídica alocadas à gestão dos contratos do serviço.' });
   addRow('gestao', { item: 'Custo de sobrecarga do quadro funcional na gestão operacional do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Equipe dedicada à gestão e ao acompanhamento operacional do serviço — além da fiscalização formal (C1). Inclui materiais, sistemas e ferramentas. Ex.: nº servidores × % dedicação × custo/hora × horas anuais.' });
   addRow('gestao', { item: 'Custos de judicialização e contencioso administrativo do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Sentenças condenatórias pagas/provisionadas, precatórios, perícias, honorários sucumbenciais, atuação da PGE/Procuradoria (rateio).' });
   addRow('gestao', { item: 'Custos com processo licitatório', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Substitui o antigo bloco "Custos de Transação". Estimar nº de contratos a licitar × custo médio por processo. Se aplicável rateio, informar critério.' });
   addRow('gestao', { item: 'Reajustes / reequilíbrios e aditivos aplicados no período', modal: 'Contrato Licitado', fonteUsed: '', valor: 0, obs: 'Informar índice de reajuste aplicado e data. Não incluir se o valor contratual já refletir o reajuste (evita duplicidade).' });
 
   // RECEITAS (2 itens)
-  addRow('receita', { item: 'Receitas tarifárias / arrecadação direta do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 120000, obs: 'Receitas que reduzem o custo líquido público. Informar fonte e periodicidade.' });
+  addRow('receita', { item: 'Receitas tarifárias / arrecadação direta do serviço', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Receitas que reduzem o custo líquido público. Informar fonte e periodicidade.' });
   addRow('receita', { item: 'Outras receitas geradas pelo serviço (aluguéis, cessões)', modal: 'Administração Direta', fonteUsed: '', valor: 0, obs: 'Receitas acessórias geradas pela operação do serviço.' });
 
   // PREMISSAS
