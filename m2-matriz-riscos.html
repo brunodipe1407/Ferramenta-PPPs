@@ -2229,9 +2229,11 @@ function carregarRascunho() {
   }
 }
 
+// Ids dos campos de identificação — usados ao preencher e ao coletar o estado.
+const IDENT_IDS = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
+
 function preencherIdentificacao() {
-  const ids = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
-  ids.forEach(id => {
+  IDENT_IDS.forEach(id => {
     const el = document.getElementById(id);
     const key = id.replace("proj-","");
     if (el && estado.identificacao[key] !== undefined) {
@@ -2241,8 +2243,7 @@ function preencherIdentificacao() {
 }
 
 function coletarIdentificacao() {
-  const ids = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
-  ids.forEach(id => {
+  IDENT_IDS.forEach(id => {
     const el = document.getElementById(id);
     const key = id.replace("proj-","");
     if (el) estado.identificacao[key] = el.value;
