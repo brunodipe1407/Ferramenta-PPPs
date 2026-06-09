@@ -1910,7 +1910,7 @@ button:focus:not(:focus-visible) {
               </div>
               <div class="hp-field">
                 <label for="hpData">Data de Emissão</label>
-                <input type="date" id="hpData">
+                <input type="text" id="hpData" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10">
               </div>
             </div>
           </div>
@@ -1972,7 +1972,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-spinner"></div>
     <div class="loading-text">Carregando módulo…</div>
   </div>
-  <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1&v=20"
+  <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1&v=21"
     title="PSC — Custo Público" role="tabpanel" aria-label="Módulo 1 — PSC Custo Público"
     onload="onFrameLoad(1)" onerror="onFrameError(1)"></iframe>
 
@@ -1982,7 +1982,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame2" src=""
-    data-src="m2-matriz-riscos.html?embed=1&v=20"
+    data-src="m2-matriz-riscos.html?embed=1&v=21"
     title="Matriz de Riscos PPP" role="tabpanel" aria-label="Módulo 2 — Matriz de Riscos PPP"
     onload="onFrameLoad(2)" onerror="onFrameError(2)"></iframe>
 
@@ -1992,7 +1992,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame3" src=""
-    data-src="m3-precificacao.html?embed=1&v=20"
+    data-src="m3-precificacao.html?embed=1&v=21"
     title="Precificação de Obras" role="tabpanel" aria-label="Módulo 3 — Precificação de Obras"
     onload="onFrameLoad(3)" onerror="onFrameError(3)"></iframe>
 
@@ -2002,7 +2002,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame4" src=""
-    data-src="m4-checklist-custos.html?embed=1&v=20"
+    data-src="m4-checklist-custos.html?embed=1&v=21"
     title="Checklist de Custos PPP" role="tabpanel" aria-label="Módulo 4 — Checklist de Custos PPP"
     onload="onFrameLoad(4)" onerror="onFrameError(4)"></iframe>
 
@@ -2012,7 +2012,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame5" src=""
-    data-src="m5-vfm.html?embed=1&v=20"
+    data-src="m5-vfm.html?embed=1&v=21"
     title="Evidência Comparativa" role="tabpanel" aria-label="Módulo 5 — Evidência Comparativa (VfM)"
     onload="onFrameLoad(5)" onerror="onFrameError(5)"></iframe>
 
@@ -2066,7 +2066,7 @@ button:focus:not(:focus-visible) {
               </div>
               <div class="rp-field">
                 <label for="capData">Data de Emissão</label>
-                <input type="date" id="capData">
+                <input type="text" id="capData" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10">
               </div>
               <div class="rp-field rp-field-full">
                 <label for="capObs">Observações / Contexto</label>
@@ -2642,6 +2642,24 @@ const HOME_MOD_THUMBS = {
   5: 'assets/card-02.jpg'   // VfM (era M2)
 };
 
+/* Datas no padrão brasileiro (DD/MM/AAAA).
+   - toDataBR: converte ISO legado (YYYY-MM-DD) → DD/MM/AAAA; demais strings inalteradas.
+   - parseDataBR: aceita BR ou ISO e devolve um Date (meio-dia, evita timezone), ou null. */
+function toDataBR(v) {
+  if (!v) return v || '';
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v).trim());
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : v;
+}
+function parseDataBR(v) {
+  if (!v) return null;
+  const s = String(v).trim();
+  const br = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+  const iso = br ? `${br[3]}-${br[2]}-${br[1]}` : (/^\d{4}-\d{2}-\d{2}$/.test(s) ? s : null);
+  if (!iso) return null;
+  const d = new Date(iso + 'T12:00:00');
+  return isNaN(d) ? null : d;
+}
+
 function inicializarHomePanel() {
   // Restaura valores dos campos do form a partir do projeto compartilhado
   const proj = getProjetoSalvo() || {};
@@ -2655,12 +2673,12 @@ function inicializarHomePanel() {
   };
   for (const id in map) {
     const el = document.getElementById(id);
-    if (el && map[id]) el.value = map[id];
+    if (el && map[id]) el.value = (id === 'hpData') ? toDataBR(map[id]) : map[id];
   }
-  // Inicializa data com hoje se vazio
+  // Inicializa data com hoje se vazio (padrão DD/MM/AAAA)
   const hpData = document.getElementById('hpData');
   if (hpData && !hpData.value) {
-    hpData.value = new Date().toISOString().slice(0,10);
+    hpData.value = new Date().toLocaleDateString('pt-BR');
   }
 
   // Listeners: ao alterar qualquer campo, salvar e propagar
@@ -2917,8 +2935,7 @@ function inicializarPainelRelatorios() {
   // Inicializa data com hoje (se vazio)
   const capData = document.getElementById('capData');
   if (capData && !capData.value) {
-    const hoje = new Date();
-    capData.value = hoje.toISOString().slice(0,10);
+    capData.value = new Date().toLocaleDateString('pt-BR');
   }
 
   // Persistência local dos campos da capa
@@ -2928,7 +2945,7 @@ function inicializarPainelRelatorios() {
     // Restaura valor salvo
     try {
       const saved = localStorage.getItem('gtsefaz_capa_' + id);
-      if (saved && !el.value) el.value = saved;
+      if (saved && !el.value) el.value = (id === 'capData') ? toDataBR(saved) : saved;
     } catch(e) {}
     // Salva ao alterar
     el.addEventListener('input', () => {
@@ -3516,10 +3533,8 @@ function renderizarCapaImprimivel() {
 
   let dataFormatada = '—';
   if (dataStr) {
-    try {
-      const d = new Date(dataStr + 'T00:00:00');
-      dataFormatada = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
-    } catch(e) { dataFormatada = dataStr; }
+    const d = parseDataBR(dataStr);
+    dataFormatada = d ? d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : dataStr;
   }
 
   const selecionados = MOD_NUMS.filter(n => modulosSelecionados[n]);

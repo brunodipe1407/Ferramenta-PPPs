@@ -477,7 +477,7 @@
         </div>
         <div class="field-group">
           <label>Data do Preenchimento</label>
-          <input type="text" id="dataPreench" placeholder="DD/MM/AAAA">
+          <input type="text" id="dataPreench" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10">
         </div>
         <div class="field-group">
           <label>Versão do Instrumento</label>
@@ -1027,6 +1027,13 @@ function m1ScheduleSave() {
 document.addEventListener('input',  m1ScheduleSave);
 document.addEventListener('change', m1ScheduleSave);
 
+// Converte data ISO legada (YYYY-MM-DD) para o padrão brasileiro DD/MM/AAAA.
+function toDataBR(v) {
+  if (!v) return v || '';
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v).trim());
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : v;
+}
+
 function carregarRascunho() {
   m1IsHydrating = true;
   try {
@@ -1042,7 +1049,7 @@ function carregarRascunho() {
     const data = JSON.parse(raw);
     // header
     if (data.header) {
-      Object.entries(data.header).forEach(([k,v]) => { const el = document.getElementById(k); if (el) el.value = v || ''; });
+      Object.entries(data.header).forEach(([k,v]) => { const el = document.getElementById(k); if (el) el.value = (k === 'dataPreench') ? toDataBR(v) : (v || ''); });
     }
     // (Blocos 'modalidades' e 'transacao' do schema antigo são ignorados.
     //  - 'modalidades' foi removido na Fase 3 — modalidade agora vai por linha na tabela de custos.
@@ -1204,7 +1211,7 @@ window.addEventListener('beforeunload', () => {
     for (const k in FIELDS) {
       const el = getEl(k);
       if (!el) continue;
-      const novoValor = dados[k] || '';
+      const novoValor = (k === 'data') ? toDataBR(dados[k]) : (dados[k] || '');
       // Antes da Fase 3, só sobrescrevíamos campos vazios — quebrava a
       // sincronização a partir da 2ª keystroke vinda do Hub ('S' chegava,
       // 'Sp' era ignorado por já existir 'S'). Agora aceitamos atualização
