@@ -2681,8 +2681,8 @@ function atualizarProgresso() {
       total++;
       const tipica = r.subcategorias[i].tipica;
       const desvio = s.aloc !== tipica;
-      // "Preenchida" = sem desvio OU desvio justificado E mitigação registrada
-      const completa = (s.mit && s.mit.trim().length > 0) && (!desvio || (s.just && s.just.trim().length > 0));
+      // "Preenchida" = sem desvio OU desvio justificado (mitigação é documentação opcional)
+      const completa = !desvio || (s.just && s.just.trim().length > 0);
       if (completa) preenchidas++;
       if (desvio && (!s.just || s.just.trim().length === 0)) pendencias++;
     });
@@ -2690,7 +2690,7 @@ function atualizarProgresso() {
   estado.novos.forEach(r => {
     total++;
     const desvio = r.aloc !== r.tipica;
-    const completa = (r.mit && r.mit.trim().length > 0) && (!desvio || (r.just && r.just.trim().length > 0));
+    const completa = !desvio || (r.just && r.just.trim().length > 0);
     if (completa) preenchidas++;
     if (desvio && (!r.just || r.just.trim().length === 0)) pendencias++;
   });

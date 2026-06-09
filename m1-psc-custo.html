@@ -676,7 +676,7 @@
 
 <!-- STATUS BAR -->
 <div class="status-bar">
-  <span class="sb-item"><span class="sb-dot"></span> CAGE/SEFAZ-RS · PSC Módulo 2</span>
+  <span class="sb-item"><span class="sb-dot"></span> CAGE/SEFAZ-RS · PSC Módulo 1</span>
   <span class="sb-item">Lei 11.079/2004 · Art. 10, I, 'a'</span>
   <span class="sb-item sb-saved" id="sb-status">● Rascunho não salvo</span>
   <span class="sb-right">Versão 1.0 · Estimativa estática anual · Sem VPL</span>
@@ -769,14 +769,31 @@ function updateEmpty(cat) {
 }
 
 // ── CALCULATION ──
+let m1ToastTimer = null;
+function m1Toast(msg) {
+  let t = document.getElementById('m1-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'm1-toast';
+    t.setAttribute('role', 'alert');
+    t.style.cssText = 'position:fixed;bottom:48px;left:50%;transform:translateX(-50%);background:#B91C1C;color:#fff;padding:10px 18px;border-radius:6px;font-size:13px;max-width:480px;text-align:center;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.25)';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(m1ToastTimer);
+  m1ToastTimer = setTimeout(() => { t.style.display = 'none'; }, 4500);
+}
+
 function clampNonNeg(input) {
-  // Custos não fazem sentido negativos. Coage para 0 mantendo feedback visual
-  // via :invalid (border vermelho) só na primeira tentativa — depois normaliza.
+  // Custos não fazem sentido negativos. Coage para 0 e avisa de forma
+  // explícita (toast), para o ajuste não passar despercebido.
   const v = parseFloat(input.value);
   if (!isNaN(v) && v < 0) {
     input.value = '0';
     input.setAttribute('aria-invalid', 'true');
-    setTimeout(() => input.removeAttribute('aria-invalid'), 1500);
+    setTimeout(() => input.removeAttribute('aria-invalid'), 4000);
+    m1Toast('Valores negativos não são permitidos — o campo foi ajustado para 0. Receitas devem ser informadas como positivas (a dedução é automática).');
   }
 }
 
@@ -842,6 +859,12 @@ function recalc() {
       const m = getRowModal(tr);
       if (modals[m] !== undefined) modals[m] += getRowValue(tr);
     });
+  });
+  // Receitas (CAT D) deduzem o custo da modalidade correspondente,
+  // mantendo os cards por modalidade coerentes com o PSC líquido.
+  Array.from(document.getElementById('tbody-receita')?.children || []).forEach(tr => {
+    const m = getRowModal(tr);
+    if (modals[m] !== undefined) modals[m] -= getRowValue(tr);
   });
 
   const tDir   = modals['Administração Direta'];
