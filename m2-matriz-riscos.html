@@ -1519,26 +1519,6 @@ body {
 <body>
 
 <!-- ============ HEADER ============ -->
-<header class="header">
-  <div class="header-inner">
-    <div class="logos-header">
-      <img src="assets/m2-gov-rs.svg" alt="Governo do RS — Secretaria da Fazenda" class="logo-gov-rs">
-      <div class="logo-divider"></div>
-      <img src="assets/m2-cage.jpg" alt="CAGE — Contadoria e Auditoria-Geral do Estado" class="logo-cage">
-    </div>
-    <div class="header-title">
-      <div class="header-eyebrow">Estado do Rio Grande do Sul</div>
-      <div class="header-h1">Matriz de Alocação de Riscos · PPP/Concessões</div>
-      <div class="header-subtitle">Contadoria e Auditoria-Geral do Estado · Secretaria da Fazenda</div>
-    </div>
-    <div class="header-meta">
-      <div class="save-indicator" id="save-indicator">
-        <div class="save-dot"></div>
-        <span id="save-text">Pronto</span>
-      </div>
-    </div>
-  </div>
-</header>
 
 <!-- ============ NAV ============ -->
 <nav class="nav">
@@ -2269,6 +2249,7 @@ function salvarAutomatico() {
 
 function atualizarSaveIndicator(data) {
   const txt = document.getElementById("save-text");
+  if (!txt) return;
   const hh = String(data.getHours()).padStart(2, "0");
   const mm = String(data.getMinutes()).padStart(2, "0");
   txt.textContent = `Rascunho salvo · ${hh}:${mm}`;

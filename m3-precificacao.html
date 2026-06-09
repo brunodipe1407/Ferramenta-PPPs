@@ -533,19 +533,6 @@ input,textarea,select{font-family:inherit;font-size:14px;color:var(--ink)}
 </head>
 <body>
 
-<header class="app-header">
-  <div class="header-logos">
-    <div class="logo-govrs"><img src="assets/m3-gov-rs.png" alt="Governo do Estado do RS"></div>
-    <div class="logo-sep"></div>
-    <div class="logo-cage"><img src="assets/m3-cage.png" alt="CAGE"></div>
-  </div>
-  <div class="header-title">
-    <span class="eyebrow">Estado do Rio Grande do Sul</span>
-    <h1>Análise de Precificação de Obras</h1>
-    <span class="subtitle">Contadoria e Auditoria-Geral do Estado · Secretaria da Fazenda</span>
-  </div>
-  <div class="save-pill" id="savePill">Rascunho salvo · --:--</div>
-</header>
 
 <nav class="app-nav">
   <div class="nav-tabs" id="navTabs"></div>
@@ -786,9 +773,11 @@ function scheduleSave(){
       const t = new Date();
       const hh = String(t.getHours()).padStart(2,"0");
       const mm = String(t.getMinutes()).padStart(2,"0");
-      document.getElementById("savePill").textContent = `Rascunho salvo · ${hh}:${mm}`;
+      const sp = document.getElementById("savePill");
+      if (sp) sp.textContent = `Rascunho salvo · ${hh}:${mm}`;
     }catch(e){
-      document.getElementById("savePill").textContent = "Erro ao salvar";
+      const sp = document.getElementById("savePill");
+      if (sp) sp.textContent = "Erro ao salvar";
     }
   }, 500);
 }
