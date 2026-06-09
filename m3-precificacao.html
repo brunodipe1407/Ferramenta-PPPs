@@ -1263,7 +1263,21 @@ function renderComps(){
     tdV.appendChild(tblInp(state.comps.parcelas[i].valor, v => { state.comps.parcelas[i].valor = v; updateTotalsHeader(); refreshTotalsRow(); }, {type:"number"}));
     tr.appendChild(tdV);
     const tdPct = el("td", {class:"num-cell"});
-    tdPct.appendChild(tblInp(state.comps.parcelas[i].pct, v => { state.comps.parcelas[i].pct = v; updateTotalsHeader(); refreshTotalsRow(); }, {type:"number"}));
+    const inpPct = tblInp(state.comps.parcelas[i].pct, v => { state.comps.parcelas[i].pct = v; updateTotalsHeader(); refreshTotalsRow(); }, {type:"number"});
+    // Ao concluir a edição, impede que a soma das parcelas ultrapasse 100%:
+    // o valor é reduzido ao máximo disponível e o analista é avisado.
+    inpPct.addEventListener("change", () => {
+      const t = computeParcelasTotals();
+      if (t.pct > 100) {
+        const proprio = parseFloat(state.comps.parcelas[i].pct) || 0;
+        const disponivel = Math.max(0, Math.round((100 - (t.pct - proprio)) * 100) / 100);
+        state.comps.parcelas[i].pct = disponivel > 0 ? String(disponivel) : "";
+        inpPct.value = state.comps.parcelas[i].pct;
+        updateTotalsHeader(); refreshTotalsRow(); scheduleSave();
+        alert(`A soma das parcelas não pode exceder 100%. O valor informado foi ajustado para ${fmtNum(disponivel,2)}% (máximo disponível).`);
+      }
+    });
+    tdPct.appendChild(inpPct);
     tr.appendChild(tdPct);
     const tdO = el("td"); tdO.appendChild(tblInp(state.comps.parcelas[i].obs, v => state.comps.parcelas[i].obs = v)); tr.appendChild(tdO);
     tb2.appendChild(tr);
@@ -1286,7 +1300,10 @@ function renderComps(){
     const t = computeParcelasTotals();
     document.getElementById("parc-tot-pres").textContent = t.pres;
     document.getElementById("parc-tot-val").textContent = fmtNum(t.valor);
-    document.getElementById("parc-tot-pct").textContent = fmtNum(t.pct,2);
+    const cellPct = document.getElementById("parc-tot-pct");
+    cellPct.textContent = fmtNum(t.pct,2);
+    cellPct.style.color = t.pct > 100 ? "#B91C1C" : "";
+    cellPct.style.fontWeight = t.pct > 100 ? "700" : "";
   }
   setTimeout(refreshTotalsRow, 0);
 
