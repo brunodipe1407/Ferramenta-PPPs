@@ -957,8 +957,7 @@ function collectData() {
         modal:     inputs[1]?.value || '',
         fonteUsed: inputs[2]?.value || '',
         valor:     inputs[3]?.value || '',
-        conf:      inputs[4]?.value || '',
-        obs:       inputs[5]?.value || ''
+        obs:       inputs[4]?.value || ''
       };
     });
   });
@@ -996,7 +995,7 @@ function salvarRascunho(silent) {
   if (m1IsHydrating) return;
   try {
     const data = collectData();
-    localStorage.setItem('psc_cage_rs_v1', JSON.stringify(data));
+    localStorage.setItem('psc_cage_rs_v2', JSON.stringify(data));
     document.getElementById('sb-status').textContent = '● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR');
     try { parent.postMessage({ type: 'gtsefaz_saved', mod: 1 }, '*'); } catch(e) {}
   } catch(e) {
@@ -1031,7 +1030,7 @@ function carregarRascunho() {
     });
     const tbp = document.getElementById('tbody-premissa');
     if (tbp) tbp.innerHTML = '';
-    const raw = localStorage.getItem('psc_cage_rs_v1');
+    const raw = localStorage.getItem('psc_cage_rs_v2');
     if (!raw) return false;
     const data = JSON.parse(raw);
     // header
@@ -1071,7 +1070,7 @@ function exportarRelatorio() {
 // ── CLEAR ──
 function limparDados() {
   if (!confirm('Deseja limpar todos os dados e recarregar os exemplos? Esta ação não pode ser desfeita.')) return;
-  try { localStorage.removeItem('psc_cage_rs_v1'); } catch(e) {}
+  try { localStorage.removeItem('psc_cage_rs_v2'); localStorage.removeItem('psc_cage_rs_v1'); } catch(e) {}
   ['capex','opex','gestao','receita'].forEach(cat => {
     const tbody = document.getElementById(`tbody-${cat}`);
     if (tbody) tbody.innerHTML = '';
