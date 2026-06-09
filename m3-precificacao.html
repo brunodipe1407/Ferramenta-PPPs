@@ -810,7 +810,14 @@ function field(label, input, help){
 }
 
 function inp(value, onInput, opts={}){
-  const i = el("input", {class:"input", type:opts.type||"text", placeholder:opts.ph||""});
+  const attrs = {class:"input", type:opts.type||"text", placeholder:opts.ph||""};
+  if (opts.readonly) {
+    attrs.readonly = "readonly";
+    attrs.class += " gts-id-locked";
+    attrs.title = "Sincronizado da tela Início — edite por lá";
+    attrs.style = "background:#F3F4F6;color:#4B5563;cursor:not-allowed";
+  }
+  const i = el("input", attrs);
   i.value = value || "";
   i.addEventListener("input", e => { onInput(e.target.value); scheduleSave(); });
   return i;
@@ -964,8 +971,17 @@ function renderCapa(){
   grid.appendChild(field("Órgão/Entidade responsável", inp(c.orgao, v => c.orgao = v)));
   grid.appendChild(field("Responsável(is) pela análise", inp(c.responsavel, v => c.responsavel = v)));
   grid.appendChild(field("Unidade", inp(c.unidade, v => c.unidade = v)));
-  grid.appendChild(field("Data de início da análise", inp(c.dataIni, v => c.dataIni = v, {type:"date"})));
-  grid.appendChild(field("Data de conclusão da análise", inp(c.dataFim, v => c.dataFim = v, {type:"date"})));
+  const inpIni = inp(c.dataIni, v => { c.dataIni = v; validarDatasCapa(); }, {type:"date"});
+  const inpFim = inp(c.dataFim, v => { c.dataFim = v; validarDatasCapa(); }, {type:"date"});
+  function validarDatasCapa(){
+    // Datas type=date vêm em ISO (yyyy-mm-dd), então a comparação textual ordena.
+    const bad = c.dataIni && c.dataFim && c.dataFim < c.dataIni;
+    inpFim.style.borderColor = bad ? "#B91C1C" : "";
+    inpFim.title = bad ? "A data de conclusão não pode ser anterior à de início." : "";
+  }
+  validarDatasCapa();
+  grid.appendChild(field("Data de início da análise", inpIni));
+  grid.appendChild(field("Data de conclusão da análise", inpFim));
   grid.appendChild(field("Versão do preenchimento", inp(c.versao, v => c.versao = v)));
   body.appendChild(grid);
   card.appendChild(body);
@@ -1014,14 +1030,20 @@ function renderIdentif(){
   root.appendChild(panelHeader("Aba 1", "Identificação do caso analisado", "Registro dos dados básicos do objeto submetido à análise. Recomenda-se preencher integralmente para garantir rastreabilidade no relatório final."));
 
   const d = state.identif;
+  // Nome e órgão são sincronizados a partir da tela Início quando embarcado;
+  // por isso ficam somente-leitura aqui (fonte única).
+  const RO = document.documentElement.classList.contains('embed-mode');
 
   const c1 = el("div", {class:"card"});
   c1.appendChild(cardHeader("1.1 Identificação geral"));
   const b1 = el("div", {class:"card-body"});
+  if (RO) {
+    b1.appendChild(el("div", {class:"gts-id-hint", style:"font-size:11px;color:#6B7280;font-style:italic;margin-bottom:8px"}, "🔒 Nome e órgão são sincronizados da tela Início. Para alterar, edite na aba Início."));
+  }
   const g1 = el("div", {class:"field-grid"});
-  g1.appendChild(field("Nome do projeto / estudo / contratação", inp(d.nomeProjeto, v => d.nomeProjeto = v)));
+  g1.appendChild(field("Nome do projeto / estudo / contratação", inp(d.nomeProjeto, v => d.nomeProjeto = v, {readonly:RO})));
   g1.appendChild(field("Objeto resumido", inp(d.objetoResumido, v => d.objetoResumido = v)));
-  g1.appendChild(field("Órgão ou entidade responsável", inp(d.orgaoEnt, v => d.orgaoEnt = v)));
+  g1.appendChild(field("Órgão ou entidade responsável", inp(d.orgaoEnt, v => d.orgaoEnt = v, {readonly:RO})));
   g1.appendChild(field("Unidade demandante / requisitante", inp(d.unidadeDem, v => d.unidadeDem = v)));
   g1.appendChild(field("Número do processo / expediente (PROA, SEI...)", inp(d.numProcesso, v => d.numProcesso = v)));
   g1.appendChild(field("Modalidade contratual", inp(d.modalidade, v => d.modalidade = v, {ph:"PPP, concessão, obra direta, RDC..."})));

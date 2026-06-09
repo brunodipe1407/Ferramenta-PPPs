@@ -1687,7 +1687,7 @@ body {
     <span class="filter-pill" role="button" tabindex="0" data-filter="pendentes" onclick="setFilterPill(this, 'pendentes')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'pendentes');}">Pendentes</span>
     <span class="filter-pill" role="button" tabindex="0" data-filter="desvios" onclick="setFilterPill(this, 'desvios')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'desvios');}">Com desvio</span>
     <span class="filter-pill" role="button" tabindex="0" data-filter="setorial" onclick="setFilterPill(this, 'setorial')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();setFilterPill(this,'setorial');}">Com ajuste setorial</span>
-    <button class="btn btn-secondary" onclick="expandirTodos()" style="margin-left: 8px;">Expandir todos</button>
+    <button id="btn-expandir" class="btn btn-secondary" onclick="expandirTodos()" style="margin-left: 8px;">Expandir todos</button>
     <button class="btn btn-secondary" onclick="abrirModalNovoRisco()" style="background: var(--cage-azul); color: white; border-color: var(--cage-azul);">+ Novo risco</button>
   </div>
 
@@ -1727,7 +1727,7 @@ body {
   <div class="charts-grid">
     <div class="chart-card">
       <div class="chart-title">Distribuição da Alocação Proposta</div>
-      <div class="chart-subtitle">Por número de subcategorias, excluídos os riscos não aplicáveis</div>
+      <div class="chart-subtitle">Por número de subcategorias, excluídos os riscos não aplicáveis. Alocações "Variável por setor" são contabilizadas como Compartilhado.</div>
       <div class="chart-container"><canvas id="chart-distribuicao"></canvas></div>
     </div>
     <div class="chart-card">
@@ -2668,6 +2668,8 @@ function expandirTodos() {
   document.querySelectorAll(".risco").forEach(r => {
     r.classList.toggle("open", !todosAbertos);
   });
+  const btn = document.getElementById("btn-expandir");
+  if (btn) btn.textContent = todosAbertos ? "Expandir todos" : "Recolher todos";
 }
 
 /* ==================== PROGRESSO ==================== */
@@ -3292,9 +3294,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Torna os campos de identificação somente-leitura quando embarcado: a fonte
+  // única é a tela Início; aqui eles apenas refletem o que vem do shell.
+  function lockIdentFields() {
+    if (!document.getElementById('gts-id-lock-style')) {
+      const st = document.createElement('style');
+      st.id = 'gts-id-lock-style';
+      st.textContent = '.gts-id-locked{background:#F3F4F6 !important;color:#4B5563 !important;cursor:not-allowed}.gts-id-hint{font-size:11px;color:#6B7280;font-style:italic;margin-bottom:8px}';
+      document.head.appendChild(st);
+    }
+    let first = true;
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (!el) continue;
+      el.readOnly = true;
+      el.classList.add('gts-id-locked');
+      el.title = 'Sincronizado da tela Início — edite por lá';
+      if (first && el.parentNode && !el.parentNode.querySelector('.gts-id-hint')) {
+        const hint = document.createElement('div');
+        hint.className = 'gts-id-hint';
+        hint.textContent = '🔒 Identificação sincronizada da tela Início. Para alterar, edite na aba Início.';
+        el.parentNode.insertBefore(hint, el.parentNode.firstChild);
+        first = false;
+      }
+    }
+  }
+
   function init() {
     bindFields();
     bindTabClicks();
+    lockIdentFields();
     try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: MOD }, '*'); } catch(e) {}
   }
 

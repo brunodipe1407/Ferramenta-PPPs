@@ -1972,7 +1972,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-spinner"></div>
     <div class="loading-text">Carregando módulo…</div>
   </div>
-  <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1&v=24"
+  <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1&v=25"
     title="PSC — Custo Público" role="tabpanel" aria-label="Módulo 1 — PSC Custo Público"
     onload="onFrameLoad(1)" onerror="onFrameError(1)"></iframe>
 
@@ -1982,7 +1982,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame2" src=""
-    data-src="m2-matriz-riscos.html?embed=1&v=24"
+    data-src="m2-matriz-riscos.html?embed=1&v=25"
     title="Matriz de Riscos PPP" role="tabpanel" aria-label="Módulo 2 — Matriz de Riscos PPP"
     onload="onFrameLoad(2)" onerror="onFrameError(2)"></iframe>
 
@@ -1992,7 +1992,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame3" src=""
-    data-src="m3-precificacao.html?embed=1&v=24"
+    data-src="m3-precificacao.html?embed=1&v=25"
     title="Precificação de Obras" role="tabpanel" aria-label="Módulo 3 — Precificação de Obras"
     onload="onFrameLoad(3)" onerror="onFrameError(3)"></iframe>
 
@@ -2002,7 +2002,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame4" src=""
-    data-src="m4-checklist-custos.html?embed=1&v=24"
+    data-src="m4-checklist-custos.html?embed=1&v=25"
     title="Checklist de Custos PPP" role="tabpanel" aria-label="Módulo 4 — Checklist de Custos PPP"
     onload="onFrameLoad(4)" onerror="onFrameError(4)"></iframe>
 
@@ -2012,7 +2012,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame5" src=""
-    data-src="m5-vfm.html?embed=1&v=24"
+    data-src="m5-vfm.html?embed=1&v=25"
     title="Evidência Comparativa" role="tabpanel" aria-label="Módulo 5 — Evidência Comparativa (VfM)"
     onload="onFrameLoad(5)" onerror="onFrameError(5)"></iframe>
 
@@ -2312,6 +2312,13 @@ function switchModule(num) {
   renderSubtabs(num);
   updateStatus(num);
   atualizarBotoesHeader(num);
+  // Atualiza a barra de progresso para o módulo recém-ativado (após o iframe
+  // assentar). Em Início/Relatórios, reseta para "—".
+  if (MOD_NUMS.includes(num)) {
+    setTimeout(() => computeProgressoIframe(num), 600);
+  } else {
+    setProgresso();
+  }
 }
 
 /* ── Persistência de último módulo ── */
@@ -2388,10 +2395,32 @@ function setSaveStatus(text, ok = true) {
 function setProgresso(preenchidos, total) {
   const el = document.getElementById('sbProgresso');
   if (typeof preenchidos === 'number' && typeof total === 'number' && total > 0) {
-    el.innerHTML = `Progresso: <strong>${preenchidos}/${total}</strong>`;
+    const pct = Math.round((preenchidos / total) * 100);
+    el.innerHTML = `Progresso: <strong>${preenchidos}/${total}</strong> (${pct}%)`;
   } else {
     el.innerHTML = `Progresso: <strong>—</strong>`;
   }
+}
+
+/* Calcula o progresso de um módulo contando os campos preenchidos no DOM do
+   iframe (mesma origem). Campos somente-leitura (identificação sincronizada do
+   Início), botões e seletores de marcação são ignorados. Centralizar aqui evita
+   replicar lógica de progresso em cada módulo. */
+function computeProgressoIframe(num) {
+  if (!MOD_NUMS.includes(num)) { setProgresso(); return; }
+  const frame = document.getElementById(`frame${num}`);
+  let doc = null;
+  try { doc = frame && frame.contentDocument; } catch(e) { doc = null; }
+  if (!doc || !doc.body) { setProgresso(); return; }
+  let total = 0, pre = 0;
+  doc.querySelectorAll('input, textarea, select').forEach(el => {
+    const t = (el.type || '').toLowerCase();
+    if (['button','submit','reset','hidden','radio','checkbox','file','image'].includes(t)) return;
+    if (el.readOnly || el.disabled) return;
+    total++;
+    if (String(el.value || '').trim() !== '') pre++;
+  });
+  setProgresso(total > 0 ? pre : undefined, total > 0 ? total : undefined);
 }
 
 function setProjetoLabel(dados) {
@@ -2491,6 +2520,8 @@ window.addEventListener('message', (e) => {
   switch (e.data.type) {
     case 'gtsefaz_saved':
       setSaveStatus('● Rascunho salvo — ' + new Date().toLocaleTimeString('pt-BR'));
+      // Recalcula o progresso do módulo que acabou de salvar (ou do ativo).
+      computeProgressoIframe(typeof e.data.mod === 'number' ? e.data.mod : activeMod);
       break;
     case 'gtsefaz_subtab_changed':
       if (e.data.mod === activeMod) {
@@ -2682,13 +2713,33 @@ function inicializarHomePanel() {
   }
 
   // Listeners: ao alterar qualquer campo, salvar e propagar
-  ['hpProjeto','hpOrgao','hpPeriodo','hpProa','hpResp','hpData'].forEach(id => {
+  ['hpProjeto','hpOrgao','hpPeriodo','hpProa','hpResp'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     el.addEventListener('input', () => {
       salvarFormHome();
     });
   });
+
+  // Campo de data: máscara DD/MM/AAAA aplicada antes de propagar, com validação
+  // visual no blur. (É a fonte única da data — os módulos a recebem prontos.)
+  const hpDataEl = document.getElementById('hpData');
+  if (hpDataEl) {
+    hpDataEl.addEventListener('input', () => {
+      let v = hpDataEl.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length >= 5) v = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
+      else if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
+      hpDataEl.value = v;
+      salvarFormHome();
+    });
+    hpDataEl.addEventListener('blur', () => {
+      const v = hpDataEl.value.trim();
+      const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v);
+      const ok = !v || (m && +m[1] >= 1 && +m[1] <= 31 && +m[2] >= 1 && +m[2] <= 12);
+      hpDataEl.style.borderColor = ok ? '' : '#B91C1C';
+      hpDataEl.title = ok ? '' : 'Data inválida — use o formato DD/MM/AAAA';
+    });
+  }
 
   renderHomePanel();
 }
