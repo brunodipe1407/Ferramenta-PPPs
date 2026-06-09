@@ -100,7 +100,6 @@
     border-radius: 20px;
   }
   .header-actions { display: flex; gap: 8px; }
-  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
   .btn svg { width: 13px; height: 13px; }
   .btn-ghost { background: #fff; color: var(--cage-navy); border-color: var(--cage-border); }
   .btn-ghost:hover { background: var(--cage-light); border-color: var(--cage-mid); }
@@ -114,19 +113,7 @@
 
   /* ── IDENTIFICATION PANEL ── */
   .panel { background: var(--cage-surface); border: 1px solid var(--cage-border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden; }
-  .panel-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 20px;
-    background: var(--cage-navy);
-    color: #fff;
-    font-family: 'Roboto Slab', Georgia, serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
   .panel-header .ph-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cage-sky); flex-shrink: 0; }
-  .panel-body { padding: 20px; }
 
   .id-grid { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 16px; }
   .field-group { display: flex; flex-direction: column; gap: 5px; }
@@ -255,8 +242,6 @@
   .cat-opex .category-footer { border-left: 3px solid var(--opex-color); }
   .cat-gestao .category-footer { border-left: 3px solid var(--gestao-color); }
   .cat-receita .category-footer { border-left: 3px solid var(--receita-color); }
-
-  .btn-add { background: none; border: 1px dashed var(--cage-border); border-radius: var(--radius); padding: 5px 12px; font-size: 11px; font-weight: 600; color: var(--cage-muted); cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 5px; }
   .btn-add:hover { color: var(--cage-blue); border-color: var(--cage-blue); background: var(--cage-light); }
   .cat-capex .btn-add:hover { color: var(--capex-color); border-color: var(--capex-color); background: var(--capex-light); }
   .cat-receita .btn-add:hover { color: var(--receita-color); border-color: var(--receita-color); background: var(--receita-light); }
