@@ -2957,6 +2957,7 @@ function atualizarRelatorio() {
 
     <div class="rel-section">
       <h3 class="rel-section-title">3. Matriz Consolidada</h3>
+      <p style="font-size: 10px; color: var(--ink-light); margin-top: 8px; font-style: italic;">Legenda: P = Público · C = Compartilhado · Pv = Privado · N/A = Não aplicável (excluído da avaliação)</p>
       <table class="rel-table">
         <thead>
           <tr><th style="width: 40px">Cód.</th><th>Categoria de risco</th><th style="width: 80px">Típica</th><th style="width: 80px">Proposta</th><th style="width: 60px">Desvio</th></tr>
@@ -3002,7 +3003,6 @@ function atualizarRelatorio() {
   });
 
   html += `</tbody></table>
-    <p style="font-size: 10px; color: var(--ink-light); margin-top: 8px; font-style: italic;">Legenda: P = Público · C = Compartilhado · Pv = Privado · N/A = Não aplicável (excluído da avaliação)</p>
   </div>`;
 
   // Detalhamento por categoria
