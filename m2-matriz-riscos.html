@@ -1619,7 +1619,7 @@ body {
 
       <div class="field">
         <label class="field-label" for="proj-data">Data da Avaliação</label>
-        <input type="date" id="proj-data" class="field-input">
+        <input type="text" id="proj-data" class="field-input" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10">
       </div>
 
       <div class="field">
@@ -2209,6 +2209,22 @@ function carregarRascunho() {
   }
 }
 
+// Datas no padrão brasileiro (DD/MM/AAAA).
+function toDataBR(v) {
+  if (!v) return v || '';
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v).trim());
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : v;
+}
+function parseDataBR(v) {
+  if (!v) return null;
+  const s = String(v).trim();
+  const br = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+  const iso = br ? `${br[3]}-${br[2]}-${br[1]}` : (/^\d{4}-\d{2}-\d{2}$/.test(s) ? s : null);
+  if (!iso) return null;
+  const d = new Date(iso + 'T12:00:00');
+  return isNaN(d) ? null : d;
+}
+
 // Ids dos campos de identificação — usados ao preencher e ao coletar o estado.
 const IDENT_IDS = ["proj-nome","proj-secretaria","proj-periodo","proj-proa","proj-setor","proj-modalidade","proj-valor","proj-prazo","proj-data","proj-responsavel","proj-objeto","proj-fase"];
 
@@ -2217,7 +2233,7 @@ function preencherIdentificacao() {
     const el = document.getElementById(id);
     const key = id.replace("proj-","");
     if (el && estado.identificacao[key] !== undefined) {
-      el.value = estado.identificacao[key];
+      el.value = (id === "proj-data") ? toDataBR(estado.identificacao[key]) : estado.identificacao[key];
     }
   });
 }
@@ -2894,7 +2910,7 @@ function atualizarRelatorio() {
 
   const { stats } = calcularEstatisticas();
   const total = stats.pub + stats.comp + stats.priv;
-  const dataFmt = id.data ? new Date(id.data + "T12:00:00").toLocaleDateString("pt-BR") : "—";
+  const dataFmt = (() => { const d = parseDataBR(id.data); return d ? d.toLocaleDateString("pt-BR") : (id.data || "—"); })();
 
   let html = `
     <div class="rel-header">
@@ -3167,7 +3183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Set default date
   if (!estado.identificacao.data && document.getElementById("proj-data")) {
-    document.getElementById("proj-data").value = new Date().toISOString().slice(0, 10);
+    document.getElementById("proj-data").value = new Date().toLocaleDateString("pt-BR");
   }
 
   showToast("Ferramenta carregada · pronto para uso");

@@ -1398,7 +1398,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
     </div>
     <div class="fld">
       <div class="fld-l">Data do preenchimento <span class="req">*</span></div>
-      <input type="text" id="m1-data" placeholder="dd/mm/aaaa" oninput="syncPrint()">
+      <input type="text" id="m1-data" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10" oninput="syncPrint()">
     </div>
     <div class="fld">
       <div class="fld-l">Número de identificação do documento</div>
@@ -2319,6 +2319,13 @@ function m5SalvarRascunho(silent) {
   }
 }
 
+// Converte data ISO legada (YYYY-MM-DD) para o padrão brasileiro DD/MM/AAAA.
+function toDataBR(v) {
+  if (!v) return v || '';
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v).trim());
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : v;
+}
+
 function m5CarregarRascunho() {
   try {
     const raw = localStorage.getItem(M5_STORAGE_KEY);
@@ -2331,6 +2338,7 @@ function m5CarregarRascunho() {
         const el = document.getElementById(id);
         if (!el) return;
         if (el.type === 'checkbox' || el.type === 'radio') el.checked = !!v;
+        else if (id === 'm1-data') el.value = toDataBR(v);
         else el.value = (v == null) ? '' : v;
       });
     }
@@ -2485,7 +2493,7 @@ window.addEventListener('DOMContentLoaded', () => {
     for (const k in FIELDS) {
       const el = getEl(k);
       if (!el) continue;
-      const novoValor = dados[k] || '';
+      const novoValor = (k === 'data') ? toDataBR(dados[k]) : (dados[k] || '');
       // Antes da Fase 3 só atualizávamos se o campo estivesse vazio —
       // quebrava a sincronização vinda do Hub a partir da 2ª keystroke.
       // Agora aceitamos atualização autoritativa do shell sempre que o
