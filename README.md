@@ -115,7 +115,8 @@ O propósito desta versão é **coletar críticas, sugestões e relatos de bugs*
 ├── m3-precificacao.html          # Módulo 03 — Precificação de Obras
 ├── m4-checklist-custos.html      # Módulo 04 — Checklist de Custos PPP (transversal + setores)
 ├── m5-vfm.html                   # Módulo 05 — Evidência Comparativa / VfM
-├── padrao-visual.css             # Padronização visual transversal
+├── comum.css                     # Base comum: fontes, tokens canônicos, reset
+├── padrao-visual.css             # Padronização visual transversal (camada de override)
 ├── assets/                       # Imagens dos cards da home (card-01 … card-05)
 └── referencias/                  # Planilhas Excel de referência (fonte canônica)
 ```

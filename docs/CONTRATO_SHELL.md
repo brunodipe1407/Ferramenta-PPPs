@@ -166,7 +166,7 @@ chaves canônicas no payload `gtsefaz_projeto`.
 
 Os iframes usam `?embed=1&v=NN` no `src` / `data-src`. Bumpar o `v=` força o
 browser a recarregar o módulo após mudanças durante desenvolvimento. Padrão
-atual: `v=16`. Aumente em mudanças que possam ser cacheadas indevidamente.
+atual: `v=20`. Aumente em mudanças que possam ser cacheadas indevidamente.
 
 ## Checklist para adicionar um novo módulo
 
