@@ -24,7 +24,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comum.css">
 <style>
 /* ══════════════════════════════════════════════
    PSC / VfM — Governo do Rio Grande do Sul
@@ -33,18 +33,11 @@
 ══════════════════════════════════════════════ */
 :root {
   /* ── Paleta institucional CAGE/SEFAZ-RS (canônica, alinhada com index.html) ── */
-  --cage-navy:    #0A4D44;   /* teal-darker — barras escuras    */
-  --cage-blue:    #0F6B5E;   /* teal-dark   — sub-barras        */
-  --cage-mid:     #1F8B7C;   /* teal        — botões primários  */
-  --cage-sky:     #2EB6A5;   /* teal-light  — acentos / status  */
-  --cage-light:   #D1F0EB;   /* teal-xlight — fundos suaves     */
   --cage-azul:    #1B4F8A;   /* azul institucional (logo CAGE)  */
 
   /* ── Semafóricos ── */
-  --rs-vermelho:    #8B1A1A;
   --rs-vermelho-dk: #6B1212;
   --rs-vermelho-lt: #FEE2E2;
-  --rs-ambar:       #B45309;
   --rs-ambar-dk:    #92400E;
   --rs-ambar-lt:    #FEF3C7;
   --rs-gold:        #B45309;
@@ -77,7 +70,7 @@
   --shadow-lg: 0 10px 25px rgba(10,77,68,.10), 0 20px 50px rgba(10,77,68,.12);
 }
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{ margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
   font-family:var(--sans);
@@ -610,12 +603,6 @@ select{
 }
 .mtbl td{padding:11px 14px;border-bottom:1px solid var(--rule)}
 .mtbl tr:last-child td{border-bottom:none}
-
-.badge{
-  display:inline-block;font-family:var(--mono);
-  font-size:9.5px;letter-spacing:.06em;padding:3px 9px;border-radius:3px;
-  font-weight:600;
-}
 .be{background:var(--rs-vermelho-lt);color:var(--rs-vermelho);border:1px solid rgba(185,28,28,.15)}
 .br{background:var(--cage-light);color:var(--cage-mid);border:1px solid rgba(0,107,60,.15)}
 .ba{background:var(--bg);color:var(--ink3);border:1px solid var(--rule2)}
@@ -1086,7 +1073,6 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
   .mtbl{font-size:9pt}
   .mtbl th{font-size:7.5pt;padding:5pt 8pt}
   .mtbl td{padding:5pt 8pt}
-  .badge{font-size:7.5pt;padding:1pt 6pt}
   .stbox{border:1pt solid #ccc;padding:10pt;box-shadow:none;border-radius:0}
   .stbox::before{display:none}
   .stv{font-size:14pt}
