@@ -25,30 +25,22 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<link rel="stylesheet" href="comum.css">
 <style>
 :root {
   /* ── Paleta institucional CAGE/SEFAZ-RS (canônica, alinhada com index.html) ── */
-  --cage-navy:    #0A4D44;   /* teal-darker — barras escuras    */
-  --cage-blue:    #0F6B5E;   /* teal-dark   — sub-barras        */
-  --cage-mid:     #1F8B7C;   /* teal        — botões primários  */
-  --cage-sky:     #2EB6A5;   /* teal-light  — acentos / status  */
-  --cage-light:   #D1F0EB;   /* teal-xlight — fundos suaves     */
   --cage-azul:    #003366;   /* azul institucional (uso restrito a ranking público) */
   --cage-azul-claro: #1A4D80;
 
   /* ── Neutros ── */
   --cinza-header: #4A4A4A;
   --cinza-bg:     #EAEAEA;
-  --cinza-suave:  #F5F5F5;
 
   /* ── Semafóricos ── */
-  --rs-vermelho: #8B1A1A;
-  --rs-ambar:    #B45309;
 
   /* ── Cores de alocação de risco (Excel original — mantidas como tokens semânticos) ── */
   --pub: #1F4E79;
@@ -66,7 +58,6 @@
   /* ── Backgrounds e tipografia ── */
   --bg: #F5F5F5;
   --bg-paper: #FAFAFA;
-  --bg-card: #FFFFFF;
   --ink: #1A1A1A;
   --ink-soft: #4A4A4A;
   --ink-light: #6B7280;
@@ -77,12 +68,11 @@
   --shadow: 0 4px 12px rgba(0,51,102,0.08);
   --shadow-lg: 0 12px 32px rgba(0,51,102,0.12);
 
-  --slab: 'Roboto Slab', Georgia, serif;
   --sans: 'Source Sans 3', system-ui, -apple-system, sans-serif;
   --mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
 
