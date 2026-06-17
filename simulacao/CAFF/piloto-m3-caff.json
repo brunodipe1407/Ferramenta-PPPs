@@ -1,0 +1,173 @@
+{
+  "capa": {
+    "obraProj": "CAFF — Centro Administrativo do Estado do RS",
+    "orgao": "CAGE/SEFAZ-RS",
+    "responsavel": "Piloto M3 — análise automatizada",
+    "unidade": "",
+    "dataIni": "2026-06-17",
+    "dataFim": "",
+    "versao": "1.0"
+  },
+  "identif": {
+    "nomeProjeto": "Centro Administrativo do Estado do RS (CAFF)",
+    "objetoResumido": "Concessão Administrativa para reforma, requalificação e operação do complexo CAFF e ativos associados",
+    "orgaoEnt": "Governo do Estado do Rio Grande do Sul / CAGE-SEFAZ-RS",
+    "unidadeDem": "SEAPAC / BNDES (modelagem)",
+    "numProcesso": "",
+    "modalidade": "Concessão Administrativa (PPP — Lei 11.079/2004)",
+    "tipoEmpreend": "Centro Administrativo — complexo multiedifícios",
+    "natureza": "Obra mista",
+    "areaEstim": "248454",
+    "valorTotal": "1291640000",
+    "prazoExec": "24",
+    "localizacao": "Porto Alegre, RS",
+    "fase": "Modelagem PPP",
+    "docsAnalisados": "Modelo CAFF 2026.03.16_v2.xlsm; Plano de Negócios 20260309. Aba Benchmarks (Painel G12–G19).",
+    "databasePrecos": "jul/2025 (benchmark SP; modelo 17/03/2026)",
+    "docOrigem": "Painel de Resultados, Aba Benchmarks — Modelo CAFF 2026.03.16_v2.xlsm",
+    "respTecPrec": "",
+    "artRrt": "",
+    "artRrtDetalhe": "",
+    "observacoes": "Investimento Obrigatório Total R$ 1.115,56 mi (G12-G15); Investimento Total R$ 1.291,64 mi. Taxa R$ 4,49 mil/m² (obrigatório, G17) e R$ 5,72 mil/m² (total, G19). Ativos: CAFF + Garagem Anexa; PGE + Garagem; DAER; torres/edifícios acessórios; urbanização."
+  },
+  "metod": {
+    "usadas": [
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "Sim", "detalhe": "Modelagem BNDES — anteprojeto de engenharia e arquitetura", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "Sim", "detalhe": "Benchmarks de Centros Administrativos (SP, Maceió, Rondônia, Angra dos Reis)", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""},
+      {"usada": "", "detalhe": "", "obs": ""}
+    ],
+    "params": {
+      "databasePrecos": "jul/2025 (benchmark SP; modelo 17/03/2026)",
+      "regionalizou": "Não informado",
+      "regionalRef": "",
+      "atualizMonet": "Não informado",
+      "indiceAtualiz": "",
+      "benchmarkSimil": "Sim",
+      "compsUnit": "",
+      "paramM2": "Sim",
+      "fatoresAdic": "",
+      "fatoresDesc": "",
+      "memCalc": "Parcial",
+      "artRrt": ""
+    }
+  },
+  "refs": {
+    "bases": [
+      {"base": "Benchmark — Centro Administrativo de São Paulo", "databasePrecos": "jul/2025", "versao": "Aba Benchmarks — Modelo CAFF 2026.03.16_v2.xlsm", "abrangencia": "São Paulo, SP", "escopo": "CAPEX R$ 4,17 bi; 219.331 m²; taxa 9,89%"},
+      {"base": "Benchmark — Centro Administrativo de Maceió", "databasePrecos": "jan/2025", "versao": "Aba Benchmarks — Modelo CAFF 2026.03.16_v2.xlsm", "abrangencia": "Maceió, AL", "escopo": "Contrato iniciado jan/2025"},
+      {"base": "Benchmark — Sede PGE de Rondônia", "databasePrecos": "2022", "versao": "Aba Benchmarks — Modelo CAFF 2026.03.16_v2.xlsm", "abrangencia": "Porto Velho, RO", "escopo": "Contrato iniciado 2022"},
+      {"base": "Benchmark — Centro Administrativo de Angra dos Reis", "databasePrecos": "2019", "versao": "Aba Benchmarks — Modelo CAFF 2026.03.16_v2.xlsm", "abrangencia": "Angra dos Reis, RJ", "escopo": "Contrato iniciado 2019"},
+      {"base": "", "databasePrecos": "", "versao": "", "abrangencia": "", "escopo": ""},
+      {"base": "", "databasePrecos": "", "versao": "", "abrangencia": "", "escopo": ""},
+      {"base": "", "databasePrecos": "", "versao": "", "abrangencia": "", "escopo": ""},
+      {"base": "", "databasePrecos": "", "versao": "", "abrangencia": "", "escopo": ""},
+      {"base": "", "databasePrecos": "", "versao": "", "abrangencia": "", "escopo": ""},
+      {"base": "", "databasePrecos": "", "versao": "", "abrangencia": "", "escopo": ""}
+    ],
+    "adeq": [
+      {"val": "", "obs": ""},
+      {"val": "", "obs": ""},
+      {"val": "", "obs": ""},
+      {"val": "", "obs": ""},
+      {"val": "", "obs": ""},
+      {"val": "", "obs": ""},
+      {"val": "", "obs": ""}
+    ]
+  },
+  "comps": {
+    "metricas": {
+      "valorTotal": {"valor": "1291640000", "ref": "Painel de Resultados G — Investimento Total (Modelo CAFF 2026.03.16_v2.xlsm)", "obs": "Inclui investimento obrigatório R$ 1.115,56 mi + associado a receitas acessórias"},
+      "areaTotal": {"valor": "248454", "ref": "Derivado: R$ 1.115,56 mi / R$ 4,49 mil/m² (G17)", "obs": "Área estimada do complexo total"},
+      "custoM2": {"valor": "5720", "ref": "Painel G19 — Investimento Total / m²", "obs": "R$ 4,49 mil/m² obrigatório (G17); R$ 5,72 mil/m² total (G19)"},
+      "bdi": {"valor": "", "ref": "", "obs": "BDI não detalhado no material disponível"},
+      "incrCub": {"valor": "", "ref": "", "obs": "Incremento sobre CUB não especificado"},
+      "contingencia": {"valor": "", "ref": "", "obs": "Não explicitado separadamente no modelo"},
+      "encargosSociais": {"valor": "", "ref": "", "obs": ""},
+      "custoDireto": {"valor": "1115560000", "ref": "Painel G12-G15 — Investimento Obrigatório Total", "obs": "Soma dos investimentos obrigatórios: CAFF+Garagem; PGE+Garagem; DAER"},
+      "custoIndireto": {"valor": "176080000", "ref": "Investimento Total (1.291,64 mi) − Investimento Obrigatório (1.115,56 mi)", "obs": "Parcela associada a receitas acessórias e itens não obrigatórios"}
+    },
+    "parcelas": [
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""},
+      {"pres": "", "valor": "", "pct": "", "obs": ""}
+    ]
+  },
+  "justif": {
+    "tops": [
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""},
+      {"objeto": "", "justif": "", "qual": ""}
+    ],
+    "fund": {
+      "normaReg": "",
+      "normasQuais": "",
+      "benchmarkExt": "",
+      "estudosAnt": "",
+      "experInst": "",
+      "premissasProp": "",
+      "parecerEsp": ""
+    },
+    "avaliacao": "",
+    "fundament": ""
+  },
+  "critic": [
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""},
+    {"aval": "", "risco": "", "coment": ""}
+  ],
+  "sint": {
+    "sMetod": "Benchmark setorial de Centros Administrativos (SP, Maceió, Rondônia, Angra) e parâmetros por m² (R$ 4,49 mil/m² investimento obrigatório; R$ 5,72 mil/m² investimento total). Modelagem realizada pelo BNDES.",
+    "sRefs": "Quatro benchmarks de projetos comparáveis de Centros Administrativos, com destaque para SP (R$ 4,17 bi / 219.331 m² / taxa 9,89%, data-base jul/2025). Dados constantes da Aba Benchmarks do Modelo CAFF 2026.03.16_v2.xlsm.",
+    "sParams": "Investimento Obrigatório Total: R$ 1.115,56 mi (Painel G12–G15). Investimento Total: R$ 1.291,64 mi. Taxa unitária obrigatória: R$ 4,49 mil/m² (G17). Taxa unitária total: R$ 5,72 mil/m² (G19). Área estimada: ~248.454 m².",
+    "sJustif": "Justificativa apoiada em benchmarks externos de projetos de Centros Administrativos com contratos firmados em múltiplas UFs. Metodologia de parâmetros por m² compatível com a fase de Modelagem PPP.",
+    "sCons": "A precificação apresenta consistência metodológica para a fase de modelagem PPP, com uso de benchmarks públicos comparáveis. Limitações: BDI, encargos e composições unitárias não foram detalhados no material disponível.",
+    "sFrag": "1) BDI não discriminado; 2) memória de cálculo por componente/ativo não disponível neste material; 3) Reforma Tributária (LC 214/2025 — CBS/IBS) não incorporada; 4) benchmarks de portes, datas-base e escopos distintos do CAFF.",
+    "sRecom": "Verificar detalhamento de BDI e encargos; solicitar memória de cálculo por ativo; monitorar efeitos da LC 214/2025 sobre a precificação.",
+    "sConcl": "A precificação encontra-se em nível adequado para a fase de modelagem PPP, com ressalvas sobre a granularidade das informações disponíveis."
+  },
+  "sintParecer": "Consistente com ressalvas pontuais"
+}

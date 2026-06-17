@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piloto M3 — Precificação de Obras · CAFF</title>
+  <style>
+    /* ── Reset e base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 24px 16px;
+    }
+
+    /* ── Wrapper ── */
+    .pagina {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      padding: 40px 48px;
+    }
+
+    /* ── Cabeçalho institucional ── */
+    .cabecalho {
+      border-bottom: 3px solid #2c5e2e;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cabecalho .orgao-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #2c5e2e;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    .subtitulo {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    /* ── Bloco de identificação ── */
+    .ident-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 5px 12px;
+      margin-bottom: 24px;
+      background: #f8faf8;
+      border: 1px solid #d4e4d4;
+      border-radius: 4px;
+      padding: 14px 16px;
+    }
+
+    .ident-grid .label {
+      font-weight: 600;
+      color: #444;
+      font-size: 12px;
+    }
+
+    .ident-grid .valor {
+      color: #1a1a1a;
+      font-size: 12px;
+    }
+
+    /* ── Seções ── */
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2c5e2e;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      margin-top: 28px;
+      border-bottom: 1px solid #d4e4d4;
+      padding-bottom: 4px;
+    }
+
+    /* ── Tabelas ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    thead th {
+      background: #f0f0f0;
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+
+    tbody td {
+      padding: 7px 10px;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      color: #222;
+    }
+
+    tbody tr:nth-child(even) { background: #fafafa; }
+    tbody tr:hover { background: #f2f7f2; }
+
+    td.valor-col {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-family: 'Courier New', monospace;
+      font-size: 11.5px;
+    }
+
+    td.valor-vazio {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+    }
+
+    tr.subtotal td {
+      font-weight: 700;
+      background: #e8f0e8;
+      border-top: 2px solid #4a8c4e;
+      color: #1a1a1a;
+    }
+
+    tr.total-row td {
+      font-weight: 700;
+      background: #dce8dc;
+      border-top: 2px solid #2c5e2e;
+      color: #1a1a1a;
+    }
+
+    tr.destaque-caff td {
+      background: #f0f7f0;
+      font-style: italic;
+    }
+
+    tr.nota-row td {
+      background: #fffbf0;
+      border: 1px solid #e0c060;
+      color: #555;
+      font-size: 11px;
+      font-style: italic;
+    }
+
+    /* ── Bloco de ressalvas ── */
+    .ressalvas {
+      background: #fffbf0;
+      border: 1px solid #e0c060;
+      border-left: 4px solid #c8a000;
+      border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-top: 28px;
+      margin-bottom: 8px;
+    }
+
+    .ressalvas h2 {
+      color: #7a5e00;
+      border-bottom-color: #e0c060;
+      margin-top: 0;
+    }
+
+    .ressalvas ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .ressalvas ul li {
+      font-size: 12px;
+      color: #444;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── Rodapé ── */
+    .rodape {
+      font-size: 11px;
+      color: #666;
+      font-style: italic;
+      border-top: 1px solid #d0d0d0;
+      margin-top: 32px;
+      padding-top: 12px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+<div class="pagina">
+
+  <!-- ── Cabeçalho ── -->
+  <div class="cabecalho">
+    <div class="orgao-label">CAGE/SEFAZ-RS — Ferramenta PPPs · Módulo M3</div>
+    <h1>Piloto M3 — Precificação de Obras · CAFF</h1>
+    <div class="subtitulo">Centro Administrativo do Estado do Rio Grande do Sul — Concessão Administrativa (PPP)</div>
+  </div>
+
+  <!-- ── Identificação ── -->
+  <div class="ident-grid">
+    <span class="label">Projeto</span>
+    <span class="valor">Centro Administrativo do Estado do RS (CAFF)</span>
+
+    <span class="label">Órgão</span>
+    <span class="valor">CAGE/SEFAZ-RS — SEAPAC / BNDES (modelagem)</span>
+
+    <span class="label">Modalidade</span>
+    <span class="valor">Concessão Administrativa (PPP — Lei 11.079/2004)</span>
+
+    <span class="label">Fase</span>
+    <span class="valor">Modelagem PPP</span>
+
+    <span class="label">Data-base dos preços</span>
+    <span class="valor">jul/2025 (benchmark SP); modelo atualizado em 17/03/2026</span>
+
+    <span class="label">Fonte dos dados</span>
+    <span class="valor">Modelo CAFF 2026.03.16_v2.xlsm — Aba Benchmarks (Painel G12–G19); Plano de Negócios 20260309</span>
+
+    <span class="label">Data do piloto</span>
+    <span class="valor">17/06/2026</span>
+  </div>
+
+  <!-- ── Seção 1: Métricas de CAPEX ── -->
+  <h2>1. Métricas de CAPEX</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:40%">Indicador</th>
+        <th style="width:20%" class="valor-col">Valor</th>
+        <th>Referência</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Investimento Obrigatório Total</td>
+        <td class="valor-col">R$ 1.115,56 mi</td>
+        <td>Painel G12-G15 (Modelo CAFF 2026.03.16_v2.xlsm)</td>
+      </tr>
+      <tr>
+        <td>Investimento Total</td>
+        <td class="valor-col">R$ 1.291,64 mi</td>
+        <td>Painel G12-G15 (Modelo CAFF 2026.03.16_v2.xlsm)</td>
+      </tr>
+      <tr>
+        <td>Custo unitário — Investimento Obrigatório</td>
+        <td class="valor-col">R$ 4,49 mil/m²</td>
+        <td>Painel G17</td>
+      </tr>
+      <tr>
+        <td>Custo unitário — Investimento Total</td>
+        <td class="valor-col">R$ 5,72 mil/m²</td>
+        <td>Painel G19</td>
+      </tr>
+      <tr>
+        <td>Área estimada total</td>
+        <td class="valor-col">~248.454 m²</td>
+        <td>Derivado: R$ 1.115,56 mi ÷ R$ 4,49 mil/m²</td>
+      </tr>
+      <tr>
+        <td>Prazo de construção</td>
+        <td class="valor-col">24 meses (2 anos)</td>
+        <td>Plano de Negócios 20260309</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Seção 2: Benchmarks ── -->
+  <h2>2. Benchmarks de Centros Administrativos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Projeto</th>
+        <th class="valor-col">CAPEX</th>
+        <th class="valor-col">Área (m²)</th>
+        <th class="valor-col">Taxa R$/m²</th>
+        <th>Data-base / Situação</th>
+        <th>Fonte</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Centro Administrativo — São Paulo</td>
+        <td class="valor-col">R$ 4,17 bi</td>
+        <td class="valor-col">219.331 m²</td>
+        <td class="valor-col">R$ 19.011/m²</td>
+        <td>jul/2025</td>
+        <td>Aba Benchmarks — Modelo CAFF</td>
+      </tr>
+      <tr>
+        <td>Centro Administrativo — Maceió</td>
+        <td class="valor-vazio">—</td>
+        <td class="valor-vazio">—</td>
+        <td class="valor-vazio">—</td>
+        <td>Contrato jan/2025</td>
+        <td>Aba Benchmarks — Modelo CAFF</td>
+      </tr>
+      <tr>
+        <td>Sede PGE — Rondônia</td>
+        <td class="valor-vazio">—</td>
+        <td class="valor-vazio">—</td>
+        <td class="valor-vazio">—</td>
+        <td>Contrato 2022</td>
+        <td>Aba Benchmarks — Modelo CAFF</td>
+      </tr>
+      <tr>
+        <td>Centro Administrativo — Angra dos Reis</td>
+        <td class="valor-vazio">—</td>
+        <td class="valor-vazio">—</td>
+        <td class="valor-vazio">—</td>
+        <td>Contrato 2019</td>
+        <td>Aba Benchmarks — Modelo CAFF</td>
+      </tr>
+      <tr class="destaque-caff">
+        <td><strong>CAFF — este projeto (obrigatório)</strong></td>
+        <td class="valor-col"><strong>R$ 1.115,56 mi</strong></td>
+        <td class="valor-col">~248.454 m²</td>
+        <td class="valor-col"><strong>R$ 4.490/m²</strong></td>
+        <td>Modelo 17/03/2026</td>
+        <td>Painel G17</td>
+      </tr>
+      <tr class="destaque-caff">
+        <td><strong>CAFF — este projeto (total)</strong></td>
+        <td class="valor-col"><strong>R$ 1.291,64 mi</strong></td>
+        <td class="valor-col">~248.454 m²</td>
+        <td class="valor-col"><strong>R$ 5.720/m²</strong></td>
+        <td>Modelo 17/03/2026</td>
+        <td>Painel G19</td>
+      </tr>
+      <tr class="nota-row">
+        <td colspan="6">Nota: a taxa de R$ 19.011/m² do benchmark de São Paulo refere-se a projeto de maior porte (219.331 m²) com data-base jul/2025. Escopos, datas-base e portes são distintos do CAFF — comparação indicativa.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Seção 3: Composição do Investimento ── -->
+  <h2>3. Composição do Investimento</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:55%">Componente</th>
+        <th class="valor-col" style="width:22%">Valor</th>
+        <th class="valor-col" style="width:23%">Participação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Investimento Obrigatório (CAFF+Garagem Anexa; PGE+Garagem; DAER)</td>
+        <td class="valor-col">R$ 1.115,56 mi</td>
+        <td class="valor-col">86,4%</td>
+      </tr>
+      <tr>
+        <td>Investimento Associado a Receitas Acessórias</td>
+        <td class="valor-col">R$ 176,08 mi</td>
+        <td class="valor-col">13,6%</td>
+      </tr>
+      <tr class="total-row">
+        <td>Total</td>
+        <td class="valor-col">R$ 1.291,64 mi</td>
+        <td class="valor-col">100,0%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Ressalvas ── -->
+  <div class="ressalvas">
+    <h2>Ressalvas</h2>
+    <ul>
+      <li>A comparação com benchmarks de Centros Administrativos é indicativa: os projetos diferem em porte, data-base, escopo de obras e condições contratuais.</li>
+      <li>O efeito da Reforma Tributária (LC 214/2025 — CBS/IBS em substituição a ICMS, ISS, PIS e COFINS) sobre a estrutura de custos e precificação da obra ainda não está incorporado ao modelo disponível.</li>
+      <li>BDI, encargos sociais e composições unitárias por ativo não foram discriminados no material analisado; a memória de cálculo detalhada não estava disponível para este piloto.</li>
+      <li>A decisão sobre a adequação da precificação e sua fundamentação competem ao gestor responsável. Este piloto tem finalidade analítica e não constitui parecer ou recomendação.</li>
+    </ul>
+  </div>
+
+  <!-- ── Rodapé ── -->
+  <div class="rodape">
+    CAGE/SEFAZ-RS — Piloto gerado em 17/06/2026.<br>
+    Fonte: Modelo CAFF 2026.03.16_v2.xlsm; Plano de Negócios 20260309.<br>
+    Documento de uso interno — não constitui parecer formal.
+  </div>
+
+</div>
+</body>
+</html>
