@@ -135,12 +135,12 @@
     background: #fff;
   }
 
-  /* (Estilos .modal-grid/.modal-card removidos na Fase 3 — bloco "Modalidade
+  /* (Estilos .modal-grid/.modal-card removidos — bloco "Modalidade
      de Prestação do Serviço" foi suprimido por ser redundante com a coluna
      Modalidade da Tabela de Levantamento de Custos.) */
 
-  /* (Estilos .trans-grid/.trans-result removidos na Fase 3 — bloco
-     "Custos de Transação" foi integrado como item C6 em CAT C · Gestão na Fase 2.
+  /* (Estilos .trans-grid/.trans-result removidos — bloco
+     "Custos de Transação" foi integrado como item C6 em CAT C · Gestão.
      Variáveis --trans-color/--trans-light continuam em uso pelo .total-card.tc-licitada.) */
 
   /* ── COST TABLE ── */
@@ -217,7 +217,7 @@
   .col-modal { width: 140px; }
   .col-fonte-used { width: 150px; }
   .col-valor { width: 130px; }
-  /* (.col-conf removido na Fase 3 — coluna Confiabilidade suprimida.) */
+  /* (.col-conf removido — coluna Confiabilidade suprimida.) */
   .col-obs { min-width: 140px; }
   .col-acao { width: 44px; text-align: center; }
 
@@ -382,7 +382,7 @@
       font-size: 11px !important;
       pointer-events: none;
     }
-    /* (Print styles de .modal-card removidos na Fase 3 — bloco suprimido.) */
+    /* (Print styles de .modal-card removidos — bloco suprimido.) */
 
     .totals-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
     .tc-value { font-size: 18px !important; }
@@ -484,10 +484,10 @@
     </div>
   </div>
 
-  <!-- Bloco "Modalidade de Prestação do Serviço" removido (Fase 3): redundante com a coluna Modalidade
+  <!-- Bloco "Modalidade de Prestação do Serviço" removido: redundante com a coluna Modalidade
        da Tabela de Levantamento de Custos, onde cada linha já é classificada como A/B/C. -->
 
-  <!-- Bloco "Custos de Transação" foi integrado como item C6 em CAT C · Gestão (Fase 2 — sincronização com Excel canônico). -->
+  <!-- Bloco "Custos de Transação" foi integrado como item C6 em CAT C · Gestão (sincronização com Excel canônico). -->
 
   <!-- TABELAS DE CUSTO -->
   <div class="section-label">Tabela de Levantamento de Custos<span class="section-hint">Fontes Sugeridas: Portal da Transparência, FPE, CAGE Gerencial.</span></div>
@@ -711,7 +711,7 @@ function makeRow(cat, data = {}) {
   const modal   = data.modal || 'Administração Direta';
   const fonteUsed = data.fonteUsed || '';
   const valor   = data.valor !== undefined ? data.valor : '';
-  // (Campo data.conf é ignorado — coluna Confiabilidade removida na Fase 3.
+  // (Campo data.conf é ignorado — coluna Confiabilidade removida.
   //  Rascunhos antigos com 'conf' continuam carregando, apenas sem efeito.)
   const obs     = data.obs || '';
 
@@ -737,7 +737,7 @@ function buildModalOptions(selected) {
   ).join('');
 }
 
-// (Funções buildConfOptions / updateConfColor removidas na Fase 3 — coluna
+// (Funções buildConfOptions / updateConfColor removidas — coluna
 // Confiabilidade foi suprimida da Tabela de Levantamento de Custos.)
 
 function escHtml(s) {
@@ -815,7 +815,7 @@ function calcCat(cat) {
   return total;
 }
 
-// (Função calcByModal removida na Fase 3 — era dead code, substituída pela lógica
+// (Função calcByModal removida — era dead code, substituída pela lógica
 // inline em recalc().)
 
 
@@ -904,7 +904,7 @@ function toggleCategory(cat) {
   }
 }
 
-// (Função toggleModalCard removida na Fase 3 — bloco "Modalidade de Prestação do
+// (Função toggleModalCard removida — bloco "Modalidade de Prestação do
 // Serviço" foi suprimido por ser redundante com a coluna Modalidade da Tabela de
 // Levantamento de Custos.)
 
@@ -992,7 +992,7 @@ function collectData() {
   });
 
   // (Bloco 'confiabilidade' foi removido da UI — confs é mantido vazio para
-  // compatibilidade com rascunhos antigos do schema anterior. Limpo na Fase 3.)
+  // compatibilidade com rascunhos antigos do schema anterior. Limpo.)
   const confs = {};
 
   return {
@@ -1005,7 +1005,7 @@ function collectData() {
       dataPreench: document.getElementById('dataPreench')?.value,
       versao: document.getElementById('versao')?.value,
     },
-    // (Bloco 'modalidades' removido na Fase 3 — agora a modalidade é definida
+    // (Bloco 'modalidades' removido — agora a modalidade é definida
     // por linha na Tabela de Levantamento de Custos, sem necessidade do toggle global.)
     rows, premissas, confs
   };
@@ -1061,8 +1061,8 @@ function carregarRascunho() {
       Object.entries(data.header).forEach(([k,v]) => { const el = document.getElementById(k); if (el) el.value = (k === 'dataPreench') ? toDataBR(v) : (v || ''); });
     }
     // (Blocos 'modalidades' e 'transacao' do schema antigo são ignorados.
-    //  - 'modalidades' foi removido na Fase 3 — modalidade agora vai por linha na tabela de custos.
-    //  - 'transacao' foi integrado como item C6 em CAT C · Gestão na Fase 2.)
+    //  - 'modalidades' foi removido — modalidade agora vai por linha na tabela de custos.
+    //  - 'transacao' foi integrado como item C6 em CAT C · Gestão.)
     // rows
     if (data.rows) {
       ['capex','opex','gestao','receita'].forEach(cat => {
@@ -1083,11 +1083,6 @@ function carregarRascunho() {
     m1IsHydrating = false;
     return true;
   } catch(e) { m1IsHydrating = false; return false; }
-}
-
-// ── EXPORT ──
-function exportarRelatorio() {
-  window.print();
 }
 
 // ── CLEAR ──
@@ -1221,7 +1216,7 @@ window.addEventListener('beforeunload', () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = (k === 'data') ? toDataBR(dados[k]) : (dados[k] || '');
-      // Antes da Fase 3, só sobrescrevíamos campos vazios — quebrava a
+      // Originalmente, só sobrescrevíamos campos vazios — quebrava a
       // sincronização a partir da 2ª keystroke vinda do Hub ('S' chegava,
       // 'Sp' era ignorado por já existir 'S'). Agora aceitamos atualização
       // autoritativa do shell sempre que o valor muda, exceto quando o

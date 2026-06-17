@@ -1972,7 +1972,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-spinner"></div>
     <div class="loading-text">Carregando módulo…</div>
   </div>
-  <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1&v=25"
+  <iframe class="mod-frame" id="frame1" src="m1-psc-custo.html?embed=1&v=26"
     title="PSC — Custo Público" role="tabpanel" aria-label="Módulo 1 — PSC Custo Público"
     onload="onFrameLoad(1)" onerror="onFrameError(1)"></iframe>
 
@@ -1982,7 +1982,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame2" src=""
-    data-src="m2-matriz-riscos.html?embed=1&v=25"
+    data-src="m2-matriz-riscos.html?embed=1&v=26"
     title="Matriz de Riscos PPP" role="tabpanel" aria-label="Módulo 2 — Matriz de Riscos PPP"
     onload="onFrameLoad(2)" onerror="onFrameError(2)"></iframe>
 
@@ -1992,7 +1992,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame3" src=""
-    data-src="m3-precificacao.html?embed=1&v=25"
+    data-src="m3-precificacao.html?embed=1&v=26"
     title="Precificação de Obras" role="tabpanel" aria-label="Módulo 3 — Precificação de Obras"
     onload="onFrameLoad(3)" onerror="onFrameError(3)"></iframe>
 
@@ -2002,7 +2002,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame4" src=""
-    data-src="m4-checklist-custos.html?embed=1&v=25"
+    data-src="m4-checklist-custos.html?embed=1&v=26"
     title="Checklist de Custos PPP" role="tabpanel" aria-label="Módulo 4 — Checklist de Custos PPP"
     onload="onFrameLoad(4)" onerror="onFrameError(4)"></iframe>
 
@@ -2012,7 +2012,7 @@ button:focus:not(:focus-visible) {
     <div class="loading-text">Carregando módulo…</div>
   </div>
   <iframe class="mod-frame" id="frame5" src=""
-    data-src="m5-vfm.html?embed=1&v=25"
+    data-src="m5-vfm.html?embed=1&v=26"
     title="Evidência Comparativa" role="tabpanel" aria-label="Módulo 5 — Evidência Comparativa (VfM)"
     onload="onFrameLoad(5)" onerror="onFrameError(5)"></iframe>
 
@@ -2529,10 +2529,6 @@ window.addEventListener('message', (e) => {
         renderSubtabs(activeMod);
       }
       break;
-    case 'gtsefaz_progress':
-      // módulo informa { preenchidos, total }
-      setProgresso(e.data.preenchidos, e.data.total);
-      break;
     case 'gtsefaz_projeto':
       // módulo informa dados de identificação do projeto
       // payload esperado: { mod: N, dados: { nome, orgao, periodoRef } }
@@ -2567,9 +2563,6 @@ window.addEventListener('message', (e) => {
         }
       }
       break;
-    case 'gtsefaz_ready':
-      // módulo carregado e pronto
-      break;
   }
 });
 
@@ -2599,7 +2592,7 @@ function onFrameLoad(num) {
     injectBridge(frame.contentWindow, num);
   } catch(e) {}
 
-  // Nota (Fase 3): a checagem heurística de contentDocument.title foi removida
+  // Nota: a checagem heurística de contentDocument.title foi removida
   // porque dava falso-positivo em file:// (Edge bloqueia same-origin em alguns
   // arquivos locais, então cd === null mesmo com módulo carregando OK).
   // Se o iframe falhar de verdade (404), o evento `error` do <iframe> dispara

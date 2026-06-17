@@ -3160,15 +3160,12 @@ document.querySelectorAll(".nav-tab").forEach(tab => {
 
 function limparFormulario() {
   if (confirm("Tem certeza que deseja limpar todos os campos? Esta ação não pode ser desfeita.")) {
-    // BUG corrigido na Fase 3: a chave correta é STORAGE_KEY ('matriz_riscos_ppp_rs_v1'),
+    // A chave correta é STORAGE_KEY ('matriz_riscos_ppp_rs_v1'),
     // não 'matriz_riscos_data'. Antes desta correção, "Limpar Campos" não fazia nada.
     try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
     location.reload();
   }
 }
-
-// Alias para o contrato genérico do shell (gtsefaz_clear)
-function limparDados() { limparFormulario(); }
 
 /* ==================== INIT ==================== */
 
@@ -3198,7 +3195,7 @@ document.addEventListener("DOMContentLoaded", () => {
 (function() {
   if (!document.documentElement.classList.contains('embed-mode')) return;
   const MOD = 2;
-  // M2 — campos comuns sincronizados com o Hub (Início). A Fase 3 alinhou os
+  // M2 — campos comuns sincronizados com o Hub (Início). Alinhamos os
   // campos visuais; esta tabela mapeia cada chave canônica para o ID no DOM.
   const FIELDS = {
     nome:        'proj-nome',
@@ -3231,7 +3228,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = dados[k] || '';
-      // Antes da Fase 3 só sobrescrevíamos campos vazios — quebrava a
+      // Originalmente só sobrescrevíamos campos vazios — quebrava a
       // sincronização do Hub a partir da 2ª keystroke ('S' chegava, depois
       // 'Sp' era ignorado por já existir 'S'). Agora aceitamos qualquer
       // atualização autoritativa do shell, contanto que o valor mude.
