@@ -1,0 +1,96 @@
+{
+  "header": {
+    "nomeProjeto": "Centro Administrativo do Estado do RS (CAFF) — Concessão Administrativa",
+    "orgao": "SEFAZ-RS / CAGE (piloto de validação da ferramenta)",
+    "periodoRef": "Cenário 'Premissas atuais' (coluna G do Painel de Resultados; data do modelo 17/03/2026)",
+    "periodoAbrang": "30 anos de operação + 2 anos de construção",
+    "responsavel": "(piloto)",
+    "dataPreench": "2026-06-17",
+    "versao": "Piloto v1 — dados do 'Modelo CAFF 2026.03.16_v2'"
+  },
+  "rows": {
+    "capex": [
+      {
+        "item": "Investimento obrigatório — CAFF + Garagem Anexa",
+        "modal": "Investimento (anualizado)",
+        "fonteUsed": "Modelo CAFF · Painel G13 (R$ 708,38 mi) · anuidade WACC real 10,2%/30a",
+        "valor": "76400000",
+        "obs": "Anualização ilustrativa do investimento obrigatório."
+      },
+      {
+        "item": "Investimento obrigatório — PGE + Garagem Anexa",
+        "modal": "Investimento (anualizado)",
+        "fonteUsed": "Modelo CAFF · Painel G14 (R$ 294,08 mi) · anuidade WACC real 10,2%/30a",
+        "valor": "31700000",
+        "obs": "Anualização ilustrativa do investimento obrigatório."
+      },
+      {
+        "item": "Investimento obrigatório — DAER",
+        "modal": "Investimento (anualizado)",
+        "fonteUsed": "Modelo CAFF · Painel G15 (R$ 113,11 mi) · anuidade WACC real 10,2%/30a",
+        "valor": "12200000",
+        "obs": "Anualização ilustrativa do investimento obrigatório."
+      }
+    ],
+    "opex": [
+      {
+        "item": "OPEX obrigatório — CAFF + Garagem Anexa",
+        "modal": "Operação e manutenção",
+        "fonteUsed": "Modelo CAFF · Painel G24",
+        "valor": "39140000",
+        "obs": "OPEX obrigatório anual."
+      },
+      {
+        "item": "OPEX obrigatório — PGE + Garagem Anexa",
+        "modal": "Operação e manutenção",
+        "fonteUsed": "Modelo CAFF · Painel G25",
+        "valor": "11220000",
+        "obs": "OPEX obrigatório anual."
+      },
+      {
+        "item": "OPEX obrigatório — DAER",
+        "modal": "Operação e manutenção",
+        "fonteUsed": "Modelo CAFF · Painel G26",
+        "valor": "8360000",
+        "obs": "OPEX obrigatório anual."
+      }
+    ],
+    "gestao": [
+      {
+        "item": "Verificação independente de desempenho e fiscalização contratual",
+        "modal": "Gestão/fiscalização",
+        "fonteUsed": "Não consta no modelo financeiro privado — estimar pelo órgão",
+        "valor": "",
+        "obs": "A estimar pela Administração; o modelo BNDES traz apenas o verificador independente como custo da SPE (lado privado)."
+      }
+    ],
+    "receita": [
+      {
+        "item": "Receita acessória máxima anual (comercial, corporativo, estacionamento, condomínio)",
+        "modal": "Receita acessória",
+        "fonteUsed": "Modelo CAFF · Painel G32",
+        "valor": "41320000",
+        "obs": "Receita acessória máxima projetada; reduz o custo público líquido."
+      }
+    ]
+  },
+  "premissas": [
+    {
+      "tipo": "Taxa de desconto",
+      "desc": "WACC real 10,2% a.a. (Aba 02. WACC-CAPM, D25)"
+    },
+    {
+      "tipo": "Prazo",
+      "desc": "30 anos de operação + 2 de construção (Aba 01c)"
+    },
+    {
+      "tipo": "Anualização do CAPEX",
+      "desc": "Investimento obrigatório convertido em anuidade equivalente a WACC real 10,2% por 30 anos (fator 0,10787) — premissa ilustrativa do piloto, não substitui o fluxo de caixa do modelo."
+    },
+    {
+      "tipo": "Escopo do PSC",
+      "desc": "Cenário 'Premissas atuais' (coluna G do Painel). Valores do comparador público; não confundir com a contraprestação da PPP (R$ 262,3 mi/ano)."
+    }
+  ],
+  "confs": {}
+}

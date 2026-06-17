@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piloto M1 — PSC / Custo Público Anual · Projeto CAFF</title>
+  <style>
+    /* ── Reset e base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 24px 16px;
+    }
+
+    /* ── Wrapper ── */
+    .pagina {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      padding: 40px 48px;
+    }
+
+    /* ── Cabeçalho institucional ── */
+    .cabecalho {
+      border-bottom: 3px solid #2c5e2e;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cabecalho .orgao-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #2c5e2e;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    .subtitulo {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    /* ── Parágrafos e seções ── */
+    .intro {
+      background: #f0f4f0;
+      border-left: 4px solid #4a8c4e;
+      padding: 12px 16px;
+      margin-bottom: 28px;
+      border-radius: 0 4px 4px 0;
+      font-size: 12.5px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2c5e2e;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      margin-top: 28px;
+      border-bottom: 1px solid #d4e4d4;
+      padding-bottom: 4px;
+    }
+
+    /* ── Bloco de identificação ── */
+    .ident-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 5px 12px;
+      margin-bottom: 12px;
+    }
+
+    .ident-grid .label {
+      font-weight: 600;
+      color: #444;
+      font-size: 12px;
+    }
+
+    .ident-grid .valor {
+      color: #1a1a1a;
+      font-size: 12px;
+    }
+
+    /* ── Tabelas ── */
+    .secao-tabela { margin-bottom: 28px; }
+
+    .secao-tabela h3 {
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 7px 12px;
+      margin-bottom: 0;
+      border-radius: 4px 4px 0 0;
+      color: #fff;
+    }
+
+    .secao-tabela.capex   h3 { background: #2c5e2e; }
+    .secao-tabela.opex    h3 { background: #4a8c4e; }
+    .secao-tabela.gestao  h3 { background: #1a4f7a; }
+    .secao-tabela.receita h3 { background: #5a9e62; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    thead th {
+      background: #f0f0f0;
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+
+    tbody td {
+      padding: 7px 10px;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      color: #222;
+    }
+
+    tbody tr:nth-child(even) { background: #fafafa; }
+    tbody tr:hover { background: #f2f7f2; }
+
+    td.valor-col {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-family: 'Courier New', monospace;
+      font-size: 11.5px;
+    }
+
+    td.valor-vazio {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+    }
+
+    /* Linhas de subtotal */
+    tr.subtotal td {
+      font-weight: 700;
+      background: #e8f0e8;
+      border-top: 2px solid #4a8c4e;
+      color: #1a1a1a;
+    }
+
+    .secao-tabela.gestao tr.subtotal td { background: #dde8f0; border-top-color: #1a4f7a; }
+    .secao-tabela.receita tr.subtotal td { background: #e2f0e4; border-top-color: #5a9e62; }
+
+    /* ── Bloco PSC destaque ── */
+    .psc-destaque {
+      background: #1a1a1a;
+      color: #fff;
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin: 28px 0;
+    }
+
+    .psc-destaque h2 {
+      color: #fff;
+      border-bottom-color: #444;
+      margin-top: 0;
+    }
+
+    .formula-linha {
+      font-size: 13px;
+      margin: 12px 0 6px;
+      color: #ccc;
+    }
+
+    .formula-eq {
+      font-family: 'Courier New', monospace;
+      font-size: 12.5px;
+      color: #aee8b0;
+      margin: 4px 0 12px 12px;
+      display: block;
+    }
+
+    .psc-resultado {
+      font-size: 22px;
+      font-weight: 700;
+      color: #7de87f;
+      margin-top: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .psc-resultado-label {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    .psc-detalhe-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .psc-detalhe-item {
+      background: #2a2a2a;
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+
+    .psc-detalhe-item .cat { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+    .psc-detalhe-item .val { font-size: 14px; font-weight: 700; color: #e0e0e0; margin-top: 4px; }
+    .psc-detalhe-item.negativo .val { color: #f08080; }
+
+    /* ── Premissas ── */
+    .premissas-lista {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .premissas-lista li {
+      padding: 8px 12px;
+      border-left: 3px solid #4a8c4e;
+      margin-bottom: 6px;
+      background: #f8faf8;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .premissas-lista li .ptipo {
+      font-weight: 700;
+      color: #2c5e2e;
+      font-size: 11.5px;
+    }
+
+    .premissas-lista li .pdesc {
+      color: #333;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* ── Ressalvas ── */
+    .ressalvas {
+      background: #fffbf0;
+      border: 1px solid #e0c060;
+      border-left: 4px solid #c8a000;
+      border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+
+    .ressalvas ul {
+      margin-top: 8px;
+      padding-left: 18px;
+    }
+
+    .ressalvas ul li {
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    /* ── Rodapé ── */
+    .rodape {
+      margin-top: 36px;
+      padding-top: 14px;
+      border-top: 1px solid #ccc;
+      font-size: 11px;
+      color: #666;
+      font-style: italic;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .pagina { border: none; padding: 20px; max-width: 100%; }
+      .psc-destaque { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      tbody tr:hover { background: inherit; }
+    }
+  </style>
+</head>
+<body>
+<div class="pagina">
+
+  <!-- CABEÇALHO -->
+  <div class="cabecalho">
+    <div class="orgao-label">SEFAZ-RS / CAGE &nbsp;|&nbsp; Ferramenta PPPs — Módulo 1</div>
+    <h1>Piloto M1 — PSC / Custo Público Anual &nbsp;·&nbsp; Projeto CAFF</h1>
+    <div class="subtitulo">Piloto v1 &nbsp;|&nbsp; Referência: "Modelo CAFF 2026.03.16_v2" &nbsp;|&nbsp; Preenchido em: 17/06/2026</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro">
+    Este documento é uma demonstração de preenchimento do Módulo 1 (PSC — Comparador do Setor Público / Custo Público Anual) da Ferramenta PPPs, utilizando dados reais extraídos do modelo financeiro BNDES/CAFF relativo ao projeto Centro Administrativo do Estado do RS (CAFF). O objetivo é validar se a estrutura de campos e categorias da ferramenta acomoda adequadamente um projeto multi-ativo real, com três ativos distintos (CAFF, PGE e DAER) em concessão administrativa. Os valores reproduzem, sem alterações, as saídas do Painel de Resultados — cenário "Premissas atuais" (coluna G). Não se trata de parecer técnico, estudo de viabilidade ou recomendação de modalidade.
+  </div>
+
+  <!-- IDENTIFICAÇÃO -->
+  <h2>1. Identificação do Projeto</h2>
+  <div class="ident-grid">
+    <span class="label">Nome do projeto</span>
+    <span class="valor">Centro Administrativo do Estado do RS (CAFF) — Concessão Administrativa</span>
+
+    <span class="label">Órgão</span>
+    <span class="valor">SEFAZ-RS / CAGE (piloto de validação da ferramenta)</span>
+
+    <span class="label">Período de referência</span>
+    <span class="valor">Cenário "Premissas atuais" (coluna G do Painel de Resultados; data do modelo 17/03/2026)</span>
+
+    <span class="label">Período de abrangência</span>
+    <span class="valor">30 anos de operação + 2 anos de construção</span>
+
+    <span class="label">Responsável</span>
+    <span class="valor">(piloto)</span>
+
+    <span class="label">Versão</span>
+    <span class="valor">Piloto v1 — dados do "Modelo CAFF 2026.03.16_v2"</span>
+
+    <span class="label">Data de preenchimento</span>
+    <span class="valor">17/06/2026</span>
+
+    <span class="label">Premissas-chave</span>
+    <span class="valor">WACC real 10,2% a.a.; prazo 30 anos; contraprestação máxima R$ 262,3 mi/ano; aporte público R$ 0; VPL do projeto ≈ 0 (VfM ≈ 0 no cenário atual)</span>
+  </div>
+
+  <!-- TABELAS DE CUSTOS -->
+  <h2>2. Composição do Custo Público Anual (PSC)</h2>
+
+  <!-- CAPEX -->
+  <div class="secao-tabela capex">
+    <h3>A &nbsp;— Investimentos Anualizados (CAPEX)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%">Item de Custo</th>
+          <th style="width:16%">Modalidade</th>
+          <th style="width:22%">Fonte Utilizada</th>
+          <th style="width:14%">Valor Anual (R$)</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Investimento obrigatório — CAFF + Garagem Anexa</td>
+          <td>Investimento (anualizado)</td>
+          <td>Modelo CAFF · Painel G13 (R$ 708,38 mi) · anuidade WACC real 10,2%/30a</td>
+          <td class="valor-col">R$ 76.400.000,00</td>
+          <td>Anualização ilustrativa do investimento obrigatório.</td>
+        </tr>
+        <tr>
+          <td>Investimento obrigatório — PGE + Garagem Anexa</td>
+          <td>Investimento (anualizado)</td>
+          <td>Modelo CAFF · Painel G14 (R$ 294,08 mi) · anuidade WACC real 10,2%/30a</td>
+          <td class="valor-col">R$ 31.700.000,00</td>
+          <td>Anualização ilustrativa do investimento obrigatório.</td>
+        </tr>
+        <tr>
+          <td>Investimento obrigatório — DAER</td>
+          <td>Investimento (anualizado)</td>
+          <td>Modelo CAFF · Painel G15 (R$ 113,11 mi) · anuidade WACC real 10,2%/30a</td>
+          <td class="valor-col">R$ 12.200.000,00</td>
+          <td>Anualização ilustrativa do investimento obrigatório.</td>
+        </tr>
+        <tr class="subtotal">
+          <td colspan="3">Subtotal CAPEX anualizado</td>
+          <td class="valor-col">R$ 120.300.000,00</td>
+          <td>Consistente com investimento total R$ 1.115,56 mi × fator 0,10787</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- OPEX -->
+  <div class="secao-tabela opex">
+    <h3>B &nbsp;— Operação e Manutenção (OPEX)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%">Item de Custo</th>
+          <th style="width:16%">Modalidade</th>
+          <th style="width:22%">Fonte Utilizada</th>
+          <th style="width:14%">Valor Anual (R$)</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>OPEX obrigatório — CAFF + Garagem Anexa</td>
+          <td>Operação e manutenção</td>
+          <td>Modelo CAFF · Painel G24</td>
+          <td class="valor-col">R$ 39.140.000,00</td>
+          <td>OPEX obrigatório anual.</td>
+        </tr>
+        <tr>
+          <td>OPEX obrigatório — PGE + Garagem Anexa</td>
+          <td>Operação e manutenção</td>
+          <td>Modelo CAFF · Painel G25</td>
+          <td class="valor-col">R$ 11.220.000,00</td>
+          <td>OPEX obrigatório anual.</td>
+        </tr>
+        <tr>
+          <td>OPEX obrigatório — DAER</td>
+          <td>Operação e manutenção</td>
+          <td>Modelo CAFF · Painel G26</td>
+          <td class="valor-col">R$ 8.360.000,00</td>
+          <td>OPEX obrigatório anual.</td>
+        </tr>
+        <tr class="subtotal">
+          <td colspan="3">Subtotal OPEX</td>
+          <td class="valor-col">R$ 58.720.000,00</td>
+          <td>Painel G23. Referência: OPEX atual do CAFF hoje ≈ R$ 30,95 mi/ano (Painel G28).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GESTÃO -->
+  <div class="secao-tabela gestao">
+    <h3>C &nbsp;— Gestão e Fiscalização Contratual</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%">Item de Custo</th>
+          <th style="width:16%">Modalidade</th>
+          <th style="width:22%">Fonte Utilizada</th>
+          <th style="width:14%">Valor Anual (R$)</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Verificação independente de desempenho e fiscalização contratual</td>
+          <td>Gestão/fiscalização</td>
+          <td>Não consta no modelo financeiro privado — estimar pelo órgão</td>
+          <td class="valor-vazio">A estimar</td>
+          <td>A estimar pela Administração; o modelo BNDES traz apenas o verificador independente como custo da SPE (lado privado).</td>
+        </tr>
+        <tr class="subtotal">
+          <td colspan="3">Subtotal Gestão/Fiscalização</td>
+          <td class="valor-vazio">Em aberto</td>
+          <td>Não considerado no cálculo do PSC bruto abaixo (tratado como R$ 0 até preenchimento).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RECEITA -->
+  <div class="secao-tabela receita">
+    <h3>D &nbsp;— Receitas Acessórias (subtração do PSC)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:28%">Item</th>
+          <th style="width:16%">Modalidade</th>
+          <th style="width:22%">Fonte Utilizada</th>
+          <th style="width:14%">Valor Anual (R$)</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Receita acessória máxima anual (comercial, corporativo, estacionamento, condomínio)</td>
+          <td>Receita acessória</td>
+          <td>Modelo CAFF · Painel G32</td>
+          <td class="valor-col">R$ 41.320.000,00</td>
+          <td>Receita acessória máxima projetada; reduz o custo público líquido.</td>
+        </tr>
+        <tr class="subtotal">
+          <td colspan="3">Subtotal Receitas Acessórias</td>
+          <td class="valor-col">R$ 41.320.000,00</td>
+          <td>Valor subtraído do PSC bruto.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PSC DESTAQUE -->
+  <div class="psc-destaque">
+    <h2>3. PSC Bruto Anual — Resultado</h2>
+
+    <div class="psc-detalhe-grid">
+      <div class="psc-detalhe-item">
+        <div class="cat">CAPEX anualizado</div>
+        <div class="val">R$ 120,3 mi</div>
+      </div>
+      <div class="psc-detalhe-item">
+        <div class="cat">OPEX</div>
+        <div class="val">R$ 58,72 mi</div>
+      </div>
+      <div class="psc-detalhe-item">
+        <div class="cat">Gestão/Fiscalização</div>
+        <div class="val">A estimar</div>
+      </div>
+      <div class="psc-detalhe-item negativo">
+        <div class="cat">(−) Receita acessória</div>
+        <div class="val">R$ 41,32 mi</div>
+      </div>
+    </div>
+
+    <div class="formula-linha">Fórmula aplicada:</div>
+    <code class="formula-eq">PSC Bruto = CAPEX + OPEX + Gestão − Receita Acessória</code>
+    <code class="formula-eq">PSC Bruto = R$ 120,3 mi + R$ 58,72 mi + R$ 0 (em aberto) − R$ 41,32 mi</code>
+
+    <div class="psc-resultado">PSC Bruto Anual ≈ R$ 137,7 milhões/ano</div>
+    <div class="psc-resultado-label">
+      (120.300.000 + 58.720.000 − 41.320.000 = 137.700.000 · Gestão/Fiscalização considerada R$ 0 até preenchimento)
+    </div>
+  </div>
+
+  <!-- PREMISSAS -->
+  <h2>4. Premissas e Metodologia</h2>
+  <ul class="premissas-lista">
+    <li>
+      <div class="ptipo">Taxa de desconto</div>
+      <div class="pdesc">WACC real 10,2% a.a. (Aba 02. WACC-CAPM, D25)</div>
+    </li>
+    <li>
+      <div class="ptipo">Prazo</div>
+      <div class="pdesc">30 anos de operação + 2 de construção (Aba 01c)</div>
+    </li>
+    <li>
+      <div class="ptipo">Anualização do CAPEX</div>
+      <div class="pdesc">Investimento obrigatório convertido em anuidade equivalente a WACC real 10,2% por 30 anos (fator 0,10787) — premissa ilustrativa do piloto, não substitui o fluxo de caixa do modelo.</div>
+    </li>
+    <li>
+      <div class="ptipo">Escopo do PSC</div>
+      <div class="pdesc">Cenário "Premissas atuais" (coluna G do Painel). Valores do comparador público; não confundir com a contraprestação da PPP (R$ 262,3 mi/ano).</div>
+    </li>
+  </ul>
+
+  <!-- RESSALVAS -->
+  <h2>5. Ressalvas do Piloto</h2>
+  <div class="ressalvas">
+    <ul>
+      <li>
+        O PSC aqui montado parte dos próprios custos constantes do modelo de estruturação da PPP (BNDES/CAFF). Um PSC metodologicamente completo exigiria ajuste por risco retido pela Administração e por (in)eficiência da prestação direta em comparação ao setor privado — componentes que não estão incorporados nesta versão de piloto.
+      </li>
+      <li>
+        A anualização do CAPEX é ilustrativa: converte o investimento total de cada ativo em anuidade equivalente a WACC real pelo prazo da concessão (fator 0,10787). O modelo financeiro original opera com fluxo de caixa ano a ano, o que é metodologicamente mais preciso para o VfM efetivo.
+      </li>
+      <li>
+        A linha de Gestão e Fiscalização Contratual está em aberto e deve ser estimada pela Administração antes de qualquer uso decisório deste documento. A omissão desse custo subestima o PSC bruto.
+      </li>
+      <li>
+        O VfM do cenário atual ≈ 0 e a contraprestação máxima de R$ 262,3 mi/ano são grandezas extraídas do modelo PPP (lado privado) e não devem ser comparadas diretamente ao PSC bruto aqui calculado, que representa uma aproximação do custo público de referência.
+      </li>
+      <li>
+        A conclusão sobre a conveniência e oportunidade da contratação via PPP, bem como a decisão pela modalidade de execução, competem exclusivamente ao gestor público responsável, com base em análise integral do processo. Este documento de piloto tem finalidade exclusivamente metodológica e de validação da estrutura da ferramenta.
+      </li>
+    </ul>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="rodape">
+    Piloto gerado a partir de "Modelo CAFF 2026.03.16_v2" e Painel de Resultados (cenário Premissas atuais). Documento de validação interna — não é parecer.
+  </div>
+
+</div>
+</body>
+</html>
