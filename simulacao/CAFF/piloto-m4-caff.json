@@ -1,0 +1,349 @@
+{
+  "header": {
+    "nomeProjeto": "Centro Administrativo do Estado do RS (CAFF) — Concessão Administrativa (PPP)",
+    "orgao": "SEFAZ-RS / CAGE — Modelagem BNDES",
+    "periodoRef": "2026",
+    "responsavel": "Piloto automático — dados extraídos do modelo CAFF v2 (17/03/2026)",
+    "dataPreench": "17/06/2026",
+    "versao": "v1.0-piloto"
+  },
+  "setores": {
+    "educacao": false,
+    "saude": false,
+    "rodovias": false,
+    "seguranca": false,
+    "edificacoes": true
+  },
+  "items": {
+    "mat-a-0": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Estudos de pré-viabilidade realizados pelo BNDES (PMI). Custo do lado Estado não detalhado no modelo privado."
+    },
+    "mat-a-1": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "identificado",
+      "nota": "Modelagem financeira contratada via BNDES. Honorários de consultores jurídicos, financeiros e técnicos presentes na estrutura de custos do projeto (ressarcimento BNDES incluído como item B3 do modelo)."
+    },
+    "mat-a-2": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "identificado",
+      "nota": "Projeto originado de PMI (Procedimento de Manifestação de Interesse). Ressarcimento de estudos ao autor do PMI precificado no modelo como item B3 do CAPEX."
+    },
+    "mat-a-3": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Ressarcimento de estudos BNDES/PMI explicitamente previsto no modelo (item B3 — CAPEX). Valor incluído no Investimento Total (R$ 1.291,64 mi). Fonte: aba CAPEX do modelo CAFF."
+    },
+    "mat-a-4": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "identificado",
+      "nota": "Apoio jurídico da PGE/Procuradoria necessário para elaboração do edital e minuta contratual. Custo do lado público — não capturado no modelo financeiro privado. A levantar junto à PGE-RS."
+    },
+    "mat-a-5": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Consulta pública e audiência pública previstas no rito de contratação de PPP (Lei 11.079/2004). Custos do lado Estado não detalhados no modelo privado."
+    },
+    "mat-a-6": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Custos do processo licitatório (comissão, publicações, impugnações) — lado Estado. Não capturado no modelo financeiro privado. A levantar."
+    },
+    "mat-a-7": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Custo de transação (estruturação financeira SPE/project finance) explicitamente incluído no modelo VfM (aba 12): R$ 1,45 mi (VPL, taxa 8,5%). Fonte: ponte PSC — G21 do modelo."
+    },
+    "mat-b-0": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Projeto de reforma/retrofit de edificações existentes (CAFF, PGE, DAER). Não há desapropriações previstas — ativos já são patrimônio público estadual."
+    },
+    "mat-b-1": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "",
+      "nota": "Não aplicável — projeto em área urbana já consolidada, sem reassentamento de populações."
+    },
+    "mat-b-2": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Licenciamentos ambientais e autorizações para obras de retrofit e novas edificações. Mencionados no Plano de Negócios como risco de implantação. Custo a levantar junto ao DAER/FEPAM."
+    },
+    "mat-b-3": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Remanejamento de redes e interferências em complexo urbano central de Porto Alegre (RS). Identificado como risco de obra/retrofit no Plano de Negócios. Custo transferido ao concessionário no escopo do CAPEX privado."
+    },
+    "mat-b-4": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Obras preparatórias, acessos e urbanização incluídos no CAPEX privado (item 'Urbanização' e demolição do Prédio P: R$ 4,6 mi de CAPEX de implantação). Verificar se custos de interface urbana com Prefeitura de POA estão cobertos."
+    },
+    "mat-b-5": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Transição operacional durante obras é risco central: órgãos públicos (CAFF, PGE, DAER, SEDUC, SPGG) continuam em funcionamento. Compatibilização entre obras e operação prevista como risco no Plano de Negócios. Custo do lado Estado a levantar (realocação de servidores, locações temporárias)."
+    },
+    "mat-b-6": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "",
+      "nota": "Edificações são de propriedade estadual. Não se aplica."
+    },
+    "mat-b-7": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Adequação de serviços públicos durante obras: SEDUC já aluga 3.757 m² (R$ 2,81 mi/ano) e SPGG aluga 0,65 mi/ano. Realocação temporária de órgãos durante as obras gera custo adicional. Estimativa a detalhar."
+    },
+    "mat-c-0": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "quantificado",
+      "nota": "Contraprestação pública é a principal obrigação financeira do Estado. Incluída no VPL da PPP (aba 12): R$ 2.173,73 mi em VPL (taxa 8,5%). Comprometimento da RCL: ~0,49%. Fonte: G13 — ponte custo PPP."
+    },
+    "mat-c-1": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "",
+      "nota": "Aporte público de capital: R$ 0 (modelo prevê contraprestação pura sem aporte). Fonte: _dados-extraidos.md."
+    },
+    "mat-c-2": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "",
+      "nota": "Não aplicável — modelo de concessão administrativa com contraprestação pública, sem tarifa ao usuário."
+    },
+    "mat-c-3": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Utilidades e insumos custeados pelo Estado: a responsabilidade por energia, água e telecomunicações durante a operação deve ser verificada na matriz de responsabilidades contratual. Não está explicitado no modelo financeiro."
+    },
+    "mat-c-4": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Interface com órgãos: SEDUC, SPGG, DAER, PGE e outros órgãos que ocuparão o complexo. Custos de coordenação operacional do Estado. A levantar junto às secretarias envolvidas."
+    },
+    "mat-c-5": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Pessoal público remanescente: servidores de funções não delegáveis (p. ex. chefia, segurança institucional, funções exclusivas de Estado) continuarão custeados pelo Estado ao longo dos 30 anos. Não capturado no modelo financeiro privado."
+    },
+    "mat-d-0": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Gestão contratual pública incluída no VPL da PPP (aba 12): R$ 4,873 mi em VPL (G14). Representa custo da equipe de gestão do contrato ao longo de 30 anos. Fonte: ponte custo PPP — Gestão Contratual."
+    },
+    "mat-d-1": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Verificador independente incluído no OPEX da SPE (gastos administrativos, conforme _dados-extraidos.md M4). Atribuição ao lado privado (SPE), pago via contraprestação. Verificar se custo de verificador é do Estado ou do concessionário conforme contrato."
+    },
+    "mat-d-2": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Sistemas de monitoramento de KPIs ligados aos indicadores de desempenho da contraprestação. Mencionados no Plano de Negócios como instrumento central do contrato. Custo de implantação e manutenção a detalhar."
+    },
+    "mat-d-3": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Comitê gestor e instâncias colegiadas para supervisão do contrato ao longo de 30 anos. Custo do lado Estado — a levantar."
+    },
+    "mat-d-4": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "",
+      "nota": "Não há agência reguladora setorial específica para o CAFF. A regulação contratual é interna à CAGE/SEFAZ-RS. Marcar como N/A."
+    },
+    "mat-d-5": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Auditorias e controle externo pelo TCE-RS ao longo dos 30 anos de contrato. Custo de fiscalização do órgão de controle não capturado no modelo financeiro privado."
+    },
+    "mat-d-6": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Compliance fiscal e contábil: relatórios periódicos exigidos (LRF, MCASP, relatórios de PPP). Custo do lado Estado — a levantar."
+    },
+    "mat-e-0": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "",
+      "nota": "Risco de demanda: modelo é de disponibilidade (concessão administrativa). Não há risco de demanda retido pelo Estado — a contraprestação não depende de utilização do espaço pelo público externo."
+    },
+    "mat-e-1": {
+      "aplic": "nao",
+      "valor": "",
+      "status": "",
+      "nota": "Não aplicável — modelo indexado em IPCA (real). Sem exposição cambial."
+    },
+    "mat-e-2": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Reequilíbrio econômico-financeiro: risco de aditivos contratuais precificado no PSC em R$ 401,58 mi VPL (G20 — sobrecusto da contratação tradicional). No modelo PPP, esse risco é transferido ao concessionário (eficiência). Manter como potencial custo contingente do lado Estado."
+    },
+    "mat-e-3": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Renegociações contratuais ao longo de 30 anos são previsíveis em contratos de grande porte. Custo contingente a registrar qualitativamente."
+    },
+    "mat-e-4": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Passivos ambientais nas edificações existentes (CAFF, DAER, PGE): identificado como risco de condições estruturais e prediais dos ativos existentes no Plano de Negócios. Alocação na matriz de riscos a confirmar."
+    },
+    "mat-e-5": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Término antecipado por inadimplência do Estado: custo relevante dado o porte (R$ 1,1 bi de CAPEX e 30 anos de contrato). A ser disciplinado no contrato. Custo contingente a quantificar."
+    },
+    "mat-e-6": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Término antecipado por inadimplência do privado: inclui nova licitação, operação emergencial. Custo contingente implícito."
+    },
+    "mat-e-7": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Forças maiores relevantes: enchentes e eventos climáticos extremos (RS/2024 como referência recente). A ser disciplinado em cláusula específica."
+    },
+    "mat-e-8": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Litígios e arbitragem: prever cláusula de resolução de disputas no contrato. Custo contingente a registrar."
+    },
+    "mat-e-9": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Passivos contingentes implícitos: falência da SPE, pressão política para ampliação de escopo sem reequilíbrio formal. Risco qualitativo a registrar."
+    },
+    "mat-f-0": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "quantificado",
+      "nota": "Neutralidade competitiva (ajuste tributário) explicitamente calculada no modelo VfM (aba 12): R$ −462,407 mi em VPL (G15 — dedução no custo da PPP). Inclui ajuste por IR, CSLL, PIS/COFINS pagos pela SPE. Fonte: ponte custo PPP."
+    },
+    "mat-f-1": {
+      "aplic": "parcial",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Ajuste de regime previdenciário: diferença entre servidores estatutários (CAFF atual) e CLT (SPE). Não detalhado separadamente no modelo — pode estar embutido na neutralidade competitiva. A confirmar."
+    },
+    "mat-f-2": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Custo de capital: WACC real 10,2% a.a. (nominal 14,1%); CAPM real 11%. Taxa de desconto VfM: 8,5%. Custo de oportunidade implícito no modelo. Fonte: _dados-extraidos.md — Identificação."
+    },
+    "mat-f-3": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Garantias: incluídas no OPEX administrativo da SPE (gastos com garantias e seguros, conforme M4 de _dados-extraidos.md). Custo do fundo garantidor do Estado (FGP/BADESUL) a levantar separadamente."
+    },
+    "mat-f-4": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Prêmio de seguro-garantia: garantias e seguros da SPE incluídas no OPEX administrativo do modelo privado. Seguro-garantia do poder concedente (obrigações do Estado) a verificar."
+    },
+    "mat-f-5": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Impacto LRF: comprometimento da RCL ~0,49% (dentro do limite de 5% federal). Valor quantificado no modelo — projeção de contraprestação ao longo de 30 anos. Fonte: _dados-extraidos.md — Identificação."
+    },
+    "mat-f-6": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Tratamento contábil MCASP/IPSAS: reconhecimento de ativo de direito de uso e passivo de contraprestação no balanço estadual. Impacto nas métricas fiscais do RS. A detalhar com CAGE/Contabilidade."
+    },
+    "mat-f-7": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "pendente",
+      "nota": "Custos de encerramento e reversão ao final dos 30 anos: avaliação patrimonial, auditoria técnica, transferência dos bens revertidos. A planejar com antecedência no contrato."
+    },
+    "set-edificacoes-0": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "CAPEX por ativo explicitamente detalhado no modelo: CAFF+Garagem, PGE+Garagem, DAER, Torres K/L, Escola P, Praça Comercial, Restaurantes, Estacionamentos, Urbanização. Investimento Obrigatório Total R$ 1.115,56 mi; Investimento Total R$ 1.291,64 mi. Benchmark: R$ 4.490/m² (obrigatório) e R$ 5.720/m² (total). Fonte: G12-G19 do Painel de Resultados."
+    },
+    "set-edificacoes-1": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Reinvestimentos por vida útil de cada ativo previstos no modelo (aba reinvestimentos). Demolição/realocação do Prédio P: CAPEX de implantação R$ 4,6 mi. Reinvestimentos ao longo dos 30 anos incluídos no Investimento Total (R$ 1.291,64 mi vs R$ 1.115,56 mi obrigatório). Fonte: M3 e M4 dos dados extraídos."
+    },
+    "set-edificacoes-2": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "O&M por ativo (OPEX operação e manutenção) explicitamente detalhado: CAFF R$ 39,14 mi/ano (G24), PGE R$ 11,22 mi/ano (G25), DAER R$ 8,36 mi/ano (G26). OPEX total obrigatório: R$ 58,72 mi/ano (G23). Contratos de referência: Facilities Management do complexo (marcenaria, layout). Fonte: M4 dos dados extraídos."
+    },
+    "set-edificacoes-3": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Certificador de obra incluído no OPEX administrativo da SPE (gastos administrativos — verificador independente). Atribuição: lado privado (SPE). Fonte: seção M4 de _dados-extraidos.md."
+    },
+    "set-edificacoes-4": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Gestão de facilities (OPEX acessórias): receitas acessórias de R$ 41,32 mi/ano máximas (G32). OPEX associado a atividades acessórias previsto no modelo (comercial R$ 120/m²/mês, corporativo R$ 100/m²/mês, estacionamento, condomínio). Fonte: M4 dos dados extraídos."
+    },
+    "set-edificacoes-5": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Garantias e seguros da SPE incluídas no OPEX administrativo. Tributos (D&A aba 07, Tributos aba 08, Dívida aba 09): detalhados em abas específicas do modelo. LC 214/2025 (Reforma Tributária — CBS/IBS) gera risco tributário sobre a precificação ao longo dos 30 anos. Fonte: M4 dos dados extraídos."
+    },
+    "set-edificacoes-6": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Dívida (financiamento) da SPE modelada na aba 09 do modelo. Custos de transação incluídos no VfM: R$ 1,45 mi VPL (G21). Fonte: M4 e M6 dos dados extraídos."
+    },
+    "set-edificacoes-7": {
+      "aplic": "sim",
+      "valor": "",
+      "status": "estimado",
+      "nota": "Receitas acessórias (comercial, corporativo, estacionamento, condomínio) deduzidas do custo líquido: R$ −121,014 mi VPL no PSC (G23). No lado PPP, risco de receita acessória transferido ao concessionário. Vacância: 10%. Fonte: M4 e M6 dos dados extraídos."
+    }
+  }
+}

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piloto M4 — Checklist de Custos · CAFF</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 24px 16px;
+    }
+
+    .pagina {
+      max-width: 1020px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      padding: 40px 48px;
+    }
+
+    /* Cabeçalho institucional */
+    .cabecalho {
+      border-bottom: 3px solid #1B4F8A;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    .cabecalho .orgao-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #1B4F8A;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+    .subtitulo {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    /* Intro */
+    .intro {
+      background: #eef3fa;
+      border-left: 4px solid #1B4F8A;
+      padding: 12px 16px;
+      margin-bottom: 28px;
+      border-radius: 0 4px 4px 0;
+      font-size: 12.5px;
+      color: #333;
+    }
+
+    /* Seções */
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1B4F8A;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      margin-top: 28px;
+      border-bottom: 1px solid #c8d8ee;
+      padding-bottom: 4px;
+    }
+
+    /* Identificação */
+    .ident-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 5px 12px;
+      margin-bottom: 12px;
+    }
+    .ident-grid .label {
+      font-weight: 600;
+      color: #444;
+      font-size: 12px;
+    }
+    .ident-grid .valor {
+      color: #1a1a1a;
+      font-size: 12px;
+    }
+
+    /* Resumo de completude */
+    .resumo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin: 16px 0 28px;
+    }
+    .resumo-card {
+      background: #f0f4fb;
+      border: 1px solid #c8d8ee;
+      border-radius: 4px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+    .resumo-card .num {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1B4F8A;
+      line-height: 1;
+    }
+    .resumo-card .leg {
+      font-size: 11px;
+      color: #555;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .resumo-card.destaque { background: #1B4F8A; border-color: #1B4F8A; }
+    .resumo-card.destaque .num { color: #fff; }
+    .resumo-card.destaque .leg { color: rgba(255,255,255,.8); }
+
+    /* Bloco de seção do checklist */
+    .bloco {
+      margin-bottom: 24px;
+    }
+    .bloco-header {
+      background: #1B4F8A;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px 4px 0 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bloco-header .badge-bloco {
+      font-size: 10.5px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 2px 10px;
+      border-radius: 99px;
+    }
+
+    /* Tabela de itens */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    thead th {
+      background: #f0f4fb;
+      color: #444;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 7px 10px;
+      border-bottom: 1.5px solid #c8d8ee;
+      text-align: left;
+    }
+    thead th:nth-child(2), thead th:nth-child(3) { text-align: center; }
+    tbody tr {
+      border-bottom: 1px solid #eef0f2;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td {
+      padding: 9px 10px;
+      vertical-align: top;
+    }
+    tbody tr:nth-child(even) { background: #fafbfc; }
+
+    /* Linha coberta vs. pendente */
+    tr.coberto td:first-child {
+      border-left: 3px solid #1a7a3c;
+    }
+    tr.pendente td:first-child {
+      border-left: 3px solid #b7791f;
+    }
+    tr.na td:first-child {
+      border-left: 3px solid #9ca3af;
+      opacity: 0.65;
+    }
+
+    /* Item label / desc */
+    .item-label { font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
+    .item-desc { font-size: 11.5px; color: #555; margin-bottom: 4px; }
+    .item-prov {
+      font-size: 11px;
+      color: #4b6fa8;
+      background: #eef3fa;
+      border-left: 2px solid #a0bbdd;
+      border-radius: 0 3px 3px 0;
+      padding: 4px 8px;
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    /* Badge de status */
+    .badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 99px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-coberto      { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .badge-parcial      { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+    .badge-pendente     { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .badge-na           { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+    .badge-quantificado { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-estimado     { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-identificado { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .badge-alevantar    { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+
+    /* Coluna de atribuição */
+    .col-atrib {
+      font-size: 11px;
+      color: #444;
+      text-align: center;
+    }
+
+    /* Bloco de ressalvas */
+    .ressalvas {
+      background: #fff8ec;
+      border: 1px solid #f5c84a;
+      border-left: 4px solid #f5c84a;
+      border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-top: 32px;
+    }
+    .ressalvas h2 {
+      color: #7c4b00;
+      border-color: #f5c84a;
+      margin-top: 0;
+      font-size: 12px;
+    }
+    .ressalvas ul {
+      margin: 10px 0 0 16px;
+      font-size: 12px;
+      color: #4a3000;
+      line-height: 1.6;
+    }
+    .ressalvas li { margin-bottom: 6px; }
+
+    /* Rodapé */
+    .rodape {
+      margin-top: 36px;
+      padding-top: 14px;
+      border-top: 1px solid #d0d0d0;
+      font-size: 11px;
+      color: #888;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .pagina { border: none; padding: 24px 28px; max-width: 100%; }
+      .ressalvas { break-inside: avoid; }
+      .bloco { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="pagina">
+
+  <!-- Cabeçalho institucional -->
+  <div class="cabecalho">
+    <div class="orgao-label">CAGE / SEFAZ-RS — Ferramenta PPPs/RS · Módulo M4</div>
+    <h1>Piloto M4 — Checklist de Custos · CAFF</h1>
+    <div class="subtitulo">Centro Administrativo do Estado do RS — Concessão Administrativa (PPP) · Modelagem BNDES · Cenário Premissas Atuais (17/03/2026)</div>
+  </div>
+
+  <!-- Nota de propósito -->
+  <div class="intro">
+    <strong>Propósito:</strong> Este piloto verifica a completude da estrutura de custos do modelo financeiro privado do CAFF em relação à matriz transversal do Módulo M4 da Ferramenta PPPs/RS. O preenchimento é baseado nos dados extraídos do modelo CAFF v2 e do Plano de Negócios (09/03/2026). Os itens estão organizados nos blocos A–F (transversais) e no bloco setorial Edificações/Facilities. A avaliação reflete o lado privado da PPP; itens do lado público (fiscalização, gestão contratual do Estado) são anotados quando ausentes no modelo.
+  </div>
+
+  <!-- Identificação do projeto -->
+  <h2>Identificação do Projeto</h2>
+  <div class="ident-grid">
+    <span class="label">Projeto</span>
+    <span class="valor">Centro Administrativo do Estado do RS (CAFF) — Concessão Administrativa (PPP)</span>
+    <span class="label">Órgão responsável</span>
+    <span class="valor">SEFAZ-RS / CAGE — Modelagem BNDES</span>
+    <span class="label">Ativos</span>
+    <span class="valor">CAFF + Garagem Anexa; PGE + Garagem; DAER; Torres K/L; Escola P; Praça Comercial; Restaurantes; Estacionamentos; Urbanização</span>
+    <span class="label">Prazo contratual</span>
+    <span class="valor">2 anos de construção + 30 anos de operação</span>
+    <span class="label">Aporte público</span>
+    <span class="valor">R$ 0 (contraprestação pura)</span>
+    <span class="label">Comprometimento RCL</span>
+    <span class="valor">~0,49% (dentro do limite de 5% federal)</span>
+    <span class="label">Período de referência</span>
+    <span class="valor">2026</span>
+    <span class="label">Data deste piloto</span>
+    <span class="valor">17/06/2026</span>
+    <span class="label">Versão</span>
+    <span class="valor">v1.0-piloto (automático)</span>
+  </div>
+
+  <!-- Resumo de completude -->
+  <h2>Resumo de Completude</h2>
+  <div class="resumo-grid">
+    <div class="resumo-card destaque">
+      <div class="num">46</div>
+      <div class="leg">Itens cobertos (sim + parcial)</div>
+    </div>
+    <div class="resumo-card">
+      <div class="num">55</div>
+      <div class="leg">Total de itens avaliados</div>
+    </div>
+    <div class="resumo-card">
+      <div class="num">9</div>
+      <div class="leg">Não aplicáveis (N/A)</div>
+    </div>
+    <div class="resumo-card">
+      <div class="num">2</div>
+      <div class="leg">Quantificados</div>
+    </div>
+    <div class="resumo-card">
+      <div class="num">14</div>
+      <div class="leg">Estimados</div>
+    </div>
+    <div class="resumo-card">
+      <div class="num">29</div>
+      <div class="leg">A levantar / pendente</div>
+    </div>
+  </div>
+
+  <!-- BLOCO A — Estruturação e Contratação -->
+  <div class="bloco">
+    <div class="bloco-header">
+      A — Estruturação e Contratação
+      <span class="badge-bloco">8 itens</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Item</th>
+          <th style="width:110px">Aplicável</th>
+          <th style="width:120px">Status</th>
+          <th>Observação / Proveniência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="na">
+          <td>
+            <div class="item-label">A.1 Estudos de pré-viabilidade</div>
+            <div class="item-desc">Diagnóstico setorial, análise técnica preliminar.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Estudos realizados pelo BNDES (PMI). Custo do lado Estado não detalhado no modelo privado.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">A.2 Contratação de consultores de modelagem</div>
+            <div class="item-desc">Honorários de consultores para elaboração do EVTEA.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-identificado">Identificado</span></td>
+          <td class="item-prov">Modelagem contratada via BNDES. Honorários presentes na estrutura de custos (ressarcimento BNDES, item B3 do CAPEX).</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">A.3 Chamamento Público / PMI / MIP</div>
+            <div class="item-desc">Custos de condução e avaliação do PMI.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-identificado">Identificado</span></td>
+          <td class="item-prov">Projeto originado de PMI. Ressarcimento de estudos ao autor do PMI precificado no modelo (item B3 do CAPEX).</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">A.4 Ressarcimento de estudos ao setor privado</div>
+            <div class="item-desc">Valor a pagar ao autor dos estudos de PMI.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Ressarcimento de estudos BNDES explicitamente previsto no modelo</strong> (item B3 — CAPEX). Valor incluído no Investimento Total (R$ 1.291,64 mi). Fonte: aba CAPEX do modelo CAFF v2.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">A.5 Apoio jurídico da PGE / Procuradoria</div>
+            <div class="item-desc">Honorários/custo-oportunidade de pareceres e revisão de edital.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Custo do lado Estado — não capturado no modelo financeiro privado. A levantar junto à PGE-RS.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">A.6 Consulta pública e audiência pública</div>
+            <div class="item-desc">Despesas com publicação, produção e eventos de consulta.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Previstas no rito de contratação de PPP (Lei 11.079/2004). Custos do lado Estado não detalhados no modelo privado.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">A.7 Custos do processo licitatório</div>
+            <div class="item-desc">Comissão de licitação, publicações oficiais, impugnações.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Custos do processo licitatório (lado Estado) — não capturado no modelo financeiro privado. A levantar.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">A.8 Custos de estruturação financeira (SPE/project finance)</div>
+            <div class="item-desc">Honorários legais para constituição da SPE e due diligence.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Custo de transação explicitamente incluído no VfM (aba 12): R$ 1,45 mi VPL</strong> (taxa 8,5%). Fonte: G21 — ponte PSC.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BLOCO B — Implantação -->
+  <div class="bloco">
+    <div class="bloco-header">
+      B — Implantação
+      <span class="badge-bloco">8 itens</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Item</th>
+          <th style="width:110px">Aplicável</th>
+          <th style="width:120px">Status</th>
+          <th>Observação / Proveniência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="na">
+          <td>
+            <div class="item-label">B.1 Desapropriações e aquisição de áreas</div>
+            <div class="item-desc">Indenizações e custos para obtenção de áreas.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Projeto em edificações existentes, patrimônio público estadual. Sem desapropriações previstas.</td>
+        </tr>
+        <tr class="na">
+          <td>
+            <div class="item-label">B.2 Reassentamentos</div>
+            <div class="item-desc">Remoção e apoio à reinstalação de populações afetadas.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Não aplicável — projeto em área urbana consolidada, sem reassentamento de populações.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">B.3 Licenciamentos e autorizações ambientais</div>
+            <div class="item-desc">Custos de estudos, taxas e contrapartidas ambientais.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Mencionado no Plano de Negócios como risco de implantação. Custo a levantar junto ao DAER/FEPAM.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">B.4 Remanejamento de redes e interferências</div>
+            <div class="item-desc">Relocação de redes de energia, gás, saneamento, telecom.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Identificado como risco de obra/retrofit no Plano de Negócios. Custo transferido ao concessionário no escopo do CAPEX privado. Confirmar na matriz de responsabilidades.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">B.5 Obras preparatórias, acessos e canteiros</div>
+            <div class="item-desc">Investimentos públicos prévios para viabilizar a implantação.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Urbanização e demolição do Prédio P incluídas no CAPEX privado (R$ 4,6 mi de implantação). Verificar interface urbana com Prefeitura de POA.</td>
+        </tr>
+        <tr class="na">
+          <td>
+            <div class="item-label">B.6 Transição operacional e continuidade do serviço</div>
+            <div class="item-desc">Custos de manutenção do serviço durante obras.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Compatibilização entre obras e operação de órgãos públicos em funcionamento é risco central no Plano de Negócios. Custo do lado Estado a detalhar.</td>
+        </tr>
+        <tr class="na">
+          <td>
+            <div class="item-label">B.7 Ocupação temporária de imóveis</div>
+            <div class="item-desc">Indenizações ou locações por uso temporário durante obras.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Edificações são de propriedade estadual. Não se aplica.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">B.8 Adequação do serviço público durante obras</div>
+            <div class="item-desc">Serviços substitutivos, reforços de pessoal e comunicação durante implantação.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">SEDUC aluga 3.757 m² (R$ 2,81 mi/ano) e SPGG aluga R$ 0,65 mi/ano. Realocação temporária de órgãos durante obras gera custo adicional a estimar.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BLOCO C — Operação e Manutenção -->
+  <div class="bloco">
+    <div class="bloco-header">
+      C — Operação e Manutenção
+      <span class="badge-bloco">6 itens</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Item</th>
+          <th style="width:110px">Aplicável</th>
+          <th style="width:120px">Status</th>
+          <th>Observação / Proveniência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">C.1 Contraprestação pública</div>
+            <div class="item-desc">Pagamentos regulares ao parceiro privado por disponibilidade e desempenho.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-quantificado">Quantificado</span></td>
+          <td class="item-prov"><strong>Principal obrigação financeira do Estado. VPL da contraprestação: R$ 2.173,73 mi</strong> (G13, taxa 8,5%). Comprometimento RCL: ~0,49%. Fonte: aba 12 — ponte custo PPP.</td>
+        </tr>
+        <tr class="na">
+          <td>
+            <div class="item-label">C.2 Aportes públicos de capital</div>
+            <div class="item-desc">Contribuições de recursos públicos para bens reversíveis.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Aporte público: R$ 0. Modelo prevê contraprestação pura. Fonte: _dados-extraidos.md — Identificação.</td>
+        </tr>
+        <tr class="na">
+          <td>
+            <div class="item-label">C.3 Subsídios tarifários</div>
+            <div class="item-desc">Complementação de tarifas para populações vulneráveis.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Não aplicável — concessão administrativa com contraprestação pública, sem tarifa ao usuário.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">C.4 Utilidades e insumos custeados pelo Estado</div>
+            <div class="item-desc">Energia, água, gás, telecom que permanecem com o poder concedente.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Responsabilidade por energia, água e telecom na operação deve ser verificada na matriz de responsabilidades contratual — não está explicitado no modelo financeiro.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">C.5 Despesas de interface com outros órgãos</div>
+            <div class="item-desc">Coordenação com SEDUC, SPGG, DAER, PGE e outros.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Múltiplos órgãos estaduais ocuparão o complexo. Custos de coordenação operacional do Estado ao longo dos 30 anos. A levantar junto às secretarias envolvidas.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">C.6 Gestão pública de pessoal remanescente</div>
+            <div class="item-desc">Servidores com funções não delegáveis (chefia, segurança institucional).</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Custo de servidores de funções exclusivas de Estado ao longo de 30 anos — não capturado no modelo financeiro privado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BLOCO D — Governança Contratual -->
+  <div class="bloco">
+    <div class="bloco-header">
+      D — Governança Contratual
+      <span class="badge-bloco">7 itens</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Item</th>
+          <th style="width:110px">Aplicável</th>
+          <th style="width:120px">Status</th>
+          <th>Observação / Proveniência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">D.1 Equipe pública de gestão contratual</div>
+            <div class="item-desc">Custo total da equipe de gestão e fiscalização ao longo de toda a vigência.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Gestão contratual incluída no VPL da PPP (aba 12): R$ 4,873 mi VPL</strong> (G14, taxa 8,5%). Representa custo da equipe de gestão ao longo de 30 anos. Fonte: ponte custo PPP.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">D.2 Verificador / certificador independente externo</div>
+            <div class="item-desc">Honorários do agente externo que audita o desempenho do parceiro privado.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Verificador independente incluído no OPEX administrativo da SPE</strong> (gastos administrativos). Confirmar atribuição (Estado ou concessionário) na minuta contratual. Fonte: seção M4 de _dados-extraidos.md.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">D.3 Sistemas de monitoramento de KPIs</div>
+            <div class="item-desc">Aquisição, implantação e manutenção de sistemas de desempenho.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Indicadores de desempenho vinculados à contraprestação são instrumento central do contrato (Plano de Negócios). Custo de implantação e manutenção do sistema de monitoramento a detalhar.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">D.4 Comitê gestor e instâncias colegiadas</div>
+            <div class="item-desc">Despesas operacionais de comitês e consultores de suporte.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Custo do lado Estado ao longo de 30 anos. A levantar junto à CAGE/SEFAZ-RS.</td>
+        </tr>
+        <tr class="na">
+          <td>
+            <div class="item-label">D.5 Regulação setorial</div>
+            <div class="item-desc">Custo da estrutura regulatória de supervisão econômica e de qualidade.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Não há agência reguladora setorial específica para o CAFF. Regulação contratual é interna à CAGE/SEFAZ-RS.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">D.6 Auditorias e controle externo</div>
+            <div class="item-desc">Despesas do TCE-RS de fiscalização específica do contrato de PPP.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Custo de auditoria do TCE-RS ao longo dos 30 anos de contrato. Não capturado no modelo financeiro privado.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">D.7 Compliance fiscal e contábil</div>
+            <div class="item-desc">Relatórios e comunicados exigidos ao longo do contrato.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Relatórios LRF, MCASP e de PPP ao longo de 30 anos. Custo do lado Estado a levantar.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BLOCO E — Riscos e Contingências -->
+  <div class="bloco">
+    <div class="bloco-header">
+      E — Riscos e Contingências
+      <span class="badge-bloco">10 itens</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Item</th>
+          <th style="width:110px">Aplicável</th>
+          <th style="width:120px">Status</th>
+          <th>Observação / Proveniência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="na">
+          <td>
+            <div class="item-label">E.1 Risco de demanda retido pelo Estado</div>
+            <div class="item-desc">Custo ao Estado por demanda inferior à projetada.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Modelo de disponibilidade (concessão administrativa). Contraprestação não depende de utilização pelo público externo.</td>
+        </tr>
+        <tr class="na">
+          <td>
+            <div class="item-label">E.2 Garantias de risco cambial e financeiro</div>
+            <div class="item-desc">Custo de garantias de câmbio ou indexadores assumidas pelo Estado.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-na">—</span></td>
+          <td class="item-prov">Modelo indexado em IPCA (real). Sem exposição cambial.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.3 Eventos de reequilíbrio econômico-financeiro</div>
+            <div class="item-desc">Custo esperado de reequilíbrios por fatos imprevisíveis ou atos do Estado.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Risco de aditivos/sobrepreço precificado no PSC: R$ 401,58 mi VPL (G20). Na PPP, esse risco é transferido ao concessionário (eficiência). Manter como potencial custo contingente do lado Estado.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.4 Renegociações contratuais</div>
+            <div class="item-desc">Custo esperado de renegociações ao longo de 30 anos.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Renegociações ao longo de 30 anos são previsíveis em contratos de grande porte. Custo contingente a registrar qualitativamente.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.5 Passivos ambientais e socioambientais</div>
+            <div class="item-desc">Remediação e medidas corretivas por passivos identificados durante execução.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Risco de condições estruturais e prediais dos ativos existentes (CAFF, PGE, DAER) identificado no Plano de Negócios. Alocação na matriz de riscos a confirmar.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.6 Término antecipado — inadimplência do Estado</div>
+            <div class="item-desc">Pagamentos de rescisão devidos ao parceiro privado.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Custo relevante dado o porte (R$ 1,1 bi de CAPEX e 30 anos). A ser disciplinado no contrato. Custo contingente a quantificar.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.7 Término antecipado — inadimplência do privado</div>
+            <div class="item-desc">Custo de retomada do serviço por inadimplência do parceiro privado.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Inclui nova licitação, operação emergencial. Custo contingente implícito.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.8 Término antecipado — força maior</div>
+            <div class="item-desc">Compensações em caso de força maior que inviabilize o contrato.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Enchentes e eventos climáticos extremos são referência recente (RS/2024). Cláusula específica necessária. Custo contingente a disciplinar.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.9 Litígios e arbitragem</div>
+            <div class="item-desc">Custo esperado de processos judiciais e arbitrais ao longo do contrato.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Prever cláusula de resolução de disputas no contrato. Custo contingente a registrar.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">E.10 Passivos contingentes implícitos</div>
+            <div class="item-desc">Obrigações morais não contratuais: falência da SPE, pressão política para ampliação de escopo.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Risco qualitativo a registrar. Falência da SPE implicaria retomada operacional emergencial do complexo pelo Estado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BLOCO F — Custos Fiscais e Financeiros -->
+  <div class="bloco">
+    <div class="bloco-header">
+      F — Custos Fiscais e Financeiros
+      <span class="badge-bloco">8 itens</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Item</th>
+          <th style="width:110px">Aplicável</th>
+          <th style="width:120px">Status</th>
+          <th>Observação / Proveniência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.1 Neutralidade competitiva (ajuste tributário)</div>
+            <div class="item-desc">Ajuste para equiparar tratamentos tributários entre o projeto público e o privado.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-quantificado">Quantificado</span></td>
+          <td class="item-prov"><strong>Neutralidade competitiva calculada no modelo VfM (aba 12): R$ −462,407 mi VPL</strong> (G15 — dedução no custo da PPP). Inclui ajuste por IR, CSLL, PIS/COFINS pagos pela SPE. Fonte: ponte custo PPP.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.2 Ajuste de regime previdenciário</div>
+            <div class="item-desc">Diferença de custo entre regimes de previdência para fins de comparabilidade.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-parcial">Parcial</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Diferença entre servidores estatutários (CAFF atual) e CLT (SPE). Pode estar embutido na neutralidade competitiva. Confirmar.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.3 Custo de capital e taxa de desconto do Estado</div>
+            <div class="item-desc">Custo de oportunidade do capital público em garantias e aportes.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov">WACC real 10,2% a.a. (nominal 14,1%); CAPM real 11%. Taxa de desconto VfM: 8,5%. Custo de oportunidade implícito no modelo. Fonte: _dados-extraidos.md — Identificação.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.4 Constituição e manutenção do fundo garantidor</div>
+            <div class="item-desc">Capitalização e manutenção do instrumento de garantia das obrigações do Estado.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Garantias e seguros da SPE incluídas no OPEX administrativo do modelo privado. Custo do fundo garantidor do Estado (FGP/BADESUL) a levantar separadamente.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.5 Prêmio de seguro-garantia público</div>
+            <div class="item-desc">Prêmio pago pelo Estado para seguro-garantia de suas obrigações.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov"><strong>Garantias e seguros da SPE incluídas no OPEX administrativo</strong> (seção M4 de _dados-extraidos.md). Seguro-garantia do poder concedente (obrigações do Estado) a verificar separadamente.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.6 Impacto orçamentário e limites LRF</div>
+            <div class="item-desc">Comprometimento da RCL com pagamentos de PPP e impacto nas metas fiscais.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov">Comprometimento RCL: ~0,49% (dentro do limite de 5% federal). Projeção de contraprestação ao longo de 30 anos quantificada no modelo. Fonte: _dados-extraidos.md — Identificação.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.7 Tratamento contábil e reconhecimento de passivos</div>
+            <div class="item-desc">Adequação IPSAS/MCASP para reconhecimento de ativos e passivos de PPP.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Reconhecimento de ativo de direito de uso e passivo de contraprestação no balanço estadual. Impacto nas métricas fiscais do RS. A detalhar com CAGE/Contabilidade.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">F.8 Custos de encerramento e reversão de bens</div>
+            <div class="item-desc">Avaliação patrimonial, auditoria técnica e transferência de bens no fim do contrato.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-alevantar">A levantar</span></td>
+          <td class="item-prov">Reversão dos ativos ao Estado ao final de 30 anos. Planejamento de auditoria técnica e avaliação patrimonial necessário. A detalhar no contrato.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BLOCO SETORIAL — Edificações / Facilities -->
+  <div class="bloco">
+    <div class="bloco-header" style="background:#2c5e8a;">
+      Edificações / Facilities — Adicional Setorial
+      <span class="badge-bloco">8 itens</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:40%">Item</th>
+          <th style="width:110px">Aplicável</th>
+          <th style="width:120px">Status</th>
+          <th>Observação / Proveniência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.1 CAPEX por ativo — obras e instalações</div>
+            <div class="item-desc">CAPEX de construção e reforma por cada ativo do complexo.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>CAPEX por ativo explicitamente detalhado:</strong> CAFF+Garagem, PGE+Garagem, DAER, Torres K/L, Escola P, Praça Comercial, Restaurantes, Estacionamentos, Urbanização. Investimento Obrigatório Total R$ 1.115,56 mi; Investimento Total R$ 1.291,64 mi. Benchmarks: R$ 4.490/m² (obrigatório) e R$ 5.720/m² (total). Fonte: G12–G19 do Painel de Resultados.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.2 Reinvestimentos periódicos por vida útil</div>
+            <div class="item-desc">Investimentos de reposição ao longo da vigência contratual.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Reinvestimentos por vida útil incluídos no modelo</strong> (aba reinvestimentos). Demolição/realocação Prédio P: R$ 4,6 mi. Diferença Investimento Total vs. Obrigatório (R$ 176 mi) reflete reinvestimentos associados a receitas acessórias. Fonte: M3 e M4 de _dados-extraidos.md.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.3 OPEX de operação e manutenção por ativo</div>
+            <div class="item-desc">Custos anuais de O&amp;M por cada ativo do complexo.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>OPEX por ativo explicitamente modelado:</strong> CAFF R$ 39,14 mi/ano (G24), PGE R$ 11,22 mi/ano (G25), DAER R$ 8,36 mi/ano (G26). OPEX obrigatório total: R$ 58,72 mi/ano (G23). Referência: Facilities Management do complexo (contrato atual). Fonte: M4 de _dados-extraidos.md.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.4 Certificador de obra</div>
+            <div class="item-desc">Agente de certificação de conformidade das obras entregues.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Certificador de obra incluído no OPEX administrativo da SPE</strong> (gastos administrativos — verificador independente). Atribuição: lado privado (SPE). Fonte: seção M4 de _dados-extraidos.md.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.5 OPEX administrativo da SPE e atividades acessórias</div>
+            <div class="item-desc">Gastos administrativos da SPE e O&amp;M das atividades de receita acessória.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov">OPEX acessórias modelado (comercial R$ 120/m²/mês, corporativo R$ 100/m²/mês, estacionamento, condomínio, vacância 10%). Receita acessória máxima: R$ 41,32 mi/ano (G32). Fonte: M4 de _dados-extraidos.md.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.6 Tributos, D&amp;A e garantias e seguros</div>
+            <div class="item-desc">Depreciação e amortização, tributos diretos e indiretos, garantias e seguros da SPE.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>D&amp;A (aba 07), Tributos (aba 08) e Garantias/Seguros (OPEX administrativo) detalhados no modelo.</strong> Risco tributário: LC 214/2025 (Reforma Tributária — CBS/IBS substitui ICMS/ISS/PIS/COFINS) pode afetar a precificação ao longo dos 30 anos. Fonte: M4 e M3 de _dados-extraidos.md.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.7 Dívida e custos de transação</div>
+            <div class="item-desc">Financiamento da SPE (project finance) e custos de transação.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Dívida modelada na aba 09 do modelo.</strong> Custos de transação incluídos no VfM: R$ 1,45 mi VPL (G21). Fonte: M4 e M6 de _dados-extraidos.md.</td>
+        </tr>
+        <tr class="coberto">
+          <td>
+            <div class="item-label">Edi.8 Receitas acessórias (dedução do custo líquido)</div>
+            <div class="item-desc">Receitas comerciais, corporativas, estacionamento e condomínio deduzidas do custo.</div>
+          </td>
+          <td class="col-atrib"><span class="badge badge-coberto">Sim</span></td>
+          <td><span class="badge badge-estimado">Estimado</span></td>
+          <td class="item-prov"><strong>Receitas acessórias deduzidas no PSC: R$ −121,014 mi VPL</strong> (G23). Na PPP, risco de receita acessória transferido ao concessionário. Vacância: 10%. Fonte: M4 e M6 de _dados-extraidos.md.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Resumo final de status -->
+  <h2>Síntese por Status de Detalhamento</h2>
+  <table style="margin-bottom: 20px;">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th style="text-align:center;">Itens</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-quantificado">Quantificado</span></td>
+        <td style="text-align:center; font-weight:700;">2</td>
+        <td style="font-size:11.5px; color:#444;">Contraprestação (R$ 2.173,73 mi VPL) e neutralidade competitiva (R$ −462,41 mi VPL). Valores retirados da aba 12 do modelo.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-estimado">Estimado</span></td>
+        <td style="text-align:center; font-weight:700;">14</td>
+        <td style="font-size:11.5px; color:#444;">CAPEX por ativo, OPEX, reinvestimentos, D&amp;A, tributos, dívida, receitas acessórias, ressarcimento BNDES, custo de transação, gestão contratual, verificador, garantias, comprometimento RCL, custo de capital.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-identificado">Identificado</span></td>
+        <td style="text-align:center; font-weight:700;">3</td>
+        <td style="font-size:11.5px; color:#444;">Consultores de modelagem, PMI/chamamento, apoio jurídico PGE.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-alevantar">A levantar</span></td>
+        <td style="text-align:center; font-weight:700;">29</td>
+        <td style="font-size:11.5px; color:#444;">Principalmente itens do lado público: custos de transição operacional, licenciamentos, fiscalização/TCE, comitê gestor, pessoal remanescente, seguros/garantias do Estado, tratamento contábil MCASP.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-na">N/A</span></td>
+        <td style="text-align:center; font-weight:700;">9</td>
+        <td style="font-size:11.5px; color:#444;">Desapropriações, reassentamentos, subsídios tarifários, aporte público, risco cambial, risco de demanda, regulador setorial, ocupação temporária de imóveis.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Ressalvas -->
+  <div class="ressalvas">
+    <h2>Ressalvas</h2>
+    <ul>
+      <li>A completude avaliada reflete o <strong>modelo financeiro privado da PPP</strong> do CAFF (BNDES, v2, 17/03/2026). Itens do <strong>lado da Administração</strong> — custos de fiscalização pública, equipe de gestão contratual do Estado, auditoria do TCE-RS, licenciamentos, pessoal remanescente, transição operacional de órgãos e tratamento contábil MCASP — em sua maioria <strong>não estão capturados no modelo financeiro privado</strong> e estão sinalizados como "a levantar". Esses itens compõem o custo público completo e são relevantes para a comparação PSC versus PPP.</li>
+      <li>Os valores quantificados provêm da aba 12 do modelo (VPL, taxa de desconto 8,5%, cenário "Premissas atuais"). Os demais valores são estimativas ou referências indicativas. Nenhum valor neste documento deve ser utilizado isoladamente para decisão de contratação.</li>
+      <li>A Reforma Tributária (LC 214/2025 — CBS/IBS) representa risco de precificação ao longo dos 30 anos contratados. O impacto não está detalhado no modelo e deve ser avaliado em fase de revisão.</li>
+      <li>A divergência entre o Painel de Resultados (G45, VfM &asymp; 0) e a aba 12 (VfM = R$ 188,47 mi, 9,9%) deve ser investigada antes de qualquer uso público deste piloto. O preenchimento deste M4 utiliza os dados da aba 12 como referência autoritativa, conforme indicado em _dados-extraidos.md.</li>
+      <li>A classificação de itens como "cobertos" ou "pendentes" e as observações de proveniência são resultado de leitura automatizada dos dados extraídos, sem revisão presencial dos documentos fonte. A <strong>decisão sobre suficiência da cobertura de custos e sua fundamentação compete exclusivamente ao gestor responsável</strong>. Este piloto não constitui recomendação, parecer técnico ou manifestação favorável ao projeto.</li>
+      <li>O setor "Edificações / Facilities" foi ativado por ser o setor aplicável ao CAFF. Os blocos setoriais de Educação, Saúde, Transportes/Rodovias e Segurança/Sistema Prisional não foram ativados.</li>
+    </ul>
+  </div>
+
+  <!-- Rodapé -->
+  <div class="rodape">
+    <span>CAGE / SEFAZ-RS — Ferramenta PPPs/RS · Módulo M4 · Piloto CAFF</span>
+    <span>Gerado em 17/06/2026 · v1.0-piloto (automático) · localStorage: <code>checklist_cage_rs_v1</code></span>
+  </div>
+
+</div>
+</body>
+</html>
