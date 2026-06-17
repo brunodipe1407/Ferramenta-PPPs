@@ -3943,8 +3943,6 @@ function m4EmitProjeto() {
   if (el) el.addEventListener('input', m4EmitProjeto);
 });
 
-function exportarRelatorio() { window.print(); }
-
 // Identificação somente-leitura quando embarcado: a fonte única é a tela Início.
 function m4LockIdentFields() {
   if (!document.documentElement.classList.contains('embed-mode')) return;
@@ -3989,7 +3987,7 @@ window.addEventListener('message', (e) => {
   if (msg.type === 'gtsefaz_clear') limparDados();
   if (msg.type === 'gtsefaz_projeto_set' && msg.dados) {
     const map = { nome: 'nomeProjeto', orgao: 'orgao', periodoRef: 'periodoRef', responsavel: 'responsavel', data: 'dataPreench' };
-    // Antes da Fase 3 só atualizávamos campo vazio — quebrava a sincronização
+    // Originalmente só atualizávamos campo vazio — quebrava a sincronização
     // a partir da 2ª keystroke vinda do Hub. Agora aceitamos atualização
     // autoritativa do shell sempre que o valor muda, exceto quando o input
     // está sob foco local (preserva edição em curso).

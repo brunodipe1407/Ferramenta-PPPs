@@ -1482,7 +1482,7 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
   </table>
   </div>
 
-  <!-- 2.2 Consolidação — adicionado na Fase 2 (sincronização com aba Md 2 - 2.2 Consolidação do Excel) -->
+  <!-- 2.2 Consolidação (sincronização com aba Md 2 - 2.2 Consolidação do Excel) -->
   <div class="sh" style="margin-top:30px"><span class="sh-accent"></span><span class="sh-text">2.2 — Consolidação do PSC Bruto</span></div>
   <div class="g2">
     <div class="ct-wrap">
@@ -2264,7 +2264,7 @@ const pg = document.getElementById('prt-gerado');
 if (pg) pg.textContent = new Date().toLocaleDateString('pt-BR');
 
 /* ══════════════════════════════════════════════════════════════════════
-   M5 — Persistência local (Fase 3)
+   M5 — Persistência local
 
    Captura todos os campos editáveis do módulo (com id ou via classes
    específicas das tabelas dinâmicas) e o estado das melhorias (S.mels).
@@ -2494,7 +2494,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const el = getEl(k);
       if (!el) continue;
       const novoValor = (k === 'data') ? toDataBR(dados[k]) : (dados[k] || '');
-      // Antes da Fase 3 só atualizávamos se o campo estivesse vazio —
+      // Originalmente só atualizávamos se o campo estivesse vazio —
       // quebrava a sincronização vinda do Hub a partir da 2ª keystroke.
       // Agora aceitamos atualização autoritativa do shell sempre que o
       // valor muda, exceto quando o input está sob foco local.

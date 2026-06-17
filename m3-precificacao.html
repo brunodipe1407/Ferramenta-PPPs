@@ -2146,7 +2146,7 @@ try {
     for (const k in FIELD_MAP) {
       const stateKey = FIELD_MAP[k];
       const novoValor = dados[k] || '';
-      // Antes da Fase 3 só atualizávamos campo vazio — quebrava a
+      // Originalmente só atualizávamos campo vazio — quebrava a
       // sincronização do Hub a partir da 2ª keystroke. Agora aceitamos
       // qualquer atualização autoritativa do shell, contanto que o
       // valor mude.
