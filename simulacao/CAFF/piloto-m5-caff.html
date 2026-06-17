@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piloto M5 — VfM / Vale Pagar Mais · CAFF</title>
+  <style>
+    /* ── Reset e base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 24px 16px;
+    }
+
+    .pagina {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      padding: 40px 48px;
+    }
+
+    /* ── Cabeçalho institucional ── */
+    .cabecalho {
+      border-bottom: 3px solid #1B4F8A;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cabecalho .orgao-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #1B4F8A;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    .subtitulo {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    /* ── Bloco de identificação ── */
+    .ident-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 5px 12px;
+      margin-bottom: 12px;
+    }
+
+    .ident-grid .label {
+      font-weight: 600;
+      color: #444;
+      font-size: 12px;
+    }
+
+    .ident-grid .valor {
+      color: #1a1a1a;
+      font-size: 12px;
+    }
+
+    /* ── Seções ── */
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1B4F8A;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      margin-top: 28px;
+      border-bottom: 1px solid #c5d5e8;
+      padding-bottom: 4px;
+    }
+
+    h3 {
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      margin: 16px 0 6px;
+    }
+
+    /* ── Callout de intro ── */
+    .intro {
+      background: #eef3f9;
+      border-left: 4px solid #1B4F8A;
+      padding: 12px 16px;
+      margin-bottom: 28px;
+      border-radius: 0 4px 4px 0;
+      font-size: 12.5px;
+      color: #333;
+    }
+
+    /* ── Tabela de melhorias ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    thead th {
+      background: #1a1a1a;
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 600;
+      color: #fff;
+      border: 1px solid #333;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
+
+    thead th.r { text-align: center; }
+
+    tbody td {
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      color: #222;
+    }
+
+    tbody tr:nth-child(even) { background: #fafafa; }
+    tbody tr:hover { background: #f0f4f8; }
+
+    td.mono {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    /* ── Badges de classificação ── */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-essencial {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid rgba(185,28,28,.2);
+    }
+
+    .badge-relevante {
+      background: #e8f3ed;
+      color: #006B3C;
+      border: 1px solid rgba(0,107,60,.2);
+    }
+
+    .badge-acessoria {
+      background: #f3f4f6;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    .badge-robusta {
+      background: #e8f3ed;
+      color: #006B3C;
+      border: 1px solid rgba(0,107,60,.2);
+    }
+
+    .badge-moderada {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid rgba(180,83,9,.2);
+    }
+
+    .badge-fraca {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid rgba(180,83,9,.2);
+    }
+
+    .just-sim   { color: #006B3C; font-weight: 600; }
+    .just-parc  { color: #92400e; font-weight: 600; }
+    .just-nao   { color: #b91c1c; font-weight: 600; }
+
+    /* ── Bloco de síntese da classificação ── */
+    .classif-box {
+      border: 1.5px solid #d1d5db;
+      border-radius: 6px;
+      background: #fff;
+      padding: 22px 24px;
+      margin: 16px 0 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .classif-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 4px;
+      background: #1B4F8A;
+    }
+
+    .classif-box.forte::before  { background: #006B3C; }
+    .classif-box.moderado::before { background: #d97706; }
+    .classif-box.fraco::before  { background: #b91c1c; }
+
+    .classif-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .classif-valor {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .classif-box.forte  .classif-valor { color: #006B3C; }
+    .classif-box.moderado .classif-valor { color: #92400e; }
+    .classif-box.fraco  .classif-valor { color: #b91c1c; }
+
+    .classif-track {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .classif-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+
+    .classif-dims {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .classif-dim {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .classif-dim .cd-label {
+      font-size: 10px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .classif-dim .cd-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1B4F8A;
+    }
+
+    /* ── Bloco VfM quantitativo ── */
+    .vfm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #d1d5db;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 16px 0 8px;
+    }
+
+    .vfm-box {
+      background: #fff;
+      padding: 18px 20px;
+    }
+
+    .vfm-box-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .vfm-num {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .vfm-num.azul   { color: #1B4F8A; }
+    .vfm-num.ambar  { color: #92400e; }
+    .vfm-num.vermelho { color: #b91c1c; }
+
+    .vfm-unit {
+      font-size: 10px;
+      color: #9ca3af;
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    .vfm-result {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #0f172a 0%, #1B4F8A 60%, #001a0d 100%);
+      color: #fff;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .vfm-result-num {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fde68a;
+      white-space: nowrap;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+
+    .vfm-result-body {}
+
+    .vfm-result-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(253,230,138,.75);
+      margin-bottom: 8px;
+    }
+
+    .vfm-result-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,.8);
+      line-height: 1.6;
+    }
+
+    .vfm-sig {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      margin-top: 8px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .sig-pos {
+      background: rgba(74,222,128,.15);
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,.3);
+    }
+
+    /* ── Bridge PSC/PPP ── */
+    .bridge-table td.verde { color: #006B3C; font-weight: 600; }
+    .bridge-table td.vermelho { color: #b91c1c; }
+    .bridge-table tr.total-row td {
+      background: #1a1a1a;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    td.num {
+      text-align: right;
+      font-family: 'Courier New', monospace;
+      font-size: 11.5px;
+      white-space: nowrap;
+    }
+
+    /* ── Conclusão ── */
+    .conclusao-box {
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 16px 0 24px;
+    }
+
+    .conclusao-inner {
+      background: linear-gradient(135deg, #0f172a 0%, #1B4F8A 50%, #001a0d 100%);
+      color: #fff;
+      padding: 28px 32px;
+      position: relative;
+    }
+
+    .conclusao-inner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #006B3C 0%, #b91c1c 50%, #f0c040 100%);
+    }
+
+    .conclusao-tag {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(253,230,138,.8);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .conclusao-tag::before {
+      content: '';
+      width: 20px;
+      height: 1.5px;
+      background: #fde68a;
+      flex-shrink: 0;
+    }
+
+    .conclusao-txt {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: rgba(255,255,255,.9);
+      font-weight: 400;
+    }
+
+    .conclusao-txt em {
+      font-style: italic;
+      color: #fde68a;
+    }
+
+    .conclusao-txt strong {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .dims-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .dim-card {
+      border: 1.5px solid #e5e7eb;
+      background: #fff;
+      border-radius: 5px;
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dim-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: #9ca3af;
+    }
+
+    .dim-card.p::before { background: #006B3C; }
+    .dim-card.n::before { background: #b91c1c; }
+    .dim-card.w::before { background: #d97706; }
+
+    .dim-card-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .dim-card-val {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .dim-card.p .dim-card-val { color: #006B3C; }
+    .dim-card.n .dim-card-val { color: #b91c1c; }
+    .dim-card.w .dim-card-val { color: #92400e; }
+
+    /* ── Ressalvas ── */
+    .ressalvas {
+      background: #fffbf0;
+      border: 1px solid #e0c060;
+      border-left: 4px solid #c8a000;
+      border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+
+    .ressalvas .r-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400e;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .ressalvas ul {
+      padding-left: 18px;
+    }
+
+    .ressalvas ul li {
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .ressalvas ul li strong {
+      color: #92400e;
+    }
+
+    /* ── Tabela de síntese módulos ── */
+    .sintese-table thead th { background: #374151; }
+
+    .sintese-table td.modulo {
+      font-family: 'Courier New', monospace;
+      font-size: 10.5px;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    /* ── Rodapé ── */
+    .rodape {
+      margin-top: 36px;
+      padding-top: 14px;
+      border-top: 1px solid #ccc;
+      font-size: 11px;
+      color: #666;
+      font-style: italic;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .pagina { border: none; padding: 20px; max-width: 100%; }
+      .vfm-result,
+      .conclusao-inner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      tbody tr:hover { background: inherit; }
+    }
+  </style>
+</head>
+<body>
+<div class="pagina">
+
+  <!-- CABEÇALHO -->
+  <div class="cabecalho">
+    <div class="orgao-label">Estado do Rio Grande do Sul · CAGE — Grupo 02 PPP/Concessões</div>
+    <h1>Piloto M5 — VfM / Vale Pagar Mais · CAFF</h1>
+    <div class="subtitulo">
+      Módulo M5 (painéis Md4 Melhorias · Md5 Classificação · Md6 VfM Quantitativo · Md7 Conclusão) ·
+      Concessão Administrativa do Centro Administrativo do Estado do RS (CAFF) ·
+      Instrumento PSC/VfM — art. 10, I, "a", Lei nº 11.079/2004
+    </div>
+  </div>
+
+  <!-- IDENTIFICAÇÃO -->
+  <h2>Identificação do Projeto</h2>
+  <div class="ident-grid">
+    <span class="label">Projeto</span>
+    <span class="valor">Concessão Administrativa do Centro Administrativo do Estado do RS (CAFF)</span>
+    <span class="label">Órgão demandante</span>
+    <span class="valor">SPGG — Secretaria de Planejamento, Governança e Gestão</span>
+    <span class="label">Modalidade</span>
+    <span class="valor">PPP Administrativa (Lei Federal nº 11.079/2004)</span>
+    <span class="label">Prazo do contrato</span>
+    <span class="valor">2 anos de construção + 30 anos de operação</span>
+    <span class="label">Data-base dos valores</span>
+    <span class="valor">Março/2026</span>
+    <span class="label">Taxa Social de Desconto</span>
+    <span class="valor">8,5% a.a. (real) — SDI/ME, mai/2020</span>
+    <span class="label">Chave de armazenamento</span>
+    <span class="valor" style="font-family: 'Courier New', monospace; font-size: 11px;">vfm_cage_rs_v1</span>
+    <span class="label">Documento</span>
+    <span class="valor">PSC-VfM/SPGG/2026/CAFF-M5 · Piloto técnico v1.0</span>
+    <span class="label">Data do registro</span>
+    <span class="valor">17/06/2026</span>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro">
+    Este piloto cobre os painéis internos Md4 (melhorias qualitativas), Md5 (classificação do argumento), Md6 (VfM quantitativo) e Md7 (conclusão integrada) da ferramenta PPP/RS.
+    Os dados e classificações foram extraídos do modelo financeiro BNDES (CAFF, mar/2026) e do Plano de Negócios.
+    Os valores de VPL utilizam TSD 8,5% a.a. real, prazo 30 anos, sobrecusto 25% (CAPEX e OPEX).
+    <strong>Este documento organiza evidências técnicas para subsidiar a demonstração exigida pelo art. 10, I, "a", da Lei nº 11.079/2004; a fundamentação e a decisão pela modalidade competem ao gestor.</strong>
+  </div>
+
+  <!-- (a) TABELA DE MELHORIAS — Md4 e Md5 -->
+  <h2>A. Melhorias Qualitativas Esperadas (Md4) e Matriz de Relevância (Md5)</h2>
+
+  <p style="font-size:12px; color:#555; margin-bottom:12px;">
+    Sete melhorias qualitativas foram identificadas a partir das diretrizes de desempenho do Plano de Negócios CAFF e das falhas documentadas no padrão atual de prestação.
+    A classificação (Essencial/Relevante/Acessória) decorre da combinação de relevância estratégica e nível de evidência disponível, conforme regras do instrumento PSC/VfM.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:48px">Cód.</th>
+        <th>Melhoria qualitativa esperada</th>
+        <th class="r" style="width:90px">Classificação</th>
+        <th class="r" style="width:90px">Evidência</th>
+        <th class="r" style="width:100px">Justifica pagar mais?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono">M01</td>
+        <td>Eficiência de infraestruturas e sistemas prediais (modernização e manutenção proativa ao longo de 30 anos)</td>
+        <td style="text-align:center"><span class="badge badge-essencial">Essencial</span></td>
+        <td style="text-align:center"><span class="badge badge-moderada">Moderada</span></td>
+        <td style="text-align:center"><span class="just-sim">&#10003; Sim</span></td>
+      </tr>
+      <tr>
+        <td class="mono">M02</td>
+        <td>Sustentabilidade ambiental das edificações (eficiência energética, gestão de resíduos, certificação)</td>
+        <td style="text-align:center"><span class="badge badge-relevante">Relevante</span></td>
+        <td style="text-align:center"><span class="badge badge-moderada">Moderada</span></td>
+        <td style="text-align:center"><span class="just-parc">&#8776; Parcial</span></td>
+      </tr>
+      <tr>
+        <td class="mono">M03</td>
+        <td>Acessibilidade universal e melhoria da mobilidade interna (adequação ABNT NBR 9050 / Lei nº 13.146/2015)</td>
+        <td style="text-align:center"><span class="badge badge-essencial">Essencial</span></td>
+        <td style="text-align:center"><span class="badge badge-robusta">Robusta</span></td>
+        <td style="text-align:center"><span class="just-sim">&#10003; Sim</span></td>
+      </tr>
+      <tr>
+        <td class="mono">M04</td>
+        <td>Segurança dos usuários e adequação às normas técnicas (estrutural, incêndio, pânico — 30 anos)</td>
+        <td style="text-align:center"><span class="badge badge-essencial">Essencial</span></td>
+        <td style="text-align:center"><span class="badge badge-robusta">Robusta</span></td>
+        <td style="text-align:center"><span class="just-sim">&#10003; Sim</span></td>
+      </tr>
+      <tr>
+        <td class="mono">M05</td>
+        <td>Flexibilidade de layout e adaptabilidade dos espaços (projeto modular, gestão de facility)</td>
+        <td style="text-align:center"><span class="badge badge-relevante">Relevante</span></td>
+        <td style="text-align:center"><span class="badge badge-fraca">Fraca</span></td>
+        <td style="text-align:center"><span class="just-nao">&#10007; Não</span></td>
+      </tr>
+      <tr>
+        <td class="mono">M06</td>
+        <td>Indicadores de desempenho vinculados à contraprestação — manutenção garantida ao longo de 30 anos (IDs com glosa; verificador independente)</td>
+        <td style="text-align:center"><span class="badge badge-essencial">Essencial</span></td>
+        <td style="text-align:center"><span class="badge badge-robusta">Robusta</span></td>
+        <td style="text-align:center"><span class="just-sim">&#10003; Sim</span></td>
+      </tr>
+      <tr>
+        <td class="mono">M07</td>
+        <td>Retrofit e requalificação dos ativos existentes (CAFF, DAER, edifícios internos — investimento obrigatório R$ 1.115,56 mi)</td>
+        <td style="text-align:center"><span class="badge badge-relevante">Relevante</span></td>
+        <td style="text-align:center"><span class="badge badge-moderada">Moderada</span></td>
+        <td style="text-align:center"><span class="just-parc">&#8776; Parcial</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- (b) SÍNTESE DA CLASSIFICAÇÃO DO ARGUMENTO QUALITATIVO — Md5 -->
+  <h2>B. Síntese da Classificação do Argumento Qualitativo (Md5)</h2>
+
+  <p style="font-size:12px; color:#555; margin-bottom:12px;">
+    Regra canônica do instrumento (Md5, célula D34):
+    <strong>FORTE</strong> se ≥ 3 Essenciais E ≥ 3 com evidência robusta/moderada;
+    <strong>FRACO</strong> se ≤ 1 Essencial;
+    <strong>MODERADO</strong> caso contrário.
+    Apuração: 4 Essenciais (M01, M03, M04, M06) e 6 com evidência robusta ou moderada (M01, M02, M03, M04, M06, M07).
+  </p>
+
+  <div class="classif-box forte">
+    <div class="classif-label">Classificação do argumento qualitativo</div>
+    <div class="classif-valor">FORTE</div>
+    <div class="classif-track">
+      <div class="classif-fill" style="width:100%; background:#006B3C;"></div>
+    </div>
+    <div class="classif-dims">
+      <div class="classif-dim">
+        <div class="cd-label">Melhorias totais</div>
+        <div class="cd-val">7</div>
+      </div>
+      <div class="classif-dim">
+        <div class="cd-label">Essenciais</div>
+        <div class="cd-val">4</div>
+      </div>
+      <div class="classif-dim">
+        <div class="cd-label">Evidência robusta/moderada</div>
+        <div class="cd-val">6</div>
+      </div>
+      <div class="classif-dim">
+        <div class="cd-label">Justificam pagar mais</div>
+        <div class="cd-val">5</div>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Dimensão de síntese</th>
+        <th class="r" style="width:200px; text-align:right">Resultado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Número total de melhorias identificadas</td>
+        <td style="text-align:right; font-weight:600;">7</td>
+      </tr>
+      <tr>
+        <td>Melhorias classificadas como Essenciais</td>
+        <td style="text-align:right; font-weight:600;">4 (M01, M03, M04, M06)</td>
+      </tr>
+      <tr>
+        <td>Melhorias com evidência Robusta ou Moderada</td>
+        <td style="text-align:right; font-weight:600;">6 (M01, M02, M03, M04, M06, M07)</td>
+      </tr>
+      <tr>
+        <td>Melhorias que justificam pagar mais (Sim ou Parcial)</td>
+        <td style="text-align:right; font-weight:600;">5 (M01, M02, M03, M04, M06, M07*)</td>
+      </tr>
+      <tr style="background:#e8f3ed;">
+        <td style="font-weight:700; color:#006B3C;">Classificação do argumento qualitativo</td>
+        <td style="text-align:right; font-weight:700; color:#006B3C;">FORTE</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:11px; color:#666; margin-top:6px;">* M05 não justifica pagar mais (evidência fraca). M02 e M07 justificam parcialmente.</p>
+
+  <!-- (c) VfM QUANTITATIVO — Md6 -->
+  <h2>C. VfM Quantitativo (Md6) — Bridge de Custo</h2>
+
+  <p style="font-size:12px; color:#555; margin-bottom:12px;">
+    Fonte: aba "12. Affordability e VfM" do modelo financeiro BNDES (CAFF, mar/2026). TSD 8,5% a.a. real; sobrecusto CAPEX 25%; sobrecusto OPEX 25%; prazo de atraso modelado 3 anos.
+  </p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+
+    <!-- Bridge PSC -->
+    <div>
+      <h3>Custo da Contratação Tradicional (PSC) — Componentes</h3>
+      <table class="bridge-table">
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th class="r" style="width:140px; text-align:right">VPL (R$ mi)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Investimentos + Despesas</td>
+            <td class="num">1.606,32</td>
+          </tr>
+          <tr>
+            <td>Aditivos Contratuais (sobrecusto)</td>
+            <td class="num">401,58</td>
+          </tr>
+          <tr>
+            <td>Custo de Transação</td>
+            <td class="num">1,45</td>
+          </tr>
+          <tr>
+            <td>Atraso de Obras</td>
+            <td class="num">16,33</td>
+          </tr>
+          <tr>
+            <td class="vermelho">(−) Obtenção de Receitas</td>
+            <td class="num vermelho">(121,01)</td>
+          </tr>
+          <tr class="total-row">
+            <td>Custo Total PSC (va)</td>
+            <td class="num">1.904,67</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Bridge PPP -->
+    <div>
+      <h3>Custo da PPP — Componentes</h3>
+      <table class="bridge-table">
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th class="r" style="width:140px; text-align:right">VPL (R$ mi)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Contraprestação</td>
+            <td class="num">2.173,73</td>
+          </tr>
+          <tr>
+            <td>Gestão Contratual</td>
+            <td class="num">4,87</td>
+          </tr>
+          <tr>
+            <td class="verde">(−) Neutralidade Competitiva</td>
+            <td class="num verde">(462,41)</td>
+          </tr>
+          <tr style="height:36px; background:#fafafa;">
+            <td colspan="2" style="color:#9ca3af; font-style:italic; font-size:11px;">—</td>
+          </tr>
+          <tr style="height:36px; background:#fafafa;">
+            <td colspan="2" style="color:#9ca3af; font-style:italic; font-size:11px;">—</td>
+          </tr>
+          <tr class="total-row">
+            <td>Custo Total PPP (vp)</td>
+            <td class="num">1.716,20</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Resultado VfM -->
+  <div class="vfm-grid">
+    <div class="vfm-box">
+      <div class="vfm-box-label">VPL PSC Ajustado (va)</div>
+      <div class="vfm-num azul">R$ 1.904,67 mi</div>
+      <div class="vfm-unit">Custo da contratação tradicional com riscos retidos</div>
+    </div>
+    <div class="vfm-box">
+      <div class="vfm-box-label">VPL PPP (vp)</div>
+      <div class="vfm-num ambar">R$ 1.716,20 mi</div>
+      <div class="vfm-unit">Custo líquido da PPP (contraprestação + gestão − neutralidade)</div>
+    </div>
+    <div class="vfm-result">
+      <div class="vfm-result-num">R$ 188,47 mi</div>
+      <div class="vfm-result-body">
+        <div class="vfm-result-label">Value for Money — VfM = va − vp</div>
+        <div class="vfm-result-desc">
+          A PPP representa economia de R$ 188,47 milhões (9,9%) em relação ao PSC ajustado,
+          segundo o bridge detalhado da aba 12 do modelo financeiro BNDES.
+          <br>
+          <span class="vfm-sig sig-pos">VfM Positivo — PPP mais econômica</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- (d) CONCLUSÃO INTEGRADA — Md7 -->
+  <h2>D. Conclusão Integrada (Md7)</h2>
+
+  <!-- Cards de dimensão -->
+  <div class="dims-grid">
+    <div class="dim-card p">
+      <div class="dim-card-label">VfM Quantitativo</div>
+      <div class="dim-card-val">R$ 188,47 mi — positivo</div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-card-label">PSC Bruto Anual (referência)</div>
+      <div class="dim-card-val">R$ 137,7 mi / ano</div>
+    </div>
+    <div class="dim-card p">
+      <div class="dim-card-label">Classificação do argumento qualitativo</div>
+      <div class="dim-card-val">FORTE</div>
+    </div>
+    <div class="dim-card p">
+      <div class="dim-card-label">Justificam pagar mais (sim ou parcial)</div>
+      <div class="dim-card-val">5 de 7 melhorias</div>
+    </div>
+  </div>
+
+  <!-- Síntese por módulo -->
+  <h3>Síntese dos resultados por módulo</h3>
+  <table class="sintese-table" style="margin-bottom:16px;">
+    <thead>
+      <tr>
+        <th style="width:60px">Módulo</th>
+        <th style="width:220px">Dimensão</th>
+        <th>Resultado resumido</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="modulo">Md 2</td>
+        <td>Custo público atual (PSC Bruto)</td>
+        <td>PSC Bruto anual: R$ 137,7 mi/ano | VPL PSC ajustado: R$ 1.904,67 mi</td>
+      </tr>
+      <tr>
+        <td class="modulo">Md 3</td>
+        <td>Padrão atual de prestação</td>
+        <td>Manutenção predial reativa e subfinanciada (OPEX atual R$ 30,95 mi/ano sem garantia de desempenho); ativos existentes com condições estruturais defasadas; ausência de indicadores de nível de serviço; dispersão de órgãos em imóveis alugados (R$ 3,46 mi/ano).</td>
+      </tr>
+      <tr>
+        <td class="modulo">Md 4</td>
+        <td>Conjunto de melhorias qualitativas</td>
+        <td>7 melhorias — 4 Essenciais (M01, M03, M04, M06), 3 Relevantes (M02, M05, M07)</td>
+      </tr>
+      <tr>
+        <td class="modulo">Md 5</td>
+        <td>Classificação do argumento qualitativo</td>
+        <td>FORTE (4 Essenciais; 6 com evidência robusta/moderada) · 5 de 7 justificam pagar mais</td>
+      </tr>
+      <tr>
+        <td class="modulo">Md 6</td>
+        <td>Diferencial preço × qualidade</td>
+        <td>VfM = R$ 188,47 mi (positivo, 9,9%) — PPP mais econômica que o PSC ajustado</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Bloco de conclusão em destaque -->
+  <div class="conclusao-box">
+    <div class="conclusao-inner">
+      <div class="conclusao-tag">Síntese integrada das evidências</div>
+      <div class="conclusao-txt">
+        Para a <em>Concessão Administrativa do Centro Administrativo do Estado do RS (CAFF)</em>,
+        o VfM quantitativo — apurado a partir do bridge detalhado da aba 12 do modelo financeiro BNDES
+        (TSD 8,5% a.a. real; prazo 30 anos; sobrecusto 25%) — indica
+        <strong>diferencial positivo de R$ 188,47 milhões (9,9%)</strong>
+        a favor da PPP em relação ao PSC ajustado.
+        <br><br>
+        Do ponto de vista qualitativo, as 7 melhorias identificadas resultam em
+        <strong>classificação do argumento FORTE</strong>
+        (4 Essenciais de 7; 6 com evidência robusta ou moderada; 5 justificam total ou parcialmente o diferencial de preço).
+        As melhorias endereçam <strong>falhas reais documentadas</strong>: manutenção predial reativa e subfinanciada,
+        ativos com condições estruturais defasadas e ausência de mecanismo contratual de incentivo ao nível de serviço.
+        <br><br>
+        Os benchmarks de centros administrativos (São Paulo, Maceió, Rondônia, Angra dos Reis)
+        oferecem referência de mercado para as entregas esperadas.
+        <br><br>
+        A <strong>avaliação da razoabilidade</strong> deste conjunto de evidências e a
+        <strong>fundamentação formal da opção pela modalidade PPP</strong>,
+        nos termos do art. 10, I, "a", da Lei nº 11.079/2004,
+        <strong>competem ao gestor responsável</strong>;
+        cabe a esta análise verificar se os elementos técnicos necessários foram disponibilizados e organizados.
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabela resumo conclusão -->
+  <table style="margin-bottom:8px;">
+    <thead>
+      <tr>
+        <th style="width:220px">Dimensão</th>
+        <th>Resultado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-family:'Courier New',monospace; font-size:10.5px; color:#6b7280;">VfM Quantitativo</td>
+        <td>Positivo — R$ 188,47 mi (9,9% do PSC ajustado)</td>
+      </tr>
+      <tr>
+        <td style="font-family:'Courier New',monospace; font-size:10.5px; color:#6b7280;">Diferencial de preço</td>
+        <td>PPP 9,9% mais econômica em VPL (PSC ajustado R$ 1.904,67 mi vs. PPP R$ 1.716,20 mi)</td>
+      </tr>
+      <tr>
+        <td style="font-family:'Courier New',monospace; font-size:10.5px; color:#6b7280;">Argumento qualitativo</td>
+        <td style="font-weight:600; color:#006B3C;">FORTE (4 Essenciais; 6 com evidência robusta/moderada)</td>
+      </tr>
+      <tr>
+        <td style="font-family:'Courier New',monospace; font-size:10.5px; color:#6b7280;">Fundamentação pelo gestor</td>
+        <td>A formalizar nos termos do art. 10, I, "a", Lei nº 11.079/2004 — a fundamentação e a decisão competem ao gestor</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- (e) RESSALVAS -->
+  <h2>E. Ressalvas, Limitações e Premissas Críticas</h2>
+
+  <div class="ressalvas">
+    <div class="r-title">Ressalvas obrigatórias — ler antes de utilizar este documento</div>
+    <ul>
+      <li>
+        <strong>Inconsistência entre fontes de VfM:</strong>
+        o Painel de Resultados (G45) do modelo financeiro reporta "Value for Money ≈ 0" para o cenário "Premissas atuais", por definição e/ou cenário distintos do utilizado aqui.
+        A aba 12 ("Affordability e VfM") contém o bridge detalhado com VfM = R$ 188,47 mi e é a decomposição autoritativa utilizada neste piloto.
+        O gestor deverá verificar a reconciliação entre as duas fontes antes de utilizar os valores em documentos formais.
+      </li>
+      <li>
+        <strong>Dados do PSC estimados:</strong>
+        o PSC Bruto anual (R$ 137,7 mi/ano) foi estimado a partir do modelo financeiro privado; os custos de Gestão/Fiscalização não constam explicitamente no modelo BNDES.
+        Recomenda-se levantamento direto via FPE/RHE antes da submissão formal à CAGE.
+      </li>
+      <li>
+        <strong>Melhoria M05 (flexibilidade de layout):</strong>
+        evidência considerada fraca por ausência de benchmark específico para espaços de trabalho em concessões administrativas brasileiras comparáveis.
+        Não justifica, por si só, pagamento de sobrecusto.
+      </li>
+      <li>
+        <strong>Dependência de cláusulas contratuais:</strong>
+        as melhorias Essenciais M03, M04 e M06 dependem de cláusulas contratuais específicas — indicadores de desempenho com glosa efetiva, obrigações de reinvestimento verificadas por certificador independente e padrões de acessibilidade/segurança detalhados no instrumento.
+        Sem tais cláusulas, as melhorias não se concretizarão independentemente do resultado do VfM quantitativo.
+      </li>
+      <li>
+        <strong>Sensibilidade dos parâmetros quantitativos:</strong>
+        o VfM de R$ 188,47 mi é sensível à TSD (8,5% a.a. real), ao sobrecusto de CAPEX (25%) e ao prazo de atraso de obras (modelado em 3 anos; histórico 6,81 anos).
+        Análise de sensibilidade não foi realizada neste piloto e deve ser elaborada antes da decisão formal.
+      </li>
+      <li>
+        <strong>Reforma Tributária (LC 214/2025):</strong>
+        a substituição de ICMS/ISS/PIS/COFINS por CBS/IBS pode afetar a precificação do contrato.
+        O impacto ainda não foi incorporado ao modelo financeiro disponível.
+      </li>
+      <li>
+        <strong>Natureza do documento:</strong>
+        este piloto é um instrumento de organização de evidências técnicas, elaborado para fins de teste da ferramenta PSC/VfM da CAGE/RS com dados reais do projeto CAFF.
+        Não constitui parecer jurídico, laudo pericial ou documento oficial de processo licitatório.
+        A decisão pela modalidade PPP e a demonstração de conveniência e oportunidade devem ser formalizadas pelo gestor competente.
+      </li>
+    </ul>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="rodape">
+    <span>Estado do Rio Grande do Sul · CAGE — Grupo 02 PPP/Concessões · Instrumento PSC/VfM v1.0 · Lei nº 11.079/2004, art. 10, I, "a" · Decreto Estadual nº 53.495/2017</span>
+    <span>Gerado em: 17/06/2026</span>
+  </div>
+
+</div>
+</body>
+</html>
