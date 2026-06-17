@@ -3945,6 +3945,32 @@ function m4EmitProjeto() {
 
 function exportarRelatorio() { window.print(); }
 
+// Identificação somente-leitura quando embarcado: a fonte única é a tela Início.
+function m4LockIdentFields() {
+  if (!document.documentElement.classList.contains('embed-mode')) return;
+  if (!document.getElementById('gts-id-lock-style')) {
+    const st = document.createElement('style');
+    st.id = 'gts-id-lock-style';
+    st.textContent = '.gts-id-locked{background:#F3F4F6 !important;color:#4B5563 !important;cursor:not-allowed}.gts-id-hint{font-size:11px;color:#6B7280;font-style:italic;margin-bottom:8px}';
+    document.head.appendChild(st);
+  }
+  let first = true;
+  ['nomeProjeto','orgao','periodoRef','responsavel','dataPreench'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.readOnly = true;
+    el.classList.add('gts-id-locked');
+    el.title = 'Sincronizado da tela Início — edite por lá';
+    if (first && el.parentNode && !el.parentNode.querySelector('.gts-id-hint')) {
+      const hint = document.createElement('div');
+      hint.className = 'gts-id-hint';
+      hint.textContent = '🔒 Identificação sincronizada da tela Início. Para alterar, edite na aba Início.';
+      el.parentNode.insertBefore(hint, el.parentNode.firstChild);
+      first = false;
+    }
+  });
+}
+
 function limparDados() {
   if (!confirm('Limpar todos os campos do checklist? Esta ação não pode ser desfeita.')) return;
   try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
@@ -3985,6 +4011,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Pede ao shell o estado atual do projeto (cobre o caso em que M4 carrega
   // antes do push proativo do shell — ou em sessões só com Hub preenchido).
   if (document.documentElement.classList.contains('embed-mode')) {
+    m4LockIdentFields();
     try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: 4 }, '*'); } catch(e) {}
   }
 });

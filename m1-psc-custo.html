@@ -1268,9 +1268,36 @@ window.addEventListener('beforeunload', () => {
     }
   });
 
+  // Torna os campos de identificação somente-leitura quando embarcado: a fonte
+  // única é a tela Início; aqui eles apenas refletem o que vem do shell.
+  function lockIdentFields() {
+    if (!document.getElementById('gts-id-lock-style')) {
+      const st = document.createElement('style');
+      st.id = 'gts-id-lock-style';
+      st.textContent = '.gts-id-locked{background:#F3F4F6 !important;color:#4B5563 !important;cursor:not-allowed}.gts-id-hint{font-size:11px;color:#6B7280;font-style:italic;margin-bottom:8px}';
+      document.head.appendChild(st);
+    }
+    let first = true;
+    for (const k in FIELDS) {
+      const el = getEl(k);
+      if (!el) continue;
+      el.readOnly = true;
+      el.classList.add('gts-id-locked');
+      el.title = 'Sincronizado da tela Início — edite por lá';
+      if (first && el.parentNode && !el.parentNode.querySelector('.gts-id-hint')) {
+        const hint = document.createElement('div');
+        hint.className = 'gts-id-hint';
+        hint.textContent = '🔒 Identificação sincronizada da tela Início. Para alterar, edite na aba Início.';
+        el.parentNode.insertBefore(hint, el.parentNode.firstChild);
+        first = false;
+      }
+    }
+  }
+
   // Inicialização: aguarda DOM dos campos
   function init() {
     bindFields();
+    lockIdentFields();
     try { parent.postMessage({ type: 'gtsefaz_projeto_request', mod: MOD }, '*'); } catch(e) {}
   }
 
