@@ -1,0 +1,529 @@
+{
+  "identificacao": {
+    "nome": "CAFF — Concessão Administrativa dos Prédios Administrativos do Estado do RS",
+    "secretaria": "SEFAZ-RS / CAGE",
+    "periodo": "2026",
+    "proa": "",
+    "setor": "outro",
+    "modalidade": "Concessão Administrativa (PPP)",
+    "valor": "1115560000",
+    "prazo": "32",
+    "data": "17/06/2026",
+    "responsavel": "Piloto CAFF — validação interna",
+    "objeto": "Concessão administrativa para modernização, operação e manutenção do CAFF + Garagem Anexa, PGE + Garagem e DAER, além de edificações acessórias. Modelagem: BNDES. Prazo: 2 anos construção + 30 anos operação.",
+    "fase": "Estudo de Viabilidade (PMI/BNDES)"
+  },
+  "riscos": {
+    "R01": {
+      "sub": [
+        {
+          "aloc": "Público",
+          "just": "Os imóveis são ativos patrimoniais do Estado do RS, já disponibilizados para a concessão. O título de posse é público e deverá ser formalizado previamente à assinatura do contrato. Proveniência: _dados-extraidos.md § Identificação.",
+          "mit": "Inventário patrimonial e due diligence documental antes do edital. Regularização cartorial pelos órgãos gestores (CAFF, PGE, DAER).",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Ativos do Estado — título público; eventuais ônus devem ser sanados pela AC antes da transferência ao concessionário. Proveniência: _dados-extraidos.md § Identificação.",
+          "mit": "Auditoria de título e levantamento de ônus antes da licitação.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Não identificado risco indígena/quilombola nos ativos urbanos do CAFF, PGE e DAER em Porto Alegre. Subcategoria retida pelo poder público por precaução.",
+          "mit": "Verificação prévia de cadastro FUNAI/INCRA para formalidade.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "A AC é responsável por licenças prévias (patrimônio histórico, ambiental municipal); o concessionário obtém licenças de instalação e operação do retrofit. Relevante dado o caráter de requalificação de edificações existentes em área urbana central. Proveniência: _dados-extraidos.md § M2.",
+          "mit": "Pré-consulta a órgãos de patrimônio histórico e SMAM/FEPAM antes do edital; mapeamento de restrições tombamento.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Acesso principal aos campi é garantido pelo Estado (vias públicas, mobilidade urbana). Interface com mobilidade urbana identificada como risco específico do CAFF. Proveniência: _dados-extraidos.md § M2 (risco 'interface com mobilidade urbana').",
+          "mit": "Coordenação com EPTC/SMOV de Porto Alegre para gestão de fluxos durante obras.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Risco central do CAFF: retrofit de edificações de grande porte em uso, com condições estruturais e prediais a serem detalhadas. A AC fornece levantamentos disponíveis; o concessionário assume a partir dos dados fornecidos, mas vícios ocultos estruturais e prediais permanecem risco compartilhado. Proveniência: _dados-extraidos.md § M2 (riscos 'condições estruturais/prediais dos ativos existentes' e 'intervenções em grandes edificações existentes').",
+          "mit": "Due diligence técnica (laudo estrutural, inspeção predial) entregue junto ao edital. Cláusula de evento de compensação para vícios ocultos relevantes descobertos após contratação.",
+          "excluido": false
+        }
+      ]
+    },
+    "R02": {
+      "sub": [
+        {
+          "aloc": "Compartilhado",
+          "just": "Obras de retrofit em edifícios com usuários públicos em operação requerem gestão de impacto nos servidores e comunidade. Coordenação com agências públicas em operação é risco identificado. Proveniência: _dados-extraidos.md § M2 (risco 'coordenação com agências públicas em operação').",
+          "mit": "Plano de comunicação e gestão de mudança com os órgãos ocupantes (CAFF, PGE, DAER). Cronograma de obras faseado por blocos.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Não há reassentamento de comunidades externas. Eventual realocação temporária de servidores é responsabilidade da AC. Inclui demolição/relocação do Edifício P (CAPEX R$ 4,6M). Proveniência: _dados-extraidos.md § M3.",
+          "mit": "Plano de relocação temporária de servidores coordenado pelos órgãos gestores antes do início das obras.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Não aplicável para ativos urbanos em Porto Alegre. Subcategoria mantida como N/A.",
+          "mit": "",
+          "excluido": true
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Greves de servidores públicos nos órgãos ocupantes podem impactar o andamento das obras e operação. Greve da construtora/operadora é risco do concessionário.",
+          "mit": "Cláusula de evento de compensação para greves gerais ou do setor público com impacto verificado no cronograma.",
+          "excluido": false
+        }
+      ]
+    },
+    "R03": {
+      "sub": [
+        {
+          "aloc": "Público",
+          "just": "Passivos ambientais pré-existentes nos imóveis (contaminação de solo, materiais perigosos em edificações antigas) são de responsabilidade do Estado, proprietário dos ativos. Proveniência: _dados-extraidos.md § M2.",
+          "mit": "Laudo de passivo ambiental entregue ao edital. Cláusula de reequilíbrio para passivos descobertos após contratação.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "A AC obtém Licença Prévia junto à FEPAM e SMAM; o concessionário obtém Licença de Instalação e Operação. O retrofit pode exigir licenciamento específico para gestão de resíduos de demolição.",
+          "mit": "Pré-consulta FEPAM/SMAM antes do edital; definição de responsabilidades no Programa Básico Ambiental.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "O concessionário é integralmente responsável pela conformidade ambiental de suas atividades de obra e operação. Proveniência: alocação típica M2.",
+          "mit": "Plano de Gerenciamento de Resíduos da Construção Civil (PGRCC) e relatórios periódicos à AC.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Danos ambientais decorrentes das atividades do concessionário (obras, operação) são de sua responsabilidade.",
+          "mit": "Seguro de responsabilidade civil ambiental obrigatório.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Porto Alegre tem histórico de eventos climáticos extremos (enchentes 2024). Riscos climáticos durante obras e operação devem ter limiares definidos. Proveniência: contexto regional RS.",
+          "mit": "Definição de limiares fluviométricos e meteorológicos para acionamento de eventos de compensação. Protocolo de contingência para enchentes.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Projeto de 30 anos de operação exposto a mudanças climáticas de longo prazo. Revisões periódicas para adaptação.",
+          "mit": "Cláusula de revisão periódica (5 em 5 anos) para avaliação de necessidades de resiliência climática.",
+          "excluido": false
+        }
+      ]
+    },
+    "R04": {
+      "sub": [
+        {
+          "aloc": "Compartilhado",
+          "just": "A AC define especificação funcional dos edificios (programa de necessidades dos órgãos); o concessionário define o design para atender esses requisitos. Em retrofit, a AC compartilha risco de inadequação de especificação funcional quando esta for prescritiva. Proveniência: _dados-extraidos.md § M5 (indicadores de desempenho vinculados à contraprestação).",
+          "mit": "Programa de necessidades detalhado pela AC antes do edital. Especificações de resultado (desempenho) em vez de prescritivas.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "O concessionário submete o projeto executivo; os órgãos ocupantes e a AC aprovam em prazos definidos. Atrasos na aprovação pelo poder público constituem evento de compensação. Relevante dada a multiplicidade de órgãos (CAFF, PGE, DAER). Proveniência: _dados-extraidos.md § M2 (risco 'coordenação com agências públicas em operação').",
+          "mit": "Prazos máximos de aprovação definidos em contrato. Rito de solução de impasse entre órgãos.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Alterações de design solicitadas pela AC após assinatura do contrato são de responsabilidade da AC, com reequilíbrio.",
+          "mit": "Cláusula de variação com limite percentual e rito de aprovação/reequilíbrio.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Mudanças em normas de acessibilidade (NBR 9050), eficiência energética (PROCEL), segurança contra incêndio (CBMRS) podem exigir redesign. Reforma tributária (LC 214/2025) pode impactar precificação. Proveniência: _dados-extraidos.md § M3 (risco tributário LC 214/2025).",
+          "mit": "Cláusula de mudança de legislação com gatilho de impacto material. Monitoramento regulatório periódico.",
+          "excluido": false
+        }
+      ]
+    },
+    "R05": {
+      "sub": [
+        {
+          "aloc": "Privado",
+          "just": "Sobrecusto de construção (CAPEX overrun) é alocado ao concessionário no modelo PPP — o overrun de 25% (R$ 278,9M sobre CAPEX obrigatório R$ 1.115,56M) é precificado como risco transferido ao privado na comparação PPP vs. Licitação Tradicional. Proveniência: _dados-extraidos.md § M6/VfM (pontes de custos: CAPEX overrun 25% transferido ao concessionário na PPP).",
+          "mit": "Contrato de empreitada a preço fixo (EPC/Turn-key). Garantias de performance do construtor. Plano de seguros de obras.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Atrasos na conclusão de obras são retidos pelo concessionário na PPP — o modelo precifica 'Construction delays' como risco retido na Licitação Tradicional (R$ 16,334M VPL) mas transferido na PPP. Proveniência: _dados-extraidos.md § M6/VfM (ponte de custos 'Construction delays' = R$ 16,334M, transferido ao privado na PPP).",
+          "mit": "Cronograma detalhado com marcos de pagamento. Seguro performance. Multa por atraso na entrega vinculada ao início da contraprestação.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "O concessionário gerencia interfaces entre subcontratados e com obras dos órgãos em operação. A complexidade de coordenação com agências públicas em funcionamento é risco identificado. Proveniência: _dados-extraidos.md § M2 (risco 'coordenação com agências públicas em operação').",
+          "mit": "Comitê de interface com representantes de CAFF, PGE e DAER. Cronograma integrado de fases de obras.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "O concessionário deve atender especificações de desempenho contratuais. Verificação independente pelo Verificador Independente (custo incluído no OPEX: SPE admin). Proveniência: _dados-extraidos.md § M4 (OPEX: SPE admin incluindo verificador independente).",
+          "mit": "Verificador Independente contratado para acompanhamento e certificação de obras.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Saúde e segurança ocupacional nas obras é responsabilidade do concessionário conforme NRs aplicáveis.",
+          "mit": "PCMAT, PPRA e PGRS obrigatórios. Auditorias periódicas pela AC.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "O concessionário responde por defeitos durante o período de garantia e a vida do contrato. Indicadores de desempenho vinculados à contraprestação. Proveniência: _dados-extraidos.md § M5 (indicadores de desempenho ligados à contraprestação — manutenção garantida por 30 anos).",
+          "mit": "Garantias de construção. Plano de manutenção preditiva/preventiva obrigatório.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Vandalismo durante obras em área urbana central é risco do concessionário até limiar contratual.",
+          "mit": "Plano de segurança do canteiro. Seguro de obras inclui cobertura de vandalismo.",
+          "excluido": false
+        }
+      ]
+    },
+    "R06": {
+      "sub": [
+        {
+          "aloc": "Público",
+          "just": "Variações de escopo solicitadas pela AC (novos requisitos funcionais dos órgãos ocupantes, expansões) são de responsabilidade da AC com reequilíbrio. O modelo registra aditivos contratuais como custo da Licitação Tradicional (R$ 401,58M VPL). Proveniência: _dados-extraidos.md § M6/VfM (bridge cost 'Contract amendments' R$ 401,58M — mais alto na Licitação Tradicional).",
+          "mit": "Rito de gestão de mudanças com aprovação formal e reequilíbrio documentado.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Variações iniciadas pelo concessionário são de sua responsabilidade, salvo aprovação da AC com benefício mútuo.",
+          "mit": "Rito de aprovação de variações pelo concessionário.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Variações exigidas por órgãos de controle (TCE-RS, TCU, Ministério Público) podem ser tratadas como mudança de legislação ou evento de compensação conforme o caso.",
+          "mit": "Cláusula de evento de compensação para exigências supervenientes de órgãos de controle.",
+          "excluido": false
+        }
+      ]
+    },
+    "R07": {
+      "sub": [
+        {
+          "aloc": "Privado",
+          "just": "Sobrecusto operacional (OPEX overrun) é alocado ao concessionário no modelo PPP — o overrun de 25% (sobre OPEX obrigatório R$ 58,72M/ano) é precificado como risco transferido ao privado na comparação PPP vs. Licitação Tradicional. Proveniência: _dados-extraidos.md § M6/VfM (OPEX overrun 25% transferido ao concessionário).",
+          "mit": "Contrato de O&M a preço fixo com subcontratado especializado.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Indicadores de desempenho e disponibilidade vinculados à contraprestação são risco do concessionário. O modelo prevê pagamento por disponibilidade (concessão administrativa sem cobrança de usuário). Proveniência: _dados-extraidos.md § M2 (risco de desempenho transferido — indicadores vinculados à contraprestação) e § M5.",
+          "mit": "KPIs de disponibilidade e qualidade definidos no contrato. Desconto na contraprestação por não-conformidade. Verificador Independente.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Gestão da cadeia de suprimentos operacionais (insumos de manutenção, facilities) é responsabilidade do concessionário.",
+          "mit": "Plano de continuidade operacional com fornecedores alternativos.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Segurança e saúde na operação das edificações (incluindo CAFF com grande volume de servidores e visitantes) é responsabilidade do concessionário.",
+          "mit": "Plano de emergência e evacuação. Seguro de responsabilidade civil operacional.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Manutenção preventiva e corretiva é core da concessão administrativa — risco de desempenho e custo transferidos ao privado. O modelo indica que a manutenção reativa e subfinanciada atual é uma das principais motivações da PPP. Proveniência: _dados-extraidos.md § M5 (falha atual: manutenção reativa e subfinanciada).",
+          "mit": "Plano de manutenção detalhado aprovado pela AC. Indicadores de condição predial monitorados pelo Verificador Independente.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Vandalismo em edificações públicas de grande porte em área urbana pode ter limiares de compartilhamento.",
+          "mit": "Sistema de monitoramento (CFTV). Limiar contratual acima do qual AC compartilha custos.",
+          "excluido": false
+        }
+      ]
+    },
+    "R08": {
+      "sub": [
+        {
+          "aloc": "Público",
+          "just": "Trata-se de concessão administrativa com pagamento de contraprestação pública — a AC assume o risco de demanda. Não há cobrança de tarifas aos usuários (servidores/visitantes). A contraprestação máxima é R$ 262,3M/ano independente da ocupação. Receita acessória (R$ 41,32M/ano) é o único componente de demanda do mercado. Proveniência: _dados-extraidos.md § M2 (risco de demanda/receita transferido) e § Identificação (contribuição pública R$ 0 — pagamento via contraprestação).",
+          "mit": "Pagamento por disponibilidade garante remuneração do concessionário independente da ocupação.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "O modelo prevê receita acessória máxima de R$ 41,32M/ano (comercial, corporativo, estacionamento, condomínio). Demanda superior beneficia o concessionário, mas o risco de não-atingimento do teto de receita é compartilhado com a AC (que precificou essa receita para reduzir contraprestação). Proveniência: _dados-extraidos.md § M4 (receitas acessórias: comercial R$ 120/m², corporativo R$ 100/m², estacionamento, 10% vacância).",
+          "mit": "Gatilho contratual para compartilhamento de receitas excedentes com a AC (modicidade).",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "A AC controla a ocupação dos imóveis e poderia criar estrutura concorrente (alugar outros imóveis) — o que impactaria a vacância e as receitas acessórias. A AC deve assumir obrigação de preferência pelos ativos concedidos. Proveniência: _dados-extraidos.md § M5 (aluguéis externos atuais: SEDUC R$ 2,81M/ano, SPGG R$ 0,65M/ano — a PPP pretende eliminar esses custos).",
+          "mit": "Cláusula de non-compete: a AC não pode locar espaços alternativos que substituam os ativos concedidos durante a vigência do contrato.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Inadimplência de usuários nas receitas acessórias (lojistas, operadores de estacionamento) é risco do concessionário.",
+          "mit": "Due diligence de locatários. Garantias de locação comercial.",
+          "excluido": false
+        }
+      ]
+    },
+    "R09": {
+      "sub": [
+        {
+          "aloc": "Compartilhado",
+          "just": "A contraprestação é reajustada por índice contratual (IPCA/INPC). Risco residual de inflação de custos acima do índice é do concessionário. Proveniência: _dados-extraidos.md § M6 (VPL com taxa de desconto 8,5%).",
+          "mit": "Índice de reajuste definido em contrato. Revisão periódica para componentes com inflação setorial distinta.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Financiamento em moeda nacional (BNDES); risco cambial residual do concessionário se houver insumos importados.",
+          "mit": "Hedge cambial para equipamentos importados relevantes.",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "O WACC real de 10,2% e custo de capital próprio CAPM real 11% são premissas do modelo; variações de taxa de juros após a contratação são risco do concessionário. Proveniência: _dados-extraidos.md § Identificação (WACC real 10,2%; CAPM real 11%).",
+          "mit": "Estrutura de dívida de longo prazo com BNDES a taxas fixas. Refinanciamento com compartilhamento de ganhos.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Se seguro de grandes riscos (incêndio, colapso estrutural em retrofit) tornar-se indisponível ou proibitivo, a AC atua como segurador de último recurso.",
+          "mit": "Requisitos mínimos de seguros definidos em contrato com revisão periódica de disponibilidade de mercado.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Refinanciamento com melhores condições após construção — ganhos compartilhados conforme contrato.",
+          "mit": "Cláusula de compartilhamento de ganhos de refinanciamento.",
+          "excluido": false
+        }
+      ]
+    },
+    "R10": {
+      "sub": [
+        {
+          "aloc": "Privado",
+          "just": "Qualificação técnica e capacidade financeira do concessionário e subcontratados é risco do privado — garantida na licitação.",
+          "mit": "Exigências de qualificação técnica e econômico-financeira no edital. Garantia de proposta e execução.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "A AC pode intervir na concessão por razões de interesse público ou inadimplência grave, assumindo os custos correspondentes.",
+          "mit": "Rito de intervenção previsto em contrato com notificação prévia e prazo de regularização.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Alterações de controle societário da SPE requerem anuência prévia da AC.",
+          "mit": "Cláusula de anuência prévia para transferência de controle. Step-in rights dos financiadores.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Litígios e disputas resolvidos por arbitragem após esgotamento de instância administrativa.",
+          "mit": "Câmara arbitral designada em contrato. Comitê de Prevenção e Solução de Disputas (DRB).",
+          "excluido": false
+        }
+      ]
+    },
+    "R11": {
+      "sub": [
+        {
+          "aloc": "Privado",
+          "just": "O concessionário assume atualização tecnológica dos sistemas prediais (BMS, TI, eficiência energética) ao longo dos 30 anos. O modelo precifica reinvestimentos por vida útil. Proveniência: _dados-extraidos.md § M4 (reinvestimentos por vida útil dos ativos).",
+          "mit": "Ciclos de reinvestimento tecnológico previstos no modelo financeiro. Cláusula de economia compartilhada por inovação.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Novas tecnologias de trabalho remoto/híbrido podem alterar a demanda por espaços de escritório público ao longo dos 30 anos — impacto nas receitas acessórias e na necessidade de espaço dos órgãos.",
+          "mit": "Revisão periódica das necessidades funcionais dos órgãos. Flexibilidade de layout prevista no programa. Proveniência: _dados-extraidos.md § M5 (flexibilidade de layout como melhoria qualitativa).",
+          "excluido": false
+        },
+        {
+          "aloc": "Privado",
+          "just": "Atualização de sistemas de TI e automação predial é obrigação contratual do concessionário conforme especificações de desempenho.",
+          "mit": "Especificações mínimas de desempenho tecnológico definidas em contrato com revisão periódica.",
+          "excluido": false
+        }
+      ]
+    },
+    "R12": {
+      "sub": [
+        {
+          "aloc": "Compartilhado",
+          "just": "Porto Alegre e região metropolitana com histórico de enchentes (incluindo evento de 2024). Limiares quantitativos devem ser definidos para acionamento de evento de compensação. Proveniência: contexto regional RS (_dados-extraidos.md § Identificação — localização dos ativos em Porto Alegre).",
+          "mit": "Limiares baseados em cotas fluviométricas do Guaíba e alertas CEMADEN/INMET. Plano de contingência de enchentes para cada ativo.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Eventos de força maior causados pelo homem (greve geral, pandemia) são riscos compartilhados com isenção ao concessionário.",
+          "mit": "Cláusula de force majeure com lista exemplificativa e rito de notificação/comprovação.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Eventos políticos internos com impacto no projeto são alocados à AC.",
+          "mit": "Cláusula de evento político soberano com compensação integral.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Cada parte assume suas perdas diretas. Após 6-12 meses de evento prolongado, rescisão com compensação.",
+          "mit": "Protocolo de avaliação de danos e definição de compensações. Prazo de suspensão antes da rescisão.",
+          "excluido": false
+        }
+      ]
+    },
+    "R13": {
+      "sub": [
+        {
+          "aloc": "Público",
+          "just": "Atos discriminatórios do Estado do RS contra a SPE são integralmente da AC, com evento de compensação e reequilíbrio integral.",
+          "mit": "Cláusula de evento de compensação por ato discriminatório. Arbitragem como foro.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "A AC tem obrigações contratuais (pagamento da contraprestação, disponibilização dos imóveis, aprovações em prazo). Falha da AC gera evento de compensação. Capacidade fiscal do Estado é risco relevante dado o porte da contraprestação (até R$ 262,3M/ano) e o comprometimento de ~0,49% da RCL. Proveniência: _dados-extraidos.md § Identificação (comprometimento RCL ~0,49%).",
+          "mit": "Fundo garantidor ou mecanismo de garantia (FGP ou equivalente estadual). Monitoramento da capacidade fiscal do Estado.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Atos de outros entes governamentais (Prefeitura de Porto Alegre, União) que impactem os ativos ou a operação.",
+          "mit": "Cláusula de evento de compensação para atos de terceiros governamentais com impacto verificado.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Risco político/soberano prolongado com direito de rescisão pelo concessionário e compensação integral.",
+          "mit": "Garantias de pagamento de indenização de rescisão por evento soberano.",
+          "excluido": false
+        }
+      ]
+    },
+    "R14": {
+      "sub": [
+        {
+          "aloc": "Privado",
+          "just": "O concessionário deve cumprir a legislação vigente conhecida na data da proposta, relacionada às suas obrigações.",
+          "mit": "Due diligence regulatória completa antes da proposta.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Alterações legislativas gerais que afetem custos, receitas ou obrigações do projeto são compartilhadas.",
+          "mit": "Cláusula de mudança de legislação com gatilho de impacto material e rito de reequilíbrio.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Reforma tributária (LC 214/2025) — substituição de ICMS/ISS/PIS/COFINS por CBS/IBS — pode ter impacto material no modelo financeiro do CAFF. Impactos ordinários são do concessionário; impactos extraordinários e imprevistos ensejam reequilíbrio. Proveniência: _dados-extraidos.md § M3 (risco explicitamente mencionado — LC 214/2025).",
+          "mit": "Monitoramento da regulamentação da LC 214/2025. Cláusula de reequilíbrio por impacto tributário material.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Mudança legislativa específica que afete exclusivamente o setor ou o projeto (ex.: nova lei de gestão de imóveis públicos estaduais) é risco da AC.",
+          "mit": "Evento de compensação para mudanças discriminatórias.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Novas exigências ambientais (FEPAM, CONAMA, SMAM) que impliquem custos adicionais na operação das edificações podem ensejar compartilhamento de custos ou reequilíbrio.",
+          "mit": "Cláusula de mudança de legislação ambiental com reequilíbrio para exigências materiais supervenientes.",
+          "excluido": false
+        }
+      ]
+    },
+    "R15": {
+      "sub": [
+        {
+          "aloc": "Privado",
+          "just": "Inadimplência grave do concessionário enseja declaração de caducidade pela AC, com indenização descontada de multas e danos.",
+          "mit": "Mecanismo de step-in rights dos financiadores (BNDES) para evitar declaração precipitada de caducidade.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Inadimplência da AC (não-pagamento da contraprestação, não-disponibilização dos imóveis) enseja rescisão judicial com indenização integral ao concessionário.",
+          "mit": "Garantia de pagamento da contraprestação (fundo garantidor ou equivalente). Monitoramento fiscal do Estado.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Encampação por interesse público mediante lei autorizativa e indenização prévia.",
+          "mit": "Cláusula de encampação com indenização prévia calculada sobre VPL do fluxo futuro.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Rescisão após 6-12 meses de evento de força maior prolongada, com compensação conforme regime contratual.",
+          "mit": "Protocolo de rescisão por força maior com avaliação de danos e cronograma de liquidação.",
+          "excluido": false
+        },
+        {
+          "aloc": "Público",
+          "just": "Capacidade de pagamento do Estado do RS é risco relevante: comprometimento de ~0,49% da RCL para contraprestação do CAFF requer monitoramento fiscal. Garantias via fundo especial são críticas. Proveniência: _dados-extraidos.md § Identificação (comprometimento RCL ~0,49%).",
+          "mit": "Fundo Garantidor de PPP ou garantia equivalente prevista em lei estadual. Teto de comprometimento da RCL monitorado.",
+          "excluido": false
+        }
+      ]
+    },
+    "R16": {
+      "sub": [
+        {
+          "aloc": "Privado",
+          "just": "O concessionário deve manter os ativos em condição especificada para reversão ao final do contrato (30 anos + 2 construção). Indicadores de condição predial monitorados ao longo do contrato. Proveniência: _dados-extraidos.md § M5 (manutenção garantida por 30 anos — melhoria qualitativa essencial).",
+          "mit": "Inspeções periódicas de condição predial nos últimos 5 anos. Fundo de reserva para manutenção de reversão.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Investimentos não amortizados ao final do contrato são indenizados pela AC conforme legislação aplicável.",
+          "mit": "Controle de amortização de ativos por componente ao longo do contrato. Inventário permanente de bens reversíveis.",
+          "excluido": false
+        },
+        {
+          "aloc": "Compartilhado",
+          "just": "Inventário obrigatório de bens reversíveis ao longo do contrato, com protocolo de reversão ao final.",
+          "mit": "Sistema de gestão de ativos (BIM ou CAFM) mantido pelo concessionário e acessível à AC.",
+          "excluido": false
+        }
+      ]
+    }
+  },
+  "novos": [],
+  "filtroPill": "todos",
+  "_savedAt": "2026-06-17T12:00:00.000Z",
+  "_piloto": {
+    "fonte": "Piloto CAFF — Módulo M2 — dados extraídos de 'Modelo CAFF 2026.03.16_v2 (1).xlsm' e 'Plano de Negócios _20260309 (1).docx', via /simulacao/CAFF/_dados-extraidos.md",
+    "versao": "piloto-m2-caff-v1",
+    "data": "2026-06-17",
+    "ressalva": "Este payload contém alocação econômica INFERIDA dos riscos precificados no modelo financeiro (sobrecusto CAPEX/OPEX, atrasos, aditivos, demanda/receita, desempenho). A matriz contratual oficial de riscos consta em instrumento específico da modelagem que NÃO foi disponibilizado. A decisão e fundamentação competem ao gestor responsável."
+  }
+}

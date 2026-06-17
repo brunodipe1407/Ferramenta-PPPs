@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piloto M2 — Matriz de Alocação de Riscos · CAFF</title>
+  <style>
+    /* ── Reset e base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 24px 16px;
+    }
+
+    .pagina {
+      max-width: 1060px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      padding: 40px 48px;
+    }
+
+    /* ── Cabeçalho institucional ── */
+    .cabecalho {
+      border-bottom: 3px solid #2c5e2e;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cabecalho .orgao-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #2c5e2e;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    .subtitulo {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    /* ── Intro / destaque ── */
+    .intro {
+      background: #f0f4f0;
+      border-left: 4px solid #4a8c4e;
+      padding: 12px 16px;
+      margin-bottom: 28px;
+      border-radius: 0 4px 4px 0;
+      font-size: 12.5px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2c5e2e;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      margin-top: 28px;
+      border-bottom: 1px solid #d4e4d4;
+      padding-bottom: 4px;
+    }
+
+    /* ── Identificação ── */
+    .ident-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 5px 12px;
+      margin-bottom: 12px;
+    }
+
+    .ident-grid .label {
+      font-weight: 600;
+      color: #444;
+      font-size: 12px;
+    }
+
+    .ident-grid .valor {
+      color: #1a1a1a;
+      font-size: 12px;
+    }
+
+    /* ── Sumário executivo ── */
+    .sumario-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 14px 0 24px;
+    }
+
+    .sumario-card {
+      background: #f8faf8;
+      border: 1px solid #c8d8c8;
+      border-radius: 4px;
+      padding: 12px 14px;
+    }
+
+    .sumario-card .sc-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .sumario-card .sc-valor {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .sumario-card.pub   .sc-valor { color: #1a4f7a; }
+    .sumario-card.comp  .sc-valor { color: #7a5200; }
+    .sumario-card.priv  .sc-valor { color: #2c5e2e; }
+    .sumario-card.total .sc-valor { color: #1a1a1a; }
+
+    /* ── Tabela de riscos ── */
+    table.riscos {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin-bottom: 28px;
+    }
+
+    table.riscos thead th {
+      background: #2c5e2e;
+      color: #fff;
+      padding: 8px 10px;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid #245024;
+      vertical-align: bottom;
+    }
+
+    table.riscos thead th.th-centro {
+      text-align: center;
+    }
+
+    table.riscos tbody td {
+      padding: 7px 10px;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      color: #222;
+      line-height: 1.45;
+    }
+
+    table.riscos tbody tr:nth-child(even) { background: #fafafa; }
+    table.riscos tbody tr:hover { background: #f2f7f2; }
+
+    /* Linhas de categoria (grupo) */
+    tr.cat-row td {
+      background: #e8f0e8;
+      font-weight: 700;
+      font-size: 11.5px;
+      color: #1a1a1a;
+      border-top: 2px solid #4a8c4e;
+      padding: 6px 10px;
+    }
+
+    /* Badges de alocação */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 10.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-pub  { background: #dbeafe; color: #1e3a5f; border: 1px solid #93c5fd; }
+    .badge-comp { background: #fef3c7; color: #78350f; border: 1px solid #fcd34d; }
+    .badge-priv { background: #dcfce7; color: #14532d; border: 1px solid #86efac; }
+    .badge-na   { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+
+    .proveniencia {
+      font-size: 10.5px;
+      color: #666;
+      font-style: italic;
+      margin-top: 3px;
+    }
+
+    /* Coluna de mitigação */
+    td.mit-col {
+      font-size: 11px;
+      color: #444;
+    }
+
+    /* Célula com alocação diferente da típica */
+    td.desvio-tipica {
+      background: #fffbf0;
+    }
+
+    /* ── Nota de legenda ── */
+    .legenda {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+
+    .legenda-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #444;
+    }
+
+    /* ── Ressalvas ── */
+    .ressalvas {
+      background: #fffbf0;
+      border: 1px solid #e0c060;
+      border-left: 4px solid #c8a000;
+      border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-top: 10px;
+    }
+
+    .ressalvas .ressalvas-titulo {
+      font-weight: 700;
+      font-size: 12.5px;
+      color: #78350f;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ressalvas ul {
+      padding-left: 18px;
+    }
+
+    .ressalvas ul li {
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.55;
+    }
+
+    .ressalvas ul li strong {
+      color: #333;
+    }
+
+    /* ── Rodapé ── */
+    .rodape {
+      margin-top: 36px;
+      padding-top: 14px;
+      border-top: 1px solid #ccc;
+      font-size: 11px;
+      color: #666;
+      font-style: italic;
+    }
+
+    /* ── Nota de inconsistência ── */
+    .aviso-inconsistencia {
+      background: #fff0f0;
+      border: 1px solid #f0b0b0;
+      border-left: 4px solid #c0302e;
+      border-radius: 0 4px 4px 0;
+      padding: 12px 16px;
+      margin: 14px 0 20px;
+      font-size: 12px;
+      color: #444;
+    }
+
+    .aviso-inconsistencia strong { color: #8b0000; }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .pagina { border: none; padding: 20px; max-width: 100%; }
+      table.riscos thead { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      tr.cat-row td { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      tbody tr:hover { background: inherit; }
+    }
+  </style>
+</head>
+<body>
+<div class="pagina">
+
+  <!-- CABEÇALHO -->
+  <div class="cabecalho">
+    <div class="orgao-label">SEFAZ-RS / CAGE &nbsp;|&nbsp; Ferramenta PPPs — Módulo 2</div>
+    <h1>Piloto M2 — Matriz de Alocação de Riscos · CAFF</h1>
+    <div class="subtitulo">Piloto v1 &nbsp;|&nbsp; Referência: "Modelo CAFF 2026.03.16_v2" e "Plano de Negócios _20260309" &nbsp;|&nbsp; Gerado em: 17/06/2026</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro">
+    Este documento apresenta a Matriz de Alocação de Riscos do Projeto CAFF estruturada no formato do Módulo M2 da Ferramenta PPPs/RS. Os dados foram extraídos exclusivamente do arquivo <em>_dados-extraidos.md</em>, seção "M2 — Matriz de Alocação de Riscos", e das pontes de custo do VfM (aba "12. Affordability e VfM"). A matriz cobre os 16 riscos do núcleo comum (R01–R16) com 77 subcategorias, com alocações inferidas dos riscos precificados no modelo econômico-financeiro. <strong>Não é um parecer técnico nem uma recomendação de alocação contratual.</strong>
+  </div>
+
+  <!-- NOTA DE INCONSISTÊNCIA VFM -->
+  <div class="aviso-inconsistencia">
+    <strong>Inconsistência identificada nos dados-fonte:</strong> O Painel de Resultados (célula G45 do modelo) registra "VfM ≈ 0" para o cenário "Premissas atuais", enquanto a aba "12. Affordability e VfM" apura VfM = R$ 188,47M (9,9%) em favor da PPP. Este piloto adota a aba 12 como referência por ser mais detalhada, conforme indicado em <em>_dados-extraidos.md</em> § M6/VfM. A discrepância deve ser verificada pelo gestor responsável antes de qualquer uso decisório.
+  </div>
+
+  <!-- SEÇÃO 1: IDENTIFICAÇÃO -->
+  <h2>1. Identificação do Projeto</h2>
+  <div class="ident-grid">
+    <span class="label">Projeto</span>
+    <span class="valor">CAFF — Concessão Administrativa dos Prédios Administrativos do Estado do RS</span>
+
+    <span class="label">Órgão / Secretaria</span>
+    <span class="valor">SEFAZ-RS / CAGE</span>
+
+    <span class="label">Modalidade</span>
+    <span class="valor">Concessão Administrativa (PPP) — Lei Federal nº 11.079/2004</span>
+
+    <span class="label">Ativos</span>
+    <span class="valor">CAFF + Garagem Anexa · PGE + Garagem · DAER · Edificações acessórias</span>
+
+    <span class="label">Prazo contratual</span>
+    <span class="valor">2 anos (construção) + 30 anos (operação) = 32 anos</span>
+
+    <span class="label">Investimento obrigatório</span>
+    <span class="valor">R$ 1.115,56 M (CAPEX obrigatório, Painel G12–G15)</span>
+
+    <span class="label">Contraprestação máxima</span>
+    <span class="valor">R$ 262,3 M/ano (comprometimento RCL ~0,49%)</span>
+
+    <span class="label">Contribuição pública</span>
+    <span class="valor">R$ 0 (sem aporte)</span>
+
+    <span class="label">WACC real (modelo)</span>
+    <span class="valor">10,2% a.a. · CAPM real 11% a.a.</span>
+
+    <span class="label">Modelagem</span>
+    <span class="valor">BNDES · Cenário "Premissas atuais" (coluna G) · Versão 2026.03.16_v2</span>
+
+    <span class="label">Referência VfM</span>
+    <span class="valor">R$ 188,47 M (9,9%) a favor da PPP — aba "12. Affordability e VfM" · taxa desconto 8,5% · overrun CAPEX/OPEX 25%</span>
+  </div>
+
+  <!-- SEÇÃO 2: SUMÁRIO EXECUTIVO -->
+  <h2>2. Sumário Executivo da Alocação</h2>
+
+  <div class="sumario-grid">
+    <div class="sumario-card pub">
+      <div class="sc-label">Alocação Pública</div>
+      <div class="sc-valor">23</div>
+      <div style="font-size:10.5px;color:#555;margin-top:3px">subcategorias</div>
+    </div>
+    <div class="sumario-card comp">
+      <div class="sc-label">Compartilhado</div>
+      <div class="sc-valor">30</div>
+      <div style="font-size:10.5px;color:#555;margin-top:3px">subcategorias</div>
+    </div>
+    <div class="sumario-card priv">
+      <div class="sc-label">Alocação Privada</div>
+      <div class="sc-valor">23</div>
+      <div style="font-size:10.5px;color:#555;margin-top:3px">subcategorias</div>
+    </div>
+    <div class="sumario-card total">
+      <div class="sc-label">Total</div>
+      <div class="sc-valor">76</div>
+      <div style="font-size:10.5px;color:#555;margin-top:3px">subcategorias ativas</div>
+    </div>
+  </div>
+
+  <p style="font-size:11.5px;color:#555;margin-bottom:18px;">
+    Nota: 1 subcategoria marcada como N/A (R02-sub3: Direitos indígenas/quilombolas — não aplicável para ativos urbanos em Porto Alegre). Contagem de subcategorias ativas: 76 de 77.
+  </p>
+
+  <!-- SEÇÃO 3: LEGENDA -->
+  <div class="legenda">
+    <span style="font-size:11.5px;font-weight:600;color:#444;">Legenda:</span>
+    <span class="legenda-item"><span class="badge badge-pub">Público</span> Risco retido pelo Poder Público (AC)</span>
+    <span class="legenda-item"><span class="badge badge-comp">Compartilhado</span> Risco dividido entre AC e concessionário</span>
+    <span class="legenda-item"><span class="badge badge-priv">Privado</span> Risco transferido ao concessionário (PP)</span>
+    <span class="legenda-item"><span class="badge badge-na">N/A</span> Subcategoria não aplicável ao projeto</span>
+  </div>
+
+  <!-- SEÇÃO 4: MATRIZ DE RISCOS -->
+  <h2>3. Matriz de Alocação de Riscos — CAFF</h2>
+
+  <table class="riscos">
+    <thead>
+      <tr>
+        <th style="width:5%">ID</th>
+        <th style="width:22%">Subcategoria</th>
+        <th class="th-centro" style="width:9%">Alocação Típica</th>
+        <th class="th-centro" style="width:9%">Alocação Proposta</th>
+        <th style="width:28%">Justificativa e Contexto CAFF</th>
+        <th style="width:18%">Medidas de Mitigação</th>
+        <th style="width:9%">Proveniência</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- R01 -->
+      <tr class="cat-row">
+        <td colspan="7">R01 · Disponibilidade de Terras, Acesso e Local</td>
+      </tr>
+      <tr>
+        <td>R01-1</td>
+        <td>Seleção e adequação do terreno</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Ativos patrimoniais do Estado do RS, já disponibilizados para a concessão. Título de posse público formalizado antes do edital.</td>
+        <td class="mit-col">Inventário patrimonial e due diligence documental antes do edital.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação</span></td>
+      </tr>
+      <tr>
+        <td>R01-2</td>
+        <td>Título de posse e ônus</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Estado proprietário dos ativos; eventuais ônus devem ser sanados pela AC antes da transferência.</td>
+        <td class="mit-col">Auditoria de título e levantamento de ônus antes da licitação.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação</span></td>
+      </tr>
+      <tr>
+        <td>R01-3</td>
+        <td>Direitos indígenas e quilombolas</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-na">N/A</span></td>
+        <td>Não aplicável: ativos urbanos em Porto Alegre, sem incidência de territórios indígenas ou quilombolas.</td>
+        <td class="mit-col">Verificação prévia de cadastro FUNAI/INCRA por formalidade.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação</span></td>
+      </tr>
+      <tr>
+        <td>R01-4</td>
+        <td>Aprovações e licenciamentos</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>AC é responsável por licenças prévias (patrimônio histórico, ambiental municipal); concessionário obtém licenças de instalação e operação. Relevante dado o caráter de requalificação de edificações existentes.</td>
+        <td class="mit-col">Pré-consulta a órgãos de patrimônio histórico e SMAM/FEPAM antes do edital.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R01-5</td>
+        <td>Acesso ao local e infraestrutura</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Acesso principal garantido pelo Estado (vias públicas). Interface com mobilidade urbana identificada como risco específico. A AC assume risco de acesso comprometido por obras urbanas externas.</td>
+        <td class="mit-col">Coordenação com EPTC/SMOV de Porto Alegre para gestão de fluxos durante obras.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2 (risco "interface com mobilidade urbana")</span></td>
+      </tr>
+      <tr>
+        <td>R01-6</td>
+        <td>Condição do local e ativos existentes</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Risco central do CAFF: retrofit de edificações de grande porte. AC fornece levantamentos; concessionário assume a partir dos dados. Vícios ocultos estruturais e prediais são risco compartilhado.</td>
+        <td class="mit-col">Due diligence técnica (laudo estrutural, inspeção predial) entregue junto ao edital. Cláusula de evento de compensação para vícios ocultos relevantes.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2 (riscos "condições estruturais/prediais" e "intervenções em grandes edificações")</span></td>
+      </tr>
+
+      <!-- R02 -->
+      <tr class="cat-row">
+        <td colspan="7">R02 · Risco Social</td>
+      </tr>
+      <tr>
+        <td>R02-1</td>
+        <td>Comunidades e negócios afetados</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Obras de retrofit em edifícios com servidores públicos em operação. Coordenação com agências públicas em funcionamento é risco identificado.</td>
+        <td class="mit-col">Plano de comunicação e gestão de mudança. Cronograma faseado por blocos.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2 (risco "coordenação com agências públicas em operação")</span></td>
+      </tr>
+      <tr>
+        <td>R02-2</td>
+        <td>Reassentamento</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Sem reassentamento externo. Realocação temporária de servidores é responsabilidade da AC. Inclui demolição/relocação do Edifício P (CAPEX R$ 4,6 M).</td>
+        <td class="mit-col">Plano de relocação temporária coordenado pelos órgãos gestores.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M3 (demolição Edifício P R$ 4,6M)</span></td>
+      </tr>
+      <tr>
+        <td>R02-3</td>
+        <td>Direitos de terras indígenas</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-na">N/A</span></td>
+        <td colspan="3" style="color:#888;font-style:italic;">Não aplicável — ativos urbanos em Porto Alegre. Subcategoria excluída da contagem.</td>
+      </tr>
+      <tr>
+        <td>R02-4</td>
+        <td>Greves e manifestações</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Greves do concessionário são risco do PP. Greves de servidores públicos nos órgãos ocupantes podem impactar andamento das obras — risco compartilhado.</td>
+        <td class="mit-col">Cláusula de evento de compensação para greves gerais ou do setor público com impacto verificado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R03 -->
+      <tr class="cat-row">
+        <td colspan="7">R03 · Risco Ambiental</td>
+      </tr>
+      <tr>
+        <td>R03-1</td>
+        <td>Contaminação e condições pré-existentes</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Passivos ambientais pré-existentes (contaminação de solo, materiais perigosos em edificações antigas) são de responsabilidade do Estado, proprietário dos ativos.</td>
+        <td class="mit-col">Laudo de passivo ambiental entregue ao edital. Cláusula de reequilíbrio para passivos descobertos após contratação.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R03-2</td>
+        <td>Licenciamento ambiental</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>AC obtém LP junto à FEPAM/SMAM; concessionário obtém LI e LO. Retrofit pode exigir licenciamento específico para gestão de resíduos de demolição.</td>
+        <td class="mit-col">Pré-consulta FEPAM/SMAM antes do edital. Definição de responsabilidades no PBA.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R03-3</td>
+        <td>Conformidade com legislação ambiental</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Concessionário é integralmente responsável pela conformidade ambiental de suas atividades de obra e operação.</td>
+        <td class="mit-col">PGRCC obrigatório. Relatórios periódicos de conformidade à AC.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R03-4</td>
+        <td>Condições causadas pelo projeto</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Danos ambientais decorrentes das atividades do concessionário (obras, operação) são de sua responsabilidade.</td>
+        <td class="mit-col">Seguro de responsabilidade civil ambiental obrigatório.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R03-5</td>
+        <td>Eventos climáticos extremos</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Porto Alegre com histórico de eventos climáticos extremos (enchentes 2024). Limiares quantitativos devem definir responsabilidades durante obras e operação.</td>
+        <td class="mit-col">Limiares fluviométricos e meteorológicos para eventos de compensação. Protocolo de contingência para enchentes por ativo.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (localização Porto Alegre)</span></td>
+      </tr>
+      <tr>
+        <td>R03-6</td>
+        <td>Mudanças climáticas de longo prazo</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Contrato de 30 anos de operação exposto a mudanças climáticas de longo prazo. Revisões periódicas para adaptação.</td>
+        <td class="mit-col">Cláusula de revisão periódica (a cada 5 anos) para avaliação de necessidades de resiliência climática.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R04 -->
+      <tr class="cat-row">
+        <td colspan="7">R04 · Risco de Design</td>
+      </tr>
+      <tr>
+        <td>R04-1</td>
+        <td>Adequação do design à finalidade</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Em retrofit, a AC define especificação funcional dos órgãos ocupantes; concessionário define o design para atender esses requisitos. Quando a especificação for prescritiva, a AC compartilha risco de inadequação. Indicadores de desempenho vinculados à contraprestação.</td>
+        <td class="mit-col">Programa de necessidades detalhado antes do edital. Especificações de resultado em vez de prescritivas.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M5 (indicadores de desempenho)</span></td>
+      </tr>
+      <tr>
+        <td>R04-2</td>
+        <td>Aprovação do design</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Concessionário submete projeto executivo; múltiplos órgãos aprovam (CAFF, PGE, DAER). Atrasos na aprovação pelo poder público constituem evento de compensação.</td>
+        <td class="mit-col">Prazos máximos de aprovação definidos em contrato. Rito de solução de impasse entre órgãos.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2 (risco "coordenação com agências públicas")</span></td>
+      </tr>
+      <tr>
+        <td>R04-3</td>
+        <td>Alterações de design solicitadas pela AC</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Alterações de escopo solicitadas pela AC após assinatura do contrato são de responsabilidade da AC, com reequilíbrio.</td>
+        <td class="mit-col">Cláusula de variação com limite percentual e rito de aprovação/reequilíbrio.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R04-4</td>
+        <td>Alterações de design por mudança legislativa</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Novas normas de acessibilidade (NBR 9050), eficiência energética (PROCEL) ou segurança contra incêndio (CBMRS) podem exigir redesign. Reforma tributária LC 214/2025 pode impactar precificação.</td>
+        <td class="mit-col">Cláusula de mudança de legislação com gatilho de impacto material. Monitoramento regulatório.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M3 (risco LC 214/2025)</span></td>
+      </tr>
+
+      <!-- R05 -->
+      <tr class="cat-row">
+        <td colspan="7">R05 · Risco de Construção</td>
+      </tr>
+      <tr>
+        <td>R05-1</td>
+        <td>Aumento de custos de construção</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Sobrecusto de CAPEX (overrun 25% = ~R$ 278,9M sobre R$ 1.115,56M) transferido ao concessionário na PPP, conforme ponte de custos do VfM.</td>
+        <td class="mit-col">Contrato EPC/turn-key a preço fixo. Garantias de performance do construtor. Seguro de obras.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M6/VfM (CAPEX overrun 25% transferido na PPP)</span></td>
+      </tr>
+      <tr>
+        <td>R05-2</td>
+        <td>Atrasos na conclusão de obras</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Atrasos de construção (VPL R$ 16,334M) retidos pela Licitação Tradicional são transferidos ao concessionário na PPP. O modelo precifica esse diferencial como geração de valor.</td>
+        <td class="mit-col">Cronograma com marcos de pagamento. Seguro performance. Início da contraprestação vinculado à conclusão das obras.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M6/VfM ("Construction delays" R$ 16,334M transferidos na PPP)</span></td>
+      </tr>
+      <tr>
+        <td>R05-3</td>
+        <td>Gerenciamento do projeto e interface</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Concessionário gerencia interfaces entre subcontratados. A complexidade de coordenação com múltiplas agências públicas em funcionamento durante obras justifica compartilhamento desse risco de interface.</td>
+        <td class="mit-col">Comitê de interface com representantes de CAFF, PGE e DAER. Cronograma integrado de fases.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2 (risco "coordenação com agências públicas em operação")</span></td>
+      </tr>
+      <tr>
+        <td>R05-4</td>
+        <td>Qualidade e conformidade técnica</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Concessionário deve atender especificações de desempenho. Verificador Independente acompanha e certifica obras (custo incluído no OPEX).</td>
+        <td class="mit-col">Verificador Independente contratado para acompanhamento e certificação de obras e operação.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4 (OPEX: SPE admin incluindo verificador independente)</span></td>
+      </tr>
+      <tr>
+        <td>R05-5</td>
+        <td>Saúde e segurança ocupacional</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Saúde e segurança nas obras é responsabilidade do concessionário conforme NRs aplicáveis.</td>
+        <td class="mit-col">PCMAT, PPRA e PGRS obrigatórios. Auditorias periódicas pela AC.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R05-6</td>
+        <td>Defeitos</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Concessionário responde por defeitos durante garantia e vida do contrato. Indicadores de desempenho vinculados à contraprestação garantem manutenção por 30 anos.</td>
+        <td class="mit-col">Garantias de construção. Plano de manutenção preditiva/preventiva obrigatório.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M5 (manutenção garantida 30 anos)</span></td>
+      </tr>
+      <tr>
+        <td>R05-7</td>
+        <td>Vandalismo durante construção</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Vandalismo em obras em área urbana central é risco do concessionário até limiar contratual.</td>
+        <td class="mit-col">Plano de segurança do canteiro. Seguro de obras com cobertura de vandalismo.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R06 -->
+      <tr class="cat-row">
+        <td colspan="7">R06 · Risco de Variações</td>
+      </tr>
+      <tr>
+        <td>R06-1</td>
+        <td>Variações solicitadas pela AC</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Aditivos contratuais (R$ 401,58M VPL) são mais altos na Licitação Tradicional — principal driver do VfM para a PPP. Na PPP, variações solicitadas pela AC são reequilibradas, reduzindo esse custo.</td>
+        <td class="mit-col">Rito de gestão de mudanças com aprovação formal e reequilíbrio documentado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M6/VfM ("Contract amendments" R$ 401,58M — maior na Licitação Tradicional)</span></td>
+      </tr>
+      <tr>
+        <td>R06-2</td>
+        <td>Variações solicitadas pelo PP</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Variações iniciadas pelo concessionário são de sua responsabilidade.</td>
+        <td class="mit-col">Rito de aprovação de variações pelo concessionário.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R06-3</td>
+        <td>Variações por exigência de órgãos de controle</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Exigências do TCE-RS, TCU ou MP podem ser tratadas como mudança de legislação ou evento de compensação conforme o caso.</td>
+        <td class="mit-col">Cláusula de evento de compensação para exigências supervenientes de órgãos de controle.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R07 -->
+      <tr class="cat-row">
+        <td colspan="7">R07 · Risco Operacional</td>
+      </tr>
+      <tr>
+        <td>R07-1</td>
+        <td>Custos operacionais acima do modelado</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Sobrecusto de OPEX (overrun 25% sobre R$ 58,72M/ano obrigatório) transferido ao concessionário na comparação PPP vs. Licitação Tradicional.</td>
+        <td class="mit-col">Contrato de O&amp;M a preço fixo com subcontratado especializado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M6/VfM (OPEX overrun 25% transferido na PPP)</span></td>
+      </tr>
+      <tr>
+        <td>R07-2</td>
+        <td>Padrões de desempenho e nível de serviço</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Risco de desempenho/disponibilidade transferido ao concessionário. Pagamento por disponibilidade (concessão administrativa sem cobrança de usuários). KPIs vinculados à contraprestação.</td>
+        <td class="mit-col">KPIs de disponibilidade e qualidade definidos em contrato. Desconto na contraprestação por não-conformidade. Verificador Independente.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2 (risco desempenho transferido) e § M5</span></td>
+      </tr>
+      <tr>
+        <td>R07-3</td>
+        <td>Disponibilidade de recursos e insumos</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Gestão da cadeia de suprimentos operacionais (insumos de manutenção, facilities) é responsabilidade do concessionário.</td>
+        <td class="mit-col">Plano de continuidade operacional com fornecedores alternativos.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4 (OPEX: O&amp;M por ativo)</span></td>
+      </tr>
+      <tr>
+        <td>R07-4</td>
+        <td>Saúde e segurança na operação</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Segurança das edificações com grande volume de servidores e visitantes (CAFF, PGE, DAER) é responsabilidade do concessionário.</td>
+        <td class="mit-col">Plano de emergência e evacuação. Seguro de responsabilidade civil operacional.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4</span></td>
+      </tr>
+      <tr>
+        <td>R07-5</td>
+        <td>Manutenção preventiva e corretiva</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Manutenção é core da concessão administrativa — risco de desempenho e custo transferidos. A manutenção reativa e subfinanciada atual é motivação central da PPP.</td>
+        <td class="mit-col">Plano de manutenção detalhado aprovado pela AC. Indicadores de condição predial monitorados pelo Verificador Independente.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M5 (falha atual: manutenção reativa e subfinanciada)</span></td>
+      </tr>
+      <tr>
+        <td>R07-6</td>
+        <td>Vandalismo na operação</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Vandalismo em edificações públicas de grande porte pode ter limiares de compartilhamento definidos em contrato.</td>
+        <td class="mit-col">Sistema de monitoramento (CFTV). Limiar contratual para compartilhamento de custos.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R08 -->
+      <tr class="cat-row">
+        <td colspan="7">R08 · Risco de Demanda / Receita</td>
+      </tr>
+      <tr>
+        <td>R08-1</td>
+        <td>Volume de demanda inferior ao projetado</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Concessão administrativa com pagamento de contraprestação pública — a AC assume o risco de demanda. Não há cobrança de tarifas a usuários. A contraprestação é garantida independente da ocupação. A receita acessória (R$ 41,32M/ano) é o único componente de mercado.</td>
+        <td class="mit-col">Pagamento por disponibilidade garante remuneração do concessionário independente da ocupação dos imóveis.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2 (risco demanda/receita transferido) e § Identificação (contribuição pública R$ 0)</span></td>
+      </tr>
+      <tr>
+        <td>R08-2</td>
+        <td>Volume de demanda superior ao projetado</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Receita acessória máxima de R$ 41,32M/ano (comercial, corporativo, estacionamento, condomínio). A AC controla a ocupação e a demanda pelos espaços — assume o risco de não-atingimento do teto projetado.</td>
+        <td class="mit-col">Gatilho contratual para compartilhamento de receitas excedentes com a AC (modicidade).</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4 (receitas acessórias: R$ 120/m², R$ 100/m², estacionamento, 10% vacância)</span></td>
+      </tr>
+      <tr>
+        <td>R08-3</td>
+        <td>Redes concorrentes ou substitutivas</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>A AC poderia contratar espaços alternativos, o que reduziria a demanda pelos ativos concedidos e impactaria as receitas acessórias. O modelo prevê a eliminação dos aluguéis externos (SEDUC R$ 2,81M/ano, SPGG R$ 0,65M/ano) após a PPP.</td>
+        <td class="mit-col">Cláusula de non-compete: a AC não pode locar espaços alternativos que substituam os ativos concedidos durante a vigência do contrato.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M5 (aluguéis externos SEDUC R$ 2,81M/ano, SPGG R$ 0,65M/ano)</span></td>
+      </tr>
+      <tr>
+        <td>R08-4</td>
+        <td>Inadimplência de usuários</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Inadimplência de locatários nas receitas acessórias (lojistas, operadores de estacionamento) é risco do concessionário.</td>
+        <td class="mit-col">Due diligence de locatários. Garantias de locação comercial.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4 (receitas acessórias)</span></td>
+      </tr>
+
+      <!-- R09 -->
+      <tr class="cat-row">
+        <td colspan="7">R09 · Risco de Mercados Financeiros</td>
+      </tr>
+      <tr>
+        <td>R09-1</td>
+        <td>Inflação</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Contraprestação reajustada por índice contratual. Risco residual de inflação de custos acima do índice é do concessionário.</td>
+        <td class="mit-col">Índice de reajuste definido em contrato. Revisão periódica para componentes com inflação setorial distinta.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M6 (taxa de desconto 8,5%)</span></td>
+      </tr>
+      <tr>
+        <td>R09-2</td>
+        <td>Flutuação cambial</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Financiamento em moeda nacional (BNDES). Risco cambial residual do concessionário para eventuais insumos importados.</td>
+        <td class="mit-col">Hedge cambial para equipamentos importados relevantes.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (modelagem BNDES)</span></td>
+      </tr>
+      <tr>
+        <td>R09-3</td>
+        <td>Taxa de juros</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>WACC real 10,2% e CAPM real 11% são premissas do modelo. Variações de taxa de juros após a contratação são risco do concessionário.</td>
+        <td class="mit-col">Estrutura de dívida de longo prazo com BNDES a taxas fixas. Refinanciamento com compartilhamento de ganhos.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (WACC real 10,2%; CAPM real 11%)</span></td>
+      </tr>
+      <tr>
+        <td>R09-4</td>
+        <td>Indisponibilidade de seguro</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Se seguro de grandes riscos (incêndio, colapso estrutural em retrofit) tornar-se indisponível ou proibitivo, a AC atua como segurador de último recurso.</td>
+        <td class="mit-col">Requisitos mínimos de seguros em contrato com revisão periódica de disponibilidade de mercado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4 (OPEX: garantias/seguros)</span></td>
+      </tr>
+      <tr>
+        <td>R09-5</td>
+        <td>Refinanciamento</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Refinanciamento após construção com melhores condições — ganhos compartilhados conforme contrato.</td>
+        <td class="mit-col">Cláusula de compartilhamento de ganhos de refinanciamento.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R10 -->
+      <tr class="cat-row">
+        <td colspan="7">R10 · Risco Estratégico / de Parceria</td>
+      </tr>
+      <tr>
+        <td>R10-1</td>
+        <td>Capacidade do PP e subcontratados</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Qualificação técnica e capacidade financeira do concessionário e subcontratados é risco do privado — garantida na licitação.</td>
+        <td class="mit-col">Exigências de qualificação técnica e econômico-financeira no edital. Garantia de proposta e execução.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R10-2</td>
+        <td>Intervenção da AC</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>A AC pode intervir na concessão por razões de interesse público ou inadimplência grave, assumindo os custos correspondentes.</td>
+        <td class="mit-col">Rito de intervenção em contrato com notificação prévia e prazo de regularização.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R10-3</td>
+        <td>Alterações de controle societário</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Alterações de controle da SPE requerem anuência prévia da AC.</td>
+        <td class="mit-col">Cláusula de anuência prévia para transferência de controle. Step-in rights dos financiadores (BNDES).</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (modelagem BNDES)</span></td>
+      </tr>
+      <tr>
+        <td>R10-4</td>
+        <td>Litígios e resolução de disputas</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Litígios e disputas resolvidos por arbitragem após esgotamento de instância administrativa.</td>
+        <td class="mit-col">Câmara arbitral designada em contrato. Comitê de Prevenção e Solução de Disputas (DRB).</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R11 -->
+      <tr class="cat-row">
+        <td colspan="7">R11 · Risco de Tecnologia Disruptiva</td>
+      </tr>
+      <tr>
+        <td>R11-1</td>
+        <td>Obsolescência tecnológica</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Concessionário assume atualização tecnológica dos sistemas prediais (BMS, TI, eficiência energética). O modelo precifica reinvestimentos por vida útil dos ativos.</td>
+        <td class="mit-col">Ciclos de reinvestimento tecnológico no modelo financeiro. Cláusula de economia compartilhada por inovação.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4 (reinvestimentos por vida útil dos ativos)</span></td>
+      </tr>
+      <tr>
+        <td>R11-2</td>
+        <td>Tecnologia disruptiva que altere a demanda</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Adoção de trabalho remoto/híbrido no serviço público ao longo dos 30 anos pode alterar a demanda por espaços de escritório — impacto nas receitas acessórias e nas necessidades dos órgãos ocupantes.</td>
+        <td class="mit-col">Revisão periódica das necessidades funcionais. Flexibilidade de layout prevista no programa de necessidades.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M5 (flexibilidade de layout como melhoria qualitativa relevante)</span></td>
+      </tr>
+      <tr>
+        <td>R11-3</td>
+        <td>Atualização de sistemas de TI</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Atualização de sistemas de TI e automação predial é obrigação contratual do concessionário conforme especificações de desempenho.</td>
+        <td class="mit-col">Especificações mínimas de desempenho tecnológico em contrato com revisão periódica.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M5 (modernização de infraestrutura/sistemas — melhoria essencial)</span></td>
+      </tr>
+
+      <!-- R12 -->
+      <tr class="cat-row">
+        <td colspan="7">R12 · Risco de Força Maior</td>
+      </tr>
+      <tr>
+        <td>R12-1</td>
+        <td>Força maior natural (enchentes, vendavais)</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Porto Alegre com histórico de enchentes extremas (2024). Limiares quantitativos (cota fluviométrica do Guaíba, alertas CEMADEN/INMET) devem ser definidos para acionamento de eventos de compensação.</td>
+        <td class="mit-col">Limiares fluviométricos e meteorológicos por ativo. Plano de contingência de enchentes.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (localização Porto Alegre)</span></td>
+      </tr>
+      <tr>
+        <td>R12-2</td>
+        <td>Força maior causada pelo homem</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Eventos como greve geral ou pandemia são riscos compartilhados com isenção ao concessionário.</td>
+        <td class="mit-col">Cláusula de force majeure com lista exemplificativa e rito de notificação/comprovação.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R12-3</td>
+        <td>Força maior política</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Eventos políticos internos com impacto no projeto são alocados integralmente à AC.</td>
+        <td class="mit-col">Cláusula de evento político soberano com compensação integral.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R12-4</td>
+        <td>Consequências da força maior</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Cada parte assume suas perdas diretas. Após 6-12 meses de evento prolongado, rescisão com compensação.</td>
+        <td class="mit-col">Protocolo de avaliação de danos e definição de compensações. Prazo de suspensão antes da rescisão.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R13 -->
+      <tr class="cat-row">
+        <td colspan="7">R13 · Risco Político / Soberano</td>
+      </tr>
+      <tr>
+        <td>R13-1</td>
+        <td>Atos discriminatórios do Poder Concedente</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Atos discriminatórios do Estado do RS contra a SPE são integralmente da AC, com evento de compensação e reequilíbrio integral.</td>
+        <td class="mit-col">Cláusula de evento de compensação por ato discriminatório. Arbitragem como foro.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R13-2</td>
+        <td>Falha da AC em cumprir obrigações</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Falha no pagamento da contraprestação ou na disponibilização dos imóveis gera evento de compensação. A capacidade fiscal do Estado é risco relevante dado o comprometimento de ~0,49% da RCL.</td>
+        <td class="mit-col">Fundo garantidor ou mecanismo de garantia (FGP ou equivalente estadual). Monitoramento da capacidade fiscal do Estado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (comprometimento RCL ~0,49%)</span></td>
+      </tr>
+      <tr>
+        <td>R13-3</td>
+        <td>Atos de outros entes governamentais</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Atos da Prefeitura de Porto Alegre ou da União que impactem os ativos ou a operação.</td>
+        <td class="mit-col">Cláusula de evento de compensação para atos de terceiros governamentais com impacto verificado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R13-4</td>
+        <td>Risco político/soberano prolongado</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Risco político/soberano prolongado com direito de rescisão pelo concessionário e compensação integral.</td>
+        <td class="mit-col">Garantias de pagamento de indenização de rescisão por evento soberano.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R14 -->
+      <tr class="cat-row">
+        <td colspan="7">R14 · Risco de Mudança de Legislação</td>
+      </tr>
+      <tr>
+        <td>R14-1</td>
+        <td>Conformidade com legislação vigente</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Concessionário deve cumprir legislação vigente conhecida na data da proposta relacionada às suas obrigações.</td>
+        <td class="mit-col">Due diligence regulatória completa antes da proposta.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R14-2</td>
+        <td>Mudança de legislação geral</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Alterações legislativas gerais que afetem custos, receitas ou obrigações do projeto são compartilhadas.</td>
+        <td class="mit-col">Cláusula de mudança de legislação com gatilho de impacto material e rito de reequilíbrio.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R14-3</td>
+        <td>Mudança de legislação tributária</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Reforma tributária (LC 214/2025) — substituição de ICMS/ISS/PIS/COFINS por CBS/IBS — pode ter impacto material no modelo financeiro do CAFF. Impactos ordinários são do concessionário; impactos imprevistos ensejam reequilíbrio.</td>
+        <td class="mit-col">Monitoramento da regulamentação da LC 214/2025. Cláusula de reequilíbrio por impacto tributário material.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M3 (risco LC 214/2025 explicitamente mencionado)</span></td>
+      </tr>
+      <tr>
+        <td>R14-4</td>
+        <td>Mudança de legislação específica, setorial ou discriminatória</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Mudança legislativa que afete exclusivamente o projeto ou o setor (ex.: nova lei de gestão de imóveis públicos estaduais) é risco da AC.</td>
+        <td class="mit-col">Evento de compensação para mudanças discriminatórias.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R14-5</td>
+        <td>Mudança de legislação ambiental</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Novas exigências da FEPAM, CONAMA ou SMAM que impliquem custos adicionais na operação das edificações podem ensejar compartilhamento ou reequilíbrio.</td>
+        <td class="mit-col">Cláusula de mudança de legislação ambiental com reequilíbrio para exigências materiais supervenientes.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+
+      <!-- R15 -->
+      <tr class="cat-row">
+        <td colspan="7">R15 · Risco de Rescisão Antecipada</td>
+      </tr>
+      <tr>
+        <td>R15-1</td>
+        <td>Rescisão por inadimplência do PP (caducidade)</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Inadimplência grave do concessionário enseja declaração de caducidade pela AC, com indenização descontada de multas e danos.</td>
+        <td class="mit-col">Mecanismo de step-in rights dos financiadores (BNDES) para evitar declaração precipitada de caducidade.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R15-2</td>
+        <td>Rescisão por inadimplência da AC</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Inadimplência da AC (não-pagamento da contraprestação, não-disponibilização dos imóveis) enseja rescisão judicial com indenização integral.</td>
+        <td class="mit-col">Garantia de pagamento da contraprestação (fundo garantidor ou equivalente). Monitoramento fiscal do Estado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (comprometimento RCL ~0,49%)</span></td>
+      </tr>
+      <tr>
+        <td>R15-3</td>
+        <td>Encampação (interesse público)</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Encampação por interesse público mediante lei autorizativa e indenização prévia.</td>
+        <td class="mit-col">Cláusula de encampação com indenização prévia calculada sobre VPL do fluxo futuro.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R15-4</td>
+        <td>Rescisão por força maior prolongada</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Rescisão após 6-12 meses de evento de força maior prolongada, com compensação conforme regime contratual.</td>
+        <td class="mit-col">Protocolo de rescisão por força maior com avaliação de danos e cronograma de liquidação.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M2</span></td>
+      </tr>
+      <tr>
+        <td>R15-5</td>
+        <td>Capacidade de pagamento da AC</td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td style="text-align:center"><span class="badge badge-pub">Público</span></td>
+        <td>Capacidade fiscal do Estado do RS é risco relevante: comprometimento de ~0,49% da RCL para contraprestação do CAFF requer monitoramento. Garantias via fundo especial são críticas.</td>
+        <td class="mit-col">Fundo Garantidor de PPP ou garantia equivalente prevista em lei estadual. Teto de comprometimento da RCL monitorado.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § Identificação (comprometimento RCL ~0,49%)</span></td>
+      </tr>
+
+      <!-- R16 -->
+      <tr class="cat-row">
+        <td colspan="7">R16 · Risco da Condição na Reversão</td>
+      </tr>
+      <tr>
+        <td>R16-1</td>
+        <td>Condição dos ativos na reversão</td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td style="text-align:center"><span class="badge badge-priv">Privado</span></td>
+        <td>Concessionário deve manter os ativos em condição especificada para reversão ao final do contrato (32 anos). Indicadores de condição predial monitorados ao longo do contrato.</td>
+        <td class="mit-col">Inspeções periódicas de condição predial nos últimos 5 anos. Fundo de reserva para manutenção de reversão.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M5 (manutenção garantida 30 anos)</span></td>
+      </tr>
+      <tr>
+        <td>R16-2</td>
+        <td>Valor residual dos ativos</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Investimentos não amortizados ao final do contrato são indenizados pela AC conforme legislação aplicável.</td>
+        <td class="mit-col">Controle de amortização de ativos por componente ao longo do contrato. Inventário permanente de bens reversíveis.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4 (D&amp;A, reinvestimentos por vida útil)</span></td>
+      </tr>
+      <tr>
+        <td>R16-3</td>
+        <td>Bens reversíveis</td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td style="text-align:center"><span class="badge badge-comp">Compartilhado</span></td>
+        <td>Inventário obrigatório de bens reversíveis ao longo do contrato, com protocolo de reversão ao final.</td>
+        <td class="mit-col">Sistema de gestão de ativos (BIM ou CAFM) mantido pelo concessionário e acessível à AC.</td>
+        <td><span class="proveniencia">_dados-extraidos.md § M4</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <!-- SEÇÃO 5: RESSALVAS -->
+  <h2>4. Ressalvas</h2>
+
+  <div class="ressalvas">
+    <div class="ressalvas-titulo">Ressalvas — Leitura obrigatória</div>
+    <ul>
+      <li>
+        <strong>Ausência da matriz contratual oficial:</strong> A matriz detalhada de alocação contratual de riscos consta em instrumento específico da modelagem do CAFF (minuta contratual e/ou Termo de Referência da PPP) que <strong>não foi disponibilizado</strong> nos materiais recebidos. Este piloto traz a <strong>alocação econômica inferida</strong> dos riscos precificados no modelo financeiro — sobrecusto de CAPEX (25%), sobrecusto de OPEX (25%), atrasos de construção, aditivos contratuais, demanda/receita e desempenho — e não substitui nem antecipa a matriz contratual oficial.
+      </li>
+      <li>
+        <strong>Inconsistência no VfM dos dados-fonte:</strong> O Painel de Resultados (célula G45) indica "VfM ≈ 0" para o cenário "Premissas atuais", enquanto a aba "12. Affordability e VfM" apura VfM = R$ 188,47M (9,9%) a favor da PPP. Esta divergência precisa ser esclarecida antes de qualquer uso decisório das alocações de risco.
+      </li>
+      <li>
+        <strong>Desvios em relação à alocação típica do núcleo comum:</strong> Algumas subcategorias foram alocadas de forma diferente da alocação típica do M2 (ex.: R08-1, R08-2, R08-3 alocados ao Público em vez de Compartilhado/Variável por setor; R04-1 e R05-3 alocados como Compartilhado em vez de Privado). Esses desvios refletem as especificidades da concessão administrativa com pagamento por disponibilidade e do contexto de retrofit de imóveis públicos em operação — e devem ser avaliados e formalmente justificados pelo gestor responsável antes da incorporação ao instrumento contratual.
+      </li>
+      <li>
+        <strong>Natureza do documento:</strong> Este piloto tem finalidade exclusiva de validação interna da Ferramenta PPPs/RS com dados reais do Projeto CAFF. <strong>Não constitui parecer técnico, recomendação de alocação contratual de riscos, nem opinião jurídica.</strong> A decisão sobre a alocação de riscos, sua formalização contratual e a fundamentação correspondente competem integralmente ao gestor público responsável pelo projeto, com o suporte técnico e jurídico adequado.
+      </li>
+      <li>
+        <strong>Limitações da fonte:</strong> Os dados utilizados provêm do arquivo <em>_dados-extraidos.md</em>, seção M2, elaborado a partir do modelo financeiro BNDES versão 2026.03.16_v2 e do Plano de Negócios de 09/03/2026. A completude e a atualidade das informações dependem dessas fontes. Arquivos binários (.xlsm, .pdf, .docx) não foram consultados diretamente.
+      </li>
+      <li>
+        <strong>Reforma tributária (LC 214/2025):</strong> O impacto da substituição de ICMS/ISS/PIS/COFINS por CBS/IBS sobre o modelo financeiro do CAFF é um risco identificado nos dados-fonte mas não quantificado. A subcategoria R14-3 reflete essa incerteza como risco compartilhado, mas o impacto real depende da regulamentação ainda em curso da LC 214/2025.
+      </li>
+    </ul>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="rodape">
+    Piloto gerado a partir de "Modelo CAFF 2026.03.16_v2 (1).xlsm" e "Plano de Negócios _20260309 (1).docx", via <em>/simulacao/CAFF/_dados-extraidos.md</em> · Chave localStorage: <code>matriz_riscos_ppp_rs_v1</code> · 76 subcategorias ativas (1 N/A: R02-sub3) · Documento de validação interna — não é parecer.
+  </div>
+
+</div>
+</body>
+</html>
