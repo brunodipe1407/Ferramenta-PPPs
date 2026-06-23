@@ -1,0 +1,1644 @@
+{
+  "_meta": {
+    "versao": "v5.0",
+    "ferramenta": "Ferramentas de Analise PPP - CAGE/SEFAZ-RS (web estatica, 6 modulos)",
+    "projeto": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+    "observacao": "Cada chave abaixo corresponde a uma chave de localStorage de um modulo da ferramenta. Para carregar, salvar cada objeto via JSON.stringify na respectiva chave do navegador.",
+    "data_geracao": "2026-06-23"
+  },
+  "localStorage": {
+    "gtsefaz_projeto_atual": {
+      "nome": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+      "orgao": "Estado do RS - Secretaria da Reconstrucao Gaucha (SERG) / SPGG (gestao predial); ocupantes: SEDUC, PGE, DAER",
+      "periodo": "2026 (data-base dez/2025); prazo contratual 30 anos",
+      "proa": "Nao identificado nos documentos (estruturacao BNDES OCS 330/2024; SAP 4400006120)",
+      "responsavel": "Estruturacao: BNDES / Consorcio RECAFF (Radar PPP, Patrinvest, Premium Solution, ZEBL, Machado Meyer)",
+      "data": "23/06/2026"
+    },
+    "psc_cage_rs_v2": {
+      "header": {
+        "nomeProjeto": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+        "orgao": "Estado do RS - Secretaria da Reconstrucao Gaucha (SERG) / SPGG (gestao predial); ocupantes: SEDUC, PGE, DAER",
+        "periodoRef": "2025 (data-base dez/2025)",
+        "periodoAbrang": "Exercicio 2025 (custo anual de operacao atual do CAFF, referencia do modelo)",
+        "responsavel": "Estruturacao: BNDES / Consorcio RECAFF (Radar PPP, Patrinvest, Premium Solution, ZEBL, Machado Meyer)",
+        "dataPreench": "23/06/2026",
+        "versao": "v5.0"
+      },
+      "rows": {
+        "capex": [
+          {
+            "item": "Investimento/CAPEX recorrente atual do Estado no CAFF (modelo atual)",
+            "modal": "Administração Direta",
+            "fonteUsed": "Nao identificado nos documentos",
+            "valor": 0,
+            "obs": "NAO IDENTIFICADO. Os documentos nao discriminam CAPEX anualizado da operacao ATUAL; o CAPEX informado (R$ 1,33 bi) refere-se ao PROJETO da PPP, nao ao modelo atual."
+          }
+        ],
+        "opex": [
+          {
+            "item": "Operacao e manutencao atual do complexo CAFF (limpeza, seguranca, manutencao predial, utilidades, zeladoria)",
+            "modal": "Administração Indireta",
+            "fonteUsed": "XLSM '00. PAINEL DE RESULTADOS' cel. G28 (OPEX Atual CAFF)",
+            "valor": 30950000.0,
+            "obs": "Custo atual de referencia da operacao do CAFF = R$ 30,95 mi/ano (R$ 294/m2). Valor agregado; documentos nao detalham por rubrica. Conferido contra XLSM '00. PAINEL DE RESULTADOS' G28 = 30,95 (R$ mi) e G28/area = R$ 294/m2 (G29)."
+          },
+          {
+            "item": "Locacao de imovel externo - SEDUC/RS (servidores fora do CAFF por falta de espaco)",
+            "modal": "Contrato Licitado",
+            "fonteUsed": "XLSM '12. Affordability e VfM' cel. D30",
+            "valor": 2805800.0,
+            "obs": "Aluguel+condominio externo R$ 2,806 mi/ano (area 3.757,84 m2)."
+          },
+          {
+            "item": "Locacao de imovel externo - SPGG/RS (1)",
+            "modal": "Contrato Licitado",
+            "fonteUsed": "XLSM '12. Affordability e VfM' cel. D34",
+            "valor": 650600.0,
+            "obs": "Aluguel+condominio externo R$ 0,651 mi/ano (766,88 m2)."
+          },
+          {
+            "item": "Locacao de imovel externo - SPGG/RS (2)",
+            "modal": "Contrato Licitado",
+            "fonteUsed": "XLSM '12. Affordability e VfM' cel. D38",
+            "valor": 619700.0,
+            "obs": "Aluguel+condominio externo R$ 0,620 mi/ano (766 m2)."
+          }
+        ],
+        "gestao": [
+          {
+            "item": "Gestao/fiscalizacao contratual atual dos contratos de facilities do CAFF",
+            "modal": "Administração Direta",
+            "fonteUsed": "Inferencia tecnica (VfM PDF p.31: ate 18 fornecedores em paralelo)",
+            "valor": 0,
+            "obs": "INFERENCIA: o modelo atual exige gestao de ate 18 contratos paralelos, mas o custo dessa gestao publica nao e quantificado nos documentos. Marcar para levantamento."
+          }
+        ],
+        "receita": [
+          {
+            "item": "Receitas acessorias atualmente auferidas pelo Estado no CAFF",
+            "modal": "Administração Direta",
+            "fonteUsed": "Nao identificado nos documentos",
+            "valor": 0,
+            "obs": "NAO IDENTIFICADO valor atual. O potencial de receita acessoria (R$ 41,3 mi/ano) refere-se ao cenario de exploracao da PPP, nao a arrecadacao atual."
+          }
+        ]
+      },
+      "premissas": [
+        {
+          "tipo": "Limitação",
+          "desc": "Os documentos nao apresentam memoria de custo da prestacao ATUAL desagregada (CAPEX/OPEX/gestao/receita). O unico valor atual explicito e o OPEX agregado do CAFF (R$ 30,95 mi/ano), usado como referencia no painel do modelo financeiro."
+        },
+        {
+          "tipo": "Premissa",
+          "desc": "O 'PSC' apresentado no estudo de VfM NAO e o custo atual: e um comparador de ciclo de vida (30 anos) da execucao publica do PROJETO COMPLETO (retrofit + ampliacao + operacao), construido a partir do orcamento da PPP. Ver Modulo 5."
+        },
+        {
+          "tipo": "Estimativa",
+          "desc": "Aluguel de imoveis externos (R$ ~4,08 mi/ano) integra o custo atual do Estado e deixaria de existir apos a centralizacao no CAFF (beneficio recorrente do projeto)."
+        }
+      ],
+      "confs": {}
+    },
+    "matriz_riscos_ppp_rs_v1": {
+      "identificacao": {
+        "nome": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+        "secretaria": "Secretaria da Reconstrucao Gaucha (SERG) / SPGG",
+        "periodo": "2026",
+        "proa": "Nao identificado nos documentos (estruturacao BNDES OCS 330/2024; SAP 4400006120)",
+        "setor": "outro",
+        "modalidade": "Concessão Administrativa (PPP)",
+        "valor": "1.332.300.000,00 (CAPEX do projeto)",
+        "prazo": "30",
+        "data": "23/06/2026",
+        "responsavel": "Estruturacao: BNDES / Consorcio RECAFF (Radar PPP, Patrinvest, Premium Solution, ZEBL, Machado Meyer)",
+        "objeto": "Reforma, equipagem, operacao e manutencao do CAFF (Porto Alegre/RS) e exploracao de receitas acessorias.",
+        "fase": "Modelagem técnica/jurídica/financeira"
+      },
+      "riscos": {
+        "R01": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R02": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R03": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Licenciamento ambiental e diretrizes no Anexo V do contrato; passivos pos-obra transferidos ao privado (VfM PDF p.13-14).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R04": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Risco de Projeto (erros/omissoes/compatibilizacao) transferido ao privado na PPP (VfM PDF p.13).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R05": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Risco de Engenharia e Construcao (atrasos, sobrecustos, falhas) transferido ao privado; remuneracao so apos entrega (VfM PDF p.13-15). Penalidades no Anexo VIII; remuneracao so apos Ordem de Operacao.",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R06": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R07": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Risco de Operacao e Manutencao transferido ao privado; aferido pelo Verificador Independente (Anexo IV/X; apresentacao p.17). Mecanismo de pagamento: CME = CMMax x FDISP x FID (FID 80-100%, apuracao trimestral, Anexo VI).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R08": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Receitas acessorias exploradas pela concessionaria; risco de demanda das receitas acessorias e do privado (apresentacao p.22).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R09": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Risco de Financiamento transferido ao privado (obtencao de recursos, juros, custo de capital) (VfM PDF p.13-14).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R10": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R11": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R12": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Forca maior natural (enchentes 2024 motivaram diretrizes de resiliencia climatica) - compartilhado (apresentacao p.5-6).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R13": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Riscos politicos retidos pelo Estado; garantia publica de pagamento via FPE/RRF (apresentacao p.16,38).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R14": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R15": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Mecanismo de garantia publica e vinculacao de receitas (Anexo IX) cobrem inadimplemento do Concedente (apresentacao p.16).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        },
+        "R16": {
+          "sub": [
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "Reversibilidade do ativo: infraestrutura revertida ao Estado em padrao de desempenho adequado (VfM PDF p.16; Anexo).",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            },
+            {
+              "aloc": "",
+              "just": "",
+              "mit": "",
+              "excluido": false
+            }
+          ]
+        }
+      },
+      "novos": [
+        {
+          "titulo": "Resiliencia climatica / drenagem (pos-enchentes 2024)",
+          "descricao": "Novas diretrizes de drenagem e infraestrutura verde apos as enchentes de 2024 em Porto Alegre.",
+          "tipica": "Compartilhado",
+          "aloc": "Compartilhado",
+          "just": "Evento de forca maior natural recente (2024) com impacto no desenho do projeto.",
+          "mit": "Diretrizes urbanisticas e projetuais especificas (apresentacao CGCPPP p.5-6)."
+        }
+      ],
+      "filtroPill": "todos",
+      "_savedAt": "2026-06-23T12:00:00.000Z",
+      "_nota_alocacao": "aloc vazio = manter alocacao TIPICA de referencia da ferramenta. O contrato traz Matriz de Risco propria (Anexo VII) NAO detalhada item a item nos documentos analisados; as notas de mitigacao referenciam a evidencia do estudo de VfM e da apresentacao quanto aos riscos transferidos ao privado."
+    },
+    "cage_rs_precificacao_obras_v1": {
+      "capa": {
+        "obraProj": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+        "orgao": "Estado do RS / SERG",
+        "responsavel": "Estruturacao: BNDES / Consorcio RECAFF (Radar PPP, Patrinvest, Premium Solution, ZEBL, Machado Meyer)",
+        "unidade": "CAGE/SEFAZ-RS (analise)",
+        "dataIni": "2026-06-23",
+        "dataFim": "",
+        "versao": "1.0"
+      },
+      "identif": {
+        "nomeProjeto": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+        "objetoResumido": "Retrofit do CAFF/SEDUC/DAER + construcao de novos edificios (PGE, garagens, areas comerciais), equipagem e operacao",
+        "orgaoEnt": "Estado do RS / SERG",
+        "unidadeDem": "SPGG",
+        "numProcesso": "Nao identificado nos documentos (estruturacao BNDES OCS 330/2024; SAP 4400006120)",
+        "modalidade": "PPP - Concessao Administrativa (Lei 11.079/2004)",
+        "tipoEmpreend": "Edificacoes administrativas (complexo de escritorios, garagens, comercio)",
+        "natureza": "Obra mista",
+        "areaEstim": 257792,
+        "valorTotal": 1332300000.0,
+        "prazoExec": "72 meses (3 fases modulares)",
+        "localizacao": "Porto Alegre/RS",
+        "fase": "Modelagem PPP",
+        "docsAnalisados": "Analise de Value for Money (Produto 10, 10/03/2026); Apresentacao CGCPPP (17/03/2026); Modelo financeiro XLSM (16/03/2026); Plano de Negocios (09/03/2026)",
+        "databasePrecos": "dez/2025",
+        "docOrigem": "Modelo financeiro CAFF (aba 06. CAPEX)",
+        "respTecPrec": "Nao identificado (engenharia: Patrinvest - Lamberto Grinover)",
+        "artRrt": "Não informado",
+        "artRrtDetalhe": "ART/RRT da precificacao nao identificada nos documentos analisados.",
+        "observacoes": "CAPEX total R$ 1,33 bi (~R$ 5,7 mil/m2), abaixo da media de benchmark (R$ 13,07 mil/m2). Os documentos NAO trazem orcamento analitico, composicoes unitarias, BDI explicito nem memoria de calculo de obra - a precificacao detalhada nao e auditavel com o material disponivel."
+      },
+      "metod": {
+        "usadas": [
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          },
+          {
+            "usada": "",
+            "detalhe": "",
+            "obs": ""
+          }
+        ],
+        "params": {
+          "databasePrecos": "dez/2025",
+          "regionalizou": "Não informado",
+          "regionalRef": "RS",
+          "atualizMonet": "Não informado",
+          "indiceAtualiz": "IPCA (deflator do modelo)",
+          "benchmarkSimil": "Sim",
+          "compsUnit": "Não informado",
+          "paramM2": "Sim",
+          "fatoresAdic": "Não informado",
+          "fatoresDesc": "Sobrecusto de 25% aplicado no PSC (nao no orcamento da obra)",
+          "memCalc": "Não",
+          "artRrt": "Não informado"
+        }
+      },
+      "refs": {
+        "bases": [
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          },
+          {
+            "base": "",
+            "databasePrecos": "",
+            "versao": "",
+            "abrangencia": "",
+            "escopo": ""
+          }
+        ],
+        "adeq": [
+          {
+            "val": "",
+            "obs": ""
+          },
+          {
+            "val": "",
+            "obs": ""
+          },
+          {
+            "val": "",
+            "obs": ""
+          },
+          {
+            "val": "",
+            "obs": ""
+          },
+          {
+            "val": "",
+            "obs": ""
+          },
+          {
+            "val": "",
+            "obs": ""
+          },
+          {
+            "val": "",
+            "obs": ""
+          }
+        ]
+      },
+      "comps": {
+        "metricas": {
+          "valorTotal": {
+            "valor": 1332300000.0,
+            "ref": "Apresentacao CGCPPP p.18",
+            "obs": "CAPEX total do projeto"
+          },
+          "areaTotal": {
+            "valor": 257792,
+            "ref": "Benchmarks CGCPPP p.26 (Area construida 257.792 m2)",
+            "obs": ""
+          },
+          "custoM2": {
+            "valor": 5700,
+            "ref": "Apresentacao p.18 (R$ 5,7 mil/m2)",
+            "obs": "Abaixo da media benchmark 13,07 mil/m2"
+          },
+          "bdi": {
+            "valor": "",
+            "ref": "Nao identificado",
+            "obs": "BDI da obra nao explicitado nos documentos"
+          },
+          "incrCub": {
+            "valor": "",
+            "ref": "Nao identificado",
+            "obs": ""
+          },
+          "contingencia": {
+            "valor": "",
+            "ref": "Nao identificado",
+            "obs": ""
+          },
+          "encargosSociais": {
+            "valor": "",
+            "ref": "Nao identificado",
+            "obs": ""
+          },
+          "custoDireto": {
+            "valor": "",
+            "ref": "Nao identificado",
+            "obs": ""
+          },
+          "custoIndireto": {
+            "valor": "",
+            "ref": "Nao identificado",
+            "obs": ""
+          }
+        },
+        "parcelas": [
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          },
+          {
+            "pres": "",
+            "valor": "",
+            "pct": "",
+            "obs": ""
+          }
+        ]
+      },
+      "justif": {
+        "tops": [
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          },
+          {
+            "objeto": "",
+            "justif": "",
+            "qual": ""
+          }
+        ],
+        "fund": {
+          "normaReg": "",
+          "normasQuais": "",
+          "benchmarkExt": "Sim",
+          "estudosAnt": "",
+          "experInst": "",
+          "premissasProp": "",
+          "parecerEsp": ""
+        },
+        "avaliacao": "Parcialmente suficiente",
+        "fundament": "Ha benchmark setorial robusto (apresentacao p.26), mas falta orcamento analitico, composicoes e BDI para validacao da precificacao da obra."
+      },
+      "critic": [
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        },
+        {
+          "aval": "",
+          "risco": "",
+          "coment": ""
+        }
+      ],
+      "sint": {
+        "sMetod": "Precificacao baseada em parametros por m2 e benchmark setorial; sem orcamento analitico disponivel.",
+        "sRefs": "Benchmarks de 4 centros administrativos (Maceio, Angra, Rondonia, Sao Paulo) - apresentacao p.26.",
+        "sParams": "CAPEX R$ 1,33 bi; R$ 5,7 mil/m2; OPEX R$ 80,6 mi/ano (R$ 357/m2).",
+        "sJustif": "Comparacao com benchmark sugere CAPEX/m2 conservador (abaixo da media).",
+        "sCons": "Consistencia nao plenamente verificavel - falta memoria de calculo da obra.",
+        "sFrag": "Ausencia de orcamento analitico, composicoes unitarias, BDI e ART/RRT.",
+        "sRecom": "Solicitar orcamento detalhado e ART/RRT antes do edital; validar regionalizacao RS.",
+        "sConcl": "Precificacao plausivel por benchmark, mas nao auditavel em detalhe com os documentos atuais."
+      },
+      "sintParecer": "Parcialmente consistente — requer complementação"
+    },
+    "checklist_cage_rs_v1": {
+      "header": {
+        "nomeProjeto": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+        "orgao": "Estado do RS / SERG",
+        "periodoRef": "2026",
+        "responsavel": "Estruturacao: BNDES / Consorcio RECAFF (Radar PPP, Patrinvest, Premium Solution, ZEBL, Machado Meyer)",
+        "dataPreench": "23/06/2026",
+        "versao": "v5.0"
+      },
+      "setores": {
+        "educacao": false,
+        "saude": false,
+        "rodovias": false,
+        "seguranca": false,
+        "edificacoes": true
+      },
+      "items": {
+        "mat-a-0": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Estudos estruturados pelo BNDES (Contrato OCS 330/2024). Valor nao discriminado."
+        },
+        "mat-a-1": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Consorcio RECAFF contratado via BNDES para modelagem."
+        },
+        "mat-a-2": {
+          "aplic": "na",
+          "valor": "",
+          "status": "",
+          "nota": "Nao houve PMI/MIP - estruturacao direta via BNDES."
+        },
+        "mat-a-3": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Ressarcimento de estudos/B3 previsto no investimento da PPP (expurgado do PSC - VfM PDF p.26)."
+        },
+        "mat-a-4": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Revisao da modelagem juridica pela PGE (apresentacao p.38)."
+        },
+        "mat-a-5": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Consulta publica prevista (jun/2026) - apresentacao p.40."
+        },
+        "mat-a-6": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Licitacao: concorrencia internacional, sessao na B3 (apresentacao p.27). Custo de transacao tradicional: 18 contratos relicitados a cada 5 anos a R$ 28.918,40/licitacao = R$ 1,5 mi VP (VfM PDF p.31)."
+        },
+        "mat-a-7": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Estruturacao financeira / SPE - parte expurgada do PSC."
+        },
+        "mat-b-0": {
+          "aplic": "nao",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Terreno ja e publico (complexo CAFF existente). Sem desapropriacao relevante identificada."
+        },
+        "mat-b-1": {
+          "aplic": "na",
+          "valor": "",
+          "status": "",
+          "nota": "Reassentamento nao identificado nos documentos."
+        },
+        "mat-b-2": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Licenciamento ambiental: diretrizes no Anexo V; risco transferido ao privado."
+        },
+        "mat-b-3": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Remanejamento de interferencias/redes possivel; nao quantificado."
+        },
+        "mat-b-4": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Obras preparatorias inclusas no CAPEX da concessionaria."
+        },
+        "mat-b-5": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Transicao operacional dos servicos hoje prestados ao Estado (faseamento em 3 fases)."
+        },
+        "mat-b-6": {
+          "aplic": "sim",
+          "valor": 4080000000000,
+          "status": "estimado",
+          "nota": "Ocupacao/locacao temporaria de imoveis externos durante obras (~R$ 4,08 mi/ano; VfM PDF p.29-30: R$ 16,3 mi VP no atraso). iPrazo RS 3,27 -> atraso ~7 anos; aluguel externo durante atraso = R$ 16,3 mi VP (VfM PDF p.29-30)."
+        },
+        "mat-b-7": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Servidores permanecem operando durante as obras (faseamento modular)."
+        },
+        "mat-c-0": {
+          "aplic": "sim",
+          "valor": 262300000.0,
+          "status": "quantificado",
+          "nota": "Contraprestacao publica maxima R$ 262,3 mi/ano (R$ 21,86 mi/mes). XLSM '00. PAINEL' G38. Contraprestacao MENSAL maxima R$ 21,86 mi (XLSM G33). DIVERGENCIA menor: contraprestacao anual R$ 262,0 mi (VfM PDF Tab.1) vs R$ 262,3 mi (XLSM G38) - diferenca de arredondamento."
+        },
+        "mat-c-1": {
+          "aplic": "nao",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Aporte publico: n.a. para o CAFF (benchmark CGCPPP p.26 indica 'n.a.')."
+        },
+        "mat-c-2": {
+          "aplic": "na",
+          "valor": "",
+          "status": "",
+          "nota": "Subsidios tarifarios nao se aplicam (concessao administrativa, sem tarifa de usuario)."
+        },
+        "mat-c-3": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Utilidades (energia/agua) com migracao para ACL pela concessionaria; custeio do Estado nao detalhado."
+        },
+        "mat-c-4": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Interface com SEDUC/PGE/DAER (atividades-fim permanecem com o Estado)."
+        },
+        "mat-c-5": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Atividades-fim e pessoal das secretarias permanecem com o Estado (apresentacao p.4)."
+        },
+        "mat-d-0": {
+          "aplic": "sim",
+          "valor": 453400.0,
+          "status": "quantificado",
+          "nota": "Equipe publica de gestao contratual: R$ 453,4 mil/ano (VPL R$ 4,9 mi). VfM PDF Tabela 2, p.21. Composicao: gerente projeto + esp. juridico, econ-fin, engenharia, arquitetura (VfM PDF Tab.2)."
+        },
+        "mat-d-1": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Verificador Independente previsto (Anexo IV/X; relatorios trimestrais). Custo nao isolado."
+        },
+        "mat-d-2": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Sistema de Mensuracao de Desempenho / KPIs (Anexo IV; indice ID)."
+        },
+        "mat-d-3": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Governanca contratual / instancia gestora - definicao de papeis na operacao (apresentacao p.38)."
+        },
+        "mat-d-4": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Regulacao/fiscalizacao pelo Estado (apresentacao p.4)."
+        },
+        "mat-d-5": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Auditoria/controle externo: envio ao TCE/RS previsto (apresentacao p.38)."
+        },
+        "mat-d-6": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Compliance fiscal/contabil (MCASP/STN Portaria 138/2023 citada no VfM PDF p.38)."
+        },
+        "mat-e-0": {
+          "aplic": "nao",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Risco de demanda das receitas acessorias e do privado; demanda dos servicos ao Estado e disponibilidade."
+        },
+        "mat-e-1": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Risco cambial/financeiro transferido ao privado (VfM PDF p.13-14)."
+        },
+        "mat-e-2": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Eventos de reequilibrio previstos (mecanismo de pagamento / matriz de risco, Anexo VI/VII)."
+        },
+        "mat-e-3": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Renegociacoes/reequilibrio - contingente, nao quantificado."
+        },
+        "mat-e-4": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Passivos ambientais pre-existentes retidos pelo Estado (tipico)."
+        },
+        "mat-e-5": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Termino antecipado por inadimplencia do Estado - garantia FPE/RRF (apresentacao p.38)."
+        },
+        "mat-e-6": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Caducidade por inadimplencia do privado (matriz de risco)."
+        },
+        "mat-e-7": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Termino por forca maior - compartilhado."
+        },
+        "mat-e-8": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Litigios/arbitragem - previsto em contrato."
+        },
+        "mat-e-9": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Passivos contingentes implicitos - monitorar (LRF/MCASP)."
+        },
+        "mat-f-0": {
+          "aplic": "sim",
+          "valor": 462410000.0,
+          "status": "quantificado",
+          "nota": "Neutralidade competitiva: ajuste tributario -R$ 462,4 mi VP (PIS/COFINS/ISS/IRPJ/CSLL). XLSM '12' G15."
+        },
+        "mat-f-1": {
+          "aplic": "na",
+          "valor": "",
+          "status": "",
+          "nota": "Ajuste de regime previdenciario nao tratado nos documentos."
+        },
+        "mat-f-2": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Taxa de desconto do Estado: TSD 8,5% real (VfM PDF p.18)."
+        },
+        "mat-f-3": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Fundo garantidor / garantia publica: FPE como garantia subsidiaria + RRF (apresentacao p.38)."
+        },
+        "mat-f-4": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Premio de seguro-garantia - estrutura de garantias da PPP (expurgada do PSC)."
+        },
+        "mat-f-5": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "quantificado",
+          "nota": "Impacto orcamentario: comprometimento de 0,49% da RCL (limite legal 5%). VfM PDF Tabela 4. Affordability: 261,99(CAFF)+51(Erechim)+7,3(Aeroportos)=320,3 vs limite 3.261,65 (5% de RCL 65.233)."
+        },
+        "mat-f-6": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Reconhecimento contabil de passivos PPP (MCASP / STN Portaria 138/2023)."
+        },
+        "mat-f-7": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Encerramento e reversao de bens ao Estado (reversibilidade do ativo; VfM PDF p.16)."
+        },
+        "set-edificacoes-0": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Realocacao de servidores durante o faseamento das obras."
+        },
+        "set-edificacoes-1": {
+          "aplic": "sim",
+          "valor": 4080000000000,
+          "status": "estimado",
+          "nota": "Aluguel de imoveis temporarios externos (~R$ 4,08 mi/ano)."
+        },
+        "set-edificacoes-2": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Mudanca fisica/logistica entre fases."
+        },
+        "set-edificacoes-3": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Operacao paralela de sistemas de TI durante transicao."
+        },
+        "set-edificacoes-4": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Conectividade/TIC provisoria - nao detalhado."
+        },
+        "set-edificacoes-5": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Servicos de FM nao incluidos no escopo da PPP (atividades-fim)."
+        },
+        "set-edificacoes-6": {
+          "aplic": "sim",
+          "valor": "",
+          "status": "identificado",
+          "nota": "Custo de oportunidade do terreno publico cedido a PPP (122.051 m2)."
+        },
+        "set-edificacoes-7": {
+          "aplic": "parcial",
+          "valor": "",
+          "status": "pendente",
+          "nota": "Gestao do acervo patrimonial revertido ao final."
+        }
+      }
+    },
+    "vfm_cage_rs_v1": {
+      "_v": 1,
+      "ts": 1750680000000,
+      "fields": {
+        "byId": {
+          "m1-sec": "Secretaria da Reconstrucao Gaucha (SERG) / SPGG",
+          "m1-nome": "Concessao Administrativa do Centro Administrativo Fernando Ferrari (CAFF)",
+          "m1-ano": "2026",
+          "m1-periodo": "data-base dez/2025; prazo 30 anos (Produto 10 de 10/03/2026)",
+          "m1-prazo": 30,
+          "m1-mod": "PPP Administrativa (Lei 11.079/2004)",
+          "m1-legal": "Operacao atual sob gestao direta/indireta do Estado (SPGG) - contratos de facilities",
+          "m1-database": "dez/2025",
+          "m1-escopo-atual": "Operacao e manutencao predial do CAFF pelo Estado via multiplos contratos de servicos (ate 18 fornecedores); servidores excedentes em imoveis alugados externos.",
+          "m1-escopo-ppp": "Reforma/retrofit, ampliacao, equipagem, operacao e manutencao integradas do complexo por concessionaria unica, com exploracao de receitas acessorias.",
+          "m1-dif": "A PPP integra projeto-obra-operacao-manutencao num unico contrato de 30 anos, com padrao de desempenho aferido por Verificador Independente, e centraliza secretarias hoje dispersas.",
+          "m1-tsd": 8.5,
+          "m1-sob": 25,
+          "m1-ef": 65,
+          "m1-resp": "Estruturacao: BNDES / Consorcio RECAFF (Radar PPP, Patrinvest, Premium Solution, ZEBL, Machado Meyer)",
+          "m1-matr": "Estruturacao BNDES / Consorcio RECAFF",
+          "m1-data": "23/06/2026",
+          "m1-numid": "BNDES OCS 330/2024; SAP 4400006120",
+          "m2-vpb": 1606320000.0,
+          "m2-vpa": 1904670000.0,
+          "m2-vpp": 1716200000.0,
+          "q1": "A PPP NAO custa mais: a valor presente, a contratacao tradicional (PSC ajustado) custa R$ 1904.7 mi e a PPP R$ 1716.2 mi - VfM positivo de R$ 188.5 mi (~9.9%). (Modelo XLSM 16/03; o Produto 10 de 10/03 indicava VfM de R$ 192,7 mi).",
+          "q2": "Predominantemente ESSENCIAIS: transferencia de riscos, garantia de qualidade via Verificador Independente e celeridade da entrega sao essenciais; modernizacao, resiliencia climatica e requalificacao urbana sao relevantes. As 3 essenciais (riscos, qualidade, celeridade) justificam eventual diferenca de custo; aqui, porem, a PPP ja e mais barata.",
+          "q3": "Sim. Atacam falhas reais: gestao fragmentada (ate 18 contratos), atraso historico de obras publicas (iPrazo RS 3,27), dispersao de secretarias e vulnerabilidade pos-enchentes 2024.",
+          "q4": "Sim. Mecanismos contratuais (indicadores de desempenho, Verificador Independente, penalidades, mecanismo de pagamento CME=CMMax x FDISP x FID) e benchmarks de 4 centros administrativos.",
+          "q5": "Sim. O estudo de VfM (analise qualitativa e quantitativa) e a apresentacao ao CGCPPP fundamentam o diferencial; o VfM e positivo mesmo na analise de sensibilidade (R$ 174 a 192,7 mi).",
+          "syn-m3": "Modelo atual: gestao predial fragmentada, ativos a requalificar, secretarias dispersas, custo de operacao atual ~R$ 30,95 mi/ano.",
+          "r-vfm": "Positivo: R$ 188.5 mi (modelo 16/03) / R$ 192,7 mi (Produto 10) a valor presente.",
+          "r-dif": "PPP ~9.9% mais barata que a contratacao tradicional em VPL.",
+          "r-corr": "Plenamente fundamentado pelo gestor — maioria das melhorias é Essencial com evidência Robusta/Moderada",
+          "r-conclusao": "O projeto apresenta Value for Money positivo e robusto: a PPP custa menos que a execucao publica tradicional a valor presente (VfM de R$ 188,5 a 192,7 mi, conforme a versao do modelo), e agrega ganhos qualitativos essenciais (transferencia de riscos, qualidade aferida por Verificador Independente, celeridade e integracao). Recomenda-se conciliar a divergencia numerica entre o Produto 10 (10/03) e o modelo financeiro (16/03)/apresentacao CGCPPP (17/03) antes do edital.",
+          "res1": "Custo da prestacao ATUAL nao desagregado nos documentos (apenas OPEX agregado R$ 30,95 mi/ano).",
+          "res2": "Algumas melhorias (requalificacao urbana, resiliencia) tem evidencia qualitativa, sem mensuracao direta.",
+          "res3": "Garantia publica (FPE/RRF), mecanismo de pagamento e matriz de risco (Anexo VII) sao criticos e dependem das minutas finais. Concessionaria: obras, retrofit, manutencao, operacao e gestao de facilities. Estado: regulacao, fiscalizacao e atividades-fim das secretarias (apresentacao p.4).",
+          "res4": "Parametros sensiveis: TSD 8,5%, sobrecusto 25%, fator de eficiencia comercial (65-75%); VfM testado em sensibilidade. Decomposicao PPP (XLSM): Contraprestacao 2.173,7 + Gestao 4,9 + Neutralidade -462,4 = 1.716,2. Decomposicao PSC: Invest+Desp 1.606,3 + Aditivos(25%) 401,6 + Transacao 1,5 + Atraso 16,3 - Receitas -121,0 = 1.904,7.",
+          "res5": "DIVERGENCIA: VfM = R$ 192,7 mi no Produto 10 (PDF 10/03/2026, PSC 1.937,4 / PPP 1.744,7) vs R$ 188,5 mi no modelo XLSM (16/03) e na apresentacao CGCPPP (17/03) (PSC 1.904,7 / PPP 1.716,2). Fonte mais adequada: modelo XLSM 16/03 (mais recente; coerente com a apresentacao deliberativa). Conciliar versoes do VfM (192,7 vs 188,5 mi) e atualizar apos consulta publica e revisao da PGE/TCE-RS."
+        },
+        "psc": {
+          "ca": [],
+          "cb": [],
+          "cc": [],
+          "cd": [],
+          "msel": []
+        },
+        "ctTables": []
+      },
+      "mels": [
+        {
+          "code": "M01",
+          "nome": "Transferencia de riscos ao parceiro privado",
+          "rel": "critica",
+          "ev": "robusta",
+          "just": "sim",
+          "classif": "essencial",
+          "contrib": "Alta"
+        },
+        {
+          "code": "M02",
+          "nome": "Garantia do nivel de qualidade do servico (indicadores + Verificador Independente + penalidades)",
+          "rel": "critica",
+          "ev": "robusta",
+          "just": "sim",
+          "classif": "essencial",
+          "contrib": "Alta"
+        },
+        {
+          "code": "M03",
+          "nome": "Alocacao mais eficiente de recursos (contrato unico vs ate 18 contratos)",
+          "rel": "alta",
+          "ev": "moderada",
+          "just": "sim",
+          "classif": "essencial",
+          "contrib": "Parcial"
+        },
+        {
+          "code": "M04",
+          "nome": "Reversibilidade do ativo em padrao de desempenho adequado",
+          "rel": "alta",
+          "ev": "moderada",
+          "just": "parcial",
+          "classif": "relevante",
+          "contrib": "Parcial"
+        },
+        {
+          "code": "M05",
+          "nome": "Modernizacao da infraestrutura administrativa (instalacoes seguras e sustentaveis)",
+          "rel": "alta",
+          "ev": "moderada",
+          "just": "parcial",
+          "classif": "relevante",
+          "contrib": "Parcial"
+        },
+        {
+          "code": "M06",
+          "nome": "Resiliencia climatica (drenagem e infraestrutura verde pos-enchentes 2024)",
+          "rel": "alta",
+          "ev": "moderada",
+          "just": "sim",
+          "classif": "relevante",
+          "contrib": "Parcial"
+        },
+        {
+          "code": "M07",
+          "nome": "Requalificacao urbana (abertura do complexo a cidade, integracao a malha urbana)",
+          "rel": "media",
+          "ev": "moderada",
+          "just": "parcial",
+          "classif": "relevante",
+          "contrib": "Baixa"
+        },
+        {
+          "code": "M08",
+          "nome": "Celeridade na entrega (remuneracao so apos operacao; alinhamento de incentivos)",
+          "rel": "alta",
+          "ev": "robusta",
+          "just": "sim",
+          "classif": "essencial",
+          "contrib": "Alta"
+        }
+      ],
+      "mc": 8
+    }
+  }
+}
