@@ -1,0 +1,75 @@
+/* ============================================================
+   Folha de estilo de impressao (restyle) — aplica visual de
+   documento sobre o conteudo gerado pela ferramenta.
+   NAO altera textos: apenas oculta UI e reestiliza.
+   ============================================================ */
+:root{
+  --doc-azul:#0b2a4a; --doc-azul2:#1f6feb; --doc-verde:#16794a;
+  --doc-cinza:#56627a; --doc-linha:#e3e8f0; --doc-bg:#f7f9fc;
+}
+*{ box-shadow:none !important; }
+html,body{
+  background:#fff !important;
+  font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif !important;
+  color:#1b2638 !important; font-size:10.3pt !important; line-height:1.5 !important;
+}
+/* ---- ocultar elementos de interface ---- */
+button, .btn-add, .btn-del, .ch-toggle, .header-actions, .status-bar, .statusbar,
+#sb-status, .note-bar, .toolbar, .tabbar, .nav, .embed-header, .module-actions,
+[role="tablist"], .hp-form-toggle, .lock-badge, [class*="-actions"] { display:none !important; }
+/* dica de sincronizacao / cadeado */
+[class*="sync"], .locked-hint, .readonly-hint { display:none !important; }
+
+/* ---- campos de formulario viram texto corrido ---- */
+input, select, textarea{
+  -webkit-appearance:none !important; appearance:none !important;
+  border:none !important; background:transparent !important; outline:none !important;
+  padding:0 !important; margin:0 !important; min-height:0 !important; height:auto !important;
+  color:#1b2638 !important; font:inherit !important; resize:none !important;
+  box-shadow:none !important; border-radius:0 !important;
+}
+select{ background-image:none !important; padding-right:0 !important; }
+input[type=number]{ text-align:left !important; }
+textarea{ overflow:visible !important; }
+
+/* ---- cabecalhos de painel/secao ---- */
+.panel-header{
+  background:var(--doc-azul) !important; color:#fff !important;
+  border-radius:6px !important; padding:7px 12px !important;
+  font-weight:700 !important; letter-spacing:.3px !important; margin:14px 0 8px !important;
+  border:none !important;
+}
+.panel-header .ph-dot{ background:#7fd1a8 !important; }
+.category-header{
+  border-radius:6px !important; padding:7px 12px !important; color:#fff !important;
+  font-weight:700 !important; letter-spacing:.2px !important; cursor:default !important;
+}
+
+/* ---- tabelas limpas ---- */
+table{ border-collapse:collapse !important; width:100% !important; font-size:9.4pt !important; }
+thead th, th{
+  background:var(--doc-azul) !important; color:#fff !important;
+  text-align:left !important; padding:6px 9px !important;
+  font-size:8.2pt !important; letter-spacing:.4px !important; text-transform:uppercase !important;
+  border:none !important;
+}
+td{ padding:6px 9px !important; border:none !important; border-bottom:1px solid var(--doc-linha) !important; vertical-align:top !important; }
+tbody tr:nth-child(even) td{ background:#fafcff !important; }
+
+/* ---- caixas/cards do app: achatar para aparencia de documento ---- */
+.card, .panel, .box, .tablecard, [class*="card"]{
+  box-shadow:none !important; border:1px solid var(--doc-linha) !important;
+  border-radius:8px !important; background:#fff !important;
+}
+
+/* ---- subtotais / rodapes de tabela ---- */
+[class*="subtotal"], [class*="total"], tfoot td{
+  font-weight:700 !important; color:var(--doc-azul) !important;
+}
+
+/* ---- espacamento geral ---- */
+.panel, section, .module{ page-break-inside:auto; }
+h1,h2,h3{ color:var(--doc-azul) !important; }
+
+/* ---- remove “placeholder como valor” aparente: nada a fazer (placeholder some sem valor) ---- */
+::placeholder{ color:#aeb7c6 !important; }
