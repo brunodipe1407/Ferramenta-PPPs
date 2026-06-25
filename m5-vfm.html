@@ -1419,6 +1419,12 @@ details .detail-body{padding:16px;border-top:1px solid var(--rule)}
     <p class="ph-desc">Mensure o custo real da prestação atual pelo Estado por categoria. É a <strong>linha de base quantitativa</strong> para o VfM. Preencha todos os itens identificados e registre a fonte utilizada em cada um. Os subtotais são calculados automaticamente.</p>
   </div>
 
+  <div class="m1-import" style="margin:6px 0 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <button type="button" class="btn-import-m1" onclick="importarDoM1()" style="background:var(--cage-blue,#0b4aa2);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px">⭳ Importar do Módulo 1 (PSC — Custo Público)</button>
+    <span style="font-size:11.5px;color:var(--ink4,#667085);max-width:520px">Pré-preenche a tabela abaixo com os custos <strong>anuais</strong> levantados no M1. Os VPLs do item 2.2 continuam vindo do modelo financeiro (grandeza diferente: anual × valor presente).</span>
+    <span id="m1-import-msg" style="font-size:12px;font-weight:600;color:#1F8B7C"></span>
+  </div>
+
   <div class="lstp">
     <div class="lv v"><div class="lv-l">CAT A · CAPEX</div><div class="lv-v" id="lv-a">R$ 0</div><div class="lv-u">anualizado</div></div>
     <div class="lv r"><div class="lv-l">CAT B · OPEX</div><div class="lv-v" id="lv-b">R$ 0</div><div class="lv-u">operação + manutenção</div></div>
@@ -1963,6 +1969,47 @@ function recalcPSC() {
 document.querySelectorAll('.ca,.cb,.cc,.cd').forEach(e=>e.addEventListener('input',recalcPSC));
 // Mudança de modalidade também precisa recalcular o SUMIF
 document.querySelectorAll('select.msel').forEach(s=>s.addEventListener('change',recalcPSC));
+
+/* ============================================================
+   Importar do Módulo 1 (PSC — Custo Público)
+   Lê a chave localStorage do M1 (psc_cage_rs_v2) e pré-preenche
+   a tabela PSC Bruto (CAT A/B/C/D) com os custos ANUAIS levantados.
+   Observação: os VPLs (item 2.2) seguem vindo do modelo financeiro
+   — são grandeza diferente (anual × valor presente).
+   ============================================================ */
+function importarDoM1(){
+  var msg = document.getElementById('m1-import-msg');
+  function setMsg(txt, ok){ if(msg){ msg.style.color = ok ? '#1F8B7C' : '#b42318'; msg.textContent = txt; } }
+  var raw = null;
+  try { raw = localStorage.getItem('psc_cage_rs_v2'); } catch(e){}
+  if(!raw){ setMsg('Nenhum dado do Módulo 1 encontrado — preencha o M1 primeiro.', false); return; }
+  var m1; try { m1 = JSON.parse(raw); } catch(e){ setMsg('Dados do M1 ilegíveis.', false); return; }
+  var rows = (m1 && m1.rows) || {};
+  var map = [['capex','ca'],['opex','cb'],['gestao','cc'],['receita','cd']];
+  function modOpt(m){ m = (m||'').toLowerCase(); if(m.indexOf('indireta')>=0) return 'Adm. Indireta'; if(m.indexOf('licit')>=0) return 'Contrato Licitado'; return 'Adm. Direta'; }
+  var totItens = 0, totVal = 0, overflow = 0;
+  map.forEach(function(p){
+    var list = rows[p[0]] || [];
+    var inputs = [].slice.call(document.querySelectorAll('#p2 input.' + p[1]));
+    list.forEach(function(r, i){
+      var v = Number(r.valor) || 0;
+      if(i >= inputs.length){ if(v){ overflow += v; } return; }
+      var tr = inputs[i].closest('tr');
+      var tds = tr.querySelectorAll('td');
+      if(r.item && tds[1]){ tds[1].textContent = r.item; }
+      var sel = tr.querySelector('select.msel');
+      if(sel){ var want = modOpt(r.modal); for(var o=0;o<sel.options.length;o++){ if(sel.options[o].text === want){ sel.selectedIndex = o; break; } } }
+      var fonteInp = tds[3] ? tds[3].querySelector('input') : null;
+      if(fonteInp){ fonteInp.value = r.fonteUsed || r.item || ''; }
+      inputs[i].value = v ? v : '';
+      if(v){ totVal += v; totItens++; }
+    });
+  });
+  if(typeof recalcPSC === 'function') recalcPSC();
+  if(typeof m5ScheduleSave === 'function') m5ScheduleSave();
+  var aviso = overflow ? ' (R$ ' + overflow.toLocaleString('pt-BR') + ' não couberam nas linhas fixas — registre manualmente)' : '';
+  setMsg('✓ Importados ' + totItens + ' itens do M1 (R$ ' + totVal.toLocaleString('pt-BR') + '/ano). Revise e ajuste.' + aviso, true);
+}
 
 function syncPrint() {
   const v = id => document.getElementById(id)?.value || '___';

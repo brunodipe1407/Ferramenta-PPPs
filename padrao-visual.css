@@ -415,3 +415,68 @@ table.data-table tbody td {
     box-shadow: none !important;
   }
 }
+
+/* ============================================================
+   TEMA DE IMPRESSÃO — DOCUMENTO (v1.6)
+   Aplica visual tipografado no PDF (Gerar PDF / Ctrl+P), sem
+   alterar textos: oculta elementos de interface e converte
+   campos de formulário em texto corrido. Compartilhado por
+   todos os módulos (comum.css + padrao-visual.css).
+   ============================================================ */
+@media print {
+  html, body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* 1) Ocultar elementos exclusivamente de interface (não-conteúdo).
+     Obs.: usamos seletores com especificidade >= (0,1,1) para vencer
+     a regra `button.btn-add{display:inline-flex!important}` definida
+     acima neste mesmo arquivo. */
+  button, button.btn, button.btn-add, button.btn-del, button.btn-primary,
+  button.btn-secondary, .btn-add, .btn-del, .ch-toggle, .header-actions,
+  .status-bar, .statusbar, .note-bar, .toolbar, .tabbar, .nav, .nav-tabs,
+  .filter-bar, .progress-bar, .report-controls, .btn-row, .hp-form-toggle,
+  .m1-import, .lock-badge, [role="tablist"], [class*="toast"],
+  [class*="snack"], [class*="notif"] {
+    display: none !important;
+  }
+
+  /* 2) Campos de formulário viram texto corrido (sem caixa/borda/seta) */
+  input, select, textarea {
+    -webkit-appearance: none !important; appearance: none !important;
+    border: none !important; background: transparent !important; outline: none !important;
+    box-shadow: none !important; border-radius: 0 !important;
+    padding: 0 !important; min-height: 0 !important; height: auto !important;
+    color: var(--cage-navy, #14375A) !important; font: inherit !important; resize: none !important;
+  }
+  select { background-image: none !important; padding-right: 0 !important; }
+  textarea { overflow: visible !important; }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none !important; margin: 0 !important; }
+
+  /* 3) Cabeçalhos de painel/seção como faixa institucional */
+  .panel-header, .ph {
+    background: var(--cage-navy, #0b2a4a) !important; color: #fff !important;
+    border: none !important; border-radius: 6px !important;
+    padding: 8px 12px !important; box-shadow: none !important;
+  }
+  .panel-header *, .ph * { color: #fff !important; }
+  .panel-header .ph-dot { background: #7fd1a8 !important; }
+
+  /* 4) Tabelas limpas e legíveis */
+  table { border-collapse: collapse !important; width: 100% !important; }
+  thead th, table th {
+    background: var(--cage-navy, #0b2a4a) !important; color: #fff !important;
+    text-align: left !important; padding: 6px 9px !important;
+    border: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  table td { padding: 6px 9px !important; border: none !important;
+    border-bottom: 1px solid #e3e8f0 !important; vertical-align: top !important; }
+  tbody tr:nth-child(even) td { background: #fafcff !important; }
+
+  /* 5) Achatar cartões/caixas com aparência de app */
+  .card, .box, .ct-wrap, .lstp .lv, .vbox, .kpi {
+    box-shadow: none !important; border: 1px solid #e3e8f0 !important; border-radius: 8px !important;
+  }
+
+  /* 6) Evitar quebras feias */
+  tr, .lv, .kpi, .sh { page-break-inside: avoid; }
+}
