@@ -6,6 +6,11 @@
     '[class*="toast"]','[class*="snack"]','[class*="notif"]','[class*="-float"]',
     '.progress-bar','.filter-bar','.report-controls','.btn-row'];
   kill.forEach(s=>document.querySelectorAll(s).forEach(e=>e.remove()));
+  // M4 enxuto: manter apenas itens APLICAVEIS (sim/parcial); remover Nao/N/A e nao-respondidos.
+  // (so afeta o M4, unico modulo com .ck-row)
+  if(document.querySelector('tr.ck-row')){
+    document.querySelectorAll('tr.ck-row').forEach(tr=>{ if(!tr.classList.contains('is-aplicavel')) tr.remove(); });
+  }
   // selects: troca pelo texto da opcao selecionada (remove aparencia de campo)
   document.querySelectorAll('select').forEach(sel=>{
     const span=document.createElement('span'); span.textContent = sel.options[sel.selectedIndex]?sel.options[sel.selectedIndex].text:'';
